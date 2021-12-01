@@ -4,6 +4,8 @@ import LandingPage from './components/contents/LandingPage';
 import SignUpPage from './components/contents/SignUpPage';
 import LoginPage from './components/contents/LoginPage';
 import Headers from './components/headers/Header';
+import PostListPage from './components/contents/posts/PostList';
+import NoticePage from './components/contents/notices/NoticePage'
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
         <Route element={<LandingPage />} path="/" />
         <Route element={<SignUpPage />} path="/signup" />
         <Route element={<LoginPage />} path="/login" />
+        <Route element={<PostListPage />} path="/postlist" />
+        <Route element={<NoticePage />} path="/notice" />
       </Routes>
     </>
   );
