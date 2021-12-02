@@ -1,21 +1,19 @@
 import React from 'react';
+import HeaderContainer from './containers/Base/HeaderContainer';
+import { Auth } from 'pages';
 import { Routes, Route } from 'react-router-dom';
-import LandingPage from './components/contents/LandingPage';
-import SignUpPage from './components/contents/SignUpPage';
-import LoginPage from './components/contents/LoginPage';
-import Headers from './components/headers/Header';
 
 function App() {
   return (
-    <>
-      <Headers />
+    <div>
+      <HeaderContainer />
       <Routes>
-        <Route element={<LandingPage />} path="/" />
-        <Route element={<SignUpPage />} path="/signup" />
-        <Route element={<LoginPage />} path="/login" />
+        <Route path="auth/*" element={<Auth />} />
       </Routes>
-    </>
+    </div>
   );
 }
 
 export default App;
+
+// https://backend-intro.vlpt.us/5/01.html
