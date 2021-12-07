@@ -43,7 +43,7 @@ class Login extends Component {
           onChange={handleChange}
         />
         <AuthButton>로그인</AuthButton>
-        <RightAlignedLink to="../register">회원가입</RightAlignedLink>
+        <RightAlignedLink to="../signup">회원가입</RightAlignedLink>
       </AuthContent>
     );
   }

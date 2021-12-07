@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import oc from 'open-color';
 import { shadow, media } from 'lib/styleUtils';
+import { Link } from 'react-router-dom';
 
 // 상단 고정, 그림자
 const Positioner = styled.div`
@@ -40,11 +41,12 @@ const HeaderContents = styled.div`
 `;
 
 // 로고
-const Logo = styled.div`
+const Logo = styled(Link)`
     letter-spacing: 2px;
     font-size: 1.4rem;
     color: ${oc.teal[7]};
     font-family: 'Rajdhani';
+    text-decoration: none;
 `;
 
 // 중간 여백
@@ -64,7 +66,7 @@ const Header = ({ children }) => {
     <Positioner>
       <WhiteBackground>
         <HeaderContents>
-          <Logo>TRABLOCK</Logo>
+          <Logo to="../">TRABLOCK</Logo>
           <Spacer />
           {children}
         </HeaderContents>

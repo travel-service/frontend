@@ -25,13 +25,11 @@ const BorderedButton = styled(Link)`
         /* 마우스 클릭시 아래로 미세하게 움직임 */
         transform: translateY(3px);
     }
-
-
 `;
 
 const LoginButton = () => (
-  <BorderedButton to="auth">
-    로그인 / 가입
+  <BorderedButton to="login">
+    로그인 / 회원가입
   </BorderedButton>
 );
 
