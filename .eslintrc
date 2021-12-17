@@ -1,0 +1,5 @@
+{
+  "rule": {
+    "jest/valid-expect": "error"
+  }
+}

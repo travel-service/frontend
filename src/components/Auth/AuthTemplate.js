@@ -1,21 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import palette from 'lib/styles/palette';
-import { Link } from 'react-router-dom';
-// import { shadow } from 'lib/styleUtils';
-// import oc from 'open-color';
 
 const AuthTemplateBlock = styled.div`
   margin-top: 60px;
-  /* position: absolute; */
-  /* left: 0; */
-  /* top: 0; */
-  /* bottom: 0; */
-  /* right: 0; */
-  /* background: ${palette.gray[2]}; */
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
 `;
 

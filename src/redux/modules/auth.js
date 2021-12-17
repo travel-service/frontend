@@ -59,6 +59,7 @@ const initialState = { // 불변성 유지하면서 객체 수정
     nickname: '',
     birthday: '',
     tel: '',
+    gender: '',
     email: '',
   },
   login: {

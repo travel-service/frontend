@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeField, initializeForm, signup } from 'redux/modules/auth';
 import AuthForm from 'components/Auth/AuthForm';
@@ -9,10 +9,10 @@ const SignupForm = () => {
     form: auth.signup, // store이름 auth, auth.signup에(회원 정보 목록 있음)
     auth: auth.auth,
     authError: auth.authError
-  })); // 이해 잘 안됨
+  }));
 
   // 인풋 변경 이벤트 핸들러
-  const onChange = e => {
+  const onChange = useCallback(e => {
     const { value, name } = e.target;
     dispatch(
       changeField({
@@ -21,7 +21,7 @@ const SignupForm = () => {
         value
       })
     );
-  };
+  }, [dispatch]);
 
   // 폼 등록 이벤트 핸들러
   const onSubmit = e => {

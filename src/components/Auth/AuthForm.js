@@ -87,7 +87,7 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
       )}
       <form onSubmit={onSubmit}>
         <StyledDiv>
-          <StyledLabel>아이디</StyledLabel>
+          <StyledLabel>아이디<SpanRed>*</SpanRed></StyledLabel>
           <StyledInput
             autoComplete="username"
             name="username"
@@ -97,7 +97,7 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
           />
         </StyledDiv>
         <StyledDiv>
-          <StyledLabel>비밀번호</StyledLabel>
+          <StyledLabel>비밀번호<SpanRed>*</SpanRed></StyledLabel>
           <StyledInput
             autoComplete="new-password"
             name="password"
@@ -110,7 +110,7 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
         {type === 'signup' && (
           <>
             <StyledDiv>
-              <StyledLabel>비밀번호 확인</StyledLabel>
+              <StyledLabel>비밀번호 확인<SpanRed>*</SpanRed></StyledLabel>
               <StyledInput
                 autoComplete="new-password"
                 name="passwordConfirm"
@@ -121,7 +121,7 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
               />
             </StyledDiv>
             <StyledDiv>
-              <StyledLabel>이름</StyledLabel>
+              <StyledLabel>이름<SpanRed>*</SpanRed></StyledLabel>
               <StyledInput
                 name="name"
                 placeholder="이름"
@@ -131,7 +131,7 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
               />
             </StyledDiv>
             <StyledDiv>
-              <StyledLabel>닉네임</StyledLabel>
+              <StyledLabel>닉네임<SpanRed>*</SpanRed></StyledLabel>
               <StyledInput
                 name="nickname"
                 placeholder="닉네임(2~30자)"
@@ -174,7 +174,8 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
                   }}
                   name="gender"
                   type="radio"
-                  value={form.gender}
+                  value="male"
+                  onChange={onChange}
                 />남자
                 <StyledInput
                   style={{
@@ -184,12 +185,13 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
                   }}
                   name="gender"
                   type="radio"
-                  value={form.gender}
+                  value="female"
+                  onChange={onChange}
                 />여자
               </div>
             </StyledDiv>
             <StyledDiv>
-              <StyledLabel>이메일</StyledLabel>
+              <StyledLabel>이메일<SpanRed>*</SpanRed></StyledLabel>
               <StyledInput
                 name="email"
                 placeholder="이메일"
