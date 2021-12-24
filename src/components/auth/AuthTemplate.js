@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 import { Link } from 'react-router-dom';
-//import palette from '../../lib/styles/palette';
 
 /*회원가입, 로그인 페이지의 레이아웃 담당*/
 
+//화면 채우기
 const AuthTemplateBlock = styled.div`
   position: absolute;
   left: 0;
@@ -18,7 +18,7 @@ const AuthTemplateBlock = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
+//흰 박스
 const WhiteBox = styled.div`
   .logo-area {
     padding-bottom: 2rem;

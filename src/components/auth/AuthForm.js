@@ -12,7 +12,7 @@ const AuthFormBlock = styled.div`
     color: ${palette.gray[8]};
   }
 `;
-
+//Input 스타일링
 const StyledInput = styled.input`
   font-size: 1rem;
   border: none;
@@ -28,7 +28,7 @@ const StyledInput = styled.input`
     margin-top: 1.4rem;
   }
 `;
-
+//하단 회원가입 링크 
 const Footer = styled.footer`
   margin-top: 2rem;
   text-align: right;
@@ -41,11 +41,19 @@ const Footer = styled.footer`
   }
 `;
 
+//상단 여백
 const ButtonWithMarginTop = styled(Button)`
   margin-top: 1rem;
 `;
 
-const AuthForm = ({form, onChange, onSubmit}) => {
+const ErrorMessage = styled.div`
+  color: red;
+  text-align: center;
+  font-size: 0.875rem;
+  margin-top: 1rem;
+`;
+
+const AuthForm = ({form, onChange, onSubmit, error}) => {
   return (
     <AuthFormBlock>
       <h3>로그인</h3>
@@ -65,14 +73,20 @@ const AuthForm = ({form, onChange, onSubmit}) => {
           onChange={onChange}
           value={form.password}
         />
-        <ButtonWithMarginTop cyan fullWidth style={{marginTop:'1rem'}}>
+        {error && <ErrorMessage>{error}</ErrorMessage>}
+        <ButtonWithMarginTop cyan fullWidth>
           로그인 
           {/*<Link to="/auth/login">
           </Link>*/}
         </ButtonWithMarginTop>
       </form>
       <Footer>
-        <Link to="/signup">회원가입</Link>
+        <div>
+          <Link to="/signup">회원가입</Link>
+        </div>
+        <div>
+          <Link to="/">아이디/비밀번호 찾기</Link>
+        </div>
       </Footer>
     </AuthFormBlock>
   );

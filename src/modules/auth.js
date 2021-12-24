@@ -62,12 +62,12 @@ const auth = handleActions(
         [INITIALIZE_FORM]: (state, {payload: form}) => ({
             ...state,
             [form]: initialState[form],
-                authError: null, //폼 전환 시 회원 인증 에러 초기화
+            authError: null, //폼 전환 시 회원 인증 에러 초기화
         }),
         //로그인 성공
         [LOGIN_SUCCESS]: (state, {payload: auth})=>({
             ...state,
-                authError: null,
+            authError: null,
             auth,
         }),
         //로그인 실패
