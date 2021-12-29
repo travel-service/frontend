@@ -1,10 +1,10 @@
 import React from 'react';
-import Header from '../headers/Header';
+//import Header from '../headers/Header';
 
 const LandingPage = () => {
   return (
     <>
-      <Header/>
+      {/*<Header/>*/}
       <div>
         메인 페이지 내용
       </div>

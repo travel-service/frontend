@@ -55,18 +55,4 @@ const Button = props => {
   );
 };
 
-/*navigate로 구현 시 버튼 스타일링  
-const Button = ({to, ...rest}) => {
-  const navigate = useNavigate();
-  const onClick = e => {
-    if (to) {
-      navigate(to);
-    }
-    if (rest.onClick) {
-      rest.onClick(e);
-    }
-  };
-  return <StyledButton {...rest} onClick={onClick} />;
-};*/
-
 export default Button;

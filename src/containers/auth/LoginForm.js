@@ -6,7 +6,6 @@ import AuthForm from '../../components/auth/AuthForm';
 import { check } from '../../modules/user'
 
 /* 컨테이너 */
-/*{ navigate }*/
 const LoginForm = () => {
     const [error, setError] = useState(null);
     const dispatch = useDispatch();
