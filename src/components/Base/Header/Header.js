@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import oc from 'open-color';
-import { shadow, media } from 'lib/styleUtils';
 import { Link } from 'react-router-dom';
+import { shadow, media } from 'lib/styleUtils';
+import oc from 'open-color';
+import LoginButton from 'components/Base/Header/LoginButton';
 
 // 상단 고정, 그림자
 const Positioner = styled.div`
@@ -60,15 +61,27 @@ const GradientBorder = styled.div`
     background: linear-gradient(to right, ${oc.teal[6]}, ${oc.cyan[5]});
 `;
 
+const UserInfo = styled.div`
+  font-weight: 600;
+  margin-right: 1rem;
+  color: ${oc.teal[7]};
+`;
 
-const Header = ({ children }) => {
+const Header = ({ user, onLogout }) => {
   return (
     <Positioner>
       <WhiteBackground>
         <HeaderContents>
-          <Logo to="../">TRABLOCK</Logo>
+          <Logo to="/">TRABLOCK</Logo>
           <Spacer />
-          {children}
+          {user ? (
+            <>
+              <UserInfo>{user.username}</UserInfo>
+              <LoginButton onClick={onLogout}>로그아웃</LoginButton>
+            </>
+          ) : (
+            <LoginButton to='/login'>로그인</LoginButton>
+          )}
         </HeaderContents>
       </WhiteBackground>
       <GradientBorder />

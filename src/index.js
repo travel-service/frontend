@@ -8,7 +8,8 @@ import { Provider } from 'react-redux';
 import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer, { rootSaga } from 'redux/modules';
-import createSagaMiddleware from '@redux-saga/core';
+import createSagaMiddleware from 'redux-saga';
+import { tempSetUser, check } from 'redux/modules/user';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -16,7 +17,20 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(sagaMiddleware))
 );
 
+function loadUser() {
+  try {
+    const user = localStorage.getItem('userState');
+    if (!user) return;
+    store.dispatch(tempSetUser(user));
+    store.dispatch(check());
+  } catch (e) {
+    console.log('localStorage is not working');
+  }
+}
+
+// saga run 이후에 user loading
 sagaMiddleware.run(rootSaga);
+loadUser();
 
 ReactDOM.render(
   <Provider store={store}>

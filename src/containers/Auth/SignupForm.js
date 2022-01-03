@@ -1,14 +1,19 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeField, initializeForm, signup } from 'redux/modules/auth';
 import AuthForm from 'components/Auth/AuthForm';
+import { check } from 'redux/modules/user';
+import { useNavigate } from 'react-router-dom';
 
 const SignupForm = () => {
+  const navigate = useNavigate();
+  const [error, setError] = useState(null);
   const dispatch = useDispatch();
-  const { form, auth, authError } = useSelector(({ auth }) => ({
+  const { form, auth, authError, userState } = useSelector(({ auth, user }) => ({ // state.auth, state.user
     form: auth.signup, // store이름 auth, auth.signup에(회원 정보 목록 있음)
     auth: auth.auth,
-    authError: auth.authError
+    authError: auth.authError,
+    userState: user.userState
   }));
 
   // 인풋 변경 이벤트 핸들러
@@ -26,13 +31,20 @@ const SignupForm = () => {
   // 폼 등록 이벤트 핸들러
   const onSubmit = e => {
     e.preventDefault();
-    const { username, password, passwordConfirm } = form;
-    if (password !== passwordConfirm) {
-      // TODO: 오류처리
+    const { username, password, passwordConfirm, name, nickname, birthday, tel, gender, email } = form;
+    // 필수항목 중 하나라도 비어 있다면
+    if ([username, password, passwordConfirm, name, nickname, email].includes('')) {
+      setError('필수항목을 모두 입력해 주세요.');
       return;
     }
-    dispatch(signup({ username, password }));
-  }
+    if (password !== passwordConfirm) { // 패스워드 다르면 오류출력 후 초기화
+      setError('비밀번호가 일치하지 않습니다.');
+      changeField({ form: 'signup', key: 'password', value: '' });
+      changeField({ form: 'signup', key: 'passwordConfirm', value: '' });
+      return;
+    }
+    dispatch(signup({ username, password, name, nickname, birthday, tel, gender, email }));
+  };
 
   // 컴포넌트가 처음 렌더링될 때 form 초기화
   useEffect(() => {
@@ -42,15 +54,33 @@ const SignupForm = () => {
   // 회원가입 성공/실패 처리
   useEffect(() => {
     if (authError) {
-      console.log('오류 발생');
-      console.log(authError);
+      // 아이디가 이미 존재
+      if (authError.response.status === 409) {
+        setError('이미 존재하는 아이디입니다.');
+        return;
+      }
+      // 기타 이유
+      setError('회원가입 실패');
       return;
     }
     if (auth) {
       console.log('회원가입 성공');
       console.log(auth);
+      dispatch(check());
     }
-  }, [auth, authError]);
+  }, [auth, authError, dispatch]);
+
+  // user 값이 잘 설정되었는지 확인
+  useEffect(() => {
+    if (userState) {
+      navigate('/');
+      try {
+        localStorage.setItem('userState', JSON.stringify(userState));
+      } catch (e) {
+        console.log('localStorage is not working');
+      }
+    }
+  }, [userState, navigate]);
 
   return (
     <AuthForm
@@ -58,6 +88,7 @@ const SignupForm = () => {
       form={form}
       onChange={onChange}
       onSubmit={onSubmit}
+      error={error}
     />
   );
 };
