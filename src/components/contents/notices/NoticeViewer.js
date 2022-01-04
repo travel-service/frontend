@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 import Responsive from '../../common/Responsive';
+import Button from '../../common/button';
+import { Link } from 'react-router-dom';
 
 const PostViewerBlock = styled(Responsive)`
     margin-top: 4rem;
@@ -72,7 +74,13 @@ const NoticeViewer = () => {
             <PostContent
                 dangerouslySetInnerHTML={{__html:'<p>HTML <b>내용</b>입니다.</p>'}}
             />
+            <Button>
+                <Link to="/notice">
+                    목록
+                </Link>
+            </Button>
         </PostViewerBlock>
+
     );
 };
 

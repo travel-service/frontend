@@ -103,7 +103,7 @@ const PostItem = () => {
                     <Link to="/noticePage">notice</Link>
                 </li>
                 <div>관리자12</div>
-                <div>{new Date().toLocaleDateString()}</div>                
+                <div>{new Date().toLocaleDateString()}</div>
                 <div>123</div>
             </div>
         </PostItemBlock>
@@ -114,9 +114,11 @@ const PostList = () => {
     return (
         <PostListBlock>
             <WritePostButtonWrapper>
-                <Button cyan to="/write">
-                    새 글 작성하기
-                </Button>
+                <Link to="/write">
+                    <Button>
+                        새 글 작성하기
+                    </Button>
+                </Link>
             </WritePostButtonWrapper>
             <List>
                 <ListInfo>

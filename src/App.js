@@ -5,8 +5,9 @@ import SignUpPage from './components/contents/SignUpPage';
 import LoginPage from './components/contents/LoginPage';
 import Headers from './components/headers/Header';
 import PostListPage from './components/contents/posts/PostList';
-import NoticeList from './components/contents/notices/NoticeList'
+import NoticeList from './components/contents/notices/NoticeList';
 import NoticeViewer from './components/contents/notices/NoticeViewer';
+import WritePage from './components/contents/notices/WritePage';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route element={<PostListPage />} path="/postlist" />
         <Route element={<NoticeList />} path="/notice" />
         <Route element={<NoticeViewer />} path="/noticePage" />
+        <Route element={<WritePage />} path="/write" />
       </Routes>
     </>
   );
