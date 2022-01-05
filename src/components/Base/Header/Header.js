@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Responsive from './Responsive';
-import Button from '../Button';
+import Responsive from 'common/Responsive';
+import Button from 'common/Button';
 
 const HeaderBlock = styled.div`
   position: fixed;

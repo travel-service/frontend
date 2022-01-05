@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import palette from '../../lib/styles/palette';
-import Button from '../Button';
+import palette from 'lib/styles/palette';
+import Button from 'components/common/Button';
 
 /*회원가입, 로그인 폼*/
 

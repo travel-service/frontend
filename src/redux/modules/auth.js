@@ -1,19 +1,12 @@
 import { createAction, handleActions } from "redux-actions";
 import produce from 'immer'; //불변성 관리
 import { takeLatest } from 'redux-saga/effects';
-import createRequestSaga, { createRequestActionTypes, } from '../lib/createRequestSaga';
-import * as authAPI from '../lib/api/auth';
-//import * as authAPI from '../db.json';
+import createRequestSaga, { createRequestActionTypes, } from 'lib/createRequestSaga';
+import * as authAPI from 'lib/api/auth';
 
 const CHANGE_FIELD = 'auth/CHANGE_FIELD';
 const INITIALIZE_FORM = 'auth/INITIALIZE_FORM';
-//const SET_ERROR = 'auth/SET_ERROR';
 
-/*const LOGIN = 'auth/LOGIN';
-const LOGIN_SUCCESS = 'auth/LOGIN_SUCCESS';
-const LOGIN_FAILURE = 'auth/LOGIN_FAILURE';*/
-
-//리팩토링
 const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] = createRequestActionTypes(
     'auth/LOGIN',
 );
@@ -40,11 +33,6 @@ export function* authSaga() {
 }
 
 const initialState = {
-    /*signup: {
-        username: '',
-        password: '',
-        passwordConfirm: '',
-    },*/
     login: {
         username: '',
         password: '',
@@ -52,7 +40,6 @@ const initialState = {
     auth: null,
     authError: null,
 };
-//(state, action) => 
 const auth = handleActions(
     {
         [CHANGE_FIELD]: (state, { payload: {form, key, value} }) =>

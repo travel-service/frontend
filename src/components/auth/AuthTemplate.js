@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import palette from '../../lib/styles/palette';
+import palette from 'lib/styles/palette';
 import { Link } from 'react-router-dom';
 
 /*회원가입, 로그인 페이지의 레이아웃 담당*/
