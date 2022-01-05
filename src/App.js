@@ -4,6 +4,8 @@ import { Routes, Route } from 'react-router-dom';
 import SignUpPage from 'pages/SignupPage';
 import LoginPage from 'pages/LoginPage';
 
+import CanvasMainPage from 'pages/CanvasPages/CanvasMainPage';
+
 function App() {
   return (
     <div>
@@ -11,9 +13,11 @@ function App() {
       <Routes>
         <Route element={<LoginPage />} path="login" />
         <Route element={<SignUpPage />} path="signup" />
+        <Route element={<CanvasMainPage />} path="canvas" />
       </Routes>
     </div>
   );
 }
+
 
 export default App;

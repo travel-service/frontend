@@ -74,6 +74,11 @@ const Header = ({ user, onLogout }) => {
         <HeaderContents>
           <Logo to="/">TRABLOCK</Logo>
           <Spacer />
+
+          {/* 임시로 만듦 */}
+          <LoginButton to="canvas">여행 계획 세우러 가기</LoginButton>
+          <Spacer />
+
           {user ? (
             <>
               <UserInfo>{user.username}</UserInfo>
