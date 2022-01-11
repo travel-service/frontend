@@ -76,7 +76,7 @@ const Header = ({ user, onLogout }) => {
           <Spacer />
 
           {/* 임시로 만듦 */}
-          <LoginButton to="canvas">여행 계획 세우러 가기</LoginButton>
+          <LoginButton to="canvas/setting">여행 계획 세우러 가기</LoginButton>
           <Spacer />
 
           {user ? (
