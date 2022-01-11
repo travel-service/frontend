@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-// import BuildBlockForm from 'containers/Canvas/BuildBlockForm';
+import BuildBlockForm from 'containers/Canvas/BuildBlockForm';
 
 const CanvasDiv = styled.div`
   position: absolute;
@@ -26,14 +26,9 @@ const CanvasForm = ({ type }) => {
   return (
     <CanvasDiv>
       {text}
-      {/* 각자의 container
-      ex.
       {type === 'build' && (
         <BuildBlockForm />
       )}
-      {type === 'setting or build or ..' && (
-        <component />
-      )}  */}
     </CanvasDiv>
   );
 };
