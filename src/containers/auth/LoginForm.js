@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { changeField, initializeForm, login } from 'redux/modules/auth';
-import AuthForm from 'components/auth/AuthForm';
-import { check } from 'redux/modules/user'
+import { changeField, initializeForm, login } from '../../redux/modules/auth';
+import AuthForm from '../../components/Auth/AuthForm';
+import { check } from '../../redux/modules/user';
 
 /* 컨테이너 */
 const LoginForm = () => {

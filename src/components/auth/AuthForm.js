@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import palette from 'lib/styles/palette';
-import Button from 'components/common/Button';
+import palette from '../../lib/styles/palette';
+import Button from '../../components/common/Button';
 
 /*회원가입, 로그인 폼*/
 
@@ -76,16 +76,14 @@ const AuthForm = ({form, onChange, onSubmit, error}) => {
         {error && <ErrorMessage>{error}</ErrorMessage>}
         <ButtonWithMarginTop cyan fullWidth>
           로그인 
-          {/*<Link to="/auth/login">
-          </Link>*/}
         </ButtonWithMarginTop>
       </form>
       <Footer>
         <div>
-          <Link to="/signup">회원가입</Link>
+          <Link to="/signup" style={{textDecoration: 'none'}}>회원가입</Link>
         </div>
         <div>
-          <Link to="/">아이디/비밀번호 찾기</Link>
+          <Link to="/" style={{textDecoration: 'none'}}>아이디/비밀번호 찾기</Link>
         </div>
       </Footer>
     </AuthFormBlock>
