@@ -1,69 +1,97 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Responsive from '../../common/Responsive';
-import Button from '../../common/Button';
+import { Link } from 'react-router-dom';
+import { shadow, media } from 'lib/styleUtils';
+import oc from 'open-color';
+import LoginButton from 'components/Base/Header/LoginButton';
 
-const HeaderBlock = styled.div`
-  position: fixed;
-  width: 100%;
-  background: white;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
-`;
-
-/*Responsive 컴포넌트의 속성에 스타일을 추가해서 새로운 컴포넌트 생성*/
-const Wrapper = styled(Responsive)`
-  height: 4em;
-  display: flex;
-  align-items: center;
-  justify-content: space-between; /*자식 엘리먼트 사이의 여백을 최대로 설정*/
-  .logo {
-    font-size: 1.125rem;
-    font-weight: 800;
-    letter-spacing: 2px;
-  }
-  .right {
+// 상단 고정, 그림자
+const Positioner = styled.div`
     display: flex;
+    flex-direction: column;
+    top: 0px;
+    width: 100%;
+    ${shadow(1)}
+`;
+
+// 흰 배경, 내용 중간 정렬
+const WhiteBackground = styled.div`
+    background: white;
+    display: flex;
+    justify-content: center;
+    height: auto;
+`;
+
+// 해더의 내용
+const HeaderContents = styled.div`
+    width: 1200px;
+    height: 55px;
+    display: flex;
+    flex-direction: row;
     align-items: center;
-  }
+
+    padding-right: 1rem;
+    padding-left: 1rem;
+    ${media.wide`
+        width: 992px;
+    `}
+
+    ${media.tablet`
+        width: 100%;
+    `}
 `;
 
-/*헤더가 fixed로 되어있어 페이지의 콘텐츠가 4rem 아래 나타나게*/
+// 로고
+const Logo = styled(Link)`
+    letter-spacing: 2px;
+    font-size: 1.4rem;
+    color: ${oc.teal[7]};
+    font-family: 'Rajdhani';
+    text-decoration: none;
+`;
+
+// 중간 여백
 const Spacer = styled.div`
-  height: 4rem;
+    flex-grow: 1;
 `;
 
-//로그인 상태
+// 하단 그래디언트 테두리
+const GradientBorder = styled.div`
+    height: 3px;
+    background: linear-gradient(to right, ${oc.teal[6]}, ${oc.cyan[5]});
+`;
+
 const UserInfo = styled.div`
-  font-weight: 800;
+  font-weight: 600;
   margin-right: 1rem;
+  color: ${oc.teal[7]};
 `;
 
-//로그인 시 로그아웃으로 버튼 바뀌게
-const Header = ({ user }) => {
+const Header = ({ user, onLogout }) => {
   return (
-    <>
-      <HeaderBlock>
-        <Wrapper>
-          <Link style={{textDecoration: 'none'}} to="/" className="logo">TRABLOCK</Link>
+    <Positioner>
+      <WhiteBackground>
+        <HeaderContents>
+          <Logo to="/">TRABLOCK</Logo>
+          <Spacer />
           {user ? (
-            <div className="right">
+            <>
               <UserInfo>{user.username}</UserInfo>
-              <Button>여행 보관함</Button>
-              <Button>공지사항</Button>
-              <Button>로그아웃</Button>
-            </div>
+              <LoginButton>여행 보관함</LoginButton>
+              <LoginButton>공지사항</LoginButton>
+              <LoginButton onClick={onLogout}>로그아웃</LoginButton>
+            </>
           ) : (
-            <div className="right">
-              <Button to="/login">로그인</Button>
-              <Button to="/signup">회원가입</Button>
-              <Button>공지사항</Button>
-            </div>
+            <>
+              <LoginButton to='/login'>로그인</LoginButton>
+              <LoginButton to='/signup'>회원가입</LoginButton>
+              <LoginButton>공지사항</LoginButton>
+            </>
           )}
-        </Wrapper>
-      </HeaderBlock>
-      <Spacer/>
-    </>
+        </HeaderContents>
+      </WhiteBackground>
+      <GradientBorder />
+    </Positioner>
   );
 };
 
