@@ -77,10 +77,16 @@ const Header = ({ user, onLogout }) => {
           {user ? (
             <>
               <UserInfo>{user.username}</UserInfo>
+              <LoginButton>여행 보관함</LoginButton>
+              <LoginButton>공지사항</LoginButton>
               <LoginButton onClick={onLogout}>로그아웃</LoginButton>
             </>
           ) : (
-            <LoginButton to='/login'>로그인</LoginButton>
+            <>
+              <LoginButton to='/login'>로그인</LoginButton>
+              <LoginButton to='/signup'>회원가입</LoginButton>
+              <LoginButton>공지사항</LoginButton>
+            </>
           )}
         </HeaderContents>
       </WhiteBackground>
