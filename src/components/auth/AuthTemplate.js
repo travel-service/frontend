@@ -1,49 +1,29 @@
 import React from 'react';
 import styled from 'styled-components';
-import palette from '../../lib/styles/palette';
-import { Link } from 'react-router-dom';
 
-/*회원가입, 로그인 페이지의 레이아웃 담당*/
-
-//화면 채우기
 const AuthTemplateBlock = styled.div`
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  background: ${palette.gray[2]};
+  margin-top: 60px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 `;
-//흰 박스
+
 const WhiteBox = styled.div`
-  .logo-area {
-    padding-bottom: 2rem;
-    text-align: center;
-    font-weight: bold;
-    letter-spacing: 2px;
-  }
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.025);
   padding: 2rem;
-  width: 360px;
+  width: 500px;
   background: white;
-  border-radius: 2px;
+  border-radius: 8px;
 `;
 
-const AuthTemplate = ({children}) => {
-    return (
-        <AuthTemplateBlock>
-            <WhiteBox>
-                <div className="logo-area">
-                    <Link to="/"><h2>TRABLOCK</h2></Link>
-                </div>
-                {children} 
-            </WhiteBox>
-        </AuthTemplateBlock>
-    );
+const AuthTemplate = ({ children }) => {
+  return (
+    <AuthTemplateBlock>
+      <WhiteBox>
+        {children}
+      </WhiteBox>
+    </AuthTemplateBlock>
+  );
 };
 
 export default AuthTemplate;
