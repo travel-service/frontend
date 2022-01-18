@@ -1,13 +1,7 @@
 import React from 'react';
-import AuthTemplate from 'components/Auth/AuthTemplate';
-import SignupForm from 'containers/Auth/SignupForm';
 
-const SignupPage = () => {
-  return (
-    <AuthTemplate>
-      <SignupForm />
-    </AuthTemplate>
-  );
+const SignUpPage = () => {
+  return <div>회원가입</div>;
 };
 
-export default SignupPage;
+export default SignUpPage;
