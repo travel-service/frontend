@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import BuildBlockForm from 'containers/Canvas/BuildBlockForm';
+import TravelSettingForm from 'containers/Canvas/TravelSettingForm';
+/*import GridDiv from './CanvasTemplate';
+import CanvasMenu from './CanvasMenu';*/
 
 const CanvasDiv = styled.div`
   position: absolute;
@@ -26,9 +28,9 @@ const CanvasForm = ({ type }) => {
   return (
     <CanvasDiv>
       {text}
-      {type === 'build' && (
-        <BuildBlockForm />
-      )}
+      {type === 'setting' && (
+          <TravelSettingForm />
+        )}
     </CanvasDiv>
   );
 };
