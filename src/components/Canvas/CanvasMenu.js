@@ -15,6 +15,7 @@ const List = styled.ul`
   width: 14vw;
   padding: 0;
   margin: 0;
+  z-index: 1;
 `;
 
 const Item = styled.li`

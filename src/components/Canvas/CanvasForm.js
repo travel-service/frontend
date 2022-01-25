@@ -12,7 +12,6 @@ const CanvasDiv = styled.div`
   height: 70vh;
   width: 100vw;
   padding-left: 17.5%;
-  z-index: -1;
 `;
 
 const textMap = {
@@ -27,7 +26,7 @@ const CanvasForm = ({ type }) => {
 
   return (
     <CanvasDiv>
-      {text}
+      <h2>{text}</h2>
       {type === 'setting' && (
           <TravelSettingForm />
         )}
