@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { shadow, media } from 'lib/styleUtils';
 import oc from 'open-color';
-import LoginButton from 'components/Base/Header/LoginButton';
+import Button from 'components/common/Button';
 
 // 상단 고정, 그림자
 const Positioner = styled.div`
@@ -77,10 +77,16 @@ const Header = ({ user, onLogout }) => {
           {user ? (
             <>
               <UserInfo>{user.username}</UserInfo>
-              <LoginButton onClick={onLogout}>로그아웃</LoginButton>
+              <Button to='/canvas'>여행 보관함</Button>
+              <Button to='/notice'>공지사항</Button>
+              <Button onClick={onLogout}>로그아웃</Button>
             </>
           ) : (
-            <LoginButton to='/login'>로그인</LoginButton>
+            <>
+              <Button to='/login'>로그인</Button>
+              <Button to='/signup'>회원가입</Button>
+              <Button to='/notice'>공지사항</Button>
+            </>
           )}
         </HeaderContents>
       </WhiteBackground>
