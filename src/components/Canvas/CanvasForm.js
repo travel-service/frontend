@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import TravelSettingForm from 'containers/Canvas/TravelSettingForm';
-/*import GridDiv from './CanvasTemplate';
-import CanvasMenu from './CanvasMenu';*/
 
 const CanvasDiv = styled.div`
   position: absolute;
@@ -26,7 +24,7 @@ const CanvasForm = ({ type }) => {
 
   return (
     <CanvasDiv>
-      <h2>{text}</h2>
+      {text}
       {type === 'setting' && (
           <TravelSettingForm />
         )}
