@@ -13,6 +13,7 @@
     "axios": "^0.24.0",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
+    "concurrently": "^7.0.0",
     "cookie-parser": "^1.4.6",
     "eslint-plugin-react-hooks": "^4.2.1-rc.0-next-3dc41d8a2-20211223",
     "express": "^4.17.1",
@@ -40,10 +41,12 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "set PORT=3001 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "json-server --watch data.json --port 4000",
+    "dev": "concurrently \"yarn start\" \"yarn server\" "
   },
   "eslintConfig": {
     "extends": [
