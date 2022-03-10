@@ -1,29 +1,37 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import LandingPage from './components/contents/LandingPage';
-import SignUpPage from './components/contents/SignUpPage';
-import LoginPage from './components/contents/LoginPage';
-import Headers from './components/headers/Header';
-import PostListPage from './components/contents/posts/PostList';
-import NoticeList from './components/contents/notices/NoticeList';
-import NoticeViewer from './components/contents/notices/NoticeViewer';
-import WritePage from './components/contents/notices/WritePage';
+import { Routes, Route, useRoutes } from 'react-router-dom';
+import SignUpPage from 'pages/SignupPage';
+import LoginPage from 'pages/LoginPage';
+import CanvasMainPage from 'pages/CanvasPages/CanvasMainPage';
+import NoticePage from 'pages/NoticePage';
+// import HeaderContainer from './containers/common/HeaderContainer';
+// import LandingPage from 'pages/LandingPage';
 
 function App() {
   return (
     <>
-      <Headers />
-      <Routes>
-        <Route element={<LandingPage />} path="/" />
+      {/* <HeaderContainer /> */}
+      {/* 배포 url */}
+      {useRoutes([
+        { path: process.env.PUBLIC_URL + '/', element: <SignUpPage /> }, // 임시로 signup
+        { path: process.env.PUBLIC_URL + '/signup', element: <SignUpPage /> },
+        { path: process.env.PUBLIC_URL + '/login', element: <LoginPage /> },
+        {
+          path: process.env.PUBLIC_URL + '/canvas/*',
+          element: <CanvasMainPage />,
+        },
+        { path: process.env.PUBLIC_URL + '/notice', element: <NoticePage /> }
+      ])}
+      {/* <Routes>
+        <Route element={<SignUpPage />} path="/" />
         <Route element={<SignUpPage />} path="/signup" />
         <Route element={<LoginPage />} path="/login" />
-        <Route element={<PostListPage />} path="/postlist" />
-        <Route element={<NoticeList />} path="/notice" />
-        <Route element={<NoticeViewer />} path="/noticePage" />
-        <Route element={<WritePage />} path="/write" />
-      </Routes>
+        <Route element={<CanvasMainPage />} path="/canvas/*" />
+      </Routes> */}
     </>
   );
 }
 
 export default App;
+
+// 0303 useRoutes 사용

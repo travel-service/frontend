@@ -3,7 +3,6 @@ import styled, { css } from 'styled-components';
 import oc from 'open-color';
 import { Link } from 'react-router-dom';
 import { shadow } from 'lib/styleUtils';
-import palette from 'lib/styles/palette';
 
 const buttonStyle = css`
   border: 1px solid ${oc.cyan[6]};
@@ -27,24 +26,6 @@ const buttonStyle = css`
     /* 마우스 클릭시 아래로 미세하게 움직임 */
     transform: translateY(3px);
   }
-
-  ${props =>
-    props.fullWidth && css`
-      padding-top: 0.75rem;
-      padding-bottom: 0.75rem;
-      width: 100%;
-      font-size: 1.125rem;
-      color: white;
-    `
-  }
-
-${props =>
-    props.cyan && css`
-      background: ${palette.cyan[5]};
-      &:hover {
-        background: ${palette.cyan[5]};
-      }`
-  }
 `;
 
 const StyledButton = styled.button`
@@ -55,7 +36,7 @@ const StyledLink = styled(Link)`
   ${buttonStyle}
 `;
 
-const Button = props => {
+const LoginButton = (props) => {
   return props.to ? (
     <StyledLink {...props} />
   ) : (
@@ -63,4 +44,4 @@ const Button = props => {
   )
 };
 
-export default Button;
+export default LoginButton;
