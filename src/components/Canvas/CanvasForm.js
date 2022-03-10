@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import BuildBlockForm from 'containers/Canvas/BuildBlockForm';
+import Block from 'containers/Canvas/Block';
 
 const CanvasDiv = styled.div`
   position: absolute;
@@ -10,7 +10,7 @@ const CanvasDiv = styled.div`
   height: 70vh;
   width: 100vw;
   padding-left: 17.5%;
-  z-index: -1;
+  //z-index: -1;
 `;
 
 const textMap = {
@@ -27,7 +27,7 @@ const CanvasForm = ({ type }) => {
     <CanvasDiv>
       {text}
       {type === 'select' && (
-        <BuildBlockForm />
+        <Block />
       )} 
     </CanvasDiv>
   );
