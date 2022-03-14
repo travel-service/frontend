@@ -4,24 +4,25 @@ import styled from 'styled-components';
 import oc from 'open-color';
 
 const Menu = styled.div`
-  height: calc(100vh - 58px); // header 크기가 58px(55 + 3)
-  background-color: ${oc.teal[6]};
+  /* height: calc(100vh - 58px); // header 크기가 58px(55 + 3) */
+  background-color: rgb(109, 144, 176);
   font-family: 'Rajdhani';
+  width : 220px;
 `;
 
 const List = styled.ul`
-  position: absolute;
+  /* position: absolute;
   top: 25%;
-  width: 14vw;
+  width: 14vw; */
   padding: 0;
-  margin: 0;
+  /* margin: 0; */
 `;
 
 const Item = styled.li`
   font-size: 20px; // 반응형 고민
   font-weight: 550;
   padding-bottom: 20px;
-  margin-left: 20%;
+  //margin-left: 20%;
   list-style: none;
   a {
     color: ${(props) => (props.selected ? `black` : "white")};  

@@ -3,14 +3,23 @@ import styled from 'styled-components';
 import Block from 'containers/Canvas/Block';
 
 const CanvasDiv = styled.div`
-  position: absolute;
+  /* position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   height: 70vh;
   width: 100vw;
-  padding-left: 17.5%;
-  //z-index: -1;
+  padding-left: 17.5%; */
+  /* z-index:-1; */
+  padding-top: 50px;
+  padding-left: 30px;
+  padding-right: 20px;
+  width: 100%;
+`;
+
+const H1 = styled.div`
+  /* font-size: $font-lg; */
+  font-size: 30px;
 `;
 
 const textMap = {
@@ -25,7 +34,7 @@ const CanvasForm = ({ type }) => {
 
   return (
     <CanvasDiv>
-      {text}
+      <H1>{text}</H1>
       {type === 'select' && (
         <Block />
       )} 
