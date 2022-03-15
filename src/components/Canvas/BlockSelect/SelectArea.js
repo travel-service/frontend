@@ -1,8 +1,8 @@
 import Button from 'components/common/Button';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Modal from '../../modal/modal';
 import palette from '../../../lib/styles/palette';
+import Location from './Location'
 
 const ContentsArea = styled.div`
   padding: 3rem;
@@ -48,14 +48,15 @@ const BButton = styled.button`
   border: none;
   border-radius: 4px;
   background-color: #74b9ff;
+  z-index: 0;
 `
 
-const Location = {
-  name: "박물관",
-  address: "주소",
-  tel: "010-1234-5678",
-  category: "문화시설"
-}
+// const Location = {
+//   name: "박물관",
+//   address: "주소",
+//   tel: "010-1234-5678",
+//   category: "문화시설"
+// }
 
 const List = styled.li`
   display: flex;
@@ -77,56 +78,18 @@ const ListDiv = styled.div`
 `;
 
 const SelectArea = ({ location, index, type }) => {
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const OpenModal = () => {
-    setModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalOpen(false);
-  };
 
   return (
     <ContentsArea>
       <div className='area_gird'>
         <WhiteBox>
           <div>관광지 블록</div>
-          <List onClick={OpenModal}>
-                {/* <Img src={location.image} alt="img" /> */}
-                <ListDiv>
-                  한라산
-                  {/* id는 일단 한글 name으로 설정해둚, 모든 location의 id가 다르게 생성되어야함 */}
-                  <br />
-                  2021.01.26
-                </ListDiv>
-          </List>
-          <List onClick={OpenModal}>
-                {/* <Img src={location.image} alt="img" /> */}
-                <ListDiv>
-                  한라산
-                  {/* id는 일단 한글 name으로 설정해둚, 모든 location의 id가 다르게 생성되어야함 */}
-                  <br />
-                  2021.01.26
-                </ListDiv>
-                <BButton>선택</BButton>
-          </List>
-          <List onClick={OpenModal}>
-                {/* <Img src={location.image} alt="img" /> */}
-                <ListDiv>
-                  한라산
-                  {/* id는 일단 한글 name으로 설정해둚, 모든 location의 id가 다르게 생성되어야함 */}
-                  <br />
-                  2021.01.26
-                </ListDiv>
-                <BButton>선택</BButton>
-          </List>
-          <Modal open={modalOpen} close={closeModal} header="Modal heading">
-            로케이션팝업
-          </Modal>
-        </WhiteBox>
-        <WhiteBox>
+          <Location>
 
+          </Location>
+          {/* <Modal open={modalOpen} close={closeModal} header="Modal heading">
+            로케이션팝업
+          </Modal> */}
         </WhiteBox>
       </div>
       <BlueBox>
