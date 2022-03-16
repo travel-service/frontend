@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import styled, { css } from 'styled-components';
 import palette from 'lib/styles/palette';
-import ArrowIcon from 'components/Canvas/BuildTab/Styles/ArrowIcon';
+import ArrowIcon from 'lib/Icons/ArrowIcon';
 import Location from './Location';
 import { Droppable } from 'react-beautiful-dnd';
 
@@ -41,11 +41,11 @@ const Ul = styled.ul`
   padding: 0;
 `;
 
-const CategoryBlock = ({ locations, type }) => {
+const CategoryBlock = memo(({ locations, type, onClick }) => {
   const [clickState, setClickState] = useState(false);
 
-  const onClick = () => {
-    console.log(locations, clickState);
+  const onClickIcon = () => {
+    // console.log(locations, clickState);
     setClickState(!clickState);
   };
 
@@ -53,7 +53,7 @@ const CategoryBlock = ({ locations, type }) => {
     <Div clickState={clickState}>
       <Title>
         {type}
-        <ArrowIcon onClick={onClick} clickState={clickState} />
+        <ArrowIcon onClick={onClickIcon} clickState={clickState} />
       </Title>
       <Droppable droppableId={type} type="location">
         {(provided) => (
@@ -65,6 +65,7 @@ const CategoryBlock = ({ locations, type }) => {
                   index={index}
                   key={location.id}
                   type={type}
+                  onClick={onClick}
                 />
               );
             })}
@@ -74,6 +75,6 @@ const CategoryBlock = ({ locations, type }) => {
       </Droppable>
     </Div>
   );
-};
+});
 
 export default CategoryBlock;

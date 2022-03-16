@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react'; // useEffect
 import { DragDropContext } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import palette from 'lib/styles/palette';
 import Day from 'components/Canvas/BuildTab/Day';
-import CategoryBlock from './CategoryBlock';
+import CategoryBlock from 'components/Canvas/BuildTab/CategoryBlock';
 
 const Container = styled.div`
   overflow: auto;
@@ -49,10 +49,21 @@ const categoryKeys = Object.keys(categoryObj);
 const DndMainArea = ({ userPlan, globalLocations, setUserPlanData }) => {
   const { travelDays, dayOrder, selectedLocations } = userPlan;
 
-  useEffect(() => {}, []);
+  const onClick = useCallback((day, location, index) => {
+    const category = location.category.slice();
+    const newSelLocOrder = { ...selectedLocations };
+    const newDayOrder = { ...travelDays };
+    newDayOrder[day.id].locationIds.splice(index, 1);
+    newSelLocOrder[category].push(location.id);
+    setUserPlanData({
+      ...userPlan,
+      selectedLocations: newSelLocOrder,
+      travelDays: newDayOrder,
+    });
+    return;
+  }, []); // waring 해결 못함
 
   const onDragEnd = (result) => {
-    console.log(result);
     // dnd 구현
     const { destination, source, draggableId } = result;
     if (!destination) return;
@@ -65,11 +76,9 @@ const DndMainArea = ({ userPlan, globalLocations, setUserPlanData }) => {
     ) {
       const dragIdObj = {};
       dragIdObj[startDropId] = draggableId;
-      console.log(dragIdObj);
       const newSelLocOrder = { ...selectedLocations };
       const newDayOrder = { ...travelDays };
       newSelLocOrder[startDropId].splice(source.index, 1);
-      console.log(newSelLocOrder);
       newDayOrder[endDropId].locationIds.splice(
         destination.index,
         0,
@@ -90,7 +99,6 @@ const DndMainArea = ({ userPlan, globalLocations, setUserPlanData }) => {
       const newDayOrder = { ...travelDays };
       const temp = newDayOrder[startDropId].locationIds.splice(source.index, 1);
       dragIdObj[Object.keys(temp[0])[0]] = draggableId;
-      console.log(dragIdObj);
       newDayOrder[endDropId].locationIds.splice(
         destination.index,
         0,
@@ -125,6 +133,7 @@ const DndMainArea = ({ userPlan, globalLocations, setUserPlanData }) => {
                   key={category}
                   locations={locations}
                   type={category}
+                  onClick={onClick}
                 />
               );
             })}
@@ -143,7 +152,15 @@ const DndMainArea = ({ userPlan, globalLocations, setUserPlanData }) => {
                   locObj['category'] = category;
                   return locObj;
                 });
-                return <Day key={day.id} day={day} locations={locations} />;
+                return (
+                  <Day
+                    key={day.id}
+                    day={day}
+                    locations={locations}
+                    onClick={onClick}
+                    moveData={day.moveData}
+                  />
+                );
               })}
           </Days>
         </Container>
@@ -156,3 +173,7 @@ export default DndMainArea;
 
 // 참고 레퍼런스
 // https://codesandbox.io/s/react-beautiful-dnd-example-forked-9l3wz8?file=/src/index.js
+
+// 0307
+// https://react-icons.github.io/react-icons/
+// https://technicolour.tistory.com/56
