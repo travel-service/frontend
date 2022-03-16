@@ -4,7 +4,7 @@ import TravelSettingForm from 'containers/Canvas/TravelSettingForm';
 
 const CanvasDiv = styled.div`
   position: absolute;
-  top: 50%;
+  top: 48%;
   left: 50%;
   transform: translate(-50%, -50%);
   height: 70vh;
@@ -24,7 +24,7 @@ const CanvasForm = ({ type }) => {
 
   return (
     <CanvasDiv>
-      {text}
+      <h3>{text}</h3>
       {type === 'setting' && (
           <TravelSettingForm />
         )}

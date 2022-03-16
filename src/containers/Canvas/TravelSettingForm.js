@@ -1,35 +1,34 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
 import ReactTooltip from 'react-tooltip';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import styled from 'styled-components';
 import oc from 'open-color';
-import StyledButton from 'components/Base/Header/LoginButton';
 
 const TitleSpan = styled.span`
-  font-size: 1.5em;
-  font-weight: bold;
+  font-size: 1.2em;
 `;
 
 const DateSettingDiv = styled.div`
   position: relative;
-  padding: 20px;
-  height: 150px;
+  margin-top: 10px;
+  margin-left: 30px;
+  height: 100px;
   width: 95%;
 `;
 
 const DepartSettingDiv = styled.div`
   position: relative;
-  padding: 20px;
+  margin-top: 10px;
+  margin-left: 30px;
   height: 400px;
   width: 95%;
 `;
 
 const ConceptSettingDiv = styled.div`
   position: relative;
-  padding: 20px;
+  margin-top: 10px;
+  margin-left: 30px;
   width: 95%;
 `;
 
@@ -41,36 +40,48 @@ const Datediv = styled.div`
   font-weight: bold;
 `;
 
-const TabMenu = styled.ul`
+/*const TooltipButton = styled.button`
+  margin: 0;
+  border: 1px solid;
+  cursor: pointer;
+  border-radius: 100%;
+  font-size: 1.2em;
+
+  &:hover {
+    background: yellow;
+  }
+`;*/
+
+const TabMenu = styled.ul` 
   background-color: white;
   font-weight: bold;
   display: flex;
-  justify-items: center;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   list-style: none;
-  height: 40px;
+  height: 12%;
   border: 1px solid;
-
+  padding-left: 0.3%;
+  padding-right: 0.3%;
+  
   .submenu {
-    display: grid;
-    grid-template-columns: 670px 1fr 1fr;
-    justify-content: flex-start;
-    justify-items: center;
+    flex: 0 1 50%;
     cursor: pointer;
+    height: 80%;
+    padding-top: 2px;
   }
 
   .focused {
     background-color: ${oc.teal[6]};
     color: white;
-    height: 100%
-    display: flex;
-    align-items: center;
   }
-
+  
   & div.desc {
     text-align: center;
   }
-`;
+  `;
+  
 
 //탭내용
 const Desc = styled.ul` 
@@ -104,6 +115,7 @@ const Desc = styled.ul`
 const TabDiv = styled.div`
   height: 90%;
   padding: 20px;
+  width: 95%;
 `;
 
 const CheckboxDiv = styled.div`
@@ -114,39 +126,29 @@ const CheckboxDiv = styled.div`
   font-weight: bold;
 `;
 
-const ButtonsDiv = styled.div`
-  text-align: right;
-  position: relative;
-
-  .btn1 {
-    float: left;
-    width:85%;
-  };
-
-  .btn2 {
-    float: left;
-    margin-left: 10px;
-  };
-`;
-
 const tabTitle = ['인기', '국내'];
 const DestinationArr = {
   0: ["제주도"],
   1: ["제주도"]
 };
 
+export let planDepart = '';
+export let planPeriods = '';
+export let planConcept = [];
+export let planDestination = '';
+
 const TravelSettingForm = () => {
   // 여행 일자
   const [startDate, setStartDate] = useState(new Date()); 
   const [endDate, setEndDate] = useState(new Date());
-  const planDepart = startDate.getFullYear() + '/' + (startDate.getMonth()+1).toString().padStart(2, '0') + '/' + (startDate.getDate().toString().padStart(2, '0'));
+  planDepart = startDate.getFullYear() + '/' + (startDate.getMonth()+1).toString().padStart(2, '0') + '/' + (startDate.getDate().toString().padStart(2, '0'));
   const diff = endDate.getTime() - startDate.getTime();
-  const planPeriods = Math.ceil(diff/1000/60/60/24) + 1;
+  planPeriods = Math.ceil(diff/1000/60/60/24) + 1;
 
   //여행지
   const [activeTab, setActiveTab] = useState(0);
   const [activeDest, setActiveDest] = useState(0);
-  const [planDestination, setDestination] = useState('');
+  const [pDestination, setDestination] = useState('');
   const onClickTab = (idx) => {
     setActiveTab(idx);
   };
@@ -154,31 +156,18 @@ const TravelSettingForm = () => {
     setActiveDest(idx2);
     setDestination(destination);
   };
+  planDestination = pDestination;
 
   //여행 컨셉
-  const [planConcept, setplanConcept] = useState([]);
+  const [pConcept, setplanConcept] = useState([]);
   const onClickConcept = (checked, id) => {
     if (checked) {
-      setplanConcept([...planConcept, id]);
+      setplanConcept([...pConcept, id]);
     } else {
-      setplanConcept(planConcept.filter((el) => el !== id));
+      setplanConcept(pConcept.filter((el) => el !== id));
     }
   };
-
-  // 다음 버튼: db post
-  const onClickButton = (id) => {
-    const pid = id; //plan id
-    axios.patch(`http://localhost:4000/travelPlans/${pid}`, {
-      periods: planPeriods,
-      concept: planConcept,
-      startDay: planDepart,
-      destination: planDestination
-    }).then(function(response) {
-      console.log(response);
-    }).catch(function(error) {
-      console.log(error);
-    });
-  };
+  planConcept = pConcept;
 
   return (
     <div>
@@ -257,21 +246,7 @@ const TravelSettingForm = () => {
               <input type="checkbox" onChange={(e) => {onClickConcept(e.target.checked, 3)}}/> <span>혼자</span>
             </CheckboxDiv>
         </ConceptSettingDiv>
-
-        <ButtonsDiv>
-          <ButtonsDiv className='btn1'>
-            <Link to="/canvas/select">
-              <StyledButton onClick = {() => onClickButton(1)}>다음으로</StyledButton>
-            </Link>
-          </ButtonsDiv>
-          <ButtonsDiv className='btn2'>
-            <Link to="/">
-              <StyledButton onClick = {() => onClickButton(1)}>저장하고 나가기</StyledButton>
-            </Link>
-          </ButtonsDiv>
-        </ButtonsDiv>
     </div>
-
   );
 };
 
