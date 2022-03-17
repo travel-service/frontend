@@ -3,7 +3,7 @@ import { Routes, Route, useRoutes } from 'react-router-dom';
 import SignUpPage from 'pages/SignupPage';
 import LoginPage from 'pages/LoginPage';
 import CanvasMainPage from 'pages/CanvasPages/CanvasMainPage';
-import NoticePage from 'pages/NoticePage';
+import NoticeMainPage from 'pages/NoticePages/NoticeMainPage';
 // import HeaderContainer from './containers/common/HeaderContainer';
 // import LandingPage from 'pages/LandingPage';
 
@@ -20,7 +20,7 @@ function App() {
           path: process.env.PUBLIC_URL + '/canvas/*',
           element: <CanvasMainPage />,
         },
-        { path: process.env.PUBLIC_URL + '/notice', element: <NoticePage /> }
+        { path: process.env.PUBLIC_URL + '/notice/*', element: <NoticeMainPage />},
       ])}
       {/* <Routes>
         <Route element={<SignUpPage />} path="/" />

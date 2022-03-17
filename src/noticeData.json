@@ -1,0 +1,31 @@
+{
+    "notices": [
+        {
+            "id": 1,
+            "numId": 1,
+            "title": "no.1 공지사항",
+            "author": "관리자",
+            "date": "2022-03-17",
+            "views": 123,
+            "body": "HTML 내용입니다."
+        },
+        {
+            "id": 2,
+            "numId": 2,
+            "title": "no.2 공지사항",
+            "author": "관리자2",
+            "date": "2022-03-17",
+            "views": 123,
+            "body": "HTML 내용입니다."
+        },
+        {
+            "id": 3,
+            "numId": 3,
+            "title": "no.3 공지사항",
+            "author": "관리자3",
+            "date": "2022-03-17",
+            "views": 123,
+            "body": "HTML 내용입니다."
+        }
+    ]
+}

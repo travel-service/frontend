@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import palette from '../../lib/styles/palette';
-import Responsive from '../../common/Responsive';
-import Button from '../../common/button';
+import palette from 'lib/styles/palette';
+import Responsive from 'components/common/Responsive';
+import Button from 'components/common/NoticeButton';
 import { Link } from 'react-router-dom';
 
 const PostViewerBlock = styled(Responsive)`
@@ -53,7 +53,7 @@ const PostContent = styled.div`
 const PageHeader = styled.div`
     text-align: center;
     border-bottom: 1px solid ${palette.gray[5]};
-`
+`;
 
 const NoticeViewer = () => {
     return (
@@ -75,7 +75,7 @@ const NoticeViewer = () => {
                 dangerouslySetInnerHTML={{__html:'<p>HTML <b>내용</b>입니다.</p>'}}
             />
             <Button>
-                <Link to="/notice">
+                <Link style={{ textDecoration: 'none', color: 'white' }} to={ process.env.PUBLIC_URL + '/notice/noticeList'}>
                     목록
                 </Link>
             </Button>
