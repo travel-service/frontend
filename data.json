@@ -1,0 +1,155 @@
+{
+  "travelPlans": [
+    {
+      "id": 1,
+      "name": "새 여행 캔버스(1)",
+      "periods": "3",
+      "concept": "Love",
+      "startDay": "20211215",
+      "arriveDay": "20211218",
+      "dayOrder": ["Day-1", "Day-2"],
+      "travelDays": {
+        "Day-1": {
+          "id": "Day-1",
+          "title": "Day1",
+          "locationIds": [
+            { "attractions": "한라산" },
+            { "accommodations": "제주 칼호텔" }
+          ]
+        },
+        "Day-2": {
+          "id": "Day-2",
+          "title": "Day2",
+          "locationIds": []
+        }
+      },
+      "selectedLocations": {
+        "attractions": ["만장굴", "성산 일출봉"],
+        "restaurants": ["곰막식당", "고집돌우럭"],
+        "accommodations": ["레인보우인 제주", "그랜드 하얏트 호텔"]
+      }
+    },
+    {
+      "id": 2,
+      "name": "새 여행 캔버스(2)",
+      "periods": "4",
+      "concept": "Love",
+      "startDay": "20211215",
+      "arriveDay": "20211218",
+      "selectedLocations": [
+        {
+          "id": "12312"
+        },
+        {
+          "id": "12423"
+        },
+        {
+          "id": "12543"
+        }
+      ]
+    }
+  ],
+  "users": [
+    {
+      "userId": "tlscksdn963",
+      "password": "123",
+      "passwordCheck": "123",
+      "username": "123",
+      "nickname": "123",
+      "birthday": "123123-12-23",
+      "phoneNum": "123",
+      "gender": "MALE",
+      "email": "tlscksnd963@naver.com",
+      "id": 1
+    }
+  ],
+  "locations": {
+    "attractions": [
+      {
+        "id": 1,
+        "name": "한라산",
+        "address": "주소",
+        "tel": "010-1234-5678",
+        "category": "관광지",
+        "info": "제주도의 대표적인 산인 한라산입니다",
+        "image": "https://i.ibb.co/zJMMHVD/image.jpg"
+      },
+      {
+        "id": 2,
+        "name": "만장굴",
+        "address": "주소",
+        "tel": "010-1234-5678",
+        "category": "관광지",
+        "info": "제주도의 만장굴입니다",
+        "image": "https://i.ibb.co/GFX3TZr/image.jpg"
+      },
+      {
+        "id": 3,
+        "name": "성산 일출봉",
+        "address": "주소",
+        "tel": "010-1234-5678",
+        "category": "관광지",
+        "info": "제주도의 성산 일출봉입니다",
+        "image": "https://i.ibb.co/MVvvPsX/image.jpg"
+      }
+    ],
+    "restaurants": [
+      {
+        "id": 4,
+        "name": "곰막식당",
+        "address": "주소",
+        "tel": "010-1234-5678",
+        "category": "음식점",
+        "info": "제주도의 곰막식당입니다",
+        "image": "https://i.ibb.co/zJMMHVD/image.jpg"
+      },
+      {
+        "id": 5,
+        "name": "고집돌우럭",
+        "address": "주소",
+        "tel": "010-1234-5678",
+        "category": "음식점",
+        "info": "제주도의 우럭요리 음식점입니다",
+        "image": "https://i.ibb.co/GFX3TZr/image.jpg"
+      },
+      {
+        "id": 6,
+        "name": "정성듬뿍 제주국",
+        "address": "주소",
+        "tel": "010-1234-5678",
+        "category": "음식점",
+        "info": "제주도의 제주국 음식점입니다",
+        "image": "https://i.ibb.co/MVvvPsX/image.jpg"
+      }
+    ],
+    "accommodations": [
+      {
+        "id": 7,
+        "name": "레인보우인 제주",
+        "address": "주소",
+        "tel": "010-1234-5678",
+        "category": "숙박시설",
+        "info": "제주도의 레인보우인 제주입니다",
+        "image": "https://i.ibb.co/zJMMHVD/image.jpg"
+      },
+      {
+        "id": 8,
+        "name": "그랜드 하얏트 호텔",
+        "address": "주소",
+        "tel": "010-1234-5678",
+        "category": "숙박시설",
+        "info": "제주도의 그랜드 하얏트 호텔입니다",
+        "image": "https://i.ibb.co/GFX3TZr/image.jpg"
+      },
+      {
+        "id": 9,
+        "name": "제주 칼호텔",
+        "address": "주소",
+        "tel": "010-1234-5678",
+        "category": "숙박시설",
+        "info": "제주도의 제주 칼호텔입니다",
+        "image": "https://i.ibb.co/MVvvPsX/image.jpg"
+      }
+    ]
+  }
+}

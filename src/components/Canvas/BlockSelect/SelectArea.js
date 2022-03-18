@@ -1,8 +1,10 @@
 import Button from 'components/common/Button';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+import user from 'redux/modules/user';
 import styled from 'styled-components';
 import palette from '../../../lib/styles/palette';
-import Location from './Location'
+import LocationList from './LocationList'
+import SelectedLocationList from './SelectedLocationList';
 
 const ContentsArea = styled.div`
   padding: 3rem;
@@ -27,73 +29,83 @@ const BlueBox = styled.div`
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.025);
   padding: 2rem;
   width: 700px;
-  height: 100px;
+  height: 200px;
   background: skyblue;
   border-radius: 8px;
 `;
 
-const LocationBlock = styled.div`
-  margin: 5px;
-  width: 336px;
-  height: 50px;
-  left: 331px;
-  top: 332px;
-  background: violet;
-`;
+const SelectArea = ({ location }) => {
 
-const BButton = styled.button`
-  padding: 6px 12px;
-  color: white;
-  font-size: 10px;
-  border: none;
-  border-radius: 4px;
-  background-color: #74b9ff;
-  z-index: 0;
-`
+  const { attractions, restaurants, accommodations } = location
 
-// const Location = {
-//   name: "박물관",
-//   address: "주소",
-//   tel: "010-1234-5678",
-//   category: "문화시설"
-// }
+  // const [locations, setLocations] = useState([
+  //   {
+  //     id: 1,
+  //     name: "한라산",
+  //     address: "주소",
+  //     tel: "010-1234-5678",
+  //     category: "문화시설",
+  //     info: "제주도의 대표적인 산인 한라산입니다",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "박물관",
+  //     address: "주소",
+  //     tel: "010-1234-5678",
+  //     category: "문화시설",
+  //     info: "제주도의 대표적인 박물관입니다",
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "식당",
+  //     address: "주소",
+  //     tel: "010-1234-5678",
+  //     category: "식당",
+  //     info: "제주도의 대표적인 식당입니다",
+  //   }
+  // ]);
 
-const List = styled.li`
-  display: flex;
-  list-style: none;
-  margin-bottom: 11px;
-  background-color: ${palette.gray[0]};
-  box-shadow: 3px 3px 3px 3px ${palette.gray[5]};
-  padding: 5px;
-`;
+  // const [selectedLocations, setSelectedLocations] =useState([
+  //   {
+  //     id: 1,
+  //     locname: "한라산",
+  //     address: "주소",
+  //     tel: "010-1234-5678",
+  //     category: "문화시설",
+  //     info: "제주도의 대표적인 산인 한라산입니다",
+  //   }]);
 
-const Img = styled.img`
-  width: 5vw;
-  height: 3.2vw;
-`;
+  // const onSelect = () => {
+  //   const selectedLocation = {
+  //     id,
+  //     locname,
+  //     address,
+  //     tel,
+  //     category,
+  //     info 
+  //   };
 
-const ListDiv = styled.div`
-  margin-left: 5px;
-  font-weight: bold;
-`;
-
-const SelectArea = ({ location, index, type }) => {
+  //   setSelectedLocations(selectedLocations.concat(selectedLocation));
+  // }
 
   return (
     <ContentsArea>
       <div className='area_gird'>
         <WhiteBox>
           <div>관광지 블록</div>
-          <Location>
-
-          </Location>
-          {/* <Modal open={modalOpen} close={closeModal} header="Modal heading">
-            로케이션팝업
-          </Modal> */}
+          <LocationList locations = {attractions} />
+        </WhiteBox>
+        <WhiteBox>
+          <div>음식점 블록</div>
+          <LocationList locations = {restaurants} />
+        </WhiteBox>
+        <WhiteBox>
+          <div>숙소 블록</div>
+          <LocationList locations = {accommodations} />
         </WhiteBox>
       </div>
       <BlueBox>
-        
+        {/* <SelectedLocationList selectedLocations = {selectedLocations} /> */}
       </BlueBox>
     </ContentsArea>
   );
