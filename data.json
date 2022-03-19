@@ -2,7 +2,7 @@
   "travelPlans": [
     {
       "id": 1,
-      "name": "새여행",
+      "name": "새 여행",
       "periods": 9,
       "concept": [
         0,
