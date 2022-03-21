@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import palette from '../../../lib/styles/palette';
 import Modal from '../../modal/modal';
+import useStore from './SelectedLocations';
 
 const BButton = styled.button`
   padding: 6px 12px;
@@ -32,7 +33,7 @@ const Img = styled.img`
   height: 3.2vw;
 `;
 
-const Location = ({location}) => {
+function Location ({location}) {
   const [isSelect, setIsSelect] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -44,6 +45,7 @@ const Location = ({location}) => {
     setModalOpen(false);
   };
 
+  const {onSelect, onAdd} = useStore();
 
   return (
     <Block>
@@ -56,11 +58,13 @@ const Location = ({location}) => {
         {location.tel}
       </BlockDiv>
       <BButton 
-
         onClick={() => {
         setIsSelect(!isSelect)
+        console.log(location)
+        onAdd(location)
         } 
       }>{isSelect ? '취소' : '선택'}</BButton>
+      {/* <button onClick={() => onAdd(location)}>test</button> */}
       <Modal open={modalOpen} close={closeModal} header={location.name}>
         {location.info}
       </Modal>
@@ -68,11 +72,11 @@ const Location = ({location}) => {
   )
 }
 
-const LocationList = ({locations}) => {
+function LocationList ({locations}) {
   return (
     <div>
       {locations.map(location => (
-        <Location location={location} key={location.id}/>
+        <Location location={location} key={location.id} />
       ))}
     </div>
   );
