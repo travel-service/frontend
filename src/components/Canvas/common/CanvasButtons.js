@@ -9,32 +9,24 @@ import {
   planConcept,
   planDestination,
 } from 'containers/Canvas/TravelSettingForm';
+import { travelPlan } from 'containers/Canvas/BuildBlockForm';
 
-const AllbuttonsDiv = styled.div`
+const AllButtonsDiv = styled.div`
   height: 50px;
   /* position: relative; */
   top: 80%;
 `;
 
+const Div = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-left: 30px;
+  margin-right: 20px;
+  margin-top: 10px;
+`;
+
 const ButtonDiv = styled.div`
-  text-align: right;
-  position: relative;
-  top: 15%;
-
-  .next {
-    float: left;
-    margin-left: 70%;
-  }
-
-  .exit {
-    float: right;
-    margin-right: 7%;
-  }
-
-  .prev {
-    float: left;
-    margin-left: 5%;
-  }
+  margin-bottom: 2px;
 `;
 
 const siteMap = ['setting', 'select', 'build', 'share'];
@@ -67,61 +59,74 @@ const CanvasButtons = () => {
       });
   };
 
+  //0319 추가, 다른 데이터 추가 예정
+  const onClickBuildNextButton = (id) => {
+    const pid = id; //plan id
+    console.log(travelPlan);
+    axios
+      .patch(`http://localhost:8080/travelPlans/${pid}`, {
+        //URL 수정
+        travelDays: travelPlan.travelDays,
+        selectedLocations: travelPlan.selectedLocations,
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
   const onClickNext = (idx) => {
     idx === 0 ? onClickSettingNextButton(1) : console.log('next');
+    // idx === 0 ? onClickSettingNextButton(1) : console.log('next');
+    idx === 2 ? onClickBuildNextButton(1) : console.log('next');
+    // idx === 0 ? onClickSettingNextButton(1) : console.log('next');
   };
+
   const onClickPrev = () => {
     console.log('prev');
   };
 
-  const LastPageButton = () => {
-    alert('마지막 페이지입니다.');
-  };
-
   return (
-    <AllbuttonsDiv>
-      <ButtonDiv>
+    <AllButtonsDiv>
+      <Div>
         <ButtonDiv className="prev">
-          <Link
-            to={
-              process.env.PUBLIC_URL +
-              `/canvas/${idx === 0 ? siteMap[0] : siteMap[idx - 1]}`
-            }
-          >
-            <StyledButton
-              onClick={() => {
-                idx === 0 ? LastPageButton() : onClickPrev();
-              }}
+          <Link to={process.env.PUBLIC_URL + `/canvas/${siteMap[idx - 1]}`}>
+            {idx !== 0 && (
+              <StyledButton onClick={onClickPrev}> &lt; 이전으로</StyledButton>
+            )}
+          </Link>
+        </ButtonDiv>
+        <div>
+          <ButtonDiv className="next">
+            <Link
+              to={
+                process.env.PUBLIC_URL +
+                `/canvas/${idx === 3 ? siteMap[3] : siteMap[idx + 1]}`
+              }
             >
-              &lt; 이전으로
-            </StyledButton>
-          </Link>
-        </ButtonDiv>
-        <ButtonDiv className="next">
-          <Link
-            to={
-              process.env.PUBLIC_URL +
-              `/canvas/${idx === 3 ? siteMap[3] : siteMap[idx + 1]}`
-            }
-          >
-            <StyledButton
-              onClick={() => {
-                idx === 3 ? LastPageButton() : onClickNext(idx);
-              }}
-            >
-              다음으로 &gt;
-            </StyledButton>
-          </Link>
-        </ButtonDiv>
-        <ButtonDiv className="exit">
-          <Link to="/">
-            <StyledButton onClick={() => console.log('나가기')}>
-              저장하고 나가기
-            </StyledButton>
-          </Link>
-        </ButtonDiv>
-      </ButtonDiv>
-    </AllbuttonsDiv>
+              {idx !== 3 && (
+                <StyledButton
+                  onClick={() => {
+                    onClickNext(idx);
+                  }}
+                >
+                  다음으로 &gt;
+                </StyledButton>
+              )}
+            </Link>
+          </ButtonDiv>
+          <ButtonDiv className="exit">
+            <Link to="/trablock">
+              <StyledButton onClick={() => console.log('나가기')}>
+                저장하고 나가기
+              </StyledButton>
+            </Link>
+          </ButtonDiv>
+        </div>
+      </Div>
+    </AllButtonsDiv>
   );
 };
 

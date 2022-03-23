@@ -2,15 +2,25 @@ import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import DndMainArea from 'components/Canvas/BuildTab/DndMainArea';
+import CreateLoc from 'lib/Icons/CreateLoc';
+import palette from 'lib/styles/palette';
+// import { useStore } from 'lib/store';
 
-const Section = styled.div`
-  margin-top: 10px;
-  /* background-color: white; */
-  /* border: 2px solid black; */
-  border-radius: 7px;
+const Container = styled.div`
+  display: flex;
+  justify-content: space-between;
+  /* margin-top: 10px; */
+  background-color: ${palette.gray[3]};
+  height: 70vh;
+  overflow: auto;
+  /* border-radius: 7px; */
 `;
 
-const Div = styled.div``;
+const Buttons = styled.div`
+  width: 100px;
+`;
+
+export let travelPlan = {};
 
 const BuildBlockForm = () => {
   const [userPlan, setUserPlan] = useState(null);
@@ -36,23 +46,26 @@ const BuildBlockForm = () => {
 
   const setUserPlanData = (x) => {
     setUserPlan(x);
-    console.log('setUerPlan');
+    travelPlan = userPlan;
+    console.log(userPlan);
   };
 
   return (
-    <Section>
+    <>
       {(!userPlan || !globalLocations) && '로딩 중..'}
       {userPlan && globalLocations && (
-        <Div>
-          {/* <h4>{userPlan.name}</h4> */}
+        <Container>
           <DndMainArea
             setUserPlanData={setUserPlanData}
             userPlan={userPlan}
             globalLocations={globalLocations}
           />
-        </Div>
+          <Buttons>
+            <CreateLoc size="30" />
+          </Buttons>
+        </Container>
       )}
-    </Section>
+    </>
   );
 };
 

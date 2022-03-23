@@ -48,8 +48,8 @@ const StyledLink = styled(Link)`
   ${buttonStyle}
 `;
 
-const Button = (props) => {
+const AuthButton = (props) => {
   return props.to ? <StyledLink {...props} /> : <StyledButton {...props} />;
 };
 
-export default Button;
+export default AuthButton;

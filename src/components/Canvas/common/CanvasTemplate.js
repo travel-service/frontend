@@ -1,26 +1,26 @@
 import React from 'react';
 import CanvasMenu from './CanvasMenu';
-import styled from 'styled-components';
 import CanvasButtons from './CanvasButtons';
+import styled from 'styled-components';
 
-// grid 적용 0107
-// flex로 변경 0228
-const Div = styled.div`
-  display: flex;
+const Container = styled.div`
   /* height: 100vh; // header 생기면 변환 필요 */
-  /* grid-template-columns: 1fr 6fr; */
+  height: 100vh;
+`;
+
+const Div = styled.div`
+  flex: 1;
 `;
 
 const CanvasTemplate = ({ children }) => {
   return (
-    <Div>
+    <Container>
       <CanvasMenu />
-      <div>
-        {/* <ButtonContainer>{children}</ButtonContainer> */}
+      <Div>
         {children}
         <CanvasButtons />
-      </div>
-    </Div>
+      </Div>
+    </Container>
   );
 };
 
