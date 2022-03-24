@@ -2,8 +2,9 @@ import create from 'zustand';
 
 const useStore = create ((set) => (
     {
-      test: [],
-      onAdd: (loc) => set(state => ({ test: [...state.test,loc] }))
+      selectedLocations: [],
+      onAdd: (loc) => set(state => ({ selectedLocations: [...state.selectedLocations,loc] })),
+      remove: (locId) => set(state => ({ selectedLocations: state.selectedLocations.filter(loc => loc.id !== locId)}))
     }
 ))
 

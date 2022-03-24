@@ -45,7 +45,7 @@ function Location ({location}) {
     setModalOpen(false);
   };
 
-  const {onSelect, onAdd} = useStore();
+  const {onAdd, remove} = useStore();
 
   return (
     <Block>
@@ -61,7 +61,8 @@ function Location ({location}) {
         onClick={() => {
         setIsSelect(!isSelect)
         console.log(location)
-        onAdd(location)
+        {isSelect ? remove(location.id) : onAdd(location)}
+        // onAdd(location)
         } 
       }>{isSelect ? '취소' : '선택'}</BButton>
       {/* <button onClick={() => onAdd(location)}>test</button> */}

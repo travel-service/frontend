@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import palette from '../../../lib/styles/palette';
 import Modal from '../../modal/modal';
+import useStore from './SelectedLocations';
 
 const Block = styled.li`
   display: flex;
@@ -17,6 +18,21 @@ const BlockDiv = styled.div`
   font-weight: bold;
 `;
 
+const Img = styled.img`
+  width: 5vw;
+  height: 3.2vw;
+`;
+
+const BButton = styled.button`
+  padding: 6px 12px;
+  color: white;
+  font-size: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #74b9ff;
+  z-index: 0;
+`
+
 const SelectedLocations = ({selectedLocation}) => {
     const [modalOpen, setModalOpen] = useState(false);
 
@@ -28,9 +44,11 @@ const SelectedLocations = ({selectedLocation}) => {
       setModalOpen(false);
     };
 
+    const {remove} = useStore();
+
     return (
         <Block>
-            {/* <Img src={location.image} alt="img" /> */}
+            <Img src={selectedLocation.image} alt="img" />
             <BlockDiv onClick={OpenModal}>
                 {selectedLocation.name}
                 <br />
@@ -38,6 +56,12 @@ const SelectedLocations = ({selectedLocation}) => {
                 <br />
                 {selectedLocation.tel}
             </BlockDiv>
+            <BButton
+              onClick={() => {
+                console.log(selectedLocation.id)
+                remove(selectedLocation.id)
+                }
+              }>취소</BButton>
             <Modal open={modalOpen} close={closeModal} header={selectedLocation.name}>
             {selectedLocation.info}
             </Modal>

@@ -39,7 +39,7 @@ const SelectArea = ({ location }) => {
 
   const { attractions, restaurants, accommodations } = location
 
-  const {test} = useStore();
+  const {selectedLocations} = useStore();
 
   return (
     <ContentsArea>
@@ -58,7 +58,7 @@ const SelectArea = ({ location }) => {
         </WhiteBox>
       </div>
       <BlueBox>
-        <SelectedLocationList selectedLocations = {test} />
+        <SelectedLocationList selectedLocations = {selectedLocations} />
       </BlueBox>
     </ContentsArea>
   );
