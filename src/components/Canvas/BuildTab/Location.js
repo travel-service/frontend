@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import palette from 'lib/styles/palette';
 import { Draggable } from 'react-beautiful-dnd';
@@ -76,8 +76,8 @@ const Location = memo(({ location, index, type, onClick, day }) => {
                 2021.01.26
               </ListDiv>
               <Btn day={day}>
-                <Close size="18" onClick={onClickX} />
-                <Time title="체류시간 설정" />
+                <Close size="18" onClick={onClickX} tooltip={true} />
+                <Time title="체류시간" />
               </Btn>
             </List>
           </Container>

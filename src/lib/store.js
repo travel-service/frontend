@@ -17,16 +17,6 @@ export const useStore = create((set) => ({
 
   selLoc: [], // 객체가 담기는 배열
 
-  sysCateLoc: {
-    // 전체 location => 분류
-    Attractions: [],
-    Culture: [],
-    Festival: [],
-    Leports: [],
-    Lodge: [],
-    Restaurant: [],
-  },
-
   selCateLoc: {
     // 담은 location => 분류
     Attractions: [],
@@ -37,36 +27,7 @@ export const useStore = create((set) => ({
     Restaurant: [],
   },
 
-  // GET systemLocations
-  getSysLoc: async () => {
-    const response = await axios.get('http://localhost:4000/locations');
-    return response.data;
-  },
-
-  // GET userPlan
-  getPlan: async (id) => {
-    const response = await axios.get(`http://localhost:4000/travelPlans/${id}`);
-    set({ userPlan: response.data });
-  },
-
-  // POST userPlan
-  postPlan: async (id) => {
-    // 매개변수 id는 userPlan id
-    if (id === '') {
-      const response = await axios.post(`http://localhost:4000/travelPlans/`, {
-        // userPlan
-      });
-      set({ userPlan: response.data }); // 백에서 보내주는 데이터가 userPlan
-      console.log(response);
-    } else {
-      const response = await axios.post(
-        `http://localhost:4000/travelPlans/${id}`,
-      );
-      console.log(response); // 성공하면 success
-    }
-  },
-
-  // 카테고리 분류
+  // 카테고리 분류 로직 만들기 0323
   sortSysLoc: (item) => {
     // set({sysCateLoc: })
   },
@@ -87,7 +48,27 @@ export const useStore = create((set) => ({
     // set({})
   },
 
-  // category와 type
+  getPlan: async (id) => {
+    const response = await axios.get(`http://localhost:4000/travelPlans/${id}`);
+    set({ userPlan: response.data });
+  },
+
+  postPlan: async (id) => {
+    // 매개변수 id는 userPlan id
+    if (id === '') {
+      const response = await axios.post(`http://localhost:4000/travelPlans/`, {
+        // userPlan
+      });
+      set({ userPlan: response.data }); // 백에서 보내주는 데이터가 userPlan
+      console.log(response);
+    } else {
+      const response = await axios.post(
+        `http://localhost:4000/travelPlans/${id}`,
+      );
+      console.log(response); // 성공하면 success
+    }
+  },
+
   category: {
     1: { eng: 'Attraction', kor: '관광지' },
     2: { eng: 'Culture', kor: '문화시설' },
@@ -95,5 +76,63 @@ export const useStore = create((set) => ({
     4: { eng: 'Leports', kor: '레포츠' },
     5: { eng: 'Lodge', kor: '숙박 시설' },
     6: { eng: 'Restaurant', kor: '음식점' },
+  },
+}));
+
+// systemLocation 받아오고, 카테고리 따라서 분류
+export const sysLocStore = create((set) => ({
+  sysCateLoc: {
+    // 전체 location => 분류
+    Attractions: [],
+    Culture: [],
+    Festival: [],
+    Leports: [],
+    Lodge: [],
+    Restaurant: [],
+  },
+
+  getSysLoc: async () => {
+    const response = await axios.get('http://localhost:4000/locations');
+    const obj = Object.values(response.data);
+    console.log(obj);
+    let att = [];
+    let cul = [];
+    let fes = [];
+    let lepo = [];
+    let lod = [];
+    let rest = [];
+    for (let x of obj) {
+      switch (x.type) {
+        case '1':
+          att.push(x);
+          break;
+        case '2':
+          cul.push(x);
+          break;
+        case '3':
+          fes.push(x);
+          break;
+        case '4':
+          lepo.push(x);
+          break;
+        case '5':
+          lod.push(x);
+          break;
+        case '6':
+          rest.push(x);
+          break;
+        default:
+      }
+    }
+    set({
+      sysCateLoc: {
+        Attractions: att,
+        Culture: cul,
+        Festival: fes,
+        Leports: lepo,
+        Lodge: lod,
+        Restaurant: rest,
+      },
+    });
   },
 }));

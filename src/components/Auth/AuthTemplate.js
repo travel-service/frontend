@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import AuthHeader from 'components/Base/Header/AuthHeader';
+import Header2 from 'components/Base/Header/Header2';
 import Logo from 'components/Landing/Logo';
 
 const AuthTemplateBlock = styled.div`
@@ -50,7 +50,7 @@ const AuthTemplate = ({ children }) => {
         {children}
       </WhiteBox>
       <Main>
-        <AuthHeader />
+        <Header2 />
         <Illustration plane>
           <MainCharacter src={process.env.PUBLIC_URL + '/images/plane.png'} />
         </Illustration>

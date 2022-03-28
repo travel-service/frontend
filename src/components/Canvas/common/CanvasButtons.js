@@ -14,7 +14,7 @@ import { travelPlan } from 'containers/Canvas/BuildBlockForm';
 const AllButtonsDiv = styled.div`
   height: 50px;
   /* position: relative; */
-  top: 80%;
+  /* top: 80%; */
 `;
 
 const Div = styled.div`
@@ -27,6 +27,22 @@ const Div = styled.div`
 
 const ButtonDiv = styled.div`
   margin-bottom: 2px;
+
+  .next {
+    /* float: left; */
+    /* margin-left: 70%; */
+  }
+
+  .exit {
+    /* flex: 1; */
+    /* float: right; */
+    /* margin-right: 7%; */
+  }
+
+  .prev {
+    /* float: left; */
+    /* margin-left: 5%; */
+  }
 `;
 
 const siteMap = ['setting', 'select', 'build', 'share'];
@@ -44,7 +60,7 @@ const CanvasButtons = () => {
   const onClickSettingNextButton = (id) => {
     const pid = id; //plan id
     axios
-      .patch(`http://localhost:4000/travelPlans/${pid}`, {
+      .patch(`http://localhost:8080/travelPlans/${pid}`, {
         //URL 수정
         periods: planPeriods,
         concept: planConcept,
@@ -88,6 +104,14 @@ const CanvasButtons = () => {
     console.log('prev');
   };
 
+  // const LastPageButton = () => {
+  //   alert('마지막 페이지입니다.');
+  // };
+
+  // const FirstPageButton = () => {
+  //   alert('첫 페이지입니다.');
+  // };
+
   return (
     <AllButtonsDiv>
       <Div>
@@ -96,6 +120,14 @@ const CanvasButtons = () => {
             {idx !== 0 && (
               <StyledButton onClick={onClickPrev}> &lt; 이전으로</StyledButton>
             )}
+            {/* 리팩토링 0319 신찬우 */}
+            {/* <StyledButton
+              onClick={() => {
+                idx === 0 ? FirstPageButton() : onClickPrev();
+              }}
+            >
+              &lt; 이전으로
+            </StyledButton> */}
           </Link>
         </ButtonDiv>
         <div>
@@ -115,6 +147,13 @@ const CanvasButtons = () => {
                   다음으로 &gt;
                 </StyledButton>
               )}
+              {/* <StyledButton
+                onClick={() => {
+                  idx === 3 ? LastPageButton() : onClickNext(idx);
+                }}
+              >
+                다음으로 &gt;
+              </StyledButton> */}
             </Link>
           </ButtonDiv>
           <ButtonDiv className="exit">
