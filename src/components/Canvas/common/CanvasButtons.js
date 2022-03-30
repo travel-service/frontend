@@ -1,18 +1,12 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import axios from 'axios';
+//import axios from 'axios';
 import styled from 'styled-components';
 import StyledButton from 'components/common/Button';
-import {
-  planDepart,
-  planPeriods,
-  planConcept,
-  planDestination,
-} from 'containers/Canvas/TravelSettingForm';
+//import { useStore, useStore2 } from 'lib/store';
 
 const AllbuttonsDiv = styled.div`
   height: 50px;
-  /* position: relative; */
   top: 80%;
 `;
 
@@ -38,6 +32,8 @@ const siteMap = ['setting', 'select', 'build', 'share'];
 
 const CanvasButtons = () => {
   const location = useLocation();
+  /*const { planPeriods, planConcept, planDepart, planDestination } = useStore2();
+  const { userPlan, postPlan } = useStore();*/
 
   // location.pathname은 '/canvas/setting'
   // const idx = siteMap.indexOf(location.pathname.substring(8));
@@ -46,7 +42,7 @@ const CanvasButtons = () => {
   const idx = siteMap.indexOf(urlName); // 0316 찬우 수정
 
   // 다음 버튼: post 에러로 patch 사용
-  const onClickSettingNextButton = (id) => {
+  /*const onClickSettingNextButton = (id) => {
     const pid = id; //plan id
     axios
       .patch(`http://localhost:4000/travelPlans/${pid}`, {
@@ -62,10 +58,10 @@ const CanvasButtons = () => {
       .catch(function (error) {
         console.log(error);
       });
-  };
+  };*/
 
   const onClickNext = (idx) => {
-    idx === 0 ? onClickSettingNextButton(1) : console.log('next');
+    /*idx === 0 ? onClickSettingNextButton(1) :*/ console.log('next');
   };
   const onClickPrev = () => {
     console.log('prev');

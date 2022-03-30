@@ -1,5 +1,5 @@
 import React from 'react';
-import CanvasMenu from './CanvasMenu';
+//import CanvasMenu from './CanvasMenu';
 import styled from 'styled-components';
 import CanvasButtons from './CanvasButtons';
 
@@ -9,6 +9,7 @@ const Container = styled.div`
   display: flex;
   height: 100vh; // header 생기면 변환 필요
   /* grid-template-columns: 1fr 6fr; */
+  margin-left: 4%; //0330 영서 수정
 `;
 
 const Div = styled.div`
@@ -18,7 +19,7 @@ const Div = styled.div`
 const CanvasTemplate = ({ children }) => {
   return (
     <Container>
-      <CanvasMenu />
+      {/*<CanvasMenu />*/}
       <Div>
         {/* <ButtonContainer>{children}</ButtonContainer> */}
         {children}

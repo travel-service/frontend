@@ -5,7 +5,6 @@ import Pencil from 'lib/Icons/Pencil';
 
 const NamingDiv = styled.div`
   display: flex;
-  /* position: relative; */
   margin-top: 15px;
   height: 50px;
   width: 50%;
@@ -28,9 +27,8 @@ const StyledInput = styled.input`
 const PencilButton = styled.button`
   border: none;
   margin-left: 3%;
-  margin-top: 0.5%;
-  height: 70%;
-  width: 5%;
+  height: 85%;
+  width: 6%;
   cursor: pointer;
   :hover {
     background: lightgray;
