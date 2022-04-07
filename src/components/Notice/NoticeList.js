@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Responsive from 'components/common/Responsive';
 import Button from 'components/common/NoticeButton';
@@ -6,6 +6,10 @@ import palette from 'lib/styles/palette';
 // import PaginationContainer from "../../containers/noitces/PaginationContainer";
 import { Link } from 'react-router-dom';
 import noticedata from '../../noticeData.json';
+import axios from 'axios';
+import Pagination from 'components/Notice/Pagination';
+import { Grid } from '@mui/material';
+import { flexbox } from '@mui/system';
 
 const PostListBlock = styled(Responsive)`
   margin-top: 3rem;
@@ -69,15 +73,14 @@ const Tags = styled.div`
     }
   }
 `;
-
+/*list_tit: color: #ababab;*/
 const List = styled.div`
   padding: 3rem;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin: 20px 20px;
   min-height: 1rem;
   text-align: center;
   .list_tit {
-    color: #ababab;
+    color: #808000;
   }
   .list_grid {
     display: grid;
@@ -98,49 +101,169 @@ const ListInfo = styled.div`
   border-bottom: solid 1px #ababab;
 `;
 
-const PostItem = () => {
-  return noticedata.notices.map((notices) => (
-    <PostItemBlock>
-      <div className="list_grid">
-        <div>{notices.numId}</div>
-        <div className="title">
-          <Link
-            style={{ textDecoration: 'none', color: 'black' }}
-            to={process.env.PUBLIC_URL + '/notice/noticeViewer'}
-          >
-            <b>{notices.title}</b>
-          </Link>
+const PageN = styled.div`
+  .pagincon {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .pagincon li {
+    list-style: none;
+    padding: 10px;
+    border: 1px solid #828282;
+  }
+  .pagination li {
+    display: inline-block;
+    background: #dedede;
+    overflow: hidden;
+  }
+  .pagination li a {
+    text-decoration: none;
+    width: 10px;
+    height: 10px;
+    padding: 10px;
+  }
+  .pagination li a:foucus {
+    background-color: #808000;
+  }
+`;
+
+const Listnum = styled.div`
+  .postnum {
+    display: flex;
+    padding: 10px;
+  }
+`;
+const PostDate = () => {
+  const [test, setTest] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(5);
+
+  const getData = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get('http://localhost:4000/notices');
+      setTest(response.data.reverse());
+    } catch (e) {
+      console.log(e);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = test.slice(indexOfFirstPost, indexOfLastPost);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  return (
+    <>
+      <PostItem test={currentPosts} loading={loading} postnum={test.length} />
+      <PageN>
+        <div className="pagincon">
+          <Pagination
+            postsPerPage={postsPerPage}
+            totalPosts={test.length}
+            paginate={paginate}
+          />
         </div>
-        <div>{notices.author}</div>
-        <div>{notices.date}</div>
-        <div>{notices.views}</div>
-      </div>
-    </PostItemBlock>
-  ));
-  /*<PostItemBlock>
-               { noticedata.notices.map(notices => (
-                   <PostItemBlock>
-                        <div className='list_grid'>
-                            <div>{notices.numId}</div>
-                            <li className='title'>
-                                <Link style={{ textDecoration: 'none', color: 'black' }} to={ process.env.PUBLIC_URL + '/notice/noticeViewer'}>{notices.title}</Link>
-                            </li>
-                            <div>{notices.author}</div>
-                            <div>{notices.date}</div>
-                            <div>{notices.views}</div>
-                        </div>
-                    </PostItemBlock>
-                ))}
-                {/*
-                <div>num</div>
-                <li className='title'>
-                    <Link style={{ textDecoration: 'none', color: 'black' }} to={ process.env.PUBLIC_URL + '/notice/noticeViewer'}>notice</Link>
-                </li>
-                <div>관리자12</div>
-                <div>{new Date().toLocaleDateString()}</div>
-                <div>123</div>
+      </PageN>
+    </>
+  );
+};
+const PostItem = ({ test, loading, postnum }) => {
+  /* const [test, setTest] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const getData = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get('http://localhost:4000/notices');
+      setTest(response.data);
+    } catch (e) {
+      console.log(e);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []); */
+
+  if (loading) {
+    return <PostItemBlock>Loading...</PostItemBlock>;
+  }
+
+  if (!test) return null;
+
+  return (
+    <>
+      <List>
+        <Listnum>
+          <div className="postnum">
+            총 <b style={{ color: `#808000 ` }}>{postnum}</b>
+            건의 글이 등록되었습니다.
+          </div>
+        </Listnum>
+        <ListInfo>
+          <div className="list_grid list_tit">
+            <div> 번호 </div>
+            <div> 제목 </div>
+            <div> 작성자 </div>
+            <div> 작성일 </div>
+            <div> 조회수 </div>
+          </div>
+        </ListInfo>
+        {test && console.log(test)}
+        {test.map((t) => (
+          <PostItemBlock key={t.id}>
+            <div className="list_grid">
+              <div>{t.numId}</div>
+              <div className="title">
+                <Link
+                  style={{ textDecoration: 'none', color: 'black' }}
+                  to={
+                    process.env.PUBLIC_URL + `/notice/noticeViewer/${t.numId}`
+                  }
+                >
+                  <b>{t.title}</b>
+                </Link>
+              </div>
+              <div>{t.author}</div>
+              <div>{t.date}</div>
+              <div>{t.views}</div>
             </div>
-        </PostItemBlock>*/
+          </PostItemBlock>
+        ))}
+      </List>
+      {/* {noticedata.notices.map((notices) => (
+        <PostItemBlock>
+          <div className="list_grid">
+            <div>{notices.numId}</div>
+            <div className="title">
+              <Link
+                style={{ textDecoration: 'none', color: 'black' }}
+                to={
+                  process.env.PUBLIC_URL +
+                  `/notice/noticeViewer/${notices.numId}`
+                }
+              >
+                <b>{notices.title}</b>
+              </Link>
+            </div>
+            <div>{notices.author}</div>
+            <div>{notices.date}</div>
+            <div>{notices.views}</div>
+          </div>
+        </PostItemBlock>
+      ))} */}
+    </>
+  );
 };
 
 const PostList = () => {
@@ -154,24 +277,8 @@ const PostList = () => {
           <Button>새 글 작성하기</Button>
         </Link>
       </WritePostButtonWrapper>
-      <List>
-        <ListInfo>
-          <div className="list_grid list_tit">
-            <div> 번호 </div>
-            <div> 제목 </div>
-            <div> 작성자 </div>
-            <div> 작성일 </div>
-            <div> 조회수 </div>
-          </div>
-        </ListInfo>
-        <div>
-          <PostItem />
-          {/*
-                    <PostItem />
-                    <PostItem />
-                    */}
-        </div>
-      </List>
+      <PostItem />
+      <PostDate />
     </PostListBlock>
   );
 };
