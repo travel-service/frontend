@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 //import axios from 'axios';
 import styled from 'styled-components';
 import StyledButton from 'components/common/Button';
-//import { useStore, useStore2 } from 'lib/store';
+import { useStore } from 'lib/store';
 
 const AllbuttonsDiv = styled.div`
   height: 50px;
@@ -32,62 +32,32 @@ const siteMap = ['setting', 'select', 'build', 'share'];
 
 const CanvasButtons = () => {
   const location = useLocation();
-  /*const { planPeriods, planConcept, planDepart, planDestination } = useStore2();
-  const { userPlan, postPlan } = useStore();*/
-
-  // location.pathname은 '/canvas/setting'
-  // const idx = siteMap.indexOf(location.pathname.substring(8));
+  const { postPlan } = useStore();
 
   const urlName = location.pathname.replace(/\/trablock\/canvas\//g, '');
-  const idx = siteMap.indexOf(urlName); // 0316 찬우 수정
+  const idx = siteMap.indexOf(urlName.substring(8)); //substring(8) 추가
 
   // 다음 버튼: post 에러로 patch 사용
-  /*const onClickSettingNextButton = (id) => {
-    const pid = id; //plan id
-    axios
-      .patch(`http://localhost:4000/travelPlans/${pid}`, {
-        //URL 수정
-        periods: planPeriods,
-        concept: planConcept,
-        startDay: planDepart,
-        destination: planDestination,
-      })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };*/
+  const onClickSettingNextButton = (id) => {
+    postPlan(id);
+  };
 
   const onClickNext = (idx) => {
-    /*idx === 0 ? onClickSettingNextButton(1) :*/ console.log('next');
+    idx === 0 ? onClickSettingNextButton(1) : console.log('next');
   };
   const onClickPrev = () => {
     console.log('prev');
-  };
-
-  const LastPageButton = () => {
-    alert('마지막 페이지입니다.');
   };
 
   return (
     <AllbuttonsDiv>
       <ButtonDiv>
         <ButtonDiv className="prev">
-          <Link
-            to={
-              process.env.PUBLIC_URL +
-              `/canvas/${idx === 0 ? siteMap[0] : siteMap[idx - 1]}`
-            }
-          >
-            <StyledButton
-              onClick={() => {
-                idx === 0 ? LastPageButton() : onClickPrev();
-              }}
-            >
-              &lt; 이전으로
-            </StyledButton>
+          {/*찬우님 코드*/}
+          <Link to={process.env.PUBLIC_URL + `/canvas/${siteMap[idx - 1]}`}>
+            {idx !== 0 && (
+              <StyledButton onClick={onClickPrev}> &lt; 이전으로</StyledButton>
+            )}
           </Link>
         </ButtonDiv>
         <ButtonDiv className="next">
@@ -97,17 +67,19 @@ const CanvasButtons = () => {
               `/canvas/${idx === 3 ? siteMap[3] : siteMap[idx + 1]}`
             }
           >
-            <StyledButton
-              onClick={() => {
-                idx === 3 ? LastPageButton() : onClickNext(idx);
-              }}
-            >
-              다음으로 &gt;
-            </StyledButton>
+            {idx !== 3 && (
+              <StyledButton
+                onClick={() => {
+                  onClickNext(idx);
+                }}
+              >
+                다음으로 &gt;
+              </StyledButton>
+            )}
           </Link>
         </ButtonDiv>
         <ButtonDiv className="exit">
-          <Link to="/">
+          <Link to="/trablock">
             <StyledButton onClick={() => console.log('나가기')}>
               저장하고 나가기
             </StyledButton>

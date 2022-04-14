@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import axios from 'axios';
 import Pencil from 'lib/Icons/Pencil';
+//import { useStore } from 'lib/store';
 
 const NamingDiv = styled.div`
   display: flex;
@@ -64,7 +65,7 @@ const PlanName = () => {
     console.log('저장');
   };
 
-  useEffect(() => {
+  /*useEffect(() => {
     axios
       .get('http://localhost:4000/travelPlans/1')
       .then(function (response) {
@@ -74,7 +75,7 @@ const PlanName = () => {
       .catch(function (error) {
         console.log(error);
       });
-  }, []);
+  }, []);*/
 
   const Naming = (e) => {
     setSaveName(e.target.value);
