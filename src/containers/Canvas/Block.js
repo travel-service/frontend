@@ -1,26 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import SelectArea from 'components/Canvas/BlockSelect/SelectArea'
+import SelectArea from 'components/Canvas/BlockSelect/SelectArea';
 import SelectedArea from 'components/Canvas/BlockSelect/SelectedArea';
-import Modal from '../../components/modal/modal';
 import axios from 'axios';
+import {sysLocStore, useStore} from '../../lib/store';
 
 const Block = () => {
-  const [globalLocations, setGlobalLocations] = useState(null);
+  // const [globalLocations, setGlobalLocations] = useState(null);
+
+  const { sysCateLoc, getSysLoc } = sysLocStore();
+  const { selCateLoc } = useStore();
 
   useEffect(() => {
-    const getData = async() => {
-      const globalLocationsResult = await axios.get(
-        'http://localhost:4000/locations',
-      );
-      setGlobalLocations(globalLocationsResult.data)
-    };
-    getData();
+    getSysLoc();
+    console.log(sysCateLoc);
+    console.log(selCateLoc);
   }, []);
+  
 
   return (
-    
     <>
-      {globalLocations && <SelectArea location={globalLocations} />}
+      {sysCateLoc && <SelectArea location={sysCateLoc} selLocs={selCateLoc}/>}
     </>
 
   );

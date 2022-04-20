@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import palette from '../../../lib/styles/palette';
 import Modal from '../../modal/modal';
-import useStore from './SelectedLocations';
+import {useStore} from '../../../lib/store';
+import BlockInfo from '../BlockInfo/BlockInfo';
 
 const BButton = styled.button`
   padding: 6px 12px;
@@ -34,7 +35,6 @@ const Img = styled.img`
 `;
 
 function Location ({location}) {
-  const [isSelect, setIsSelect] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
   const OpenModal = () => {
@@ -45,7 +45,7 @@ function Location ({location}) {
     setModalOpen(false);
   };
 
-  const {onAdd, remove} = useStore();
+  const {selCateLoc, onAdd, remove} = useStore();
 
   return (
     <Block>
@@ -59,15 +59,21 @@ function Location ({location}) {
       </BlockDiv>
       <BButton 
         onClick={() => {
-        setIsSelect(!isSelect)
-        console.log(location)
-        {isSelect ? remove(location.id) : onAdd(location)}
-        // onAdd(location)
+          console.log(location)
+          if (location.isSelect === false) {
+            onAdd(location, location.type)
+            location.isSelect = true
+          }
+          else {
+            remove(location.id, location.type);
+            location.isSelect = false
+          }
         } 
-      }>{isSelect ? '취소' : '선택'}</BButton>
-      {/* <button onClick={() => onAdd(location)}>test</button> */}
+      }>{location.isSelect ? '취소' : '선택'}</BButton>
+      <BButton onClick={() => {console.log(selCateLoc)}}>test</BButton>
       <Modal open={modalOpen} close={closeModal} header={location.name}>
         {location.info}
+        <BlockInfo type={location.type} id={location.id}/>
       </Modal>
     </Block>
   )

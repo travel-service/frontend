@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import palette from '../../../lib/styles/palette';
 import Modal from '../../modal/modal';
-import useStore from './SelectedLocations';
+import {useStore} from '../../../lib/store';
+import BlockInfo from '../BlockInfo/BlockInfo';
 
 const Block = styled.li`
   display: flex;
@@ -47,26 +48,27 @@ const SelectedLocations = ({selectedLocation}) => {
     const {remove} = useStore();
 
     return (
-        <Block>
-            <Img src={selectedLocation.image} alt="img" />
-            <BlockDiv onClick={OpenModal}>
-                {selectedLocation.name}
-                <br />
-                {selectedLocation.address}
-                <br />
-                {selectedLocation.tel}
-            </BlockDiv>
-            <BButton
-              onClick={() => {
-                console.log(selectedLocation.id)
-                remove(selectedLocation.id)
-                }
-              }>취소</BButton>
-            <Modal open={modalOpen} close={closeModal} header={selectedLocation.name}>
+      <Block>
+          <Img src={selectedLocation.image} alt="img" />
+          <BlockDiv onClick={OpenModal}>
+              {selectedLocation.name}
+              <br />
+              {selectedLocation.address}
+              <br />
+              {selectedLocation.tel}
+          </BlockDiv>
+          <BButton
+            onClick={() => {
+              console.log(selectedLocation.id)
+              remove(selectedLocation.id, selectedLocation.type)
+              }
+            }>취소</BButton>
+          <Modal open={modalOpen} close={closeModal} header={selectedLocation.name}>
             {selectedLocation.info}
-            </Modal>
-      </Block>
-    )
+            <BlockInfo type={selectedLocation.type} id={selectedLocation.id}/>
+          </Modal>
+    </Block>
+  )
 }
 
 const SelectedLocationList = ({ selectedLocations }) => {

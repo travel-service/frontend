@@ -1,18 +1,12 @@
-import Button from 'components/common/Button';
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import palette from '../../../lib/styles/palette';
 import LocationList from './LocationList'
 import SelectedLocationList from './SelectedLocationList';
-import useStore from './SelectedLocations';
+import {useStore} from '../../../lib/store';
 
 const ContentsArea = styled.div`
   padding: 3rem;
   background-color: black;
-  .area_grid {
-    display: grid;
-    grid-template-columns: 50% 50%;
-  }
 `
 
 const WhiteBox = styled.div`
@@ -35,30 +29,35 @@ const BlueBox = styled.div`
 `;
 
 
-const SelectArea = ({ location }) => {
+const SelectArea = ({ location, selLocs }) => {
 
-  const { attractions, restaurants, accommodations } = location
-
-  const {selectedLocations} = useStore();
+  const { Attractions, Restaurant, Lodge } = location
+  // const { selAttractions, selRestaurant, selLodge } = selLocs
+  
+  const { selLodge, selAttractions, selRestaurant } = useStore();
 
   return (
     <ContentsArea>
-      <div className='area_gird'>
-        <WhiteBox>
-          <div>관광지 블록</div>
-          <LocationList locations = {attractions} useStore = {useStore()}/>
-        </WhiteBox>
-        <WhiteBox>
-          <div>음식점 블록</div>
-          <LocationList locations = {restaurants} />
-        </WhiteBox>
-        <WhiteBox>
-          <div>숙소 블록</div>
-          <LocationList locations = {accommodations} />
-        </WhiteBox>
-      </div>
+      <WhiteBox>
+        <div>관광지 블록</div>
+        <LocationList locations = {Attractions}/>
+      </WhiteBox>
+      <WhiteBox>
+        <div>음식점 블록</div>
+        <LocationList locations = {Restaurant} />
+      </WhiteBox>
+      <WhiteBox>
+        <div>숙소 블록</div>
+        <LocationList locations = {Lodge} />
+      </WhiteBox>
       <BlueBox>
-        <SelectedLocationList selectedLocations = {selectedLocations} />
+        <SelectedLocationList selectedLocations = {selAttractions} />
+      </BlueBox>
+      <BlueBox>
+        <SelectedLocationList selectedLocations = {selLodge} />
+      </BlueBox>
+      <BlueBox>
+        <SelectedLocationList selectedLocations = {selRestaurant} />
       </BlueBox>
     </ContentsArea>
   );
