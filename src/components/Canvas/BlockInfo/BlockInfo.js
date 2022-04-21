@@ -43,7 +43,9 @@ const CultureInfo = (locationId) => {
             상세설명: {cultInfo.report}<br />
             주차여부: {cultInfo.parking}<br />
             휴일: {cultInfo.restDate}<br />
-            소요시간: {cultInfo.useTime}<br />
+            이용요금: {cultInfo.fee}<br />
+            이용시간: {cultInfo.useTime}<br />
+            소요시간: {cultInfo.spendTime}<br />
         </div>
     );
 };
@@ -64,9 +66,14 @@ const FestivalInfo = (locationId) => {
             전화: {festInfo.tel}<br />
             설명: {festInfo.summary}<br />
             상세설명: {festInfo.report}<br />
-            주차여부: {festInfo.parking}<br />
-            휴일: {festInfo.restDate}<br />
-            소요시간: {festInfo.useTime}<br />
+            시작일: {festInfo.startDate}<br />
+            종료일: {festInfo.endDate}<br />
+            홈페이지: {festInfo.homepage}<br />
+            장소: {festInfo.place}<br />
+            위치안내: {festInfo.placeInfo}<br />
+            공연시간: {festInfo.playTime}<br />
+            프로그램: {festInfo.programe}<br />
+            이용요금: {festInfo.fee}<br />
         </div>
     );
 };
@@ -87,9 +94,12 @@ const LeportsInfo = (locationId) => {
             전화: {lepoInfo.tel}<br />
             설명: {lepoInfo.summary}<br />
             상세설명: {lepoInfo.report}<br />
+            개장기간: {lepoInfo.openPeriod}<br />
             주차여부: {lepoInfo.parking}<br />
+            예약: {lepoInfo.reservation}<br />
             휴일: {lepoInfo.restDate}<br />
-            소요시간: {lepoInfo.useTime}<br />
+            이용요금: {lepoInfo.fee}<br />
+            이용시간: {lepoInfo.useTime}<br />
         </div>
     );
 };
@@ -110,9 +120,12 @@ const LodgeInfo = (locationId) => {
             전화: {lodgeInfo.tel}<br />
             설명: {lodgeInfo.summary}<br />
             상세설명: {lodgeInfo.report}<br />
+            체크인 시간: {lodgeInfo.checkInTime}<br />
+            체크아웃 시간: {lodgeInfo.checkOutTime}<br />
+            취사 여부: {lodgeInfo.chkCooking}<br />
             주차여부: {lodgeInfo.parking}<br />
-            휴일: {lodgeInfo.restDate}<br />
-            소요시간: {lodgeInfo.useTime}<br />
+            예약: {lodgeInfo.reservationUrl}<br />
+            부대시설: {lodgeInfo.subfacility}<br />
         </div>
     );
 };
@@ -133,9 +146,12 @@ const RestaurantInfo = (locationId) => {
             전화: {resInfo.tel}<br />
             설명: {resInfo.summary}<br />
             상세설명: {resInfo.report}<br />
+            인기메뉴: {resInfo.popularMenu}<br />
+            영업시간: {resInfo.openTime}<br />
+            포장여부: {resInfo.packing}<br />
             주차여부: {resInfo.parking}<br />
             휴일: {resInfo.restDate}<br />
-            소요시간: {resInfo.useTime}<br />
+            메뉴: {resInfo.menu}<br />
         </div>
     );
 };

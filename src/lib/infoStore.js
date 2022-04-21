@@ -61,7 +61,9 @@ export const infoStore = create((set) => ({
         report: "",
         parking: "",
         restDate: "",
-        useTime: ""
+        fee: "",
+        useTime: "",
+        spendTime: ""
     },
     festInfo: {
         name: "test",
@@ -72,9 +74,14 @@ export const infoStore = create((set) => ({
         tel: "",
         summary: "",
         report: "",
-        parking: "",
-        restDate: "",
-        useTime: ""
+        endDate: "",
+        homepage: "",
+        place: "",
+        startDate: "",
+        placeInfo: "",
+        playTime: "",
+        programe: "",
+        fee: "",
     },
     lepoInfo: {
         name: "test",
@@ -85,8 +92,11 @@ export const infoStore = create((set) => ({
         tel: "",
         summary: "",
         report: "",
+        openPeriod: "",
         parking: "",
+        reservation: "",
         restDate: "",
+        fee: "",
         useTime: ""
     },
     lodgeInfo: {
@@ -98,9 +108,12 @@ export const infoStore = create((set) => ({
         tel: "",
         summary: "",
         report: "",
+        checkInTime: "",
+        checkOutTime: "",
+        chkCooking: "",
         parking: "",
-        restDate: "",
-        useTime: ""
+        reservationUrl: "",
+        subfacility: ""
     },
     resInfo: {
         name: "test",
@@ -111,8 +124,11 @@ export const infoStore = create((set) => ({
         tel: "",
         summary: "",
         report: "",
+        popularMenu: "",
+        openTime: "",
+        packing: "",
         parking: "",
         restDate: "",
-        useTime: ""
+        menu: ""
     },
 }))
