@@ -4,35 +4,53 @@ import create from 'zustand';
 export const useStore = create((set, get) => ({
   userPlan: {
     // db 전용
-    //id: '',
-    concept: [],
-    depart: '2022/03/30',
+    id: '',
+    depart: '',
     destination: '',
     name: '',
-    periods: '1',
+    periods: 1,
     planStatus: 'MAIN',
-    thumbnail: {}, // FormData, 배열 형식
-    //travelDays: [],
+    thumbnail: [], // FormData, 이름
+    //concept: [],
+    //travelDay: [],
     //dbSelectedLocations: [], // 변수 확인, id값만 담기는 배열
   },
-
+  userPlanConcept: {
+    concept: [],
+  },
+  Concepts: [
+    { id: 1, name: '우정', eword: 'Friendship' },
+    { id: 2, name: '연인', eword: 'Love' },
+    { id: 3, name: '가족', eword: 'Family' },
+    { id: 4, name: '혼자', eword: 'Alone' },
+  ],
+  userTravelDay: {
+    travelDay: [],
+  },
+  setName: (input) => {
+    set((state) => ({ userPlan: { ...state.userPlan, name: input } }));
+  },
   setPeriods: (input) => {
-    // periods 만큼 길이로 배열 생성
-    const arr = Array.from(
-      { length: input },
-      (n = undefined, i) => `${i + 1}일차`,
-    );
+    const userTravelDay = get().userTravelDay;
+    let arr = [];
+    arr = Array.from({ length: input }, (_, i) => []);
+
+    // travelDay 이미 있는 경우
+    if (userTravelDay.travelDay === []) {
+      arr = userTravelDay.travelDay;
+    }
+
     set((state) => ({
       userPlan: { ...state.userPlan, periods: input },
+      userTravelDay: { ...state.userTravelDay, travelDay: arr },
     }));
   },
   setConcept: (input) => {
     set((state) => ({
-      userPlan: { ...state.userPlan, concept: input },
+      userPlanConcept: { ...state.userPlanConcept, concept: input },
     }));
   },
   setDepart: (input) => {
-    console.log(input);
     const pD =
       input.getFullYear() +
       '/' +
@@ -78,25 +96,41 @@ export const useStore = create((set, get) => ({
 
   // GET userPlan
   getPlan: async (id) => {
+    //const userPlan = get().userPlan;
     const response = await axios.get(`http://localhost:4000/travelPlans/${id}`);
-    set({ userPlan: response.data });
+    //const response = await axios.get(`http://localhost:4000/travelPlans/1`);
+    set({ userPlan: response.data.planForm });
+    set({ userPlanConcept: response.data.conceptForm });
+    set({ userTravelDay: response.data.dayForm });
+    console.log(response); // 성공하면 success
   },
 
   // POST userPlan
   postPlan: async (id) => {
     // 매개변수 id는 userPlan id
     const userPlan = get().userPlan;
+    const userPlanConcept = get().userPlanConcept;
+    const userTravelDay = get().userTravelDay;
     if (id === '') {
       const response = await axios.post(`http://localhost:4000/travelPlans/`, {
-        // userPlan
+        /*...userPlan,*/
+        planForm: userPlan,
+        conceptForm: userPlanConcept,
+        dayForm: userTravelDay,
       });
-      set({ userPlan: response.data }); // 백에서 보내주는 데이터가 userPlan
+      //set({ userPlan: response.data }); // 백에서 보내주는 데이터가 userPlan
       console.log(response);
     } else {
-      const response = await axios.post(`http://localhost:4000/travelPlans/`, {
-        //const response = await axios.post(`/members/1/plan`, {
-        ...userPlan,
-      });
+      //const response = await axios.post(`/members/1/plan`, {
+      //test용 patch..
+      const response = await axios.patch(
+        `http://localhost:4000/travelPlans/${id}`,
+        {
+          planForm: userPlan,
+          conceptForm: userPlanConcept,
+          dayForm: userTravelDay,
+        },
+      );
       console.log(response); // 성공하면 success
     }
   },

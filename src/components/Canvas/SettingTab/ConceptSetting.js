@@ -11,6 +11,10 @@ const ConceptSettingDiv = styled.div`
   margin-left: 30px;
   width: 40%;
   height: 180px;
+  @media only screen and (max-width: 800px) {
+    width: 80%;
+    height: 100px;
+  }
 `;
 const TooltipButton = styled.button`
   margin-left: 10px;
@@ -33,21 +37,15 @@ const ElementDiv = styled.li`
   list-style: none;
   width: 20%;
 `;
-const Concepts = [
-  { id: 1, name: '우정', eword: 'Friendship' },
-  { id: 2, name: '연인', eword: 'Lover' },
-  { id: 3, name: '가족', eword: 'Family' },
-  { id: 4, name: '혼자', eword: 'Alone' },
-];
 
 export const ConceptSetting = () => {
-  const { userPlan, setConcept } = useStore();
+  const { userPlanConcept, Concepts, setConcept } = useStore();
 
   const onClickConcept = (checked, word) => {
     if (checked) {
-      setConcept([...userPlan.concept, word]);
+      setConcept([...userPlanConcept.concept, word]);
     } else {
-      setConcept(userPlan.concept.filter((el) => el !== word));
+      setConcept(userPlanConcept.concept.filter((el) => el !== word));
     }
   };
 
@@ -74,6 +72,9 @@ export const ConceptSetting = () => {
                 onChange={(e) => {
                   onClickConcept(e.target.checked, `${item.eword}`);
                 }}
+                checked={
+                  userPlanConcept.concept.includes(item.eword) ? true : false
+                }
               />{' '}
               {item.name}
             </ElementDiv>

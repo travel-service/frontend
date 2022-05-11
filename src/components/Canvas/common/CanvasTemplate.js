@@ -1,5 +1,5 @@
 import React from 'react';
-import CanvasMenu from './CanvasMenu';
+//import CanvasMenu from './CanvasMenu';
 import styled from 'styled-components';
 import CanvasButtons from './CanvasButtons';
 
@@ -18,7 +18,7 @@ const Div = styled.div`
 const CanvasTemplate = ({ children }) => {
   return (
     <Container>
-      <CanvasMenu />
+      {/*<CanvasMenu />*/}
       <Div>
         {/* <ButtonContainer>{children}</ButtonContainer> */}
         {children}

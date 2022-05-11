@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-//import axios from 'axios';
 import styled from 'styled-components';
 import StyledButton from 'components/common/Button';
 import { useStore } from 'lib/store';
@@ -37,23 +36,25 @@ const CanvasButtons = () => {
   const urlName = location.pathname.replace(/\/trablock\/canvas\//g, '');
   const idx = siteMap.indexOf(urlName.substring(8)); //substring(8) 추가
 
-  // 다음 버튼: post 에러로 patch 사용
-  const onClickSettingNextButton = (id) => {
-    postPlan(id);
+  const onClickSettingNextButton = () => {
+    postPlan(2);
   };
 
   const onClickNext = (idx) => {
-    idx === 0 ? onClickSettingNextButton(1) : console.log('next');
+    idx === 0 ? onClickSettingNextButton() : console.log('next');
   };
   const onClickPrev = () => {
     console.log('prev');
+  };
+  const onClickExit = () => {
+    postPlan(1);
+    console.log('저장하고 나가기');
   };
 
   return (
     <AllbuttonsDiv>
       <ButtonDiv>
         <ButtonDiv className="prev">
-          {/*찬우님 코드*/}
           <Link to={process.env.PUBLIC_URL + `/canvas/${siteMap[idx - 1]}`}>
             {idx !== 0 && (
               <StyledButton onClick={onClickPrev}> &lt; 이전으로</StyledButton>
@@ -70,7 +71,7 @@ const CanvasButtons = () => {
             {idx !== 3 && (
               <StyledButton
                 onClick={() => {
-                  onClickNext(idx);
+                  onClickNext(0);
                 }}
               >
                 다음으로 &gt;
@@ -79,8 +80,13 @@ const CanvasButtons = () => {
           </Link>
         </ButtonDiv>
         <ButtonDiv className="exit">
-          <Link to="/trablock">
-            <StyledButton onClick={() => console.log('나가기')}>
+          <Link to="/">
+            {/*trablock*/}
+            <StyledButton
+              onClick={() => {
+                onClickExit();
+              }}
+            >
               저장하고 나가기
             </StyledButton>
           </Link>

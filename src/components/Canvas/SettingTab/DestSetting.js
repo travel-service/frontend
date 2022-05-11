@@ -23,6 +23,7 @@ const DestinationSettingDiv = styled.div`
   height: 350px;
   width: 95%;
 `;
+//탭 메뉴
 const TabMenu = styled.ul`
   background: white;
   height: 12%;
@@ -52,29 +53,33 @@ const TabMenu = styled.ul`
   }
 `;
 //탭내용
-const Desc = styled.ul`
+const TabInner = styled.ul`
   background: white;
   display: flex;
   flex-flow: row wrap;
-  justify-items: center;
-  height: 80%;
+  //justify-items: center;
+  //justify-content: space-evenly;
+  height: 235px; //80%;;
   margin-top: 5px;
-  margin-bottom: 0;
-  padding: 20px;
+  padding: 15px;
   list-style: none;
   border: 1px solid;
+  overflow: auto;
   .submenu {
-    flex: 0 1 19%;
+    //flex: 0 1 300px;
+    flex: 0 1 18.7%;
     align-self: flex-start;
+    margin: 10px;
     cursor: pointer;
     text-align: center;
     border: 1px solid gray;
+    height: 180px;
   }
   .focused {
     //background-color: ${oc.teal[3]};
     background-color: rgb(109, 144, 176);
     color: white;
-    height: 100%;
+    //height: 100%;
     align-items: center;
   }
 `;
@@ -87,20 +92,21 @@ const TabDiv = styled.div`
 
 const tabTitle = ['인기', '국내'];
 const DestinationArr = {
-  0: ['제주도'],
-  1: ['제주도'],
+  0: ['제주도', '어딘가', '여기도', '좋아요'],
+  1: ['제주도', '서울', '부산', '대전', '인천', '어딘가', '여기도', '좋아요'],
 };
 
 export const DestSetting = () => {
-  const { setDestination } = useStore();
-
+  const { userPlan, setDestination } = useStore();
   const [activeTab, setActiveTab] = useState(0);
-  const [activeDest, setActiveDest] = useState(0);
-  const onClickTab = (idx) => {
-    setActiveTab(idx);
+  //const [activeDest, setActiveDest] = useState(0);
+
+  const onClickTab = (tabIdx) => {
+    setActiveTab(tabIdx);
   };
-  const onClickDestination = (destination, idx2) => {
-    setActiveDest(idx2);
+  const onClickDestination = (destination /*, destIdx*/) => {
+    console.log(destination);
+    //setActiveDest(destIdx);
     setDestination(destination);
   };
 
@@ -119,35 +125,42 @@ export const DestSetting = () => {
       </ReactTooltip>
       <TabDiv>
         <TabMenu>
-          {tabTitle.map((el, idx) => {
+          {tabTitle.map((el, tabIdx) => {
             return (
               <li
-                key={idx}
+                key={tabIdx}
                 className={`${
-                  idx === activeTab ? 'submenu focused' : 'submenu'
+                  tabIdx === activeTab ? 'submenu focused' : 'submenu'
                 }`}
-                onClick={() => onClickTab(idx)}
+                onClick={() => onClickTab(tabIdx)}
               >
                 {el}
               </li>
             );
           })}
         </TabMenu>
-        <Desc>
-          {DestinationArr[activeTab].map((destination, idx2) => {
+        <TabInner>
+          {DestinationArr[activeTab].map((dest, destIdx) => {
             return (
               <li
-                key={idx2}
+                key={destIdx}
                 className={`${
-                  idx2 === activeDest ? 'submenu focused' : 'submenu'
+                  userPlan.destination !== ''
+                    ? DestinationArr[activeTab].indexOf(
+                        userPlan.destination,
+                      ) === destIdx
+                      ? 'submenu focused'
+                      : 'submenu'
+                    : 'submenu'
                 }`}
-                onClick={() => onClickDestination(destination, idx2)}
+                //onClick={() => onClickDestination(dest, destIdx)}
+                onClick={() => onClickDestination(dest)}
               >
-                {destination}
+                {dest}
               </li>
             );
           })}
-        </Desc>
+        </TabInner>
       </TabDiv>
     </DestinationSettingDiv>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { /*useEffect,*/ useState } from 'react';
 import { useStore } from 'lib/store';
 import ReactTooltip from 'react-tooltip';
 import styled from 'styled-components';
@@ -8,10 +8,13 @@ const TitleSpan = styled.span`
   font-size: 1.2em;
 `;
 const ThumbnailSettingDiv = styled.div`
-  position: relative;
-  margin-top: 10px;
-  margin-left: 10%;
-  height: 180px;
+  margin-left: 30px;
+  @media only screen and (min-width: 800px) {
+    margin-left: 10%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 180px;
+  }
 `;
 const TooltipButton = styled.button`
   margin: 0;
@@ -59,7 +62,7 @@ const StyledFile = styled.label`
 `;
 
 export const ImageSetting = () => {
-  const { setThumbnail } = useStore();
+  const { userPlan, setThumbnail } = useStore();
   const [imgData, setImgData] = useState(null);
 
   const insertImg = (e) => {
@@ -69,28 +72,43 @@ export const ImageSetting = () => {
     }
 
     reader.onloadend = () => {
+      const previewImgBase64 = reader.result;
+      console.log(previewImgBase64);
+
+      if (previewImgBase64) {
+        const formData = new FormData();
+        formData.append('file', e.target.files[0].name);
+        //console.log(formData.getAll('file'));
+        setThumbnail(formData);
+        setImgData(previewImgBase64);
+      }
+    };
+    console.log(userPlan.thumbnail);
+  };
+  /*const insertImg = (e) => {
+    let reader = new FileReader();
+    if (e.target.files[0]) {
+      reader.readAsDataURL(e.target.files[0]);
+    }
+
+    reader.onloadend = () => {
       const previewImgUrl = reader.result;
-      //console.log(previewImgUrl);
+      console.log(e.target.files[0].name);
 
       if (previewImgUrl) {
         const formData = new FormData();
-        formData.append('file', previewImgUrl);
-        /*Object.values(previewImgUrl).forEach((file) =>
-          formData.append('file', file),
-        );*/
-        /*for (var value of formData.values()) {
-          console.log(value);
-        }*/
+        formData.append('file', e.target.files[0]);
+        //formData.append('file', previewImgUrl);
         setThumbnail(formData);
         setImgData(previewImgUrl);
       }
+      console.log(userPlan.thumbnail);
     };
-  };
+  };*/
   const deleteImg = () => {
     setImgData(null);
     setThumbnail([]);
   };
-  //console.log(userPlan.thumbnail);
 
   return (
     <ThumbnailSettingDiv>
@@ -108,7 +126,13 @@ export const ImageSetting = () => {
       </ReactTooltip>
       <ThumbnailboxDiv>
         <PreviewboxDiv uploading={false}>
-          <img src={imgData} alt="미리보기" height="130" />
+          <img
+            src={
+              imgData ? imgData : userPlan.thumbnail ? userPlan.thumbnail : null
+            }
+            alt="이미지 미리보기"
+            height="130"
+          />
         </PreviewboxDiv>
         <PreviewboxDiv uploading={true}>
           <form encType="multipart/form-data">
