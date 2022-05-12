@@ -21,7 +21,6 @@ const buttonStyle = css`
     /* 마우스 클릭시 아래로 미세하게 움직임 */
     transform: translateY(3px);
   }
-
   ${(props) =>
     props.fullWidth &&
     css`
@@ -31,7 +30,6 @@ const buttonStyle = css`
       font-size: 1.125rem;
       color: white;
     `}
-
   ${(props) =>
     props.cyan &&
     css`

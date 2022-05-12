@@ -28,6 +28,9 @@ const Header = ({ user, onLogout }) => {
         <Button2 onClick={openModal}>Go Plan</Button2>
         <Button2 to="/about">About</Button2>
         <Button2 to="/contact">Contact</Button2>
+        <Button2 to={process.env.PUBLIC_URL + '/notice/noticeList'}>
+          Notice
+        </Button2>
       </Div>
       <ModalModule
         modalIsOpen={modalIsOpen}

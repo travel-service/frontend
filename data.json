@@ -3,15 +3,15 @@
     {
       "id": 1,
       "planForm": {
-        "depart": "2022/12/15",
-        "destination": "제주도",
+        "depart": "2022/01/16",
+        "destination": "어딘가",
         "name": "새로운 여행",
-        "periods": 2,
+        "periods": 4,
         "planStatus": "MAIN",
         "thumbnail": "https://ifh.cc/g/qrVZrf.png"
       },
       "conceptForm": {
-        "concept": ["Love"]
+        "concept": ["Love", "Family", "Alone"]
       },
       "selectedLocationForm": {
         "selectedLocation": [5, 6, 7]
@@ -20,75 +20,93 @@
         "travelDay": [
           [
             {
-              "id": 5,
-              "copyLocationId": "13-1",
+              "id": 2,
+              "type": "1",
+              "name": "만장굴",
+              "address": "주소",
+              "tel": "010-1234-5678",
+              "category": "관광지",
+              "info": "제주도의 만장굴입니다",
+              "image": "https://i.ibb.co/GFX3TZr/image.jpg",
+              "isSelect": true,
+              "copyLocationId": "f788a-e144-3fcc-2a50-b420c0ea27",
               "movingData": {
-                "startTime": "12:3",
-                "stayTime": "14124",
-                "vehicle": "car124",
-                "movingTime": "1:12300"
+                "startTime": "",
+                "stayTime": "",
+                "vehicle": "",
+                "movingTime": "",
+                "arriveTime": ""
               }
             },
             {
-              "id": 6,
-              "copyLocationId": "13-1",
+              "id": 2,
+              "type": "1",
+              "name": "만장굴",
+              "address": "주소",
+              "tel": "010-1234-5678",
+              "category": "관광지",
+              "info": "제주도의 만장굴입니다",
+              "image": "https://i.ibb.co/GFX3TZr/image.jpg",
+              "isSelect": true,
+              "copyLocationId": "4df6dfd-7c4b-36be-85ca-f6c850527ad",
               "movingData": {
-                "startTime": "12:3",
-                "stayTime": "14124",
-                "vehicle": "car124",
-                "movingTime": "1:12300"
-              }
-            },
-            {
-              "id": 7,
-              "copyLocationId": "13-1",
-              "movingData": {
-                "startTime": "12:3",
-                "stayTime": "14124",
-                "vehicle": "car124",
-                "movingTime": "1:12300"
+                "startTime": "",
+                "stayTime": "",
+                "vehicle": "",
+                "movingTime": "",
+                "arriveTime": ""
               }
             }
           ],
           [
             {
-              "id": 8,
-              "copyLocationId": "13-1",
+              "id": 1,
+              "type": "1",
+              "name": "한라산",
+              "address": "주소",
+              "tel": "010-1234-5678",
+              "category": "관광지",
+              "info": "제주도의 대표적인 산인 한라산입니다",
+              "image": "https://i.ibb.co/zJMMHVD/image.jpg",
+              "isSelect": true,
+              "copyLocationId": "d2c0dce-fec5-6c34-5075-d2b307d10a4",
               "movingData": {
-                "startTime": "12:3",
-                "stayTime": "14124",
-                "vehicle": "car124",
-                "movingTime": "1:12300"
+                "startTime": "",
+                "stayTime": "",
+                "vehicle": "",
+                "movingTime": "",
+                "arriveTime": ""
               }
             },
             {
-              "id": 9,
-              "copyLocationId": "13-1",
+              "id": 1,
+              "type": "1",
+              "name": "한라산",
+              "address": "주소",
+              "tel": "010-1234-5678",
+              "category": "관광지",
+              "info": "제주도의 대표적인 산인 한라산입니다",
+              "image": "https://i.ibb.co/zJMMHVD/image.jpg",
+              "isSelect": true,
+              "copyLocationId": "3755148-5f62-602-45d6-ce2326625843",
               "movingData": {
-                "startTime": "12:3",
-                "stayTime": "14124",
-                "vehicle": "car124",
-                "movingTime": "1:12300"
-              }
-            },
-            {
-              "id": 10,
-              "copyLocationId": "13-1",
-              "movingData": {
-                "startTime": "12:3",
-                "stayTime": "14124",
-                "vehicle": "car124",
-                "movingTime": "1:12300"
+                "startTime": "",
+                "stayTime": "",
+                "vehicle": "",
+                "movingTime": "",
+                "arriveTime": ""
               }
             }
-          ]
+          ],
+          [],
+          []
         ]
       }
     },
     {
       "id": 2,
       "planForm": {
-        "depart": "2022/12/15",
+        "depart": "2022/01/16",
         "destination": "어딘가",
         "name": "새로운 여행",
         "periods": 4,
@@ -96,13 +114,96 @@
         "thumbnail": "https://ifh.cc/g/qrVZrf.png"
       },
       "conceptForm": {
-        "concept": ["Love", "Family"]
+        "concept": ["Love", "Family", "Alone"]
       },
       "selectedLocationForm": {
         "selectedLocation": []
       },
       "dayForm": {
-        "travelDay": [[], [], [], []]
+        "travelDay": [
+          [
+            {
+              "id": 2,
+              "type": "1",
+              "name": "만장굴",
+              "address": "주소",
+              "tel": "010-1234-5678",
+              "category": "관광지",
+              "info": "제주도의 만장굴입니다",
+              "image": "https://i.ibb.co/GFX3TZr/image.jpg",
+              "isSelect": true,
+              "copyLocationId": "f788a-e144-3fcc-2a50-b420c0ea27",
+              "movingData": {
+                "startTime": "",
+                "stayTime": "",
+                "vehicle": "",
+                "movingTime": "",
+                "arriveTime": ""
+              }
+            },
+            {
+              "id": 2,
+              "type": "1",
+              "name": "만장굴",
+              "address": "주소",
+              "tel": "010-1234-5678",
+              "category": "관광지",
+              "info": "제주도의 만장굴입니다",
+              "image": "https://i.ibb.co/GFX3TZr/image.jpg",
+              "isSelect": true,
+              "copyLocationId": "4df6dfd-7c4b-36be-85ca-f6c850527ad",
+              "movingData": {
+                "startTime": "",
+                "stayTime": "",
+                "vehicle": "",
+                "movingTime": "",
+                "arriveTime": ""
+              }
+            }
+          ],
+          [
+            {
+              "id": 1,
+              "type": "1",
+              "name": "한라산",
+              "address": "주소",
+              "tel": "010-1234-5678",
+              "category": "관광지",
+              "info": "제주도의 대표적인 산인 한라산입니다",
+              "image": "https://i.ibb.co/zJMMHVD/image.jpg",
+              "isSelect": true,
+              "copyLocationId": "d2c0dce-fec5-6c34-5075-d2b307d10a4",
+              "movingData": {
+                "startTime": "",
+                "stayTime": "",
+                "vehicle": "",
+                "movingTime": "",
+                "arriveTime": ""
+              }
+            },
+            {
+              "id": 1,
+              "type": "1",
+              "name": "한라산",
+              "address": "주소",
+              "tel": "010-1234-5678",
+              "category": "관광지",
+              "info": "제주도의 대표적인 산인 한라산입니다",
+              "image": "https://i.ibb.co/zJMMHVD/image.jpg",
+              "isSelect": true,
+              "copyLocationId": "3755148-5f62-602-45d6-ce2326625843",
+              "movingData": {
+                "startTime": "",
+                "stayTime": "",
+                "vehicle": "",
+                "movingTime": "",
+                "arriveTime": ""
+              }
+            }
+          ],
+          [],
+          []
+        ]
       }
     }
   ],

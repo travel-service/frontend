@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import BuildBlockForm from 'containers/Canvas/BuildBlockForm';
 import TravelSettingForm from 'containers/Canvas/TravelSettingForm';
-// import PlanName from './PlanName';
 import Block from 'containers/Canvas/Block';
 
 const CanvasDiv = styled.div`
