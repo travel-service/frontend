@@ -3,8 +3,7 @@ import styled from 'styled-components';
 import palette from 'lib/styles/palette';
 import Responsive from 'components/common/Responsive';
 import Button from 'components/common/NoticeButton';
-import { Link, useParams, useLocation } from 'react-router-dom';
-import noticedata from '../../noticeData.json';
+import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const PostViewerBlock = styled(Responsive)`
@@ -31,19 +30,6 @@ const SubInfo = styled.div`
     padding-left: 0.25rem;
     padding-right: 0.25rem;
     content: '\\B7';
-  }
-`;
-
-const Tags = styled.div`
-  margin-top: 0.5rem;
-  .tag {
-    display: inline-block;
-    color: ${palette.cyan[7]};
-    text-decoration: none;
-    margin-right: 0.5rem;
-    &:hover {
-      color: ${palette.cyan[6]};
-    }
   }
 `;
 
@@ -83,12 +69,6 @@ const NoticeViewer = () => {
 
   if (!test) return null;
 
-  //const notice = viewList[0];
-  /* const viewList = noticedata.notices.filter(
-    (notices) => notices.numId === Number(numId),
-  );
-  const notice = viewList[0]; */
-  // const viewList = useLocation();
   const viewList = test.filter((t) => t.numId === Number(numId));
   console.log(viewList);
   if (!viewList[0]) {

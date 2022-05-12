@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Responsive from 'components/common/Responsive';
-import Button from 'components/common/NoticeButton';
 import palette from 'lib/styles/palette';
-// import PaginationContainer from "../../containers/noitces/PaginationContainer";
 import { Link } from 'react-router-dom';
-import noticedata from '../../noticeData.json';
 import axios from 'axios';
 import Pagination from 'components/Notice/Pagination';
-import { Grid } from '@mui/material';
-import { flexbox } from '@mui/system';
 
 const PostListBlock = styled(Responsive)`
   margin-top: 3rem;
@@ -17,14 +12,6 @@ const PostListBlock = styled(Responsive)`
 
 const PageHeader = styled.div`
   text-align: center;
-`;
-
-const WritePostButtonWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  padding-bottom: 1rem;
-  margin-bottom: 1rem;
-  border-bottom: 1px solid ${palette.gray[5]};
 `;
 
 const PostItemBlock = styled.div`
@@ -50,29 +37,6 @@ const PostItemBlock = styled.div`
   }
 `;
 
-const SubInfo = styled.div`
-  color: ${palette.gray[6]};
-
-  span + span:before {
-    color: ${palette.gray[4]};
-    padding-left: 0.25rem;
-    padding-right: 0.25rem;
-    content: '\\B7';
-  }
-`;
-
-const Tags = styled.div`
-  margin-top: 0.5rem;
-  .tag {
-    display: inline-block;
-    color: ${palette.cyan[7]};
-    text-decoration: none;
-    margin-right: 0.5rem;
-    &:hover {
-      color: ${palette.cyan[6]};
-    }
-  }
-`;
 /*list_tit: color: #ababab;*/
 const List = styled.div`
   padding: 3rem;
@@ -116,15 +80,10 @@ const PageN = styled.div`
     display: inline-block;
     background: #dedede;
     overflow: hidden;
-  }
-  .pagination li a {
-    text-decoration: none;
-    width: 10px;
-    height: 10px;
-    padding: 10px;
-  }
-  .pagination li a:foucus {
-    background-color: #808000;
+    :hover {
+      background-color: #ffa8a8;
+      border: 1px solid #ffc9c9;
+    }
   }
 `;
 
@@ -134,6 +93,7 @@ const Listnum = styled.div`
     padding: 10px;
   }
 `;
+
 const PostDate = () => {
   const [test, setTest] = useState('');
   const [loading, setLoading] = useState(false);
@@ -176,25 +136,8 @@ const PostDate = () => {
     </>
   );
 };
+
 const PostItem = ({ test, loading, postnum }) => {
-  /* const [test, setTest] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  const getData = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get('http://localhost:4000/notices');
-      setTest(response.data);
-    } catch (e) {
-      console.log(e);
-    }
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    getData();
-  }, []); */
-
   if (loading) {
     return <PostItemBlock>Loading...</PostItemBlock>;
   }
@@ -219,7 +162,6 @@ const PostItem = ({ test, loading, postnum }) => {
             <div> 조회수 </div>
           </div>
         </ListInfo>
-        {test && console.log(test)}
         {test.map((t) => (
           <PostItemBlock key={t.id}>
             <div className="list_grid">
@@ -241,27 +183,6 @@ const PostItem = ({ test, loading, postnum }) => {
           </PostItemBlock>
         ))}
       </List>
-      {/* {noticedata.notices.map((notices) => (
-        <PostItemBlock>
-          <div className="list_grid">
-            <div>{notices.numId}</div>
-            <div className="title">
-              <Link
-                style={{ textDecoration: 'none', color: 'black' }}
-                to={
-                  process.env.PUBLIC_URL +
-                  `/notice/noticeViewer/${notices.numId}`
-                }
-              >
-                <b>{notices.title}</b>
-              </Link>
-            </div>
-            <div>{notices.author}</div>
-            <div>{notices.date}</div>
-            <div>{notices.views}</div>
-          </div>
-        </PostItemBlock>
-      ))} */}
     </>
   );
 };
@@ -272,11 +193,6 @@ const PostList = () => {
       <PageHeader>
         <h1>공지사항</h1>
       </PageHeader>
-      <WritePostButtonWrapper>
-        <Link to={process.env.PUBLIC_URL + '/notice/write'}>
-          <Button>새 글 작성하기</Button>
-        </Link>
-      </WritePostButtonWrapper>
       <PostItem />
       <PostDate />
     </PostListBlock>
