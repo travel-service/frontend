@@ -2,7 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import BuildBlockForm from 'containers/Canvas/BuildBlockForm';
 import TravelSettingForm from 'containers/Canvas/TravelSettingForm';
-import PlanName from './PlanName';
+// import PlanName from './PlanName';
+import Block from 'containers/Canvas/Block';
 
 const CanvasDiv = styled.div`
   /* position: absolute; */
@@ -20,27 +21,15 @@ const CanvasDiv = styled.div`
   /* width: 100%; */
 `;
 
-const H1 = styled.div`
-  /* font-size: $font-lg; */
-  font-size: 30px;
-`;
-
-const textMap = {
-  setting: '여행 설정',
-  select: '블록 선택',
-  build: '여행 캔버스',
-  share: '여행 공유',
-};
-
 const CanvasForm = ({ type }) => {
-  const text = textMap[type];
+  // const text = textMap[type];
 
   return (
     <CanvasDiv>
       {/* <H1>{text}</H1> */}
       {/* <PlanName /> 어디에 넣을지.. */}
       {type === 'setting' && <TravelSettingForm />}
-      {/* {type === 'select' && <TravelSettingForm />} */}
+      {type === 'select' && <Block />}
       {type === 'build' && <BuildBlockForm />}
       {/* {type === 'share' && <TravelSettingForm />} */}
     </CanvasDiv>

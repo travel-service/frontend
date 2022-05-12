@@ -21,29 +21,31 @@ export const changeField = createAction(
   CHANGE_FIELD,
   ({ form, key, value }) => ({
     form, // login, signup
-    key, // username, password, name ..
+    key, // userName, password, name ..
     value,
   }),
 );
 
+// createAction(타입, 현재 상태)
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => form); // signup, login
+// export const initializeForm = (form) => ({type: INITIALIZE_FORM, form})
 
 export const signup = createAction(
   SIGNUP,
   ({
-    username,
+    userName,
     password,
     realName,
-    nickname,
+    nickName,
     birthday,
     phoneNum,
     gender,
     email,
   }) => ({
-    username,
+    userName,
     password,
     realName,
-    nickname,
+    nickName,
     birthday,
     phoneNum,
     gender,
@@ -51,8 +53,8 @@ export const signup = createAction(
   }),
 );
 
-export const login = createAction(LOGIN, ({ username, password }) => ({
-  username,
+export const login = createAction(LOGIN, ({ userName, password }) => ({
+  userName,
   password,
 }));
 // export const login = ({ type: LOGIN });
@@ -70,18 +72,18 @@ export function* authSaga() {
 const initialState = {
   // 불변성 유지하면서 객체 수정
   signup: {
-    username: '',
+    userName: '',
     password: '',
     passwordCheck: '',
     realName: '',
-    nickname: '',
+    nickName: '',
     birthday: '',
     phoneNum: '',
     gender: '',
     email: '',
   },
   login: {
-    username: '',
+    userName: '',
     password: '',
   },
   auth: null,
@@ -98,6 +100,18 @@ const initialState = {
 //   }
 // }
 
+// const auth = (state = initState, action) => {
+//   switch (action.type) {
+//     case CHANGE_USER:
+//       return { ...state, user: action.user };
+//   }
+// };
+
+// import { handleActions } from 'redux-actions';
+// const reducer = handleActions({
+//   [CHANGE_USER]: (state, action) => ({ ...state, user: action.user }),
+// });
+
 const auth = handleActions(
   {
     [CHANGE_FIELD]: (
@@ -105,7 +119,7 @@ const auth = handleActions(
       { payload: { form, key, value } }, // action 대신 구조분해, action.payload.form, key.. 호출
     ) =>
       produce(state, (draft) => {
-        draft[form][key] = value; // ex. state.signup.username
+        draft[form][key] = value; // ex. state.signup.userName
       }),
     [INITIALIZE_FORM]: (state, { payload: form }) => ({
       ...state,

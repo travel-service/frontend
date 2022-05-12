@@ -3,11 +3,9 @@ import Modal from 'react-modal';
 import styled from 'styled-components';
 import Close from 'lib/Icons/Close';
 import 'lib/styles/Modal.css';
-import Map from 'components/Canvas/BuildTab/Map';
 import SearchPlace from 'components/Canvas/BuildTab/Map/SearchPlace';
 
 const Header = styled.div`
-  /* width: 350px; */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -17,7 +15,6 @@ const Header = styled.div`
 `;
 
 const MapHeader = styled.div`
-  /* width: 350px; */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -36,7 +33,6 @@ const Section = styled.section`
 
 const Section2 = styled.section`
   margin-right: 20px;
-  /* margin-left: -150px; */
   border-radius: 0.3rem;
   background-color: #fff;
   animation: modal-show 0.3s;
@@ -50,7 +46,15 @@ const Btn = styled.div`
   text-align: right;
 `;
 
-const ModalModule = ({ modalIsOpen, closeModal, children, title, map }) => {
+const ModalModule = ({
+  modalIsOpen,
+  closeModal,
+  children,
+  title,
+  map,
+  onSubmit,
+  day,
+}) => {
   return (
     <Modal
       className={modalIsOpen ? 'openModal modal' : 'modal'}
@@ -64,7 +68,7 @@ const ModalModule = ({ modalIsOpen, closeModal, children, title, map }) => {
         </Header>
         <main>{children}</main>
         <Btn>
-          <button onClick={closeModal}>확인</button>
+          <button onClick={onSubmit}>확인</button>
         </Btn>
       </Section>
       {map && (
@@ -75,7 +79,7 @@ const ModalModule = ({ modalIsOpen, closeModal, children, title, map }) => {
           </MapHeader>
           <SearchPlace />
           <Btn>
-            <button onClick={closeModal}>닫기</button>
+            <button onClick={onSubmit}>닫기</button>
           </Btn>
         </Section2>
       )}
@@ -101,7 +105,7 @@ const closeModal = () => {
   closeModal={closeModal}
   header="이동수단 설정"
 >
-  <MoveSettingChild /> 내부요소, chlidren
+  <MoveSettingChild /> 내부요소, children
 </ModalModule>
 */
 // 0313

@@ -2,50 +2,557 @@
   "travelPlans": [
     {
       "id": 1,
-      "concept": "Love",
-      "depart": "20211215",
-      "destination": "제주도",
-      "name": "새 여행 캔버스(1)",
-      "periods": "3",
-      "status": "",
-      "travelDays": [
-        {
-          "id": 1,
-          "locationIds": [1, 2, 3],
-          "sequence": [0, 1, 2],
-          "movingData": [
+      "planForm": {
+        "depart": "2022/12/15",
+        "destination": "제주도",
+        "name": "새로운 여행",
+        "periods": 2,
+        "planStatus": "MAIN",
+        "thumbnail": "https://ifh.cc/g/qrVZrf.png"
+      },
+      "conceptForm": {
+        "concept": ["Love"]
+      },
+      "selectedLocationForm": {
+        "selectedLocation": [5, 6, 7]
+      },
+      "dayForm": {
+        "travelDay": [
+          [
             {
-              "startTime": ["12:10", "12", 0],
-              "stayTime": [0, 12, 12],
-              "vehicles": [],
-              "movingTime": []
+              "id": 5,
+              "copyLocationId": "13-1",
+              "movingData": {
+                "startTime": "12:3",
+                "stayTime": "14124",
+                "vehicle": "car124",
+                "movingTime": "1:12300"
+              }
             },
             {
-              "startTime": ["12:10", "12", 0],
-              "stayTime": [0, 12, 12],
-              "vehicles": [],
-              "movingTime": []
+              "id": 6,
+              "copyLocationId": "13-1",
+              "movingData": {
+                "startTime": "12:3",
+                "stayTime": "14124",
+                "vehicle": "car124",
+                "movingTime": "1:12300"
+              }
             },
             {
-              "startTime": ["12:10", "12", 0],
-              "stayTime": [0, 12, 12],
-              "vehicles": [],
-              "movingTime": []
+              "id": 7,
+              "copyLocationId": "13-1",
+              "movingData": {
+                "startTime": "12:3",
+                "stayTime": "14124",
+                "vehicle": "car124",
+                "movingTime": "1:12300"
+              }
+            }
+          ],
+          [
+            {
+              "id": 8,
+              "copyLocationId": "13-1",
+              "movingData": {
+                "startTime": "12:3",
+                "stayTime": "14124",
+                "vehicle": "car124",
+                "movingTime": "1:12300"
+              }
+            },
+            {
+              "id": 9,
+              "copyLocationId": "13-1",
+              "movingData": {
+                "startTime": "12:3",
+                "stayTime": "14124",
+                "vehicle": "car124",
+                "movingTime": "1:12300"
+              }
+            },
+            {
+              "id": 10,
+              "copyLocationId": "13-1",
+              "movingData": {
+                "startTime": "12:3",
+                "stayTime": "14124",
+                "vehicle": "car124",
+                "movingTime": "1:12300"
+              }
             }
           ]
-        },
-        {
-          "id": 2,
-          "locationIds": []
-        },
-        {
-          "id": 3,
-          "locationIds": []
-        }
-      ],
-      "selectedLocations": [2, 3, 4, 5, 6, 7, 8, 9]
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "planForm": {
+        "depart": "2022/12/15",
+        "destination": "어딘가",
+        "name": "새로운 여행",
+        "periods": 4,
+        "planStatus": "MAIN",
+        "thumbnail": "https://ifh.cc/g/qrVZrf.png"
+      },
+      "conceptForm": {
+        "concept": ["Love", "Family"]
+      },
+      "selectedLocationForm": {
+        "selectedLocation": []
+      },
+      "dayForm": {
+        "travelDay": [[], [], [], []]
+      }
     }
   ],
+  "notices": [
+    {
+      "id": 1,
+      "numId": 1,
+      "title": "no.1 공지사항",
+      "author": "관리자",
+      "date": "2022-03-17",
+      "views": 123,
+      "body": "1. HTML <b>내용</b>입니다."
+    },
+    {
+      "id": 2,
+      "numId": 2,
+      "title": "no.2 공지사항",
+      "author": "관리자2",
+      "date": "2022-03-17",
+      "views": 123,
+      "body": "2. HTML 내용입니다."
+    },
+    {
+      "id": 4,
+      "numId": 4,
+      "title": "no.4공지사항",
+      "author": "관리자4",
+      "date": "2022-03-17",
+      "views": 123,
+      "body": "4. HTML 내용입니다."
+    },
+    {
+      "id": 3,
+      "numId": 3,
+      "title": "no.3 공지사항",
+      "author": "관리자3",
+      "date": "2022-03-17",
+      "views": 123,
+      "body": "3. HTML 내용입니다."
+    },
+    {
+      "id": 5,
+      "numId": 5,
+      "title": "no.5 공지사항",
+      "author": "관리자5",
+      "date": "2022-03-17",
+      "views": 123,
+      "body": "5. HTML <b>내용</b>입니다."
+    },
+    {
+      "id": 6,
+      "numId": 6,
+      "title": "no.6 공지사항",
+      "author": "관리자6",
+      "date": "2022-03-17",
+      "views": 123,
+      "body": "6. HTML 내용입니다."
+    },
+    {
+      "id": 7,
+      "numId": 7,
+      "title": "no.7 공지사항",
+      "author": "관리자7",
+      "date": "2022-03-17",
+      "views": 123,
+      "body": "7. HTML 내용입니다."
+    },
+    {
+      "id": 8,
+      "numId": 8,
+      "title": "no.8 공지사항",
+      "author": "관리자8",
+      "date": "2022-03-17",
+      "views": 123,
+      "body": "8. HTML 내용입니다."
+    },
+    {
+      "id": 9,
+      "numId": 9,
+      "title": "no.9 공지사항",
+      "author": "관리자9",
+      "date": "2022-03-17",
+      "views": 123,
+      "body": "9. HTML <b>내용</b>입니다."
+    },
+    {
+      "id": 10,
+      "numId": 10,
+      "title": "no.10 공지사항",
+      "author": "관리자10",
+      "date": "2022-03-17",
+      "views": 123,
+      "body": "10. HTML 내용입니다."
+    },
+    {
+      "id": 11,
+      "numId": 11,
+      "title": "no.11 공지사항",
+      "author": "관리자11",
+      "date": "2022-03-17",
+      "views": 123,
+      "body": "11. HTML 내용입니다."
+    },
+    {
+      "id": 12,
+      "numId": 12,
+      "title": "no.12 공지사항",
+      "author": "관리자12",
+      "date": "2022-03-17",
+      "views": 123,
+      "body": "12. HTML 내용입니다."
+    },
+    {
+      "id": 13,
+      "numId": 13,
+      "title": "no.13 공지사항",
+      "author": "관리자13",
+      "date": "2022-03-17",
+      "views": 123,
+      "body": "13. HTML 내용입니다."
+    },
+    {
+      "id": 14,
+      "numId": 14,
+      "title": "no.14 공지사항",
+      "author": "관리자14",
+      "date": "2022-03-17",
+      "views": 123,
+      "body": "14. HTML 내용입니다."
+    },
+    {
+      "id": 15,
+      "numId": 15,
+      "title": "no.15 공지사항",
+      "author": "관리자15",
+      "date": "2022-03-17",
+      "views": 123,
+      "body": "15. HTML 내용입니다."
+    },
+    {
+      "id": 16,
+      "numId": 16,
+      "title": "no.16 공지사항",
+      "author": "관리자16",
+      "date": "2022-03-17",
+      "views": 123,
+      "body": "16. HTML 내용입니다."
+    }
+  ],
+  "locations": {
+    "1": {
+      "id": 1,
+      "type": "1",
+      "name": "한라산",
+      "address": "주소",
+      "tel": "010-1234-5678",
+      "category": "관광지",
+      "info": "제주도의 대표적인 산인 한라산입니다",
+      "image": "https://i.ibb.co/zJMMHVD/image.jpg",
+      "isSelect": false
+    },
+    "2": {
+      "id": 2,
+      "type": "1",
+      "name": "만장굴",
+      "address": "주소",
+      "tel": "010-1234-5678",
+      "category": "관광지",
+      "info": "제주도의 만장굴입니다",
+      "image": "https://i.ibb.co/GFX3TZr/image.jpg",
+      "isSelect": false
+    },
+    "3": {
+      "id": 3,
+      "type": "1",
+      "name": "성산 일출봉",
+      "address": "주소",
+      "tel": "010-1234-5678",
+      "category": "관광지",
+      "info": "제주도의 성산 일출봉입니다",
+      "image": "https://i.ibb.co/MVvvPsX/image.jpg",
+      "isSelect": false
+    },
+    "4": {
+      "id": 4,
+      "type": "6",
+      "name": "곰막식당",
+      "address": "주소",
+      "tel": "010-1234-5678",
+      "category": "음식점",
+      "info": "제주도의 곰막식당입니다",
+      "image": "https://i.ibb.co/zJMMHVD/image.jpg",
+      "isSelect": false
+    },
+    "5": {
+      "id": 5,
+      "type": "6",
+      "name": "고집돌우럭",
+      "address": "주소",
+      "tel": "010-1234-5678",
+      "category": "음식점",
+      "info": "제주도의 우럭요리 음식점입니다",
+      "image": "https://i.ibb.co/GFX3TZr/image.jpg",
+      "isSelect": false
+    },
+    "6": {
+      "id": 6,
+      "type": "6",
+      "name": "정성듬뿍 제주국",
+      "address": "주소",
+      "tel": "010-1234-5678",
+      "category": "음식점",
+      "info": "제주도의 제주국 음식점입니다",
+      "image": "https://i.ibb.co/MVvvPsX/image.jpg",
+      "isSelect": false
+    },
+    "7": {
+      "id": 7,
+      "type": "5",
+      "name": "레인보우인 제주",
+      "address": "주소",
+      "tel": "010-1234-5678",
+      "category": "숙박시설",
+      "info": "제주도의 레인보우인 제주입니다",
+      "image": "https://i.ibb.co/zJMMHVD/image.jpg",
+      "isSelect": false
+    },
+    "8": {
+      "id": 8,
+      "type": "5",
+      "name": "그랜드 하얏트 호텔",
+      "address": "주소",
+      "tel": "010-1234-5678",
+      "category": "숙박시설",
+      "info": "제주도의 그랜드 하얏트 호텔입니다",
+      "image": "https://i.ibb.co/GFX3TZr/image.jpg",
+      "isSelect": false
+    },
+    "9": {
+      "id": 9,
+      "type": "5",
+      "name": "제주 칼호텔",
+      "address": "주소",
+      "tel": "010-1234-5678",
+      "category": "숙박시설",
+      "info": "제주도의 제주 칼호텔입니다",
+      "image": "https://i.ibb.co/MVvvPsX/image.jpg",
+      "isSelect": false
+    }
+  },
+  "attractionInfo": [
+    {
+      "id": "1",
+      "name": "휴애리자연생활공원",
+      "address1": "제주특별자치도 서귀포시 남원읍 신례동로 256",
+      "address2": "",
+      "image1": "",
+      "image2": "",
+      "tel": "",
+      "summary": "설명",
+      "report": "상세설명",
+      "parking": "가능",
+      "restDate": "연중무휴",
+      "useTime": "하절기 (4월~10월) : 09:00~18:00 (입장마감 17:30분)<br /> 동절기 (11월~3월) : 09:00~18:00 (입장마감 16:30분)<br /> ※ 단, 감귤체험 이용시 17:00까지 입장해야 체험가능"
+    },
+    {
+      "id": "2",
+      "name": "만장굴",
+      "address1": "",
+      "address2": "",
+      "image1": "",
+      "image2": "",
+      "tel": "",
+      "summary": "",
+      "report": "",
+      "parking": "",
+      "restDate": "",
+      "useTime": ""
+    },
+    {
+      "id": "3",
+      "name": "성산일출봉",
+      "address1": "",
+      "address2": "",
+      "image1": "",
+      "image2": "",
+      "tel": "",
+      "summary": "",
+      "report": "",
+      "parking": "",
+      "restDate": "",
+      "useTime": ""
+    }
+  ],
+  "restaurantInfo": [
+    {
+      "id": "4",
+      "name": "곰막식당",
+      "address1": "제주특별자치도 서귀포시 남원읍 신례동로 256",
+      "address2": "",
+      "image1": "",
+      "image2": "",
+      "tel": "",
+      "summary": "설명",
+      "report": "상세설명",
+      "popularMenu": "",
+      "openTime": "",
+      "packing": "",
+      "parking": "가능",
+      "restDate": "연중무휴",
+      "menu": ""
+    },
+    {
+      "id": "5",
+      "name": "고집돌우럭",
+      "address1": "제주특별자치도 서귀포시 남원읍 신례동로 256",
+      "address2": "",
+      "image1": "",
+      "image2": "",
+      "tel": "",
+      "summary": "설명",
+      "report": "상세설명",
+      "popularMenu": "",
+      "openTime": "",
+      "packing": "",
+      "parking": "가능",
+      "restDate": "연중무휴",
+      "menu": ""
+    },
+    {
+      "id": "6",
+      "name": "정성듬뿍 제주국",
+      "address1": "제주특별자치도 서귀포시 남원읍 신례동로 256",
+      "address2": "",
+      "image1": "",
+      "image2": "",
+      "tel": "",
+      "summary": "설명",
+      "report": "상세설명",
+      "popularMenu": "",
+      "openTime": "",
+      "packing": "",
+      "parking": "가능",
+      "restDate": "연중무휴",
+      "menu": ""
+    }
+  ],
+  "lodgeInfo": [
+    {
+      "id": "7",
+      "name": "레인보우인 제주",
+      "address1": "제주특별자치도 서귀포시 남원읍 신례동로 256",
+      "address2": "",
+      "image1": "",
+      "image2": "",
+      "tel": "",
+      "summary": "설명",
+      "report": "상세설명",
+      "checkInTime": "",
+      "checkOutTime": "",
+      "chkCooking": "",
+      "parking": "가능",
+      "reservationUrl": "",
+      "subfacility": ""
+    },
+    {
+      "id": "8",
+      "name": "그랜드 하얏트 호텔",
+      "address1": "제주특별자치도 서귀포시 남원읍 신례동로 256",
+      "address2": "",
+      "image1": "",
+      "image2": "",
+      "tel": "",
+      "summary": "설명",
+      "report": "상세설명",
+      "checkInTime": "",
+      "checkOutTime": "",
+      "chkCooking": "",
+      "parking": "가능",
+      "reservationUrl": "",
+      "subfacility": ""
+    },
+    {
+      "id": "9",
+      "name": "제주 칼호텔",
+      "address1": "제주특별자치도 서귀포시 남원읍 신례동로 256",
+      "address2": "",
+      "image1": "",
+      "image2": "",
+      "tel": "",
+      "summary": "설명",
+      "report": "상세설명",
+      "checkInTime": "",
+      "checkOutTime": "",
+      "chkCooking": "",
+      "parking": "가능",
+      "reservationUrl": "",
+      "subfacility": ""
+    }
+  ],
+  "locations2": {
+    "attractions": {
+      "1": {
+        "image": "https://i.ibb.co/zJMMHVD/image.jpg",
+        "id": 1,
+        "name": "한라산",
+        "summary": "간단한 설명",
+        "detail": "자세한 설명..."
+      },
+      "2": {
+        "id": 2,
+        "name": "만장굴",
+        "image": "https://i.ibb.co/zJMMHVD/image.jpg",
+        "summary": "간단한 설명",
+        "detail": "자세한 설명..."
+      }
+    },
+    "restaurants": {
+      "3": {
+        "id": 3,
+        "image": "https://i.ibb.co/zJMMHVD/image.jpg",
+        "name": "곰막식당",
+        "summary": "간단한 설명",
+        "detail": "자세한 설명..."
+      },
+      "4": {
+        "id": 4,
+        "image": "https://i.ibb.co/zJMMHVD/image.jpg",
+        "name": "고집돌우럭",
+        "summary": "간단한 설명",
+        "detail": "자세한 설명..."
+      }
+    },
+    "lodges": {
+      "5": {
+        "id": 5,
+        "image": "https://i.ibb.co/zJMMHVD/image.jpg",
+        "name": "레인보우인 제주",
+        "summary": "간단한 설명",
+        "detail": "자세한 설명..."
+      },
+      "6": {
+        "id": 6,
+        "image": "https://i.ibb.co/zJMMHVD/image.jpg",
+        "name": "그랜드 하얏트 호텔",
+        "summary": "간단한 설명",
+        "detail": "자세한 설명..."
+      }
+    }
+  },
   "users": [
     {
       "userId": "tlscksdn963",
@@ -59,115 +566,5 @@
       "email": "tlscksnd963@naver.com",
       "id": 1
     }
-  ],
-  "locations": {
-    "1": {
-      "id": 1,
-      "name": "한라산",
-      "address1": "",
-      "address2": "",
-      "coords": "",
-      "image": "https://i.ibb.co/zJMMHVD/image.jpg",
-      "type": "1",
-      "parking": true,
-      "restDate": "",
-      "useTime": ""
-    },
-    "2": {
-      "id": 2,
-      "name": "곰막식당",
-      "address1": "",
-      "address2": "",
-      "coords": "",
-      "image": "https://i.ibb.co/zJMMHVD/image.jpg",
-      "type": "6",
-      "parking": true,
-      "restDate": "",
-      "useTime": ""
-    },
-    "3": {
-      "id": 3,
-      "name": "제주 칼호텔",
-      "address1": "",
-      "address2": "",
-      "coords": "",
-      "image": "https://i.ibb.co/zJMMHVD/image.jpg",
-      "type": "5",
-      "parking": true,
-      "restDate": "",
-      "useTime": ""
-    },
-    "4": {
-      "id": 4,
-      "name": "만장굴",
-      "address1": "",
-      "address2": "",
-      "coords": "",
-      "image": "https://i.ibb.co/zJMMHVD/image.jpg",
-      "type": "1",
-      "parking": true,
-      "restDate": "",
-      "useTime": ""
-    },
-    "5": {
-      "id": 5,
-      "name": "고집돌우럭",
-      "address1": "",
-      "address2": "",
-      "coords": "",
-      "image": "https://i.ibb.co/zJMMHVD/image.jpg",
-      "type": "6",
-      "parking": true,
-      "restDate": "",
-      "useTime": ""
-    },
-    "6": {
-      "id": 6,
-      "name": "그랜드 하얏트 호텔",
-      "address1": "",
-      "address2": "",
-      "coords": "",
-      "image": "https://i.ibb.co/zJMMHVD/image.jpg",
-      "type": "5",
-      "parking": true,
-      "restDate": "",
-      "useTime": ""
-    },
-    "7": {
-      "id": 7,
-      "name": "문화시설 예시",
-      "address1": "",
-      "address2": "",
-      "coords": "",
-      "image": "https://i.ibb.co/MVvvPsX/image.jpg",
-      "type": "2",
-      "parking": true,
-      "restDate": "",
-      "useTime": ""
-    },
-    "8": {
-      "id": 8,
-      "name": "축제 예시",
-      "address1": "",
-      "address2": "",
-      "coords": "",
-      "image": "https://i.ibb.co/zJMMHVD/image.jpg",
-      "type": "3",
-      "parking": true,
-      "restDate": "",
-      "useTime": ""
-    },
-    "9": {
-      "id": 9,
-      "name": "레포츠예시",
-      "address1": "",
-      "address2": "",
-      "coords": "",
-      "image": "https://i.ibb.co/zJMMHVD/image.jpg",
-      "type": "5",
-      "parking": true,
-      "restDate": "",
-      "useTime": ""
-    }
-  }
+  ]
 }

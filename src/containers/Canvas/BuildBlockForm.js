@@ -1,10 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import axios from 'axios';
+import React from 'react';
 import styled from 'styled-components';
-import DndMainArea from 'components/Canvas/BuildTab/DndMainArea';
+import MainArea from 'components/Canvas/BuildTab/MainArea';
 import CreateLoc from 'lib/Icons/CreateLoc';
 import palette from 'lib/styles/palette';
-import { useStore, sysLocStore } from 'lib/store';
 
 const Container = styled.div`
   display: flex;
@@ -23,63 +21,13 @@ const Buttons = styled.div`
 export let travelPlan = {};
 
 const BuildBlockForm = () => {
-  // const [userPlan, setUserPlan] = useState(null);
-  const [globalLocations, setGlobalLocations] = useState(null);
-  const [submitting, setSubmitting] = useState(true);
-  const { getPlan, userPlan } = useStore();
-  const { getSysLoc, sysCateLoc } = sysLocStore();
-  //
-  //
-
-  const getData = useCallback(async () => {
-    // const userPlanResult = await axios.get(
-    //   'http://localhost:8080/travelPlans/1',
-    // );
-    // setUserPlan(userPlanResult.data);
-    // const globalLocationsResult = await axios.get(
-    //   'http://localhost:8080/locations',
-    // );
-    // setGlobalLocations(globalLocationsResult.data);
-    getPlan(1).then((data) => console.log(data));
-    getSysLoc();
-    // getPlan(1).then((data) => console.log(data));
-    // console.log(getPlan(1));
-    // console.log(getSysLoc());
-  }, []);
-
-  useEffect(() => {
-    if (submitting) {
-      getData();
-      // .then(() => setSubmitting(false))
-      // .then(console.log(userPlan));
-    }
-  }, [submitting, getData]);
-
-  // const setUserPlanData = (x) => {
-  //   setUserPlan(x);
-  //   travelPlan = userPlan;
-  //   console.log(userPlan);
-  // };
-
-  // travelPlan = userPlan;
-
   return (
-    <>
-      {console.log(userPlan, sysCateLoc)}
-      {/* {(!userPlan || !sysCateLoc) && '로딩 중..'}
-      {userPlan && sysCateLoc && (
-        <Container>
-          <DndMainArea
-            // setUserPlanData={setUserPlanData}
-            userPlan={userPlan}
-            globalLocations={sysCateLoc}
-          />
-          <Buttons>
-            <CreateLoc size="30" />
-          </Buttons>
-        </Container>
-      )} */}
-    </>
+    <Container>
+      <MainArea />
+      <Buttons>
+        <CreateLoc size="30" />
+      </Buttons>
+    </Container>
   );
 };
 
