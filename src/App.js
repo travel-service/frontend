@@ -7,8 +7,6 @@ import NoticeMainPage from 'pages/NoticePages/NoticeMainPage';
 // import HeaderContainer from './containers/common/HeaderContainer';
 // import LandingPage from 'pages/LandingPage';
 
-import CanvasMainPage from 'pages/CanvasPages/CanvasMainPage';
-
 function App() {
   return (
     <>
