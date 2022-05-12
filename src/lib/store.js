@@ -1,7 +1,7 @@
 import axios from 'axios';
 import create from 'zustand';
 
-export const useStore = create((set) => ({
+export const useStore = create((set, get) => ({
   userPlan: {
     // db 전용
     id: '',
@@ -15,30 +15,34 @@ export const useStore = create((set) => ({
     dbSelectedLocations: [], // 변수 확인, id값만 담기는 배열
   },
 
-  selLoc: [], // 객체가 담기는 배열
-  // selCateLoc: {
-  //   // 담은 location => 분류
-  //   selAttractions: [],
-  //   selCulture: [],
-  //   selFestival: [],
-  //   selLeports: [],
-  //   selLodge: [],
-  //   selRestaurant: [],
-  // },
+  selCateLoc: {  // 객체가 담기는 배열을 담는 객체
+    // 담은 location => 분류
+    selAttractions: [],
+    selCulture: [],
+    selFestival: [],
+    selLeports: [],
+    selLodge: [],
+    selRestaurant: [],
+  },
 
-  selAttractions: [],
-  selCulture: [],
-  selFestival: [],
-  selLeports: [],
-  selLodge: [],
-  selRestaurant: [],
+  // selAttractions: [],
+  // selCulture: [],
+  // selFestival: [],
+  // selLeports: [],
+  // selLodge: [],
+  // selRestaurant: [],
 
   //onAdd: (loc, type) => set(state => ({ selLoc: [...state.selLoc, loc] })),
   onAdd: (loc, type) => {
     switch (type) {
       case '1':
         console.log(loc);
-        set(state => ({ selAttractions: [...state.selAttractions, loc] }));
+        console.log(get().selCateLoc);
+        //  set(state => ({ selAttractions: [...state.selAttractions, loc] }));
+         set(state => ({ selCateLoc: {
+          ...state.selCateLoc,
+          selAttractions: [...state.selCateLoc.selAttractions, loc]
+         }}));
         break;
       case '2':
         set(state => ({ selCulture: [...state.selCulture, loc] }));
@@ -65,7 +69,8 @@ export const useStore = create((set) => ({
   remove: (locId, type) => {
     switch (type) {
       case '1':
-        set(state => ({ selAttractions: state.selAttractions.filter(loc => loc.id !== locId)}));
+        // set(state => ({ selAttractions: state.selAttractions.filter(loc => loc.id !== locId)}));
+        set(state => ({ selCateLoc: {...state.selCateLoc, selAttractions: state.selCateLoc.selAttractions.filter(loc => loc.id !== locId)}}));
         break;
       case '2':
         set(state => ({ selCulture: state.selCulture.filter(loc => loc.id !== locId)}));

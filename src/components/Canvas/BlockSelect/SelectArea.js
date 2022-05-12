@@ -34,7 +34,9 @@ const SelectArea = ({ location, selLocs }) => {
   const { Attractions, Restaurant, Lodge } = location
   // const { selAttractions, selRestaurant, selLodge } = selLocs
   
-  const { selLodge, selAttractions, selRestaurant } = useStore();
+  // const { selLodge, selAttractions, selRestaurant } = useStore();
+  const { selCateLoc } = useStore();
+  const { selLodge, selAttractions, selRestaurant } = selCateLoc;
 
   return (
     <ContentsArea>
