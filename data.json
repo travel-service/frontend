@@ -2,255 +2,122 @@
   "travelPlans": [
     {
       "id": 1,
-      "name": "새 여행 캔버스(1)",
-      "periods": "3",
-      "concept": "Love",
-      "startDay": "20211215",
-      "arriveDay": "20211218",
-      "dayOrder": ["Day-1", "Day-2"],
-      "travelDays": {
-        "Day-1": {
-          "id": "Day-1",
-          "title": "Day1",
-          "locationIds": [
-            { "attractions": "한라산" },
-            { "accommodations": "제주 칼호텔" }
-          ]
-        },
-        "Day-2": {
-          "id": "Day-2",
-          "title": "Day2",
-          "locationIds": []
-        }
+      "planForm": {
+        "depart": "2022/12/15",
+        "destination": "제주도",
+        "name": "새로운 여행",
+        "periods": 2,
+        "planStatus": "MAIN",
+        "thumbnail": "https://ifh.cc/g/qrVZrf.png"
       },
-      "selectedLocations": {
-        "attractions": ["만장굴", "성산 일출봉"],
-        "restaurants": ["곰막식당", "고집돌우럭"],
-        "accommodations": ["레인보우인 제주", "그랜드 하얏트 호텔"]
+      "conceptForm": {
+        "concept": [
+          "Love"
+        ]
+      },
+      "selectedLocationForm": {
+        "selectedLocation": [
+          5,
+          6,
+          7
+        ]
+      },
+      "dayForm": {
+        "travelDay": [
+          [
+            {
+              "id": 5,
+              "copyLocationId": "13-1",
+              "movingData": {
+                "startTime": "12:3",
+                "stayTime": "14124",
+                "vehicle": "car124",
+                "movingTime": "1:12300"
+              }
+            },
+            {
+              "id": 6,
+              "copyLocationId": "13-1",
+              "movingData": {
+                "startTime": "12:3",
+                "stayTime": "14124",
+                "vehicle": "car124",
+                "movingTime": "1:12300"
+              }
+            },
+            {
+              "id": 7,
+              "copyLocationId": "13-1",
+              "movingData": {
+                "startTime": "12:3",
+                "stayTime": "14124",
+                "vehicle": "car124",
+                "movingTime": "1:12300"
+              }
+            }
+          ],
+          [
+            {
+              "id": 8,
+              "copyLocationId": "13-1",
+              "movingData": {
+                "startTime": "12:3",
+                "stayTime": "14124",
+                "vehicle": "car124",
+                "movingTime": "1:12300"
+              }
+            },
+            {
+              "id": 9,
+              "copyLocationId": "13-1",
+              "movingData": {
+                "startTime": "12:3",
+                "stayTime": "14124",
+                "vehicle": "car124",
+                "movingTime": "1:12300"
+              }
+            },
+            {
+              "id": 10,
+              "copyLocationId": "13-1",
+              "movingData": {
+                "startTime": "12:3",
+                "stayTime": "14124",
+                "vehicle": "car124",
+                "movingTime": "1:12300"
+              }
+            }
+          ]
+        ]
       }
     },
     {
       "id": 2,
-      "name": "새 여행 캔버스(2)",
-      "periods": "4",
-      "concept": "Love",
-      "startDay": "20211215",
-      "arriveDay": "20211218",
-      "selectedLocations": [
-        {
-          "id": "12312"
-        },
-        {
-          "id": "12423"
-        },
-        {
-          "id": "12543"
-        }
-      ]
-    }
-  ],
-  "users": [
-    {
-      "userId": "tlscksdn963",
-      "password": "123",
-      "passwordCheck": "123",
-      "username": "123",
-      "nickname": "123",
-      "birthday": "123123-12-23",
-      "phoneNum": "123",
-      "gender": "MALE",
-      "email": "tlscksnd963@naver.com",
-      "id": 1
-    }
-  ],
-  "locations": {
-    "attractions": {
-      "한라산": {
-        "id": "한라산",
-        "image": "https://i.ibb.co/zJMMHVD/image.jpg"
+      "planForm": {
+        "depart": "2022/12/15",
+        "destination": "어딘가",
+        "name": "새로운 여행",
+        "periods": 4,
+        "planStatus": "MAIN",
+        "thumbnail": "https://ifh.cc/g/qrVZrf.png"
       },
-      "만장굴": {
-        "id": "만장굴",
-        "image": "https://i.ibb.co/GFX3TZr/image.jpg"
+      "conceptForm": {
+        "concept": [
+          "Love",
+          "Family"
+        ]
       },
-      "성산 일출봉": {
-        "id": "성산 일출봉",
-        "image": "https://i.ibb.co/MVvvPsX/image.jpg"
-      }
-    },
-    "restaurants": {
-      "곰막식당": {
-        "id": "곰막식당",
-        "image": "https://i.ibb.co/zJMMHVD/image.jpg"
+      "selectedLocationForm": {
+        "selectedLocation": []
       },
-      "고집돌우럭": {
-        "id": "고집돌우럭",
-        "image": "https://i.ibb.co/GFX3TZr/image.jpg"
-      },
-      "정성듬뿍 제주국": {
-        "id": "정성듬뿍 제주국",
-        "image": "https://i.ibb.co/MVvvPsX/image.jpg"
-      }
-    },
-    "accommodations": {
-      "레인보우인 제주": {
-        "id": "레인보우인 제주",
-        "image": "https://i.ibb.co/zJMMHVD/image.jpg"
-      },
-      "그랜드 하얏트 호텔": {
-        "id": "그랜드 하얏트 호텔",
-        "image": "https://i.ibb.co/GFX3TZr/image.jpg"
-      },
-      "제주 칼호텔": {
-        "id": "제주 칼호텔",
-        "image": "https://i.ibb.co/MVvvPsX/image.jpg"
+      "dayForm": {
+        "travelDay": [
+          [],
+          [],
+          [],
+          []
+        ]
       }
     }
-  },
-  "notices": [
-    {
-        "id": 1,
-        "numId": 1,
-        "title": "no.1 공지사항",
-        "author": "관리자",
-        "date": "2022-03-17",
-        "views": 123,
-        "body": "1. HTML <b>내용</b>입니다."
-    },
-    {
-        "id": 2,
-        "numId": 2,
-        "title": "no.2 공지사항",
-        "author": "관리자2",
-        "date": "2022-03-17",
-        "views": 123,
-        "body": "2. HTML 내용입니다."
-    },
-    {
-        "id": 4,
-        "numId": 4,
-        "title": "no.4공지사항",
-        "author": "관리자4",
-        "date": "2022-03-17",
-        "views": 123,
-        "body": "4. HTML 내용입니다."
-    },
-    {
-        "id": 3,
-        "numId": 3,
-        "title": "no.3 공지사항",
-        "author": "관리자3",
-        "date": "2022-03-17",
-        "views": 123,
-        "body": "3. HTML 내용입니다."
-    },
-    {
-      "id": 5,
-      "numId": 5,
-      "title": "no.5 공지사항",
-      "author": "관리자5",
-      "date": "2022-03-17",
-      "views": 123,
-      "body": "5. HTML <b>내용</b>입니다."
-    },
-    {
-        "id": 6,
-        "numId": 6,
-        "title": "no.6 공지사항",
-        "author": "관리자6",
-        "date": "2022-03-17",
-        "views": 123,
-        "body": "6. HTML 내용입니다."
-    },
-    {
-        "id": 7,
-        "numId": 7,
-        "title": "no.7 공지사항",
-        "author": "관리자7",
-        "date": "2022-03-17",
-        "views": 123,
-        "body": "7. HTML 내용입니다."
-    },
-    {
-        "id": 8,
-        "numId": 8,
-        "title": "no.8 공지사항",
-        "author": "관리자8",
-        "date": "2022-03-17",
-        "views": 123,
-        "body": "8. HTML 내용입니다."
-    },
-    {
-          "id": 9,
-          "numId": 9,
-          "title": "no.9 공지사항",
-          "author": "관리자9",
-          "date": "2022-03-17",
-          "views": 123,
-          "body": "9. HTML <b>내용</b>입니다."
-      },
-      {
-          "id": 10,
-          "numId": 10,
-          "title": "no.10 공지사항",
-          "author": "관리자10",
-          "date": "2022-03-17",
-          "views": 123,
-          "body": "10. HTML 내용입니다."
-      },
-      {
-          "id": 11,
-          "numId": 11,
-          "title": "no.11 공지사항",
-          "author": "관리자11",
-          "date": "2022-03-17",
-          "views": 123,
-          "body": "11. HTML 내용입니다."
-      },
-      {
-          "id": 12,
-          "numId": 12,
-          "title": "no.12 공지사항",
-          "author": "관리자12",
-          "date": "2022-03-17",
-          "views": 123,
-          "body": "12. HTML 내용입니다."
-      },
-      {
-        "id": 13,
-        "numId": 13,
-        "title": "no.13 공지사항",
-        "author": "관리자13",
-        "date": "2022-03-17",
-        "views": 123,
-        "body": "13. HTML 내용입니다."
-      },
-      {
-        "id": 14,
-        "numId": 14,
-        "title": "no.14 공지사항",
-        "author": "관리자14",
-        "date": "2022-03-17",
-        "views": 123,
-        "body": "14. HTML 내용입니다."
-      },
-      {
-        "id": 15,
-        "numId": 15,
-        "title": "no.15 공지사항",
-        "author": "관리자15",
-        "date": "2022-03-17",
-        "views": 123,
-        "body": "15. HTML 내용입니다."
-      },
-      {
-        "id": 16,
-        "numId": 16,
-        "title": "no.16 공지사항",
-        "author": "관리자16",
-        "date": "2022-03-17",
-        "views": 123,
-        "body": "16. HTML 내용입니다."
-      }
-    ]
+  ]
 }

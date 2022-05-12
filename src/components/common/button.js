@@ -16,13 +16,11 @@ const buttonStyle = css`
   text-decoration: none;
   transition: .2s all;
   background: white;
-
   &:hover {
     background: ${oc.cyan[6]};
     color: white;
     ${shadow(1)}
   }
-
   &:active {
     /* 마우스 클릭시 아래로 미세하게 움직임 */
     transform: translateY(3px);
@@ -37,7 +35,6 @@ const buttonStyle = css`
       color: white;
     `
   }
-
 ${props =>
     props.cyan && css`
       background: ${palette.cyan[5]};
