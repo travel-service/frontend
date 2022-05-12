@@ -11,10 +11,16 @@
         "thumbnail": "https://ifh.cc/g/qrVZrf.png"
       },
       "conceptForm": {
-        "concept": ["Love"]
+        "concept": [
+          "Love"
+        ]
       },
       "selectedLocationForm": {
-        "selectedLocation": [5, 6, 7]
+        "selectedLocation": [
+          5,
+          6,
+          7
+        ]
       },
       "dayForm": {
         "travelDay": [
@@ -96,13 +102,21 @@
         "thumbnail": "https://ifh.cc/g/qrVZrf.png"
       },
       "conceptForm": {
-        "concept": ["Love", "Family"]
+        "concept": [
+          "Love",
+          "Family"
+        ]
       },
       "selectedLocationForm": {
         "selectedLocation": []
       },
       "dayForm": {
-        "travelDay": [[], [], [], []]
+        "travelDay": [
+          [],
+          [],
+          [],
+          []
+        ]
       }
     }
   ],
@@ -250,6 +264,257 @@
       "date": "2022-03-17",
       "views": 123,
       "body": "16. HTML 내용입니다."
+    }
+  ],
+  "locations": {
+    "1": {
+      "id": 1,
+      "type": "1",
+      "name": "한라산",
+      "address": "주소",
+      "tel": "010-1234-5678",
+      "category": "관광지",
+      "info": "제주도의 대표적인 산인 한라산입니다",
+      "image": "https://i.ibb.co/zJMMHVD/image.jpg",
+      "isSelect": false
+    },
+    "2": {
+      "id": 2,
+      "type": "1",
+      "name": "만장굴",
+      "address": "주소",
+      "tel": "010-1234-5678",
+      "category": "관광지",
+      "info": "제주도의 만장굴입니다",
+      "image": "https://i.ibb.co/GFX3TZr/image.jpg",
+      "isSelect": false
+    },
+    "3": {
+      "id": 3,
+      "type": "1",
+      "name": "성산 일출봉",
+      "address": "주소",
+      "tel": "010-1234-5678",
+      "category": "관광지",
+      "info": "제주도의 성산 일출봉입니다",
+      "image": "https://i.ibb.co/MVvvPsX/image.jpg",
+      "isSelect": false
+    },
+    "4": {
+      "id": 4,
+      "type": "6",
+      "name": "곰막식당",
+      "address": "주소",
+      "tel": "010-1234-5678",
+      "category": "음식점",
+      "info": "제주도의 곰막식당입니다",
+      "image": "https://i.ibb.co/zJMMHVD/image.jpg",
+      "isSelect": false
+    },
+    "5": {
+      "id": 5,
+      "type": "6",
+      "name": "고집돌우럭",
+      "address": "주소",
+      "tel": "010-1234-5678",
+      "category": "음식점",
+      "info": "제주도의 우럭요리 음식점입니다",
+      "image": "https://i.ibb.co/GFX3TZr/image.jpg",
+      "isSelect": false
+    },
+    "6": {
+      "id": 6,
+      "type": "6",
+      "name": "정성듬뿍 제주국",
+      "address": "주소",
+      "tel": "010-1234-5678",
+      "category": "음식점",
+      "info": "제주도의 제주국 음식점입니다",
+      "image": "https://i.ibb.co/MVvvPsX/image.jpg",
+      "isSelect": false
+    },
+    "7": {
+      "id": 7,
+      "type": "5",
+      "name": "레인보우인 제주",
+      "address": "주소",
+      "tel": "010-1234-5678",
+      "category": "숙박시설",
+      "info": "제주도의 레인보우인 제주입니다",
+      "image": "https://i.ibb.co/zJMMHVD/image.jpg",
+      "isSelect": false
+    },
+    "8": {
+      "id": 8,
+      "type": "5",
+      "name": "그랜드 하얏트 호텔",
+      "address": "주소",
+      "tel": "010-1234-5678",
+      "category": "숙박시설",
+      "info": "제주도의 그랜드 하얏트 호텔입니다",
+      "image": "https://i.ibb.co/GFX3TZr/image.jpg",
+      "isSelect": false
+    },
+    "9": {
+      "id": 9,
+      "type": "5",
+      "name": "제주 칼호텔",
+      "address": "주소",
+      "tel": "010-1234-5678",
+      "category": "숙박시설",
+      "info": "제주도의 제주 칼호텔입니다",
+      "image": "https://i.ibb.co/MVvvPsX/image.jpg",
+      "isSelect": false
+    }
+  },
+  "attractionInfo": [
+    {
+      "id": "1",
+      "name": "휴애리자연생활공원",
+      "address1": "제주특별자치도 서귀포시 남원읍 신례동로 256",
+      "address2": "",
+      "image1": "",
+      "image2": "",
+      "tel": "",
+      "summary": "설명",
+      "report": "상세설명",
+      "parking": "가능",
+      "restDate": "연중무휴",
+      "useTime": "하절기 (4월~10월) : 09:00~18:00 (입장마감 17:30분)<br /> 동절기 (11월~3월) : 09:00~18:00 (입장마감 16:30분)<br /> ※ 단, 감귤체험 이용시 17:00까지 입장해야 체험가능"
+    },
+    {
+      "id": "2",
+      "name": "만장굴",
+      "address1": "",
+      "address2": "",
+      "image1": "",
+      "image2": "",
+      "tel": "",
+      "summary": "",
+      "report": "",
+      "parking": "",
+      "restDate": "",
+      "useTime": ""
+    },
+    {
+      "id": "3",
+      "name": "성산일출봉",
+      "address1": "",
+      "address2": "",
+      "image1": "",
+      "image2": "",
+      "tel": "",
+      "summary": "",
+      "report": "",
+      "parking": "",
+      "restDate": "",
+      "useTime": ""
+    }
+  ],
+  "restaurantInfo": [
+    {
+      "id": "4",
+      "name": "곰막식당",
+      "address1": "제주특별자치도 서귀포시 남원읍 신례동로 256",
+      "address2": "",
+      "image1": "",
+      "image2": "",
+      "tel": "",
+      "summary": "설명",
+      "report": "상세설명",
+      "popularMenu": "",
+      "openTime": "",
+      "packing": "",
+      "parking": "가능",
+      "restDate": "연중무휴",
+      "menu": ""
+    },
+    {
+      "id": "5",
+      "name": "고집돌우럭",
+      "address1": "제주특별자치도 서귀포시 남원읍 신례동로 256",
+      "address2": "",
+      "image1": "",
+      "image2": "",
+      "tel": "",
+      "summary": "설명",
+      "report": "상세설명",
+      "popularMenu": "",
+      "openTime": "",
+      "packing": "",
+      "parking": "가능",
+      "restDate": "연중무휴",
+      "menu": ""
+    },
+    {
+      "id": "6",
+      "name": "정성듬뿍 제주국",
+      "address1": "제주특별자치도 서귀포시 남원읍 신례동로 256",
+      "address2": "",
+      "image1": "",
+      "image2": "",
+      "tel": "",
+      "summary": "설명",
+      "report": "상세설명",
+      "popularMenu": "",
+      "openTime": "",
+      "packing": "",
+      "parking": "가능",
+      "restDate": "연중무휴",
+      "menu": ""
+    }
+  ],
+  "lodgeInfo": [
+    {
+      "id": "7",
+      "name": "레인보우인 제주",
+      "address1": "제주특별자치도 서귀포시 남원읍 신례동로 256",
+      "address2": "",
+      "image1": "",
+      "image2": "",
+      "tel": "",
+      "summary": "설명",
+      "report": "상세설명",
+      "checkInTime": "",
+      "checkOutTime": "",
+      "chkCooking": "",
+      "parking": "가능",
+      "reservationUrl": "",
+      "subfacility": ""
+    },
+    {
+      "id": "8",
+      "name": "그랜드 하얏트 호텔",
+      "address1": "제주특별자치도 서귀포시 남원읍 신례동로 256",
+      "address2": "",
+      "image1": "",
+      "image2": "",
+      "tel": "",
+      "summary": "설명",
+      "report": "상세설명",
+      "checkInTime": "",
+      "checkOutTime": "",
+      "chkCooking": "",
+      "parking": "가능",
+      "reservationUrl": "",
+      "subfacility": ""
+    },
+    {
+      "id": "9",
+      "name": "제주 칼호텔",
+      "address1": "제주특별자치도 서귀포시 남원읍 신례동로 256",
+      "address2": "",
+      "image1": "",
+      "image2": "",
+      "tel": "",
+      "summary": "설명",
+      "report": "상세설명",
+      "checkInTime": "",
+      "checkOutTime": "",
+      "chkCooking": "",
+      "parking": "가능",
+      "reservationUrl": "",
+      "subfacility": ""
     }
   ]
 }

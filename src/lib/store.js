@@ -155,21 +155,41 @@ export const useStore = create((set, get) => ({
          }}));
         break;
       case '2':
-        set(state => ({ selCulture: [...state.selCulture, loc] }));
+        // set(state => ({ selCulture: [...state.selCulture, loc] }));
+        set(state => ({ selCateLoc: {
+          ...state.selCateLoc,
+          selCulture: [...state.selCateLoc.selCulture, loc]
+         }}));
         break;
       case '3':
-        set(state => ({ selFestival: [...state.selFestival, loc] }));
+        // set(state => ({ selFestival: [...state.selFestival, loc] }));
+        set(state => ({ selCateLoc: {
+          ...state.selCateLoc,
+          selFestival: [...state.selCateLoc.selFestival, loc]
+         }}));
         break;
       case '4':
-        set(state => ({ selLeports: [...state.selLeports, loc] }));
+        // set(state => ({ selLeports: [...state.selLeports, loc] }));
+        set(state => ({ selCateLoc: {
+          ...state.selCateLoc,
+          selLeports: [...state.selCateLoc.selLeports, loc]
+         }}));
         break;
       case '5':
         console.log(loc);
-        set(state => ({ selLodge: [...state.selLodge, loc] }));
+        // set(state => ({ selLodge: [...state.selLodge, loc] }));
+        set(state => ({ selCateLoc: {
+          ...state.selCateLoc,
+          selLodge: [...state.selCateLoc.selLodge, loc]
+         }}));
         break;
       case '6':
         console.log(loc);
-        set(state => ({ selRestaurant: [...state.selRestaurant, loc] }));
+        // set(state => ({ selRestaurant: [...state.selRestaurant, loc] }));
+        set(state => ({ selCateLoc: {
+          ...state.selCateLoc,
+          selRestaurant: [...state.selCateLoc.selRestaurant, loc]
+         }}));
         break;
       default:
     }
@@ -183,19 +203,24 @@ export const useStore = create((set, get) => ({
         set(state => ({ selCateLoc: {...state.selCateLoc, selAttractions: state.selCateLoc.selAttractions.filter(loc => loc.id !== locId)}}));
         break;
       case '2':
-        set(state => ({ selCulture: state.selCulture.filter(loc => loc.id !== locId)}));
+        // set(state => ({ selCulture: state.selCulture.filter(loc => loc.id !== locId)}));
+        set(state => ({ selCateLoc: {...state.selCateLoc, selCulture: state.selCateLoc.selCulture.filter(loc => loc.id !== locId)}}));
         break;
       case '3':
-        set(state => ({ selFestival: state.selFestival.filter(loc => loc.id !== locId)}));
+        // set(state => ({ selFestival: state.selFestival.filter(loc => loc.id !== locId)}));
+        set(state => ({ selCateLoc: {...state.selCateLoc, selFestival: state.selCateLoc.selFestival.filter(loc => loc.id !== locId)}}));
         break;
       case '4':
-        set(state => ({ selLeports: state.selLeports.filter(loc => loc.id !== locId)}));
+        // set(state => ({ selLeports: state.selLeports.filter(loc => loc.id !== locId)}));
+        set(state => ({ selCateLoc: {...state.selCateLoc, selLeports: state.selCateLoc.selLeports.filter(loc => loc.id !== locId)}}));
         break;
       case '5':
-        set(state => ({ selLodge: state.selLodge.filter(loc => loc.id !== locId)}));
+        // set(state => ({ selLodge: state.selLodge.filter(loc => loc.id !== locId)}));
+        set(state => ({ selCateLoc: {...state.selCateLoc, selLodge: state.selCateLoc.selLodge.filter(loc => loc.id !== locId)}}));
         break;
       case '6':
-        set(state => ({ selRestaurant: state.selRestaurant.filter(loc => loc.id !== locId)}));
+        // set(state => ({ selRestaurant: state.selRestaurant.filter(loc => loc.id !== locId)}));
+        set(state => ({ selCateLoc: {...state.selCateLoc, selRestaurant: state.selCateLoc.selRestaurant.filter(loc => loc.id !== locId)}}));
         break;
       default:
     }
