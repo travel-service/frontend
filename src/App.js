@@ -20,7 +20,10 @@ function App() {
           path: process.env.PUBLIC_URL + '/canvas/*',
           element: <CanvasMainPage />,
         },
-        { path: process.env.PUBLIC_URL + '/notice/*', element: <NoticeMainPage />},
+        {
+          path: process.env.PUBLIC_URL + '/notice/*',
+          element: <NoticeMainPage />,
+        },
       ])}
       {/* <Routes>
         <Route element={<SignUpPage />} path="/" />
@@ -33,5 +36,3 @@ function App() {
 }
 
 export default App;
-
-// 0303 useRoutes 사용
