@@ -2,8 +2,8 @@ import React, { useEffect, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeField, initializeForm, login } from 'redux/modules/auth';
 import AuthForm from 'components/Auth/AuthForm';
-import { check } from 'redux/modules/user';
 import { useNavigate } from 'react-router-dom';
+// import { check } from 'redux/modules/user';
 
 const LoginForm = () => {
   const [error, setError] = useState(null);
@@ -22,7 +22,6 @@ const LoginForm = () => {
   // 인풋 변경 이벤트 핸들러
   const onChange = useCallback(
     (e) => {
-      console.log(e.target.name);
       const { value, name } = e.target;
       dispatch(
         changeField({
@@ -37,7 +36,6 @@ const LoginForm = () => {
 
   // 폼 등록 이벤트 핸들러
   const onSubmit = (e) => {
-    // console.log(e.targe.name);
     e.preventDefault();
     const { userName, password } = form;
     dispatch(login({ userName, password }));

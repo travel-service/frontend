@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import palette from '../../../lib/styles/palette';
 import Modal from '../../modal/modal';
-import { useStore } from '../../../lib/store';
+import {useStore} from '../../../lib/store';
 import BlockInfo from '../BlockInfo/BlockInfo';
 
 const BButton = styled.button`
@@ -13,7 +13,7 @@ const BButton = styled.button`
   border-radius: 4px;
   background-color: #74b9ff;
   z-index: 0;
-`;
+`
 
 const Block = styled.li`
   display: flex;
@@ -34,7 +34,7 @@ const Img = styled.img`
   height: 3.2vw;
 `;
 
-function Location({ location }) {
+function Location ({location}) {
   const [modalOpen, setModalOpen] = useState(false);
 
   const OpenModal = () => {
@@ -45,7 +45,7 @@ function Location({ location }) {
     setModalOpen(false);
   };
 
-  const { selCateLoc, onAdd, remove } = useStore();
+  const {selCateLoc, onAdd, remove} = useStore();
 
   return (
     <Block>
@@ -57,43 +57,36 @@ function Location({ location }) {
         <br />
         {location.tel}
       </BlockDiv>
-      <BButton
+      <BButton 
         onClick={() => {
-          console.log(location);
+          console.log(location)
           if (location.isSelect === false) {
-            onAdd(location, location.type);
-            location.isSelect = true;
-          } else {
-            remove(location.id, location.type);
-            location.isSelect = false;
+            onAdd(location, location.type)
+            location.isSelect = true
           }
-        }}
-      >
-        {location.isSelect ? '취소' : '선택'}
-      </BButton>
-      <BButton
-        onClick={() => {
-          console.log(selCateLoc);
-        }}
-      >
-        test
-      </BButton>
+          else {
+            remove(location.id, location.type);
+            location.isSelect = false
+          }
+        } 
+      }>{location.isSelect ? '취소' : '선택'}</BButton>
+      <BButton onClick={() => {console.log(selCateLoc)}}>test</BButton>
       <Modal open={modalOpen} close={closeModal} header={location.name}>
         {location.info}
-        <BlockInfo type={location.type} id={location.id} />
+        <BlockInfo type={location.type} id={location.id}/>
       </Modal>
     </Block>
-  );
+  )
 }
 
-function LocationList({ locations }) {
+function LocationList ({locations}) {
   return (
     <div>
-      {locations.map((location) => (
+      {locations.map(location => (
         <Location location={location} key={location.id} />
       ))}
     </div>
   );
-}
+};
 
 export default LocationList;

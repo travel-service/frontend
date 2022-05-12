@@ -1,15 +1,11 @@
-import React, { memo, useEffect } from 'react';
-import styled, { css } from 'styled-components';
+import React from 'react';
+import styled from 'styled-components';
 import palette from 'lib/styles/palette';
 import { Draggable } from 'react-beautiful-dnd';
-import Time from 'lib/Icons/Time';
-import Close from 'lib/Icons/Close';
 
 const Container = styled.div`
-  width: 90%;
   /* border: 1px solid lightgrey; */
-  margin: auto;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   border-radius: 2px;
   /* padding: 8px; */
   background: ${(props) => (props.isDragging ? 'lightgreen' : 'white')};
@@ -17,8 +13,8 @@ const Container = styled.div`
 
 const List = styled.li`
   display: flex;
-  /* justify-content: center; */
   list-style: none;
+  /* margin-bottom: 11px; */
   background-color: ${palette.gray[0]};
   box-shadow: 3px 3px 3px 3px ${palette.gray[5]};
   padding: 5px;
@@ -30,36 +26,14 @@ const Img = styled.img`
 `;
 
 const ListDiv = styled.div`
-  margin-left: 10px;
+  margin-left: 5px;
   font-weight: bold;
-  flex: 1;
 `;
 
-const Name = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const Btn = styled.div`
-  display: none;
-  ${(props) =>
-    props.day &&
-    css`
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      color: ${palette.gray[6]};
-    `}
-`;
-
-const Location = memo(({ location, index, type, onClick, day }) => {
-  const onClickX = () => {
-    onClick(day, location, index);
-  };
-
+const Location = ({ location, index, type }) => {
   return (
     <>
+      {/* {console.log(key, location, index, type)} */}
       <Draggable draggableId={location.id} index={index} type={type}>
         {(provided, snapshot) => (
           <Container
@@ -71,20 +45,17 @@ const Location = memo(({ location, index, type, onClick, day }) => {
             <List>
               <Img src={location.image} alt="img" />
               <ListDiv>
-                <Name>{location.id}</Name>
+                {location.id}
                 {/* id는 일단 한글 name으로 설정해둚, 모든 location의 id가 다르게 생성되어야함 */}
+                <br />
                 2021.01.26
               </ListDiv>
-              <Btn day={day}>
-                <Close size="18" onClick={onClickX} tooltip={true} />
-                <Time title="체류시간" />
-              </Btn>
             </List>
           </Container>
         )}
       </Draggable>
     </>
   );
-});
+};
 
 export default Location;

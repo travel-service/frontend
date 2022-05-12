@@ -30,7 +30,29 @@ export const useStore = create((set, get) => ({
   userTravelDay: {
     travelDay: [],
   },
+  setName: (input) => {
+    set((state) => ({ userPlan: { ...state.userPlan, name: input } }));
+  },
+  setPeriods: (input) => {
+    const userTravelDay = get().userTravelDay;
+    let arr = [];
+    arr = Array.from({ length: input }, (_, i) => []);
 
+    // travelDay 이미 있는 경우
+    if (userTravelDay.travelDay === []) {
+      arr = userTravelDay.travelDay;
+    }
+
+    set((state) => ({
+      userPlan: { ...state.userPlan, periods: input },
+      userTravelDay: { ...state.userTravelDay, travelDay: arr },
+    }));
+  },
+  setConcept: (input) => {
+    set((state) => ({
+      userPlanConcept: { ...state.userPlanConcept, concept: input },
+    }));
+  },
   setDepart: (input) => {
     const pD =
       input.getFullYear() +
@@ -38,7 +60,14 @@ export const useStore = create((set, get) => ({
       (input.getMonth() + 1).toString().padStart(2, '0') +
       '/' +
       input.getDate().toString().padStart(2, '0');
+    set((state) => ({ userPlan: { ...state.userPlan, depart: pD } }));
     return pD; // ?
+  },
+  setDestination: (input) => {
+    set((state) => ({ userPlan: { ...state.userPlan, destination: input } }));
+  },
+  setThumbnail: (input) => {
+    set((state) => ({ userPlan: { ...state.userPlan, thumbnail: input } }));
   },
 
   // 압축 로직, [{}, {}...] => [id, id...]
@@ -52,74 +81,48 @@ export const useStore = create((set, get) => ({
     return result;
   },
 
-  // 압축 풀기 로직, [id, id...] => [{}, {}...]
-  unzipSelLoc: (item) => {
-    // item는 id값만 있는 배열, sysCateLoc를 사용해서 객체가 담긴 배열로 생성 후 selLoc 에 덮어쓰기
-    // set({})
-  },
-
-  // 새로운 plan 생성 (프론트에서만 관리)
-  newPlan: async () => {
-    // const response = await axios.get('http://localhost:4000/locations');
-    // set({ sysLoc: response.data });
-    // const sort = get().sortLoc;
-    // const sortData = await sort(get().sysLoc);
-    // set({ sysCateLoc: sortData });
-  },
-
-  // 이미 존재하는 plan 받아오기
+  // GET userPlan
   getPlan: async (id) => {
+    //const userPlan = get().userPlan;
     const response = await axios.get(`http://localhost:4000/travelPlans/${id}`);
-    const locations = await axios.get('http://localhost:4000/locations');
+    //const response = await axios.get(`http://localhost:4000/travelPlans/1`);
     set({ userPlan: response.data.planForm });
     set({ userPlanConcept: response.data.conceptForm });
     set({ userTravelDay: response.data.dayForm });
-    // set({ sysLoc: locations.data });
+    console.log(response); // 성공하면 success
   },
-  // travelDay.locationIds를 dayLoc 으로 초기화
 
-  // selLoc 데이터 초기화
-  // selLocSort: async () => {
-  //   const selLocArr = get().userPlan.selectedLocations;
-  //   const sysLoc = get().sysLoc;
-  //   let obj = {};
-  //   for (let key in selLocArr) {
-  //     let arr = [];
-  //     selLocArr[key].map((e) => {
-  //       if (typeof e === 'number') arr.push(sysLoc[key][e]);
-  //       else arr.push(e);
-  //       return '';
-  //     });
-  //     obj[key] = arr;
-  //   }
-  //   set((state) => ({
-  //     userPlan: {
-  //       ...state.userPlan,
-  //       selectedLocations: obj,
-  //       loading: true,
-  //     },
-  //   }));
-  // },
-
-  // id값으로 판별
+  // POST userPlan
   postPlan: async (id) => {
     // 매개변수 id는 userPlan id
-    console.log(id);
-    if (id === undefined) {
-      const response = await axios.post(`http://localhost:4000/travelPlans`, {
-        name: 'Test',
+    const userPlan = get().userPlan;
+    const userPlanConcept = get().userPlanConcept;
+    const userTravelDay = get().userTravelDay;
+    if (id === '') {
+      const response = await axios.post(`http://localhost:4000/travelPlans/`, {
+        /*...userPlan,*/
+        planForm: userPlan,
+        conceptForm: userPlanConcept,
+        dayForm: userTravelDay,
       });
-      set({ userPlan: response.data }); // 백에서 보내주는 데이터가 userPlan
+      //set({ userPlan: response.data }); // 백에서 보내주는 데이터가 userPlan
+      console.log(response);
     } else {
-      const response = await axios.post(
+      //const response = await axios.post(`/members/1/plan`, {
+      //test용 patch..
+      const response = await axios.patch(
         `http://localhost:4000/travelPlans/${id}`,
+        {
+          planForm: userPlan,
+          conceptForm: userPlanConcept,
+          dayForm: userTravelDay,
+        },
       );
       console.log(response); // 성공하면 success
     }
   },
 
-  selCateLoc: {
-    // 객체가 담기는 배열을 담는 객체
+  selCateLoc: {  // 객체가 담기는 배열을 담는 객체
     // 담은 location => 분류
     selAttractions: [],
     selCulture: [],
@@ -128,15 +131,6 @@ export const useStore = create((set, get) => ({
     selLodge: [],
     selRestaurant: [],
   },
-
-  // category: {
-  //   attractions: '관광지',
-  //   cultures: '문화시설',
-  //   festivals: '축제',
-  //   leports: '레포츠',
-  //   lodges: '숙박 시설',
-  //   restaurants: '음식점',
-  // },
 
   category: {
     1: { eng: 'Attractions', kor: '관광지' },
@@ -154,59 +148,47 @@ export const useStore = create((set, get) => ({
         console.log(loc);
         console.log(get().selCateLoc);
         //  set(state => ({ selAttractions: [...state.selAttractions, loc] }));
-        set((state) => ({
-          selCateLoc: {
-            ...state.selCateLoc,
-            selAttractions: [...state.selCateLoc.selAttractions, loc],
-          },
-        }));
+         set(state => ({ selCateLoc: {
+          ...state.selCateLoc,
+          selAttractions: [...state.selCateLoc.selAttractions, loc]
+         }}));
         break;
       case '2':
         // set(state => ({ selCulture: [...state.selCulture, loc] }));
-        set((state) => ({
-          selCateLoc: {
-            ...state.selCateLoc,
-            selCulture: [...state.selCateLoc.selCulture, loc],
-          },
-        }));
+        set(state => ({ selCateLoc: {
+          ...state.selCateLoc,
+          selCulture: [...state.selCateLoc.selCulture, loc]
+         }}));
         break;
       case '3':
         // set(state => ({ selFestival: [...state.selFestival, loc] }));
-        set((state) => ({
-          selCateLoc: {
-            ...state.selCateLoc,
-            selFestival: [...state.selCateLoc.selFestival, loc],
-          },
-        }));
+        set(state => ({ selCateLoc: {
+          ...state.selCateLoc,
+          selFestival: [...state.selCateLoc.selFestival, loc]
+         }}));
         break;
       case '4':
         // set(state => ({ selLeports: [...state.selLeports, loc] }));
-        set((state) => ({
-          selCateLoc: {
-            ...state.selCateLoc,
-            selLeports: [...state.selCateLoc.selLeports, loc],
-          },
-        }));
+        set(state => ({ selCateLoc: {
+          ...state.selCateLoc,
+          selLeports: [...state.selCateLoc.selLeports, loc]
+         }}));
         break;
       case '5':
         console.log(loc);
         // set(state => ({ selLodge: [...state.selLodge, loc] }));
-        set((state) => ({
-          selCateLoc: {
-            ...state.selCateLoc,
-            selLodge: [...state.selCateLoc.selLodge, loc],
-          },
-        }));
+        set(state => ({ selCateLoc: {
+          ...state.selCateLoc,
+          selLodge: [...state.selCateLoc.selLodge, loc]
+         }}));
         break;
       case '6':
         console.log(loc);
         // set(state => ({ selRestaurant: [...state.selRestaurant, loc] }));
-        set((state) => ({
-          selCateLoc: {
-            ...state.selCateLoc,
-            selRestaurant: [...state.selCateLoc.selRestaurant, loc],
-          },
-        }));
+        set(state => ({ selCateLoc: {
+          ...state.selCateLoc,
+          selRestaurant: [...state.selCateLoc.selRestaurant, loc]
+         }}));
         break;
       default:
     }
@@ -217,114 +199,31 @@ export const useStore = create((set, get) => ({
     switch (type) {
       case '1':
         // set(state => ({ selAttractions: state.selAttractions.filter(loc => loc.id !== locId)}));
-        set((state) => ({
-          selCateLoc: {
-            ...state.selCateLoc,
-            selAttractions: state.selCateLoc.selAttractions.filter(
-              (loc) => loc.id !== locId,
-            ),
-          },
-        }));
+        set(state => ({ selCateLoc: {...state.selCateLoc, selAttractions: state.selCateLoc.selAttractions.filter(loc => loc.id !== locId)}}));
         break;
       case '2':
         // set(state => ({ selCulture: state.selCulture.filter(loc => loc.id !== locId)}));
-        set((state) => ({
-          selCateLoc: {
-            ...state.selCateLoc,
-            selCulture: state.selCateLoc.selCulture.filter(
-              (loc) => loc.id !== locId,
-            ),
-          },
-        }));
+        set(state => ({ selCateLoc: {...state.selCateLoc, selCulture: state.selCateLoc.selCulture.filter(loc => loc.id !== locId)}}));
         break;
       case '3':
         // set(state => ({ selFestival: state.selFestival.filter(loc => loc.id !== locId)}));
-        set((state) => ({
-          selCateLoc: {
-            ...state.selCateLoc,
-            selFestival: state.selCateLoc.selFestival.filter(
-              (loc) => loc.id !== locId,
-            ),
-          },
-        }));
+        set(state => ({ selCateLoc: {...state.selCateLoc, selFestival: state.selCateLoc.selFestival.filter(loc => loc.id !== locId)}}));
         break;
       case '4':
         // set(state => ({ selLeports: state.selLeports.filter(loc => loc.id !== locId)}));
-        set((state) => ({
-          selCateLoc: {
-            ...state.selCateLoc,
-            selLeports: state.selCateLoc.selLeports.filter(
-              (loc) => loc.id !== locId,
-            ),
-          },
-        }));
+        set(state => ({ selCateLoc: {...state.selCateLoc, selLeports: state.selCateLoc.selLeports.filter(loc => loc.id !== locId)}}));
         break;
       case '5':
         // set(state => ({ selLodge: state.selLodge.filter(loc => loc.id !== locId)}));
-        set((state) => ({
-          selCateLoc: {
-            ...state.selCateLoc,
-            selLodge: state.selCateLoc.selLodge.filter(
-              (loc) => loc.id !== locId,
-            ),
-          },
-        }));
+        set(state => ({ selCateLoc: {...state.selCateLoc, selLodge: state.selCateLoc.selLodge.filter(loc => loc.id !== locId)}}));
         break;
       case '6':
         // set(state => ({ selRestaurant: state.selRestaurant.filter(loc => loc.id !== locId)}));
-        set((state) => ({
-          selCateLoc: {
-            ...state.selCateLoc,
-            selRestaurant: state.selCateLoc.selRestaurant.filter(
-              (loc) => loc.id !== locId,
-            ),
-          },
-        }));
+        set(state => ({ selCateLoc: {...state.selCateLoc, selRestaurant: state.selCateLoc.selRestaurant.filter(loc => loc.id !== locId)}}));
         break;
       default:
     }
   },
-
-  // sortLoc: (item) => {
-  //   const obj = Object.keys(item);
-  //   let att = [];
-  //   let cul = [];
-  //   let fes = [];
-  //   let lepo = [];
-  //   let lod = [];
-  //   let rest = [];
-  //   for (let x of obj) {
-  //     switch (x) {
-  //       case 'attractions':
-  //         att.push(x);
-  //         break;
-  //       case 'cultures':
-  //         cul.push(x);
-  //         break;
-  //       case 'festivals':
-  //         fes.push(x);
-  //         break;
-  //       case 'leports':
-  //         lepo.push(x);
-  //         break;
-  //       case 'lodges':
-  //         lod.push(x);
-  //         break;
-  //       case 'restaurants':
-  //         rest.push(x);
-  //         break;
-  //       default:
-  //     }
-  //   }
-  //   return {
-  //     attractions: att,
-  //     culture: cul,
-  //     festival: fes,
-  //     leports: lepo,
-  //     lodge: lod,
-  //     restaurant: rest,
-  //   };
-  // },
 
   // 여행 캔버스 페이지에서 사용되는 함수
 
