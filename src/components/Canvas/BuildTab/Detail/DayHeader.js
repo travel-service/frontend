@@ -20,18 +20,21 @@ const Container = styled.div`
 const DayNum = styled.div``;
 
 const DayHeader = ({ index }) => {
-  const { userPlan, setDepart } = useStore();
+  const { userPlan } = useStore();
   const [dates, setDates] = useState('');
 
-  const addDays = useCallback(
-    (date, days) => {
-      // day 추가
-      let result = new Date(date);
-      result.setDate(result.getDate() + days);
-      setDates(setDepart(result));
-    },
-    [setDepart],
-  );
+  const addDays = useCallback((date, days) => {
+    // day 추가
+    let result = new Date(date);
+    result.setDate(result.getDate() + days);
+    const pD =
+      result.getFullYear() +
+      '/' +
+      (result.getMonth() + 1).toString().padStart(2, '0') +
+      '/' +
+      result.getDate().toString().padStart(2, '0');
+    setDates(pD);
+  }, []);
 
   useEffect(() => {
     let dayCnt = index;
