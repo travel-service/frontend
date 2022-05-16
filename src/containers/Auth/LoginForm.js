@@ -3,18 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeField, initializeForm, login } from 'redux/modules/auth';
 import AuthForm from 'components/Auth/AuthForm';
 import { useNavigate } from 'react-router-dom';
-// import { check } from 'redux/modules/user';
+import { check } from 'redux/modules/user';
 
 const LoginForm = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { form, auth, authError, userState } = useSelector(
+  const { form, auth, authError, userState, accessToken } = useSelector(
     ({ auth, user }) => ({
       // state.auth, state.user
       form: auth.login, // store이름 auth, auth.signup에(회원 정보 목록 있음)
       auth: auth.auth,
       authError: auth.authError,
+      accessToken: auth.accessToken,
       userState: user.userState,
     }),
   );
@@ -52,24 +53,25 @@ const LoginForm = () => {
       setError(authError.response.data.message);
       return;
     }
-    if (auth) {
+    if (accessToken) {
       console.log('로그인 성공');
-      // navigate(process.env.PUBLIC_URL + '/canvas/directory');
-      // dispatch(check());
+      navigate(process.env.PUBLIC_URL + '/');
+      dispatch(check());
     }
-  }, [auth, authError, dispatch, navigate]);
+  }, [auth, authError, dispatch, navigate, accessToken]);
 
   useEffect(() => {
-    // if (userState) {
-    //   console.log('check 성공');
-    //   navigate(process.env.PUBLIC_URL + '/canvas/directory');
-    //   try {
-    //     localStorage.setItem('userState', JSON.stringify(userState));
-    //   } catch (e) {
-    //     console.log('localStorage is not working');
-    //   }
-    // }
-  }, [userState, navigate]);
+    if (accessToken) {
+      console.log('check 성공');
+      // console.log('check 성공');
+      // navigate(process.env.PUBLIC_URL + '/canvas/directory');
+      // try {
+      //   localStorage.setItem('userState', JSON.stringify(userState));
+      // } catch (e) {
+      //   console.log('localStorage is not working');
+      // }
+    }
+  }, [userState, navigate, accessToken]);
 
   return (
     <AuthForm

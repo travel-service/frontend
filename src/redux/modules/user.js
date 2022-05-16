@@ -15,29 +15,29 @@ export const tempSetUser = createAction(TEMP_SET_USER, (user) => user);
 export const check = createAction(CHECK);
 export const logout = createAction(LOGOUT);
 
-const checkSaga = createRequestSaga(CHECK, authAPI.check);
+const checkSaga = createRequestSaga(CHECK, authAPI.onSilentRefresh);
 
-function checkFailureSaga() {
-  try {
-    localStorage.removeItem('userState');
-  } catch (e) {
-    console.log('localStorage is not working');
-  }
-}
+// function checkFailureSaga() {
+//   try {
+//     localStorage.removeItem('userState');
+//   } catch (e) {
+//     console.log('localStorage is not working');
+//   }
+// }
 
-function* logoutSaga() {
-  try {
-    yield call(authAPI.logout);
-    localStorage.removeItem('userState');
-  } catch (e) {
-    console.log(e);
-  }
-}
+// function* logoutSaga() {
+//   try {
+//     yield call(authAPI.logout);
+//     localStorage.removeItem('userState');
+//   } catch (e) {
+//     console.log(e);
+//   }
+// }
 
 export function* userSaga() {
   yield takeLatest(CHECK, checkSaga);
-  yield takeLatest(CHECK_FAILURE, checkFailureSaga);
-  yield takeLatest(LOGOUT, logoutSaga);
+  // yield takeLatest(CHECK_FAILURE, checkFailureSaga);
+  // yield takeLatest(LOGOUT, logoutSaga);
 }
 
 const initialState = {
@@ -51,11 +51,13 @@ export default handleActions(
       ...state,
       userState,
     }),
-    [CHECK_SUCCESS]: (state, { payload: userState }) => ({
-      ...state,
-      userState,
-      checkError: null,
-    }),
+    [CHECK_SUCCESS]: (state, { payload: userState }) => {
+      return {
+        ...state,
+        userState,
+        checkError: null,
+      };
+    },
     [CHECK_FAILURE]: (state, { payload: error }) => ({
       ...state,
       userState: null,

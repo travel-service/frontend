@@ -88,6 +88,7 @@ const initialState = {
   },
   auth: null,
   authError: null,
+  accessToken: null,
 };
 
 // function auth(state = initialState, action) {
@@ -125,6 +126,7 @@ const auth = handleActions(
       ...state,
       [form]: initialState[form],
       authError: null, // 폼 전환 시 외원 인증 에러 초기화
+      accessToken: null,
     }),
     // 회원가입 성공
     [SIGNUP_SUCCESS]: (state, { payload: auth }) => ({
@@ -133,20 +135,22 @@ const auth = handleActions(
       auth,
     }),
     // 회원가입 실패
-    [SIGNUP_FAILURE]: (state, { payload: error }) => ({
+    [SIGNUP_FAILURE]: (state, { payload: data }) => ({
       ...state,
-      authError: error,
+      authError: data.error,
     }),
     // 로그인 성공
-    [LOGIN_SUCCESS]: (state, { payload: auth }) => ({
-      ...state,
-      authError: null,
-      auth,
-    }),
+    [LOGIN_SUCCESS]: (state, action) => {
+      return {
+        ...state,
+        authError: null,
+        accessToken: action.payload.headers.accesstoken,
+      };
+    },
     // 로그인 실패
-    [LOGIN_FAILURE]: (state, { payload: error }) => ({
+    [LOGIN_FAILURE]: (state, { payload: data }) => ({
       ...state,
-      authError: error,
+      authError: data.error,
     }),
   },
   initialState,
