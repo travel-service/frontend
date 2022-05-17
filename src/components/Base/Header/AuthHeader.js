@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Button2 from 'components/common/AuthPageButton';
+import AuthPageButton from 'components/common/AuthPageButton';
 import ModalModule from 'components/common/modal/ModalModule';
 import InsertCanvas from './InsertCanvas';
 
@@ -11,7 +11,7 @@ const Div = styled.div`
   justify-content: center;
 `;
 
-const AuthPageButton = ({ user, onLogout }) => {
+const AuthHeader = ({ user, onLogout }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const openModal = () => {
@@ -25,12 +25,12 @@ const AuthPageButton = ({ user, onLogout }) => {
   return (
     <>
       <Div>
-        <Button2 onClick={openModal}>Go Plan</Button2>
-        <Button2 to="/about">About</Button2>
-        <Button2 to="/contact">Contact</Button2>
-        <Button2 to={process.env.PUBLIC_URL + '/notice/noticeList'}>
+        <AuthPageButton onClick={openModal}>Go Plan</AuthPageButton>
+        <AuthPageButton to="/about">About</AuthPageButton>
+        <AuthPageButton to="/contact">Contact</AuthPageButton>
+        <AuthPageButton to={process.env.PUBLIC_URL + '/notice/noticeList'}>
           Notice
-        </Button2>
+        </AuthPageButton>
       </Div>
       <ModalModule
         modalIsOpen={modalIsOpen}
@@ -44,4 +44,4 @@ const AuthPageButton = ({ user, onLogout }) => {
   );
 };
 
-export default AuthPageButton;
+export default AuthHeader;
