@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {infoStore} from '../../../lib/infoStore';
 
 
@@ -6,7 +6,11 @@ const AttractionInfo = (locationId) => {
     const { attInfo, getInfo } = infoStore();
     const {id} = locationId;
     // console.log(id);
-    getInfo(id, 'att');
+
+    useEffect(() => {
+        getInfo(id, 'att');
+    }, [getInfo, id]);
+    
     return (
         <div>
             관광지 정보<br />
@@ -29,7 +33,11 @@ const CultureInfo = (locationId) => {
     const { cultInfo, getInfo } = infoStore();
     const {id} = locationId;
     // console.log(id);
-    getInfo(id, 'cult');
+
+    useEffect(() => {
+        getInfo(id, 'cult');
+    }, [getInfo, id]);
+
     return (
         <div>
             문화시설 정보<br />
@@ -54,7 +62,11 @@ const FestivalInfo = (locationId) => {
     const { festInfo, getInfo } = infoStore();
     const {id} = locationId;
     // console.log(id);
-    getInfo(id, 'fest');
+
+    useEffect(() => {
+        getInfo(id, 'fest');
+    }, [getInfo, id]);
+    
     return (
         <div>
             축제 정보<br />
@@ -82,7 +94,11 @@ const LeportsInfo = (locationId) => {
     const { lepoInfo, getInfo } = infoStore();
     const {id} = locationId;
     // console.log(id);
-    getInfo(id, 'lepo');
+
+    useEffect(() => {
+        getInfo(id, 'lepo');
+    }, [getInfo, id]);
+
     return (
         <div>
             레포츠 정보<br />
@@ -108,7 +124,11 @@ const LodgeInfo = (locationId) => {
     const { lodgeInfo, getInfo } = infoStore();
     const {id} = locationId;
     // console.log(id);
-    getInfo(id, 'lodge');
+
+    useEffect(() => {
+        getInfo(id, 'lodge');
+    }, [getInfo, id]);
+
     return (
         <div>
             숙소 정보<br />
@@ -134,7 +154,11 @@ const RestaurantInfo = (locationId) => {
     const { resInfo, getInfo } = infoStore();
     const {id} = locationId;
     // console.log(id);
-    getInfo(id, 'res');
+
+    useEffect(() => {
+        getInfo(id, 'res');
+    }, [getInfo, id]);
+
     return (
         <div>
             음식점 정보<br />
