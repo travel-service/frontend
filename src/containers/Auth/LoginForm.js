@@ -9,7 +9,7 @@ const LoginForm = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { form, auth, authError, userState, accessToken } = useSelector(
+  const { form, auth, authError, userState } = useSelector(
     ({ auth, user }) => ({
       // state.auth, state.user
       form: auth.login, // store이름 auth, auth.signup에(회원 정보 목록 있음)
@@ -49,29 +49,24 @@ const LoginForm = () => {
 
   useEffect(() => {
     if (authError) {
-      console.log('오류 발생');
-      setError(authError.response.data.message);
+      setError('아이디 또는 비밀번호를 잘못 입력했습니다.');
       return;
     }
-    if (accessToken) {
-      console.log('로그인 성공');
-      navigate(process.env.PUBLIC_URL + '/');
+    if (auth) {
       dispatch(check());
     }
-  }, [auth, authError, dispatch, navigate, accessToken]);
+  }, [auth, authError, dispatch, navigate]);
 
   useEffect(() => {
-    if (accessToken) {
-      console.log('check 성공');
-      // console.log('check 성공');
-      // navigate(process.env.PUBLIC_URL + '/canvas/directory');
-      // try {
-      //   localStorage.setItem('userState', JSON.stringify(userState));
-      // } catch (e) {
-      //   console.log('localStorage is not working');
-      // }
+    if (userState) {
+      navigate(process.env.PUBLIC_URL + '/');
+      try {
+        localStorage.setItem('userState', JSON.stringify(userState));
+      } catch (e) {
+        console.log('localStorage is not working');
+      }
     }
-  }, [userState, navigate, accessToken]);
+  }, [userState, navigate]);
 
   return (
     <AuthForm

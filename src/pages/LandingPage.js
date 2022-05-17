@@ -1,13 +1,8 @@
 import React from 'react';
+import LandingTemplate from 'components/Landing/LandingTemplate';
 
 const LandingPage = () => {
-  return (
-    <>
-      <div>
-        메인 페이지 내용
-      </div>
-    </>
-  );
+  return <LandingTemplate></LandingTemplate>;
 };
 
 export default LandingPage;

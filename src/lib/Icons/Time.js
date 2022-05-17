@@ -1,12 +1,11 @@
 // 시간 추가, 변경 버튼
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { MdMoreTime } from 'react-icons/md';
 import styled from 'styled-components';
 import ModalModule from 'components/common/modal/ModalModule';
-import TimeInput from 'components/Canvas/common/TimeInput';
+// import TimeInput from 'components/Canvas/common/TimeInput';
 import ReactTooltip from 'react-tooltip';
 import { useStore } from 'lib/store';
-import produce from 'immer';
 
 const TimeBtn = styled(MdMoreTime)`
   cursor: pointer;

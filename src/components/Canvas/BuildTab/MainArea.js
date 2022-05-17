@@ -29,8 +29,7 @@ const Container = styled.div`
 // `;
 
 const MainArea = () => {
-  const { category, pushLocToDay, dayLocChange, userPlan, canvasPost } =
-    useStore();
+  const { category, pushLocToDay, dayLocChange } = useStore();
 
   const onDragEnd = (result) => {
     const { destination, source } = result;

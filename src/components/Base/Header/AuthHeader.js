@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Button2 from 'components/common/Button2';
+import Button2 from 'components/common/AuthPageButton';
 import ModalModule from 'components/common/modal/ModalModule';
 import InsertCanvas from './InsertCanvas';
 
@@ -11,7 +11,7 @@ const Div = styled.div`
   justify-content: center;
 `;
 
-const Header = ({ user, onLogout }) => {
+const AuthPageButton = ({ user, onLogout }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const openModal = () => {
@@ -44,4 +44,4 @@ const Header = ({ user, onLogout }) => {
   );
 };
 
-export default Header;
+export default AuthPageButton;
