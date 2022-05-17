@@ -6,6 +6,7 @@ import CanvasMainPage from 'pages/CanvasPages/CanvasMainPage';
 import NoticeMainPage from 'pages/NoticePages/NoticeMainPage';
 import Modal from 'react-modal';
 import LandingPage from 'pages/LandingPage';
+import NotFoundPage from 'pages/NotFoundPage';
 
 function App() {
   return (
@@ -22,6 +23,10 @@ function App() {
         {
           path: process.env.PUBLIC_URL + '/notice/*',
           element: <NoticeMainPage />,
+        },
+        {
+          path: process.env.PUBLIC_URL + '*',
+          element: <NotFoundPage />,
         },
       ])}
       {/* <Routes>

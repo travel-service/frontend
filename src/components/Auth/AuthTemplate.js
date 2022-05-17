@@ -12,10 +12,20 @@ const AuthTemplateBlock = styled.div`
 
 const WhiteBox = styled.div`
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.025);
-  padding: 2rem;
   width: 45%;
   background: white;
   border-radius: 0 45px 45px 0;
+`;
+
+const Div = styled.div`
+  padding: 50px 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  /* width: 100px; */
+  /* width: 70%; */
 `;
 
 const Main = styled.div`
@@ -46,8 +56,10 @@ const AuthTemplate = ({ children }) => {
   return (
     <AuthTemplateBlock>
       <WhiteBox>
-        <Logo />
-        {children}
+        <Div>
+          <Logo />
+          {children}
+        </Div>
       </WhiteBox>
       <Main>
         <AuthHeader />

@@ -7,6 +7,7 @@ import Button from 'components/common/Button';
 
 const AuthFormBlock = styled.div`
   /* padding-top: 30px; */
+  width: 450px;
 `;
 
 const Div = styled.div`
@@ -44,18 +45,20 @@ const SpanRed = styled.span`
 `;
 
 const StyledDiv = styled.div`
-  /* display: flex; */
+  display: flex;
   align-items: center;
   position: relative;
   /* text-align: center; */
   /* display: flex; */
   /* justify-content: space-between; */
-  margin-top: 1.5rem;
+  margin-top: 10px;
   /* justify-content: space-between; */
 `;
 
 const InputHeader = styled.div`
+  width: 100px;
   display: flex;
+  align-items: center;
 `;
 
 const StyledInput = styled.input`
@@ -67,7 +70,7 @@ const StyledInput = styled.input`
   border-radius: 8px;
   /* padding-bottom: 0.5rem; */
   outline: none;
-  width: 100%;
+  width: 350px;
   height: 45px;
   &:focus {
     border-bottom: 1px solid ${palette.gray[7]};
@@ -86,7 +89,7 @@ const Select = styled.select`
   border-radius: 8px;
   /* padding-bottom: 0.5rem; */
   outline: none;
-  width: 100%;
+  width: 350px;
   height: 45px;
   &:focus {
     border-bottom: 1px solid ${palette.gray[7]};
@@ -98,7 +101,7 @@ const Select = styled.select`
 
 const Footer = styled.div`
   margin-top: 2rem;
-  text-align: right;
+  /* text-align: right; */
   a {
     color: ${palette.gray[6]};
     text-decoration: underline;
@@ -106,6 +109,11 @@ const Footer = styled.div`
       color: ${palette.gray[9]};
     }
   }
+`;
+
+const Links = styled.div`
+  display: flex;
+  justify-content: space-around;
 `;
 
 const ButtonWidthMarginTop = styled(Button)`
@@ -142,14 +150,14 @@ const AuthForm = ({
       <AuthFormBlock>
         <Div>
           <H2>
-            {text}
+            {/* {text} */}
             {type === 'signup' && <SpanRed>( * 필수항목 )</SpanRed>}
           </H2>
           <form onSubmit={onSubmit}>
             <StyledDiv>
               <InputHeader>
-                아이디
                 {type === 'signup' && <SpanRed>*</SpanRed>}
+                아이디
               </InputHeader>
               <StyledInput
                 autoComplete="username"
@@ -165,8 +173,8 @@ const AuthForm = ({
             </StyledDiv>
             <StyledDiv>
               <InputHeader>
-                비밀번호
                 {type === 'signup' && <SpanRed>*</SpanRed>}
+                비밀번호
               </InputHeader>
               <StyledInput
                 autoComplete="new-password"
@@ -179,21 +187,24 @@ const AuthForm = ({
                 maxLength="20"
                 minLength="8"
               />
-              {type === 'signup' && (
-                <SpanRed>- 영문자, 숫자, 특수문자 조합 8자리 이상</SpanRed>
-              )}
-              {type === 'signup' && detailErr.password && (
-                <SpanRed detail>{detailErr.password}</SpanRed>
-              )}
               {/* <SpanRed>- 영문자, 숫자, 특수문자 조합 8자리 이상</SpanRed>
               )} */}
               {/* {detailErr.password && <div>asd</div>}} */}
             </StyledDiv>
             {type === 'signup' && (
+              <SpanRed>영문자, 숫자, 특수문자 조합 8자리 이상</SpanRed>
+            )}
+            {type === 'signup' && detailErr.password && (
+              <SpanRed detail>{detailErr.password}</SpanRed>
+            )}
+            {type === 'signup' && (
               <>
                 <StyledDiv>
                   <InputHeader>
-                    비밀번호 확인<SpanRed>*</SpanRed>
+                    <SpanRed>*</SpanRed>
+                    비밀번호
+                    <br />
+                    확인
                   </InputHeader>
                   <StyledInput
                     autoComplete="new-password"
@@ -210,7 +221,7 @@ const AuthForm = ({
                 </StyledDiv>
                 <StyledDiv>
                   <InputHeader>
-                    이름<SpanRed>*</SpanRed>
+                    <SpanRed>*</SpanRed>이름
                   </InputHeader>
                   <StyledInput
                     name="realName"
@@ -223,7 +234,7 @@ const AuthForm = ({
                 </StyledDiv>
                 <StyledDiv>
                   <InputHeader>
-                    닉네임<SpanRed>*</SpanRed>
+                    <SpanRed>*</SpanRed>닉네임
                   </InputHeader>
                   <StyledInput
                     name="nickName"
@@ -272,7 +283,9 @@ const AuthForm = ({
 
                 <StyledDiv>
                   <InputHeader>
-                    본인 확인 이메일<SpanRed>*</SpanRed>
+                    <SpanRed>*</SpanRed>
+                    본인 확인
+                    <br /> 이메일
                   </InputHeader>
                   <StyledInput
                     name="email"
@@ -299,9 +312,19 @@ const AuthForm = ({
           </form>
           <Footer>
             {type === 'login' ? (
-              <Link to={process.env.PUBLIC_URL + '/signup'}>회원가입</Link>
+              <Links>
+                <Link to={process.env.PUBLIC_URL + '/signup'}>회원가입</Link>
+                <Link to={process.env.PUBLIC_URL + '/find'}>
+                  아이디/비밀번호 찾기
+                </Link>
+              </Links>
             ) : (
-              <Link to={process.env.PUBLIC_URL + '/login'}>로그인</Link>
+              <Links>
+                <Link to={process.env.PUBLIC_URL + '/login'}>로그인</Link>
+                <Link to={process.env.PUBLIC_URL + '/find'}>
+                  아이디/비밀번호 찾기
+                </Link>
+              </Links>
             )}
           </Footer>
         </Div>

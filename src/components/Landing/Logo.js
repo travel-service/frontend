@@ -2,28 +2,20 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
-const SubDiv = styled.div`
-  ${(props) =>
-    props.letter &&
-    css`
-      text-align: center;
-      height: 80px;
-      padding-top: 15px;
-    `}
+const LogoLink = styled(Link)`
+  display: flex;
+  justify-content: center;
 `;
 
-const Img = styled.img`
-  ${(props) =>
-    props.picture &&
-    css`
-      position: absolute;
-      left: 3%;
-    `}
+const SubDiv = styled.div`
+  margin: 0px 12px;
 `;
+
+const Img = styled.img``;
 
 const Logo = () => {
   return (
-    <Link to={process.env.PUBLIC_URL + '/'}>
+    <LogoLink to={process.env.PUBLIC_URL + '/'}>
       <SubDiv>
         <Img
           src={process.env.PUBLIC_URL + '/images/logoPainting.png'}
@@ -33,12 +25,12 @@ const Logo = () => {
       </SubDiv>
       <SubDiv letter>
         <Img
-          src={process.env.PUBLIC_URL + '/images/logoLetter.png'}
+          src={process.env.PUBLIC_URL + '/images/FontLogo.png'}
           alt=""
           letter
         />
       </SubDiv>
-    </Link>
+    </LogoLink>
   );
 };
 
