@@ -15,9 +15,9 @@ const TravelSettingForm = () => {
   // 여행 계획 이어서 버튼 누르면
   const { getPlan } = useStore();
 
-  useEffect(() => {
-    getPlan(2);
-  }, [getPlan]);
+  // useEffect(() => {
+  //   getPlan(2);
+  // }, [getPlan]);
 
   return (
     <div>

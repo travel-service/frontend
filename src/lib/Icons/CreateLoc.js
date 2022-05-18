@@ -4,6 +4,7 @@ import { MdOutlineLibraryAdd } from 'react-icons/md';
 import styled from 'styled-components';
 import ReactTooltip from 'react-tooltip';
 import ModalModule from 'components/common/modal/ModalModule';
+import { useStore } from 'lib/store';
 
 const CreateLocBtn = styled(MdOutlineLibraryAdd)`
   cursor: pointer;
@@ -11,18 +12,18 @@ const CreateLocBtn = styled(MdOutlineLibraryAdd)`
 
 const Div = styled.div`
   display: flex;
-  /* justify-content: space-between; */
   margin-bottom: 7px;
 `;
 
 const Container = styled.div`
+  padding-left: 50px;
   display: flex;
   flex-direction: column;
   /* align-items: center; */
 `;
 
 const Label = styled.label`
-  width: 70px;
+  width: 100px;
 `;
 
 const Input = styled.input`
@@ -35,17 +36,8 @@ const Type = styled.div`
   margin-left: 10px;
 `;
 
-const List = [
-  'attraction',
-  'culture',
-  'festival',
-  'leports',
-  'lodge',
-  'Restaurant',
-];
-// zustand 사용?
-
 const CreateLoc = ({ size, onClick }) => {
+  const { category } = useStore();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectValue, setSelectValue] = useState('');
   // const [time, setTime] = useState({
@@ -56,6 +48,7 @@ const CreateLoc = ({ size, onClick }) => {
   // });
 
   const onChange = (e) => {
+    console.log(e.target.value);
     // const { name, value } = e.target;
     // let tmpVal = value;
     // if (value < 0) {
@@ -104,13 +97,11 @@ const CreateLoc = ({ size, onClick }) => {
         <Container>
           {/* 수정 필요 0317 */}
           <Div>
-            <Label htmlFor="name">블록명</Label>
+            <Label htmlFor="name">여행지 이름</Label>
             <Input
               id="name"
               onChange={onChange}
-              placeholder="블록 이름을 지정해주세요."
-              // name="stayHour"
-              // value={stayHour}
+              placeholder="여행지 이름을 입력해주세요."
             />
           </Div>
           <Div>
@@ -119,28 +110,29 @@ const CreateLoc = ({ size, onClick }) => {
               id="coord"
               onChange={onChange}
               placeholder="지도에 마커를 표시해주세요"
-              // name="stayHour"
-              // value={stayHour}
             />
           </Div>
           <Div>
             <Label>type 설정</Label>
             <Type>
-              {List.map((value, i) => (
-                <div key={i}>
-                  <input
-                    id={value}
-                    value={value}
-                    name="category"
-                    type="radio"
-                    checked={selectValue === value}
-                    onChange={handleChange}
-                  />
-                  {value}
-                  <br />
-                </div>
-              ))}
+              <select name="type" onChange={onChange}>
+                <option value="">선택</option>
+                {Object.keys(category).map((key, index) => (
+                  <option value={category[key].kor} key={index}>
+                    {category[key].kor}
+                  </option>
+                ))}
+                <option value="기타">기타</option>
+              </select>
             </Type>
+          </Div>
+          <Div>
+            <Label htmlFor="image">이미지</Label>
+            <Input
+              id="image"
+              onChange={onChange}
+              placeholder="이미지 업로드해주세요"
+            />
           </Div>
         </Container>
       </ModalModule>

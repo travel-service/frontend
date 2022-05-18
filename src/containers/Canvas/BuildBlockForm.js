@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import MainArea from 'components/Canvas/BuildTab/MainArea';
 import CreateLoc from 'lib/Icons/CreateLoc';
 import palette from 'lib/styles/palette';
 
 const Container = styled.div`
+  /* position: absolute; */
+  /* right: 220px; */
   display: flex;
   justify-content: space-between;
   /* margin-top: 10px; */
@@ -18,9 +20,17 @@ const Buttons = styled.div`
   width: 100px;
 `;
 
-export let travelPlan = {};
+// export let travelPlan = {};
 
 const BuildBlockForm = () => {
+  // 앞부분 api 설정이 되면 작성 예정(0518)
+  useEffect(() => {
+    // get api
+    return {
+      // post api
+    };
+  }, []);
+
   return (
     <Container>
       <MainArea />

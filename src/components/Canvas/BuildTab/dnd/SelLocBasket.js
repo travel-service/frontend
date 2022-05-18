@@ -1,18 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useStore } from 'lib/store';
 import Location from '../Detail/Location';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import oc from 'open-color';
 import { Droppable } from 'react-beautiful-dnd';
 
 const Container = styled.div`
   display: flex;
   flex-direction: row;
+  width: 360px;
+  transition: all 0.3s;
+  ${(props) =>
+    !props.isOpen &&
+    css`
+      width: 0vw;
+    `}
 `;
 
 const List = styled.div`
   display: flex;
   flex-direction: column;
+  border: 2px solid black;
   border: 2px solid ${oc.teal[6]};
   justify-content: space-around;
 `;
@@ -29,7 +37,6 @@ const Item = styled.div`
     color: white;
     transition: background 0.2s linear;
   }
-
   :active {
     transform: translateY(1px);
   }
@@ -40,7 +47,7 @@ const Basket = styled.div`
   border: 2px solid ${oc.teal[6]};
 `;
 
-const SelLocBasket = () => {
+const SelLocBasket = ({ isOpen }) => {
   const { category, selCateLoc } = useStore();
   const list = Object.keys(category);
   const [type, setType] = useState(category[list[0]].eng);
@@ -52,47 +59,51 @@ const SelLocBasket = () => {
   };
 
   return (
-    <Container>
+    <Container isOpen={isOpen}>
       {/* 카테고리 */}
-      <List>
-        {list.map((cateNum) => (
-          <Item key={cateNum} onClick={() => onClick(cateNum)}>
-            {category[cateNum].kor}
-          </Item>
-        ))}
-      </List>
+      {isOpen && (
+        <List>
+          {list.map((cateNum) => (
+            <Item key={cateNum} onClick={() => onClick(cateNum)}>
+              {category[cateNum].kor}
+            </Item>
+          ))}
+        </List>
+      )}
       {/* 현재 카테고리 담은 블록 */}
-      <Droppable
-        droppableId={typeId}
-        isDropDisabled={true}
-        // type="location"
-      >
-        {(provided, snapshot) => (
-          <Basket
-            ref={provided.innerRef}
-            // {...provided.droppableProps}
-            isDraggingOver={snapshot.isDraggingOver}
-          >
-            {selCateLoc[`sel${type}`].length === 0 && (
-              <>로케이션을 담아오세요</>
-            )}
-            {selCateLoc[`sel${type}`].length > 0 &&
-              selCateLoc[`sel${type}`].map((location, index) => {
-                // <div>test</div>
-                console.log(location);
-                return (
-                  <Location
-                    key={location.id}
-                    location={location}
-                    index={index}
-                    id={location.id}
-                  />
-                );
-              })}
-            {provided.placeholder}
-          </Basket>
-        )}
-      </Droppable>
+      {isOpen && (
+        <Droppable
+          droppableId={typeId}
+          isDropDisabled={true}
+          // type="location"
+        >
+          {(provided, snapshot) => (
+            <Basket
+              ref={provided.innerRef}
+              // {...provided.droppableProps}
+              isDraggingOver={snapshot.isDraggingOver}
+            >
+              {selCateLoc[`sel${type}`].length === 0 && (
+                <>로케이션을 담아오세요</>
+              )}
+              {selCateLoc[`sel${type}`].length > 0 &&
+                selCateLoc[`sel${type}`].map((location, index) => {
+                  // <div>test</div>
+                  console.log(location);
+                  return (
+                    <Location
+                      key={location.id}
+                      location={location}
+                      index={index}
+                      id={location.id}
+                    />
+                  );
+                })}
+              {provided.placeholder}
+            </Basket>
+          )}
+        </Droppable>
+      )}
     </Container>
   );
 };

@@ -3,18 +3,9 @@ import Modal from 'react-modal';
 import styled from 'styled-components';
 import Close from 'lib/Icons/Close';
 import 'lib/styles/Modal.css';
-import SearchPlace from 'components/Canvas/BuildTab/Map/SearchPlace';
+import MapContainer from 'components/Canvas/BuildTab/Map/MapContainer';
 
 const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 10px;
-  background-color: #f1f1f1;
-  font-weight: 700;
-`;
-
-const MapHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -73,11 +64,11 @@ const ModalModule = ({
       </Section>
       {map && (
         <Section2>
-          <MapHeader>
-            <div>kakao Map Api</div>
+          <Header>
+            <div>kakao 지도</div>
             <Close size="20" onClick={closeModal} tooltip={false} />
-          </MapHeader>
-          <SearchPlace />
+          </Header>
+          <MapContainer />
           <Btn>
             <button onClick={onSubmit}>닫기</button>
           </Btn>

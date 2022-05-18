@@ -122,7 +122,8 @@ export const useStore = create((set, get) => ({
     }
   },
 
-  selCateLoc: {  // 객체가 담기는 배열을 담는 객체
+  selCateLoc: {
+    // 객체가 담기는 배열을 담는 객체
     // 담은 location => 분류
     selAttractions: [],
     selCulture: [],
@@ -148,47 +149,59 @@ export const useStore = create((set, get) => ({
         console.log(loc);
         console.log(get().selCateLoc);
         //  set(state => ({ selAttractions: [...state.selAttractions, loc] }));
-         set(state => ({ selCateLoc: {
-          ...state.selCateLoc,
-          selAttractions: [...state.selCateLoc.selAttractions, loc]
-         }}));
+        set((state) => ({
+          selCateLoc: {
+            ...state.selCateLoc,
+            selAttractions: [...state.selCateLoc.selAttractions, loc],
+          },
+        }));
         break;
       case '2':
         // set(state => ({ selCulture: [...state.selCulture, loc] }));
-        set(state => ({ selCateLoc: {
-          ...state.selCateLoc,
-          selCulture: [...state.selCateLoc.selCulture, loc]
-         }}));
+        set((state) => ({
+          selCateLoc: {
+            ...state.selCateLoc,
+            selCulture: [...state.selCateLoc.selCulture, loc],
+          },
+        }));
         break;
       case '3':
         // set(state => ({ selFestival: [...state.selFestival, loc] }));
-        set(state => ({ selCateLoc: {
-          ...state.selCateLoc,
-          selFestival: [...state.selCateLoc.selFestival, loc]
-         }}));
+        set((state) => ({
+          selCateLoc: {
+            ...state.selCateLoc,
+            selFestival: [...state.selCateLoc.selFestival, loc],
+          },
+        }));
         break;
       case '4':
         // set(state => ({ selLeports: [...state.selLeports, loc] }));
-        set(state => ({ selCateLoc: {
-          ...state.selCateLoc,
-          selLeports: [...state.selCateLoc.selLeports, loc]
-         }}));
+        set((state) => ({
+          selCateLoc: {
+            ...state.selCateLoc,
+            selLeports: [...state.selCateLoc.selLeports, loc],
+          },
+        }));
         break;
       case '5':
         console.log(loc);
         // set(state => ({ selLodge: [...state.selLodge, loc] }));
-        set(state => ({ selCateLoc: {
-          ...state.selCateLoc,
-          selLodge: [...state.selCateLoc.selLodge, loc]
-         }}));
+        set((state) => ({
+          selCateLoc: {
+            ...state.selCateLoc,
+            selLodge: [...state.selCateLoc.selLodge, loc],
+          },
+        }));
         break;
       case '6':
         console.log(loc);
         // set(state => ({ selRestaurant: [...state.selRestaurant, loc] }));
-        set(state => ({ selCateLoc: {
-          ...state.selCateLoc,
-          selRestaurant: [...state.selCateLoc.selRestaurant, loc]
-         }}));
+        set((state) => ({
+          selCateLoc: {
+            ...state.selCateLoc,
+            selRestaurant: [...state.selCateLoc.selRestaurant, loc],
+          },
+        }));
         break;
       default:
     }
@@ -199,27 +212,69 @@ export const useStore = create((set, get) => ({
     switch (type) {
       case '1':
         // set(state => ({ selAttractions: state.selAttractions.filter(loc => loc.id !== locId)}));
-        set(state => ({ selCateLoc: {...state.selCateLoc, selAttractions: state.selCateLoc.selAttractions.filter(loc => loc.id !== locId)}}));
+        set((state) => ({
+          selCateLoc: {
+            ...state.selCateLoc,
+            selAttractions: state.selCateLoc.selAttractions.filter(
+              (loc) => loc.id !== locId,
+            ),
+          },
+        }));
         break;
       case '2':
         // set(state => ({ selCulture: state.selCulture.filter(loc => loc.id !== locId)}));
-        set(state => ({ selCateLoc: {...state.selCateLoc, selCulture: state.selCateLoc.selCulture.filter(loc => loc.id !== locId)}}));
+        set((state) => ({
+          selCateLoc: {
+            ...state.selCateLoc,
+            selCulture: state.selCateLoc.selCulture.filter(
+              (loc) => loc.id !== locId,
+            ),
+          },
+        }));
         break;
       case '3':
         // set(state => ({ selFestival: state.selFestival.filter(loc => loc.id !== locId)}));
-        set(state => ({ selCateLoc: {...state.selCateLoc, selFestival: state.selCateLoc.selFestival.filter(loc => loc.id !== locId)}}));
+        set((state) => ({
+          selCateLoc: {
+            ...state.selCateLoc,
+            selFestival: state.selCateLoc.selFestival.filter(
+              (loc) => loc.id !== locId,
+            ),
+          },
+        }));
         break;
       case '4':
         // set(state => ({ selLeports: state.selLeports.filter(loc => loc.id !== locId)}));
-        set(state => ({ selCateLoc: {...state.selCateLoc, selLeports: state.selCateLoc.selLeports.filter(loc => loc.id !== locId)}}));
+        set((state) => ({
+          selCateLoc: {
+            ...state.selCateLoc,
+            selLeports: state.selCateLoc.selLeports.filter(
+              (loc) => loc.id !== locId,
+            ),
+          },
+        }));
         break;
       case '5':
         // set(state => ({ selLodge: state.selLodge.filter(loc => loc.id !== locId)}));
-        set(state => ({ selCateLoc: {...state.selCateLoc, selLodge: state.selCateLoc.selLodge.filter(loc => loc.id !== locId)}}));
+        set((state) => ({
+          selCateLoc: {
+            ...state.selCateLoc,
+            selLodge: state.selCateLoc.selLodge.filter(
+              (loc) => loc.id !== locId,
+            ),
+          },
+        }));
         break;
       case '6':
         // set(state => ({ selRestaurant: state.selRestaurant.filter(loc => loc.id !== locId)}));
-        set(state => ({ selCateLoc: {...state.selCateLoc, selRestaurant: state.selCateLoc.selRestaurant.filter(loc => loc.id !== locId)}}));
+        set((state) => ({
+          selCateLoc: {
+            ...state.selCateLoc,
+            selRestaurant: state.selCateLoc.selRestaurant.filter(
+              (loc) => loc.id !== locId,
+            ),
+          },
+        }));
         break;
       default:
     }

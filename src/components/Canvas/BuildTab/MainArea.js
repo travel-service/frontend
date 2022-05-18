@@ -1,14 +1,40 @@
-import React from 'react'; // useEffect
+import React, { useState } from 'react'; // useEffect
 import { DragDropContext } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import SelLocBasket from './dnd/SelLocBasket';
 import PlanDays from './dnd/PlanDays';
 import { useStore } from 'lib/store';
+import {
+  MdOutlineArrowForwardIos,
+  MdOutlineArrowBackIos,
+} from 'react-icons/md';
 
 const Container = styled.div`
   display: flex;
   flex: 1;
-  justify-content: space-between;
+  justify-content: space-around;
+`;
+
+const Toggle = styled.div`
+  position: relative;
+  /* right: 13px; */
+  /* top: 45%; */
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(0, 0, 0);
+  opacity: 0.5;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  margin-left: 8px;
+  :hover {
+    cursor: pointer;
+    opacity: 1;
+    transform: scale(1.15);
+    transition: 0.3s;
+  }
 `;
 
 // 스크롤 css
@@ -30,6 +56,7 @@ const Container = styled.div`
 
 const MainArea = () => {
   const { category, pushLocToDay, dayLocChange } = useStore();
+  const [isOpen, setIsOpen] = useState(true);
 
   const onDragEnd = (result) => {
     const { destination, source } = result;
@@ -65,12 +92,32 @@ const MainArea = () => {
     // canvasPost();
   };
 
+  const onClickToggle = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <>
       <DragDropContext onDragEnd={onDragEnd}>
         <Container>
           {/* 담은 블록 */}
-          <SelLocBasket />
+          <SelLocBasket isOpen={isOpen} />
+          <Toggle onClick={onClickToggle}>
+            {!isOpen && (
+              <MdOutlineArrowForwardIos
+                style={{
+                  color: 'white',
+                }}
+              />
+            )}
+            {isOpen && (
+              <MdOutlineArrowBackIos
+                style={{
+                  color: 'white',
+                }}
+              />
+            )}
+          </Toggle>
           {/* 데이 */}
           <PlanDays />
         </Container>
