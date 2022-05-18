@@ -4,17 +4,24 @@
       "id": 1,
       "planForm": {
         "depart": "2022/01/16",
-        "destination": "어딘가",
         "name": "새로운 여행",
         "periods": 4,
         "planStatus": "MAIN",
         "thumbnail": "https://ifh.cc/g/qrVZrf.png"
       },
       "conceptForm": {
-        "concept": ["Love", "Family", "Alone"]
+        "concept": [
+          "Love",
+          "Family",
+          "Alone"
+        ]
       },
       "selectedLocationForm": {
-        "selectedLocation": [5, 6, 7]
+        "selectedLocation": [
+          5,
+          6,
+          7
+        ]
       },
       "dayForm": {
         "travelDay": [
@@ -107,14 +114,17 @@
       "id": 2,
       "planForm": {
         "depart": "2022/01/16",
-        "destination": "어딘가",
         "name": "새로운 여행",
         "periods": 4,
         "planStatus": "MAIN",
         "thumbnail": "https://ifh.cc/g/qrVZrf.png"
       },
       "conceptForm": {
-        "concept": ["Love", "Family", "Alone"]
+        "concept": [
+          "Love",
+          "Family",
+          "Alone"
+        ]
       },
       "selectedLocationForm": {
         "selectedLocation": []
@@ -666,6 +676,26 @@
       "gender": "MALE",
       "email": "tlscksnd963@naver.com",
       "id": 1
+    }
+  ],
+  "mainDirectory": [
+    {
+      "id": 2,
+      "name": "이종수",
+      "periods": 2,
+      "createdDate": "2022-05-17T00:06:39.790494"
+    },
+    {
+      "id": 15,
+      "name": "이종수",
+      "periods": 2,
+      "createdDate": "2022-05-17T00:06:41.360772"
+    },
+    {
+      "id": 28,
+      "name": "이종수3",
+      "periods": 2,
+      "createdDate": "2022-05-17T00:06:50.014137"
     }
   ]
 }

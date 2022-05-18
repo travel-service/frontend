@@ -12,10 +12,10 @@ const Container = styled.div`
 
 const Div = styled.div`
   flex: 1;
-  /* background-color: ${oc.teal[1]}; */
+  //background-color: ${oc.teal[1]};
   /* background: linear-gradient(to right, white, gray); */
-  /* margin: 0px 40px; */
-  /* margin-top: 20px; */
+  margin: 0px 20px;
+  margin-top: 20px;
 `;
 /* ${shadow(1)} */
 

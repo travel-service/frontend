@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useStore } from 'lib/store';
+//import { useStore } from 'lib/store';
 import { Link } from 'react-router-dom';
 
 const Container = styled.div`
@@ -10,10 +10,11 @@ const Container = styled.div`
 `;
 
 const InsertCanvas = ({ closeModal }) => {
-  const { newPlan } = useStore();
+  //const { postPlan } = useStore();
 
   const onClickNewPlan = () => {
-    newPlan(); // 새로운걸 post X, 프론트에서 관리, 저장버튼 클릭시 db전송
+    //newPlan(); // 새로운걸 post X, 프론트에서 관리, 저장버튼 클릭시 db전송
+    //postPlan(''); // 새로운 플랜 post
     console.log('새로운 계획');
     closeModal();
   };

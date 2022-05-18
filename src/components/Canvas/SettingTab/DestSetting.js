@@ -21,7 +21,7 @@ const DestinationSettingDiv = styled.div`
   margin-top: 10px;
   margin-left: 30px;
   height: 350px;
-  width: 95%;
+  //width: 95%;
 `;
 //탭 메뉴
 const TabMenu = styled.ul`
@@ -104,7 +104,7 @@ export const DestSetting = () => {
   const onClickTab = (tabIdx) => {
     setActiveTab(tabIdx);
   };
-  const onClickDestination = (destination /*, destIdx*/) => {
+  const onClickDestination = (destination, destIdx) => {
     console.log(destination);
     //setActiveDest(destIdx);
     setDestination(destination);
@@ -112,7 +112,7 @@ export const DestSetting = () => {
 
   return (
     <DestinationSettingDiv>
-      <TitleSpan>2. 여행지 설정 </TitleSpan>
+      <TitleSpan>2. 검색 지역 설정 </TitleSpan>
       <TooltipButton data-tip data-for="departsetting">
         ?
       </TooltipButton>

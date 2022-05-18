@@ -2,6 +2,7 @@ import { DateSetting } from 'components/Canvas/SettingTab/DateSetting';
 import { ConceptSetting } from 'components/Canvas/SettingTab/ConceptSetting';
 import { DestSetting } from 'components/Canvas/SettingTab/DestSetting';
 import { ImageSetting } from 'components/Canvas/SettingTab/ImageSetting';
+import PlanName from 'components/Canvas/common/PlanName';
 import React, { useEffect } from 'react';
 import { useStore } from 'lib/store';
 import styled from 'styled-components';
@@ -11,16 +12,21 @@ const StyledDiv = styled.div`
     display: flex;
   }
 `;
+
 const TravelSettingForm = () => {
   // 여행 계획 이어서 버튼 누르면
-  const { getPlan } = useStore();
+  const { userPlan, getPlan } = useStore();
 
   useEffect(() => {
-    getPlan(2);
-  }, [getPlan]);
+    if (userPlan.id !== '') {
+      getPlan(userPlan.id);
+    }
+    //userPlan.id ? getPlan(userPlan.id) : '';
+  }, []);
 
   return (
     <div>
+      <PlanName />
       <DateSetting />
       <DestSetting />
       <StyledDiv>

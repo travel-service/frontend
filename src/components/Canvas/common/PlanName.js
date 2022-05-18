@@ -33,16 +33,16 @@ const PencilButton = styled.button`
   height: 85%;
   width: 6%;
   cursor: pointer;
+  border-radius: 10px;
   :hover {
     background: lightgray;
-    border-radius: 10px;
   }
 `;
 
 const PlanName = () => {
   const [isDisabled, setIsDisabled] = useState(true); // input 활성화
   const [isChecked, setIsChecked] = useState(true); // 펜, 저장 버튼 변경
-  const { userPlan, setName, postPlan } = useStore();
+  const { userPlan, setName /*, postPlan*/ } = useStore();
 
   const onClickPencil = () => {
     setIsDisabled(!isDisabled);
@@ -50,7 +50,7 @@ const PlanName = () => {
   };
 
   const onClickSave = () => {
-    postPlan(1);
+    //postPlan(userPlan.id); // post는 바로 안되고
     setIsChecked(!isChecked);
     setIsDisabled(!isDisabled);
   };
@@ -64,7 +64,7 @@ const PlanName = () => {
       <StyledInput
         type="text"
         disabled={isDisabled}
-        value={userPlan.name}
+        value={userPlan.id !== '' ? userPlan.name : '새 여행'}
         onChange={Naming}
       />
       <PencilButton

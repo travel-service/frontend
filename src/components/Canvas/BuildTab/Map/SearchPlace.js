@@ -25,7 +25,7 @@ const SearchPlace = () => {
         />
         <button type="submit">검색</button>
       </form>
-      <MapContainer searchPlace={place} />
+      {/*<MapContainer searchPlace={place} />*/}
     </>
   );
 };
