@@ -12,6 +12,14 @@ const Block = styled.li`
   background-color: ${palette.gray[0]};
   box-shadow: 3px 3px 3px 3px ${palette.gray[5]};
   padding: 5px;
+
+  text {
+    display: flex;
+    width: 85%;
+  }
+  buttoncont {
+    width: 15%;
+  }
 `;
 
 const BlockDiv = styled.div`
@@ -32,41 +40,45 @@ const BButton = styled.button`
   border-radius: 4px;
   background-color: #74b9ff;
   z-index: 0;
+  width: 95%;
+  height: 95%;
 `
 
 const SelectedLocations = ({selectedLocation}) => {
-    const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
-    const OpenModal = () => {
-      setModalOpen(true);
-    };
-  
-    const closeModal = () => {
-      setModalOpen(false);
-    };
+  const OpenModal = () => {
+    setModalOpen(true);
+  };
 
-    const {remove} = useStore();
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
-    return (
-      <Block>
-          <Img src={selectedLocation.image} alt="img" />
-          <BlockDiv onClick={OpenModal}>
+  const {remove} = useStore();
+
+  return (
+    <Block>
+      <text onClick={OpenModal}>
+        <Img src={selectedLocation.image} alt="img" />
+          <BlockDiv>
               {selectedLocation.name}
               <br />
               {selectedLocation.address}
-              <br />
-              {selectedLocation.tel}
           </BlockDiv>
-          <BButton
+      </text>
+      <buttoncont>
+        <BButton
             onClick={() => {
               console.log(selectedLocation.id)
               remove(selectedLocation.id, selectedLocation.type)
               }
             }>취소</BButton>
-          <Modal open={modalOpen} close={closeModal} header={selectedLocation.name}>
-            {selectedLocation.info}
-            <BlockInfo type={selectedLocation.type} id={selectedLocation.id}/>
-          </Modal>
+      </buttoncont>
+      <Modal open={modalOpen} close={closeModal} header={selectedLocation.name}>
+        {selectedLocation.info}
+        <BlockInfo type={selectedLocation.type} id={selectedLocation.id}/>
+      </Modal>
     </Block>
   )
 }

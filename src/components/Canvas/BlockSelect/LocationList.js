@@ -13,6 +13,8 @@ const BButton = styled.button`
   border-radius: 4px;
   background-color: #74b9ff;
   z-index: 0;
+  width: 95%;
+  height: 95%;
 `
 
 const Block = styled.li`
@@ -22,6 +24,14 @@ const Block = styled.li`
   background-color: ${palette.gray[0]};
   box-shadow: 3px 3px 3px 3px ${palette.gray[5]};
   padding: 5px;
+
+  text {
+    display: flex;
+    width: 85%;
+  }
+  buttoncont {
+    width: 15%;
+  }
 `;
 
 const BlockDiv = styled.div`
@@ -49,28 +59,30 @@ function Location ({location}) {
 
   return (
     <Block>
-      <div onClick={OpenModal}>
+      <text onClick={OpenModal}>
         <Img src={location.image} alt="img" />
         <BlockDiv>
           {location.name}
           <br />
           {location.address}
         </BlockDiv>
-      </div>
-      <BButton 
-        onClick={() => {
-          console.log(location)
-          if (location.isSelect === false) {
-            onAdd(location, location.type)
-            location.isSelect = true
-          }
-          else {
-            remove(location.id, location.type);
-            location.isSelect = false
-          }
-        } 
-      }>{location.isSelect ? '취소' : '선택'}</BButton>
-      <BButton onClick={() => {console.log(selCateLoc)}}>test</BButton>
+      </text>
+      <buttoncont>
+        <BButton 
+          onClick={() => {
+            console.log(location)
+            if (location.isSelect === false) {
+              onAdd(location, location.type)
+              location.isSelect = true
+            }
+            else {
+              remove(location.id, location.type);
+              location.isSelect = false
+            }
+          } 
+        }>{location.isSelect ? '취소' : '선택'}</BButton>
+        {/* <BButton onClick={() => {console.log(selCateLoc)}}>test</BButton> */}
+      </buttoncont>
       <Modal open={modalOpen} close={closeModal} header={location.name}>
         {location.info}
         <BlockInfo type={location.type} id={location.id}/>
