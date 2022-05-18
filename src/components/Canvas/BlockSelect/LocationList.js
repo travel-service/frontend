@@ -49,14 +49,14 @@ function Location ({location}) {
 
   return (
     <Block>
-      <Img src={location.image} alt="img" />
-      <BlockDiv onClick={OpenModal}>
-        {location.name}
-        <br />
-        {location.address}
-        <br />
-        {location.tel}
-      </BlockDiv>
+      <div onClick={OpenModal}>
+        <Img src={location.image} alt="img" />
+        <BlockDiv>
+          {location.name}
+          <br />
+          {location.address}
+        </BlockDiv>
+      </div>
       <BButton 
         onClick={() => {
           console.log(location)
