@@ -6,7 +6,7 @@ import { cloneDeep } from 'lodash';
 export const useStore = create((set, get) => ({
   userPlan: {
     // planForm
-    // db 전용
+    // db 전용j
     id: '',
     depart: '',
     destination: '',
@@ -141,7 +141,7 @@ export const useStore = create((set, get) => ({
     6: { eng: 'Restaurant', kor: '음식점' },
   },
 
-  //onAdd: (loc, type) => set(state => ({ selLoc: [...state.selLoc, loc] })),
+  //selCateLoc배열에 해당 블록을 추가하는 함수
   onAdd: (loc, type) => {
     switch (type) {
       case '1':
@@ -194,7 +194,7 @@ export const useStore = create((set, get) => ({
     }
   },
 
-  //remove: (locId) => set(state => ({ selLoc: state.selLoc.filter(loc => loc.id !== locId)})),
+  //selCateLoc 배열에 있는 로케이션 블록을 삭제하는 함수
   remove: (locId, type) => {
     switch (type) {
       case '1':

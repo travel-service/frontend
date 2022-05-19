@@ -16,12 +16,11 @@ const BButton = styled.button`
 `
 
 const Block = styled.li`
-  display: flex;
   list-style: none;
-  margin-bottom: 11px;
+  margin: 15px;
   background-color: ${palette.gray[0]};
   box-shadow: 3px 3px 3px 3px ${palette.gray[5]};
-  padding: 5px;
+  padding: 2%;
 `;
 
 const BlockDiv = styled.div`
@@ -30,9 +29,13 @@ const BlockDiv = styled.div`
 `;
 
 const Img = styled.img`
-  width: 5vw;
-  height: 3.2vw;
+  width: 95%;
+  height: 90%;
 `;
+
+const Blocks = styled.div`
+  display: flex;
+`
 
 function Location ({location}) {
   const [modalOpen, setModalOpen] = useState(false);
@@ -70,7 +73,6 @@ function Location ({location}) {
           }
         } 
       }>{location.isSelect ? '취소' : '선택'}</BButton>
-      <BButton onClick={() => {console.log(selCateLoc)}}>test</BButton>
       <Modal open={modalOpen} close={closeModal} header={location.name}>
         {location.info}
         <BlockInfo type={location.type} id={location.id}/>
@@ -81,11 +83,11 @@ function Location ({location}) {
 
 function LocationList ({locations}) {
   return (
-    <div>
+    <Blocks>
       {locations.map(location => (
         <Location location={location} key={location.id} />
       ))}
-    </div>
+    </Blocks>
   );
 };
 
