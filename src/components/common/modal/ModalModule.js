@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Close from 'lib/Icons/Close';
 import 'lib/styles/Modal.css';
 import MapContainer from 'components/Canvas/BuildTab/Map/MapContainer';
+import MapMove from 'components/Canvas/BuildTab/Map/MapMove';
 
 const Header = styled.div`
   display: flex;
@@ -14,15 +15,17 @@ const Header = styled.div`
   font-weight: 700;
 `;
 
-const Section = styled.section`
+const Section = styled.div`
   margin: 0 auto;
   border-radius: 0.3rem;
   background-color: #fff;
   animation: modal-show 0.3s;
   overflow: hidden;
+  /* width: 100px; */
 `;
 
-const Section2 = styled.section`
+const Section2 = styled.div`
+  width: 65vw;
   margin-right: 20px;
   border-radius: 0.3rem;
   background-color: #fff;
@@ -45,6 +48,8 @@ const ModalModule = ({
   map,
   onSubmit,
   day,
+  fromLocName,
+  toLocName,
 }) => {
   return (
     <Modal
@@ -68,7 +73,10 @@ const ModalModule = ({
             <div>kakao 지도</div>
             <Close size="20" onClick={closeModal} tooltip={false} />
           </Header>
-          <MapContainer />
+          {map === 'memberLoc' && <MapContainer />}
+          {map === 'moveLoc' && (
+            <MapMove fromLocName={fromLocName} toLocName={toLocName} />
+          )}
           <Btn>
             <button onClick={onSubmit}>닫기</button>
           </Btn>

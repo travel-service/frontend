@@ -71,7 +71,9 @@ const TimeDiv = styled.div`
 const MoveDataDiv = ({ day, index }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const { userTravelDay, setTimeData, setViewTime, splitTime } = useStore();
-  const locMovingInfo = userTravelDay.travelDay[day][index].movingData;
+  const fromLoc = userTravelDay.travelDay[day][index];
+  const ToLoc = userTravelDay.travelDay[day][index + 1];
+  const locMovingInfo = fromLoc.movingData;
   const locVehicle = locMovingInfo.vehicle;
   const [checkVehicle, setCheckVehicle] = useState(locVehicle);
   const [time, setTime] = useState({
@@ -199,6 +201,9 @@ const MoveDataDiv = ({ day, index }) => {
         closeModal={closeModal}
         title="이동수단"
         onSubmit={onSubmit}
+        map="moveLoc"
+        fromLocName={fromLoc.name}
+        toLocName={ToLoc.name}
       >
         <MoveSettingChild
           onChange={onChange}

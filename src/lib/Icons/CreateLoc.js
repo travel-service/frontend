@@ -92,7 +92,7 @@ const CreateLoc = ({ size, onClick }) => {
         openModal={openModal}
         closeModal={closeModal}
         title="자체 블록"
-        map={true}
+        map="memberLoc"
       >
         <Container>
           {/* 수정 필요 0317 */}

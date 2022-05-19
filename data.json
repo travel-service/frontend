@@ -126,7 +126,7 @@
         "depart": "",
         "destination": "",
         "name": "",
-        "periods": 3,
+        "periods": 2,
         "planStatus": "MAIN",
         "thumbnail": []
       },
@@ -138,7 +138,6 @@
       },
       "dayForm": {
         "travelDay": [
-          [],
           [],
           []
         ]
