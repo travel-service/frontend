@@ -4,7 +4,6 @@ import palette from 'lib/styles/palette';
 import { Draggable } from 'react-beautiful-dnd';
 import Time from 'lib/Icons/Time';
 import Close from 'lib/Icons/Close';
-import { useStore } from 'lib/store';
 import oc from 'open-color';
 
 const Container = styled.div`
@@ -22,7 +21,7 @@ const Container = styled.div`
 
 const Span = styled.span`
   font-weight: normal;
-  font-size: 10px;
+  font-size: 12px;
 `;
 
 const Div = styled.div`
@@ -91,9 +90,18 @@ const Btn = styled.div`
     `}
 `;
 
-const Location = ({ location, index, day, id, dayLocDel, setViewTime }) => {
-  // const { dayLocDel, setViewTime } = useStore();
+const Location = ({
+  location,
+  index,
+  day,
+  id,
+  dayLocDel,
+  setViewTime,
+  lastIdx,
+}) => {
   const { movingData } = location;
+
+  console.log(day, index);
 
   const onClick = () => {
     dayLocDel(day, index); // 함수수정,
@@ -120,11 +128,11 @@ const Location = ({ location, index, day, id, dayLocDel, setViewTime }) => {
                 <ListDiv>
                   <div>
                     <div>
-                      <>{location.name}</>
+                      {location.name}
                       {day > -1 &&
                         index !== 0 &&
                         movingData['arriveTime'] !== '' && (
-                          <Span>(도착 시간: {movingData['arriveTime']})</Span>
+                          <Span>({movingData['arriveTime']} 도착)</Span>
                         )}
                     </div>
                     {day > -1 ? (
@@ -140,12 +148,18 @@ const Location = ({ location, index, day, id, dayLocDel, setViewTime }) => {
                           </>
                         ) : (
                           <>
-                            {movingData['stayTime']
-                              ? `${setViewTime(
-                                  movingData['stayTime'],
-                                  'stay',
-                                )} 체류` // 0422 출발시간도 보여줄까?
-                              : '체류시간과 이동수단 및 시간을 입력해주세용'}
+                            {index < lastIdx ? (
+                              <>
+                                {movingData['stayTime']
+                                  ? `${setViewTime(
+                                      movingData['stayTime'],
+                                      'stay',
+                                    )} 체류 (${movingData['startTime']} 출발)` // 0422 출발시간도 보여줄까?
+                                  : '체류시간과 이동수단 및 시간을 입력해주세용'}
+                              </>
+                            ) : (
+                              ''
+                            )}
                           </>
                         )}
                       </LocTime>

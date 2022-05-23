@@ -88,7 +88,6 @@ const PlanDays = ({
                 )}
                 {/* location map */}
                 {day.map((loc, idx) => {
-                  // idx: 해당 loc index
                   return (
                     <div key={idx}>
                       <Location
@@ -99,6 +98,7 @@ const PlanDays = ({
                         day={index} // ?
                         dayLocDel={dayLocDel}
                         setViewTime={setViewTime}
+                        lastIdx={day.length - 1}
                       />
                       {day[idx + 1] !== undefined && (
                         <MoveDataDiv

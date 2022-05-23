@@ -10,6 +10,7 @@ const Div = styled.div`
 const MapContainer = ({ searchPlace, forMarkerPositions }) => {
   // let container = document.getElementById('myMap'); // DOM 접근
   const [kakaoMap, setKakaoMap] = useState(null);
+  const [area, setArea] = useState(null);
   const [, setMarkers] = useState([]);
   const container = useRef(null);
 
@@ -127,8 +128,12 @@ const MapContainer = ({ searchPlace, forMarkerPositions }) => {
     setKakaoMap(map);
     let geocoder = new kakao.maps.services.Geocoder();
 
-    // kakao.maps.event.addListener(kakaoMap, 'idle', () => {
-    //   searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+    // 0523 카카오맵 좌표(대각 영역)
+    // kakao.maps.event.addListener(map, 'idle', () => {
+    //   let bounds = map.getBounds();
+    //   let se = bounds.getSouthWest();
+    //   let ne = bounds.getNorthEast();
+    //   console.log(se, ne);
     // });
 
     const searchAddrFromCoords = (coords, callback) => {
@@ -138,7 +143,7 @@ const MapContainer = ({ searchPlace, forMarkerPositions }) => {
     // let ps = new kakao.maps.services.Places(); // 장소 검색 객체
 
     // initMap(options);
-  }, [container]);
+  }, [container, area]);
 
   // 0519 doing, 마커 표시까지 기능 구현, 여러개 검색하고 지역 이름 확인 창 여러개 유지되는 버그는 존재
   useEffect(() => {
@@ -184,6 +189,7 @@ const MapContainer = ({ searchPlace, forMarkerPositions }) => {
         new kakao.maps.LatLngBounds(),
       );
       kakaoMap.setBounds(bounds);
+      // console.log(bounds);
     }
   }, [kakaoMap, forMarkerPositions]);
 
