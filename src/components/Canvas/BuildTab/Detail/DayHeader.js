@@ -5,6 +5,7 @@ import { useStore } from 'lib/store';
 
 const Container = styled.div`
   /* position: fixed; */
+  width: 270px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -26,6 +27,7 @@ const DayHeader = ({ index }) => {
   const addDays = useCallback((date, days) => {
     // day 추가
     let result = new Date(date);
+    console.log(result);
     result.setDate(result.getDate() + days);
     const pD =
       result.getFullYear() +

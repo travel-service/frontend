@@ -61,7 +61,7 @@ export const useStore = create((set, get) => ({
       '/' +
       input.getDate().toString().padStart(2, '0');
     set((state) => ({ userPlan: { ...state.userPlan, depart: pD } }));
-    return pD; // ?
+    // return pD; // ?
   },
   setDestination: (input) => {
     set((state) => ({ userPlan: { ...state.userPlan, destination: input } }));

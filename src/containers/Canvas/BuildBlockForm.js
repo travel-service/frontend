@@ -1,28 +1,31 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import MainArea from 'components/Canvas/BuildTab/MainArea';
-import CreateLoc from 'lib/Icons/CreateLoc';
 import palette from 'lib/styles/palette';
+import { useStore } from 'lib/store';
 
 const Container = styled.div`
-  /* position: absolute; */
-  /* right: 220px; */
   display: flex;
   justify-content: space-between;
-  /* margin-top: 10px; */
   background-color: ${palette.gray[3]};
   height: 70vh;
-  overflow: auto;
-  /* border-radius: 7px; */
-`;
-
-const Buttons = styled.div`
-  width: 100px;
+  width: 100vw;
 `;
 
 // export let travelPlan = {};
 
 const BuildBlockForm = () => {
+  const {
+    category,
+    pushLocToDay,
+    dayLocChange,
+    selCateLoc,
+    dayLocDel,
+    setViewTime,
+    userTravelDay,
+    setTimeData,
+    splitTime,
+  } = useStore();
   // 앞부분 api 설정이 되면 작성 예정(0518)
   useEffect(() => {
     // get api
@@ -33,10 +36,17 @@ const BuildBlockForm = () => {
 
   return (
     <Container>
-      <MainArea />
-      <Buttons>
-        <CreateLoc size="30" />
-      </Buttons>
+      <MainArea
+        category={category}
+        pushLocToDay={pushLocToDay}
+        dayLocChange={dayLocChange}
+        selCateLoc={selCateLoc}
+        dayLocDel={dayLocDel}
+        setViewTime={setViewTime}
+        userTravelDay={userTravelDay}
+        setTimeData={setTimeData}
+        splitTime={splitTime}
+      />
     </Container>
   );
 };

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useStore } from 'lib/store';
 import Location from '../Detail/Location';
 import styled, { css } from 'styled-components';
 import oc from 'open-color';
@@ -8,8 +7,8 @@ import { Droppable } from 'react-beautiful-dnd';
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  width: 360px;
   transition: all 0.3s;
+  margin-right: 8px;
   ${(props) =>
     !props.isOpen &&
     css`
@@ -19,8 +18,8 @@ const Container = styled.div`
 
 const List = styled.div`
   display: flex;
+  width: 100px;
   flex-direction: column;
-  border: 2px solid black;
   border: 2px solid ${oc.teal[6]};
   justify-content: space-around;
 `;
@@ -28,7 +27,7 @@ const List = styled.div`
 const Item = styled.div`
   display: flex;
   flex-grow: 1;
-  padding: 20px;
+  padding: 20px 0px;
   align-items: center;
   justify-content: center;
   :hover {
@@ -47,8 +46,7 @@ const Basket = styled.div`
   border: 2px solid ${oc.teal[6]};
 `;
 
-const SelLocBasket = ({ isOpen }) => {
-  const { category, selCateLoc } = useStore();
+const SelLocBasket = ({ isOpen, category, selCateLoc }) => {
   const list = Object.keys(category);
   const [type, setType] = useState(category[list[0]].eng);
   const [typeId, setTypeId] = useState(list[0]);
@@ -88,8 +86,6 @@ const SelLocBasket = ({ isOpen }) => {
               )}
               {selCateLoc[`sel${type}`].length > 0 &&
                 selCateLoc[`sel${type}`].map((location, index) => {
-                  // <div>test</div>
-                  console.log(location);
                   return (
                     <Location
                       key={location.id}

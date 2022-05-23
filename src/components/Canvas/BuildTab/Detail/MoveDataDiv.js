@@ -4,7 +4,6 @@ import { MdMode } from 'react-icons/md';
 import 'lib/styles/Modal.css';
 import ModalModule from 'components/common/modal/ModalModule';
 import MoveSettingChild from './MoveSettingChild';
-import { useStore } from 'lib/store';
 import {
   MdDirectionsCar,
   MdDirectionsBus,
@@ -68,9 +67,15 @@ const TimeDiv = styled.div`
   margin-right: 5px;
 `;
 
-const MoveDataDiv = ({ day, index }) => {
+const MoveDataDiv = ({
+  day,
+  index,
+  userTravelDay,
+  setTimeData,
+  setViewTime,
+  splitTime,
+}) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const { userTravelDay, setTimeData, setViewTime, splitTime } = useStore();
   const fromLoc = userTravelDay.travelDay[day][index];
   const ToLoc = userTravelDay.travelDay[day][index + 1];
   const locMovingInfo = fromLoc.movingData;

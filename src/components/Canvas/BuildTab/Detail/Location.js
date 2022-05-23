@@ -8,6 +8,7 @@ import { useStore } from 'lib/store';
 import oc from 'open-color';
 
 const Container = styled.div`
+  white-space: normal;
   display: flex;
   line-height: 1.5;
   user-select: none;
@@ -41,6 +42,8 @@ const Div = styled.div`
 const LocTime = styled.div`
   font-weight: normal;
   font-size: 12px;
+  /* height: 300px; */
+  /* background-color: blue; */
 `;
 
 const Clone = styled(Container)`
@@ -64,6 +67,7 @@ const ImgDiv = styled.div`
 
 const Img = styled.img`
   height: 30px;
+  width: 50px;
 `;
 
 const ListDiv = styled.div`
@@ -87,8 +91,8 @@ const Btn = styled.div`
     `}
 `;
 
-const Location = ({ location, index, day, id }) => {
-  const { dayLocDel, setViewTime } = useStore();
+const Location = ({ location, index, day, id, dayLocDel, setViewTime }) => {
+  // const { dayLocDel, setViewTime } = useStore();
   const { movingData } = location;
 
   const onClick = () => {

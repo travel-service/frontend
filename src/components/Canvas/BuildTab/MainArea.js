@@ -3,7 +3,6 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import SelLocBasket from './dnd/SelLocBasket';
 import PlanDays from './dnd/PlanDays';
-import { useStore } from 'lib/store';
 import {
   MdOutlineArrowForwardIos,
   MdOutlineArrowBackIos,
@@ -11,15 +10,16 @@ import {
 
 const Container = styled.div`
   display: flex;
-  flex: 1;
-  justify-content: space-around;
+  width: 100%;
+`;
+
+const ToggleArea = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const Toggle = styled.div`
   position: relative;
-  /* right: 13px; */
-  /* top: 45%; */
-  margin: auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -28,7 +28,6 @@ const Toggle = styled.div`
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  margin-left: 8px;
   :hover {
     cursor: pointer;
     opacity: 1;
@@ -37,25 +36,18 @@ const Toggle = styled.div`
   }
 `;
 
-// 스크롤 css
-// const Basket = styled.div`
-//   width: 280px;
-//   background-color: rgb(109, 144, 176);
-//   overflow: auto;
-
-//   ::-webkit-scrollbar {
-//     width: 10px;
-//   }
-//   ::-webkit-scrollbar-thumb {
-//     background-color: #2f3542;
-//   }
-//   ::-webkit-scrollbar-track {
-//     background-color: grey;
-//   }
-// `;
-
-const MainArea = () => {
-  const { category, pushLocToDay, dayLocChange } = useStore();
+const MainArea = ({
+  category,
+  pushLocToDay,
+  dayLocChange,
+  selCateLoc,
+  dayLocDel,
+  setViewTime,
+  userTravelDay,
+  setTimeData,
+  splitTime,
+}) => {
+  // const { category, pushLocToDay, dayLocChange } = useStore();
   const [isOpen, setIsOpen] = useState(true);
 
   const onDragEnd = (result) => {
@@ -88,10 +80,6 @@ const MainArea = () => {
     }
   };
 
-  const onClick = () => {
-    // canvasPost();
-  };
-
   const onClickToggle = () => {
     setIsOpen(!isOpen);
   };
@@ -101,27 +89,38 @@ const MainArea = () => {
       <DragDropContext onDragEnd={onDragEnd}>
         <Container>
           {/* 담은 블록 */}
-          <SelLocBasket isOpen={isOpen} />
-          <Toggle onClick={onClickToggle}>
-            {!isOpen && (
-              <MdOutlineArrowForwardIos
-                style={{
-                  color: 'white',
-                }}
-              />
-            )}
-            {isOpen && (
-              <MdOutlineArrowBackIos
-                style={{
-                  color: 'white',
-                }}
-              />
-            )}
-          </Toggle>
+          <SelLocBasket
+            isOpen={isOpen}
+            category={category}
+            selCateLoc={selCateLoc}
+          />
+          <ToggleArea>
+            <Toggle onClick={onClickToggle}>
+              {!isOpen && (
+                <MdOutlineArrowForwardIos
+                  style={{
+                    color: 'white',
+                  }}
+                />
+              )}
+              {isOpen && (
+                <MdOutlineArrowBackIos
+                  style={{
+                    color: 'white',
+                  }}
+                />
+              )}
+            </Toggle>
+          </ToggleArea>
           {/* 데이 */}
-          <PlanDays />
+          <PlanDays
+            dayLocDel={dayLocDel}
+            setViewTime={setViewTime}
+            userTravelDay={userTravelDay}
+            setTimeData={setTimeData}
+            splitTime={splitTime}
+          />
         </Container>
-        <button onClick={onClick}>저장!!!</button>
       </DragDropContext>
     </>
   );

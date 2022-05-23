@@ -1,16 +1,18 @@
 import React, { useEffect } from 'react';
 import styled, { css } from 'styled-components';
-import { useStore } from 'lib/store';
 import oc from 'open-color';
 import DayHeader from 'components/Canvas/BuildTab/Detail/DayHeader';
 import { Droppable } from 'react-beautiful-dnd';
 import MoveDataDiv from '../Detail/MoveDataDiv';
 import Location from 'components/Canvas/BuildTab/Detail/Location';
+import CreateLoc from 'lib/Icons/CreateLoc';
 
 const Days = styled.div`
   display: flex;
+  justify-content: space-between;
   flex: 1; //남은 영역 모두 채움
-  justify-content: space-around;
+  overflow: auto;
+  white-space: nowrap;
 `;
 
 const Container = styled.div`
@@ -49,8 +51,17 @@ const LocationsList = styled('div')`
     `}
 `;
 
-const PlanDays = () => {
-  const { userTravelDay } = useStore();
+const Buttons = styled.div`
+  width: 100px;
+`;
+
+const PlanDays = ({
+  dayLocDel,
+  setViewTime,
+  userTravelDay,
+  setTimeData,
+  splitTime,
+}) => {
   const { travelDay } = userTravelDay;
 
   return (
@@ -86,9 +97,18 @@ const PlanDays = () => {
                         id={loc.copyLocationId}
                         index={idx}
                         day={index} // ?
+                        dayLocDel={dayLocDel}
+                        setViewTime={setViewTime}
                       />
                       {day[idx + 1] !== undefined && (
-                        <MoveDataDiv day={index} index={idx} />
+                        <MoveDataDiv
+                          day={index}
+                          index={idx}
+                          userTravelDay={userTravelDay}
+                          setTimeData={setTimeData}
+                          setViewTime={setViewTime}
+                          splitTime={splitTime}
+                        />
                       )}
                     </div>
                   );
@@ -99,6 +119,9 @@ const PlanDays = () => {
           </Droppable>
         </Container>
       ))}
+      <Buttons>
+        <CreateLoc size="30" />
+      </Buttons>
     </Days>
   );
 };

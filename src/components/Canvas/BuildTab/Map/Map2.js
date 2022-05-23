@@ -125,7 +125,16 @@ const MapContainer = ({ searchPlace, forMarkerPositions }) => {
     map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
     map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
     setKakaoMap(map);
-    // let geocoder = new kakao.maps.services.Geocoder();
+    let geocoder = new kakao.maps.services.Geocoder();
+
+    // kakao.maps.event.addListener(kakaoMap, 'idle', () => {
+    //   searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+    // });
+
+    const searchAddrFromCoords = (coords, callback) => {
+      // 좌표로 행정동 주소 정보를 요청합니다
+      geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
+    };
     // let ps = new kakao.maps.services.Places(); // 장소 검색 객체
 
     // initMap(options);
