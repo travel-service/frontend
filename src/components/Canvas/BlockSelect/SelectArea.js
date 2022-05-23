@@ -6,6 +6,7 @@ import {useStore} from '../../../lib/store';
 import mapimg from './map.jpg'
 import TypeFilter from './TypeFilter';
 import { filterStore } from 'lib/filterStore';
+import Map from 'containers/Canvas/MapContainer'
 
 const ContentsArea = styled.div`
   overflow: auto;
@@ -75,7 +76,8 @@ const SelectArea = ({ location, selLocs }) => {
         </WhiteBox>
       </BlockListArea>
       <MapArea>
-        <img src={mapimg} />
+        <Map></Map>
+        {/* <img src={mapimg} /> */}
       </MapArea>
       {/* <WhiteBox>
         <div>관광지 블록</div>
