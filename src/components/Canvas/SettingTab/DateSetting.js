@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useStore } from 'lib/store';
+import { useStore } from 'lib/store/planStore';
 import ReactTooltip from 'react-tooltip';
 import { addDays } from 'date-fns';
 import DatePicker from 'react-datepicker';

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import StyledButton from 'components/common/Button';
-import { useStore } from 'lib/store';
+import { useStore } from 'lib/store/planStore';
 
 const AllbuttonsDiv = styled.div`
   height: 50px;

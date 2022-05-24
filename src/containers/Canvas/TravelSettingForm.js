@@ -3,7 +3,7 @@ import { ConceptSetting } from 'components/Canvas/SettingTab/ConceptSetting';
 import { DestSetting } from 'components/Canvas/SettingTab/DestSetting';
 import { ImageSetting } from 'components/Canvas/SettingTab/ImageSetting';
 import React, { useEffect } from 'react';
-import { useStore } from 'lib/store';
+import { useStore } from 'lib/store/planStore';
 import styled from 'styled-components';
 
 const StyledDiv = styled.div`

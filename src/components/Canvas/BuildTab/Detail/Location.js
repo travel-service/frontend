@@ -101,8 +101,6 @@ const Location = ({
 }) => {
   const { movingData } = location;
 
-  console.log(day, index);
-
   const onClick = () => {
     dayLocDel(day, index); // 함수수정,
   };

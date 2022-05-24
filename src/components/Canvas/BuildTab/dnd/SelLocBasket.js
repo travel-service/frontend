@@ -51,9 +51,9 @@ const SelLocBasket = ({ isOpen, category, selCateLoc }) => {
   const [type, setType] = useState(category[list[0]].eng);
   const [typeId, setTypeId] = useState(list[0]);
 
-  const onClick = (cate) => {
-    setType(category[cate].eng);
-    setTypeId(cate);
+  const onClick = (idx) => {
+    setType(category[idx].eng);
+    setTypeId(idx);
   };
 
   return (
@@ -61,17 +61,20 @@ const SelLocBasket = ({ isOpen, category, selCateLoc }) => {
       {/* 카테고리 */}
       {isOpen && (
         <List>
-          {list.map((cateNum) => (
-            <Item key={cateNum} onClick={() => onClick(cateNum)}>
-              {category[cateNum].kor}
-            </Item>
-          ))}
+          {Object.keys(selCateLoc).map((cate, idx) => {
+            if (selCateLoc[cate].length > 0)
+              return (
+                <Item key={idx} onClick={() => onClick(idx + 1)}>
+                  {category[idx + 1].kor}
+                </Item>
+              );
+          })}
         </List>
       )}
       {/* 현재 카테고리 담은 블록 */}
       {isOpen && (
         <Droppable
-          droppableId={typeId}
+          droppableId={String(typeId)}
           isDropDisabled={true}
           // type="location"
         >

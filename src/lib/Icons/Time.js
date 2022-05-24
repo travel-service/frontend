@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import ModalModule from 'components/common/modal/ModalModule';
 // import TimeInput from 'components/Canvas/common/TimeInput';
 import ReactTooltip from 'react-tooltip';
-import { useStore } from 'lib/store';
+import { buildStore } from 'lib/store/CanvasBuildStore';
 
 const TimeBtn = styled(MdMoreTime)`
   cursor: pointer;
@@ -23,7 +23,7 @@ const Input = styled.input`
 `;
 
 const Time = ({ title, day, index }) => {
-  const { setTimeData } = useStore();
+  const { setTimeData } = buildStore();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [stayTime, setStayTime] = useState({
     hour: '',

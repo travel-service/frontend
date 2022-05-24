@@ -53,6 +53,11 @@ const MainArea = ({
   const onDragEnd = (result) => {
     const { destination, source } = result;
     if (!destination) return;
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    )
+      return;
     const startDropId = source.droppableId;
     const endDropId = destination.droppableId;
     // 출발 selectedLocation, 도착 day

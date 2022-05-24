@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import MainArea from 'components/Canvas/BuildTab/MainArea';
 import palette from 'lib/styles/palette';
-import { useStore } from 'lib/store';
+import { useStore } from 'lib/store/planStore';
+import { buildStore } from 'lib/store/CanvasBuildStore';
 
 const Container = styled.div`
   display: flex;
@@ -15,17 +16,16 @@ const Container = styled.div`
 // export let travelPlan = {};
 
 const BuildBlockForm = () => {
+  const { category, selCateLoc, userTravelDay } = useStore();
   const {
-    category,
+    dayLocDel,
     pushLocToDay,
     dayLocChange,
-    selCateLoc,
-    dayLocDel,
     setViewTime,
-    userTravelDay,
     setTimeData,
     splitTime,
-  } = useStore();
+  } = buildStore();
+
   // 앞부분 api 설정이 되면 작성 예정(0518)
   useEffect(() => {
     // get api

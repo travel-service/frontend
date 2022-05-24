@@ -4,7 +4,7 @@ import { MdOutlineLibraryAdd } from 'react-icons/md';
 import styled from 'styled-components';
 import ReactTooltip from 'react-tooltip';
 import ModalModule from 'components/common/modal/ModalModule';
-import { useStore } from 'lib/store';
+import { useStore } from 'lib/store/planStore';
 
 const CreateLocBtn = styled(MdOutlineLibraryAdd)`
   cursor: pointer;

@@ -67,6 +67,11 @@ const TimeDiv = styled.div`
   margin-right: 5px;
 `;
 
+const PencilIcon = styled(MdMode)`
+  /* color: black; */
+  ${(props) => props.isHover && css``}
+`;
+
 const MoveDataDiv = ({
   day,
   index,
@@ -75,6 +80,7 @@ const MoveDataDiv = ({
   setViewTime,
   splitTime,
 }) => {
+  // const [isHovering, setIsHovering] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const fromLoc = userTravelDay.travelDay[day][index];
   const ToLoc = userTravelDay.travelDay[day][index + 1];
@@ -179,9 +185,13 @@ const MoveDataDiv = ({
   return (
     <Container>
       {locMovingInfo['movingTime'] === undefined && (
-        <Div>
+        <Div
+        // onMouseOver={() => setIsHovering(true)}
+        // onMouseOut={() => setIsHovering(false)}
+        // isHover={isHovering}
+        >
           <Span>
-            <MdMode onClick={openModal} />
+            <PencilIcon onClick={openModal} />
           </Span>
         </Div>
       )}
@@ -194,7 +204,11 @@ const MoveDataDiv = ({
                 {locMovingInfo['movingTime'] && (
                   <TimeDiv>{setViewTime(locMovingInfo['movingTime'])}</TimeDiv>
                 )}
-                <MdMode onClick={openModal} size="20px" />
+                <PencilIcon
+                  // isHover={isHovering}
+                  onClick={openModal}
+                  size="20px"
+                />
               </BubbleDiv>
             </BubbleDiv>
           </Span>

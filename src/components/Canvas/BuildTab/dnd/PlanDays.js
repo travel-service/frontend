@@ -6,6 +6,7 @@ import { Droppable } from 'react-beautiful-dnd';
 import MoveDataDiv from '../Detail/MoveDataDiv';
 import Location from 'components/Canvas/BuildTab/Detail/Location';
 import CreateLoc from 'lib/Icons/CreateLoc';
+// import { apiStore } from 'lib/store/apiStore';
 
 const Days = styled.div`
   display: flex;
@@ -63,6 +64,10 @@ const PlanDays = ({
   splitTime,
 }) => {
   const { travelDay } = userTravelDay;
+
+  const onClickTest = () => {
+    console.log(userTravelDay);
+  };
 
   return (
     <Days>
@@ -122,6 +127,7 @@ const PlanDays = ({
       <Buttons>
         <CreateLoc size="30" />
       </Buttons>
+      <button onClick={onClickTest}>state 출력 버튼</button>
     </Days>
   );
 };

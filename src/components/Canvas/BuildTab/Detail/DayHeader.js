@@ -1,7 +1,7 @@
 import oc from 'open-color';
 import React, { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
-import { useStore } from 'lib/store';
+import { useStore } from 'lib/store/planStore';
 
 const Container = styled.div`
   /* position: fixed; */
@@ -27,7 +27,6 @@ const DayHeader = ({ index }) => {
   const addDays = useCallback((date, days) => {
     // day 추가
     let result = new Date(date);
-    console.log(result);
     result.setDate(result.getDate() + days);
     const pD =
       result.getFullYear() +

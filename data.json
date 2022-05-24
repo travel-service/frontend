@@ -8,18 +8,10 @@
     "thumbnail": "https://ifh.cc/g/qrVZrf.png"
   },
   "conceptForm": {
-    "concept": [
-      "Love",
-      "Family",
-      "Alone"
-    ]
+    "concept": ["Love", "Family", "Alone"]
   },
   "selectedLocationForm": {
-    "selectedLocation": [
-      5,
-      6,
-      7
-    ]
+    "selectedLocation": [5, 6, 7]
   },
   "dayForm": {
     "travelDay": [
@@ -105,28 +97,20 @@
         "concept": []
       },
       "selectedLocationForm": {
-        "selectedLocation": [
-          5,
-          6,
-          7
-        ]
+        "selectedLocation": [5, 6, 7]
       },
       "dayForm": {
-        "travelDay": [
-          [],
-          [],
-          []
-        ]
+        "travelDay": [[], [], []]
       }
     },
     {
       "id": 2,
       "planForm": {
         "id": "",
-        "depart": "2022/05/24",
+        "depart": "",
         "destination": "",
         "name": "",
-        "periods": 2,
+        "periods": 5,
         "planStatus": "MAIN",
         "thumbnail": []
       },
@@ -137,10 +121,7 @@
         "selectedLocation": []
       },
       "dayForm": {
-        "travelDay": [
-          [],
-          []
-        ]
+        "travelDay": [[], [], [], [], []]
       }
     }
   ],
@@ -602,7 +583,40 @@
       "phoneNum": "123",
       "gender": "MALE",
       "email": "tlscksnd963@naver.com",
-      "id": 1
+      "id": 3,
+      "plan": [
+        {
+          "id": 1,
+          "planForm": {},
+          "conceptForm": {},
+          "selectedLocationForm": {},
+          "dayForm": {}
+        }
+      ]
+    },
+    {
+      "userId": "tlscksdn",
+      "password": "123",
+      "passwordCheck": "123",
+      "username": "123",
+      "nickname": "123",
+      "birthday": "123123-12-23",
+      "phoneNum": "123",
+      "gender": "MALE",
+      "email": "tlscksnd963@naver.com",
+      "id": 2,
+      "plan": [
+        {
+          "id": 1,
+          "planForm": {
+            "depart": "2022/01/16",
+            "periods": 2
+          },
+          "conceptForm": {},
+          "selectedLocationForm": {},
+          "dayForm": {}
+        }
+      ]
     }
   ]
 }
