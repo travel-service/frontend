@@ -54,6 +54,7 @@ const StyledDiv = styled.div`
   justify-content: space-between;
   margin: 5px 0px;
   /* justify-content: space-between; */
+  /* width: 360px; */
 `;
 
 const InputHeader = styled.div`
@@ -64,14 +65,10 @@ const InputHeader = styled.div`
 
 const StyledInput = styled.input`
   padding-left: 30px;
-  /* margin-right: 30px; */
   font-size: 1rem;
-  /* border: none; */
   border: 1px solid ${palette.gray[5]};
   border-radius: 8px;
-  /* padding-bottom: 0.5rem; */
   outline: none;
-  /* width: 350px; */
   width: 70%;
   height: 45px;
   float: right;
@@ -146,6 +143,34 @@ const ErrorMessage = styled.div`
   margin-top: 1rem;
 `;
 
+const Email = styled.div`
+  width: 70%;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const EmailDiv = styled.input`
+  padding-left: 30px;
+  font-size: 1rem;
+  border: 1px solid ${palette.gray[5]};
+  border-radius: 8px;
+  outline: none;
+  width: 70%;
+  height: 45px;
+  /* float: right; */
+  &:focus {
+    border-bottom: 1px solid ${palette.gray[7]};
+  }
+  & + & {
+    margin-top: 1rem;
+  }
+  @media screen and (max-width: 767px) {
+    height: 40px;
+    padding-left: 10px;
+    font-size: 0.9rem;
+  }
+`;
+
 const AuthForm = ({
   type,
   form,
@@ -154,6 +179,8 @@ const AuthForm = ({
   error,
   onBlur,
   detailErr,
+  sendEmail,
+  isEmailSend,
 }) => {
   const text = textMap[type];
 
@@ -299,22 +326,43 @@ const AuthForm = ({
                     본인 확인
                     <br /> 이메일
                   </InputHeader>
-                  <StyledInput
+                  {/* <StyledInput
                     name="email"
                     type="email"
                     onChange={onChange}
                     value={form.email}
-                  />
-                  {/* <input></input>@<input></input>
-                  <select>
-                    <option>직접 입력</option>
-                    <option>naver.com</option>
-                    <option>daum.net</option>
-                    <option>gmail.com</option>
-                    <option>hanmail.net</option>
-                    <option>kakao.com</option>
-                  </select> */}
+                  /> */}
+                  <Email>
+                    <EmailDiv
+                      name="email"
+                      type="email"
+                      onChange={onChange}
+                      value={form.email}
+                      placeholder="인증할 이메일을 작성해주세요."
+                    />
+                    <button onClick={sendEmail}>
+                      {isEmailSend ? '인증번호 재전송' : '인증번호 전송'}
+                    </button>
+                  </Email>
+                  {/* <EmailDiv>
+                    <input></input>@<input></input>
+                    <select>
+                      <option>직접 입력</option>
+                      <option>naver.com</option>
+                      <option>daum.net</option>
+                      <option>gmail.com</option>
+                      <option>hanmail.net</option>
+                      <option>kakao.com</option>
+                    </select>
+                  </EmailDiv> */}
                 </StyledDiv>
+                {isEmailSend && ( // 수정필요 0529
+                  <StyledDiv>
+                    인증번호 입력해주쇼
+                    <input />
+                    <button>확인</button>
+                  </StyledDiv>
+                )}
               </>
             )}
             {error && <ErrorMessage>{error}</ErrorMessage>}

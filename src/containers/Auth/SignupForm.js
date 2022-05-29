@@ -8,6 +8,10 @@ import { check } from 'redux/modules/user';
 const SignupForm = () => {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
+  const [usingEmail, setUsingEmail] = useState(false); // email 유효성 (인증이 되었는지)
+  const [number, setNumber] = useState(''); // 보내진 인증번호
+  const [inputNumber, setInputNumber] = useState(''); // 입력된 인증번호
+  const [isEmailSend, setIsEmailSend] = useState(false);
   const [detailErr, setDetailErr] = useState({
     username: null,
     password: null,
@@ -26,6 +30,14 @@ const SignupForm = () => {
       userState: user.userState,
     }),
   );
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+    setIsEmailSend(true);
+    // post api
+    // 서버와 통신(node, 아님 spring)
+    // 0529 https://coding-hwije.tistory.com/6?category=856854
+  };
 
   // 인풋 변경 이벤트 핸들러
   const onChange = useCallback(
@@ -171,6 +183,8 @@ const SignupForm = () => {
       error={error}
       detailErr={detailErr}
       onBlur={onBlur}
+      sendEmail={sendEmail}
+      isEmailSend={isEmailSend}
     />
   );
 };
