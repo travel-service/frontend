@@ -19,7 +19,6 @@ const Days = styled.div`
 const Container = styled.div`
   margin: 8px;
   border-radius: 15px;
-  border: 1px solid lightgrey;
   width: 270px;
   background: white;
 `;

@@ -8,10 +8,18 @@
     "thumbnail": "https://ifh.cc/g/qrVZrf.png"
   },
   "conceptForm": {
-    "concept": ["Love", "Family", "Alone"]
+    "concept": [
+      "Love",
+      "Family",
+      "Alone"
+    ]
   },
   "selectedLocationForm": {
-    "selectedLocation": [5, 6, 7]
+    "selectedLocation": [
+      5,
+      6,
+      7
+    ]
   },
   "dayForm": {
     "travelDay": [
@@ -97,10 +105,18 @@
         "concept": []
       },
       "selectedLocationForm": {
-        "selectedLocation": [5, 6, 7]
+        "selectedLocation": [
+          5,
+          6,
+          7
+        ]
       },
       "dayForm": {
-        "travelDay": [[], [], []]
+        "travelDay": [
+          [],
+          [],
+          []
+        ]
       }
     },
     {
@@ -110,7 +126,7 @@
         "depart": "",
         "destination": "",
         "name": "",
-        "periods": 5,
+        "periods": 1,
         "planStatus": "MAIN",
         "thumbnail": []
       },
@@ -121,7 +137,7 @@
         "selectedLocation": []
       },
       "dayForm": {
-        "travelDay": [[], [], [], [], []]
+        "travelDay": []
       }
     }
   ],

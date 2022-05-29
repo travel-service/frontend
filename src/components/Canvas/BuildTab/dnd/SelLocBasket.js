@@ -50,6 +50,13 @@ const SelLocBasket = ({ isOpen, category, selCateLoc }) => {
   const list = Object.keys(category);
   const [type, setType] = useState(category[list[0]].eng);
   const [typeId, setTypeId] = useState(list[0]);
+  const [selectArea, setSelectArea] = useState(false);
+
+  useEffect(() => {
+    for (let key in selCateLoc) {
+      if (selCateLoc[key].length > 0) setSelectArea(true);
+    }
+  }, [selCateLoc]);
 
   const onClick = (idx) => {
     setType(category[idx].eng);
@@ -59,7 +66,7 @@ const SelLocBasket = ({ isOpen, category, selCateLoc }) => {
   return (
     <Container isOpen={isOpen}>
       {/* 카테고리 */}
-      {isOpen && (
+      {selectArea && isOpen && (
         <List>
           {Object.keys(selCateLoc).map((cate, idx) => {
             if (selCateLoc[cate].length > 0)

@@ -13,6 +13,7 @@ const MapContainer = ({ searchPlace, forMarkerPositions }) => {
   const [area, setArea] = useState(null);
   const [, setMarkers] = useState([]);
   const container = useRef(null);
+  const [latLng, setLatLng] = useState(null);
 
   const initMap = useCallback(
     (options) => {
@@ -126,7 +127,26 @@ const MapContainer = ({ searchPlace, forMarkerPositions }) => {
     map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
     map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
     setKakaoMap(map);
-    let geocoder = new kakao.maps.services.Geocoder();
+    console.log('create map');
+
+    // let geocoder = new kakao.maps.services.Geocoder();
+    // let marker = new kakao.maps.Marker(); // 마커
+    // 0525 마커 생성
+    // kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
+    //   // setMarkers([]);
+    //   marker.setMap(map);
+    //   let latlng = mouseEvent.latLng;
+    //   marker.setPosition(latlng);
+    //   console.log(latlng);
+    // console.log(marker);
+    // marker.setPosition(latlng);
+    // 마커 위치를 클릭한 위치로 옮깁니다
+    // var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
+    // message += '경도는 ' + latlng.getLng() + ' 입니다';
+
+    // var resultDiv = document.getElementById('clickLatlng');
+    // resultDiv.innerHTML = message;
+    // });
 
     // 0523 카카오맵 좌표(대각 영역)
     // kakao.maps.event.addListener(map, 'idle', () => {
@@ -136,14 +156,14 @@ const MapContainer = ({ searchPlace, forMarkerPositions }) => {
     //   console.log(se, ne);
     // });
 
-    const searchAddrFromCoords = (coords, callback) => {
-      // 좌표로 행정동 주소 정보를 요청합니다
-      geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
-    };
+    // const searchAddrFromCoords = (coords, callback) => {
+    //   // 좌표로 행정동 주소 정보를 요청합니다
+    //   geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
+    // };
     // let ps = new kakao.maps.services.Places(); // 장소 검색 객체
 
     // initMap(options);
-  }, [container, area]);
+  }, [container]);
 
   // 0519 doing, 마커 표시까지 기능 구현, 여러개 검색하고 지역 이름 확인 창 여러개 유지되는 버그는 존재
   useEffect(() => {
@@ -151,25 +171,25 @@ const MapContainer = ({ searchPlace, forMarkerPositions }) => {
       return;
     }
 
-    let infoWindow = new kakao.maps.InfoWindow({ zIndex: 1 }); // 정보창 띄울 공간
-
+    let iwRemoveable = true;
+    let infoWindow = new kakao.maps.InfoWindow({
+      zIndex: 1,
+      map: kakaoMap,
+      removable: iwRemoveable,
+      // position: iwPosition,
+    }); // 정보창 띄울 공간
     const nameList = forMarkerPositions.map((pos) => {
       return pos.place_name;
     });
-
     const positions = forMarkerPositions.map((pos) => {
       return new kakao.maps.LatLng(pos.y, pos.x);
     });
-
     setMarkers((markers) => {
       markers.forEach((marker) => marker.setMap(null));
-
       let markerList = positions.map((position) => {
         return new kakao.maps.Marker({ map: kakaoMap, position: position });
       });
-
       markerList.map((marker, i) => {
-        console.log(marker);
         kakao.maps.event.addListener(marker, 'click', () => {
           infoWindow.setContent(
             '<div style="padding:5px;font-size:12px;">' +
@@ -179,10 +199,8 @@ const MapContainer = ({ searchPlace, forMarkerPositions }) => {
           infoWindow.open(kakaoMap, marker);
         });
       });
-
       return markerList;
     });
-
     if (positions.length > 0) {
       const bounds = positions.reduce(
         (bounds, latlng) => bounds.extend(latlng),
@@ -191,21 +209,14 @@ const MapContainer = ({ searchPlace, forMarkerPositions }) => {
       kakaoMap.setBounds(bounds);
       // console.log(bounds);
     }
+    let position = kakaoMap.getCenter().getLat();
+    console.log(position);
   }, [kakaoMap, forMarkerPositions]);
 
   return (
     <>
       {/* map을 띄울 영역: Div */}
-      <Div
-        id="myMap"
-        style={
-          {
-            // width: '300px',
-            // height: '300px',
-          }
-        }
-        ref={container}
-      ></Div>
+      <Div id="myMap" ref={container}></Div>
       {/* <div className="hAddr">
         <span className="title">지도중심기준 행정동 주소정보</span>
         <span id="centerAddr"></span>

@@ -40,27 +40,9 @@ const CreateLoc = ({ size, onClick }) => {
   const { category } = useStore();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectValue, setSelectValue] = useState('');
-  // const [time, setTime] = useState({
-  //   startHour: '',
-  //   startMinute: '',
-  //   stayHour: '',
-  //   stayMinute: '',
-  // });
 
   const onChange = (e) => {
     console.log(e.target.value);
-    // const { name, value } = e.target;
-    // let tmpVal = value;
-    // if (value < 0) {
-    //   tmpVal = 0;
-    // }
-    // if (value.length > 3) {
-    //   tmpVal = Math.floor(value / 10);
-    // }
-    // setTime({
-    //   ...time,
-    //   [name]: tmpVal,
-    // });
   };
 
   const openModal = () => {
@@ -74,7 +56,6 @@ const CreateLoc = ({ size, onClick }) => {
   const handleChange = (e) => {
     setSelectValue(e.target.value);
   };
-  // const { startHour, startMinute, stayHour, stayMinute } = time;
 
   return (
     <>

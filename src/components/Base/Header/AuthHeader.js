@@ -8,7 +8,8 @@ const Div = styled.div`
   height: 130px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
+  /* justify-content: center; */
 `;
 
 const AuthHeader = ({ user, onLogout }) => {
@@ -26,8 +27,8 @@ const AuthHeader = ({ user, onLogout }) => {
     <>
       <Div>
         <AuthPageButton onClick={openModal}>Go Plan</AuthPageButton>
-        <AuthPageButton to="/about">About</AuthPageButton>
-        <AuthPageButton to="/contact">Contact</AuthPageButton>
+        {/* <AuthPageButton to="/about">About</AuthPageButton> */}
+        {/* <AuthPageButton to="/contact">Contact</AuthPageButton> */}
         <AuthPageButton to={process.env.PUBLIC_URL + '/notice/noticeList'}>
           Notice
         </AuthPageButton>

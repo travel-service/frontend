@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; // useEffect
+import React, { useState, useEffect } from 'react'; // useEffect
 import { DragDropContext } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import SelLocBasket from './dnd/SelLocBasket';
@@ -7,6 +7,26 @@ import {
   MdOutlineArrowForwardIos,
   MdOutlineArrowBackIos,
 } from 'react-icons/md';
+
+const Div = styled.div`
+  /* width: 150px; */
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const FaceIcon = styled.img`
+  height: 200px;
+  width: 200px;
+  margin-bottom: 30px;
+`;
+
+const FontDiv = styled.div`
+  font-size: 17px;
+  font-weight: bold;
+  color: #e64980;
+`;
 
 const Container = styled.div`
   display: flex;
@@ -47,8 +67,18 @@ const MainArea = ({
   setTimeData,
   splitTime,
 }) => {
-  // const { category, pushLocToDay, dayLocChange } = useStore();
   const [isOpen, setIsOpen] = useState(true);
+  const [selectArea, setSelectArea] = useState(-1);
+
+  useEffect(() => {
+    let keys = Object.keys(selCateLoc);
+    let n = keys.length;
+    for (let i = 0; i < n; i++) {
+      if (selCateLoc[keys[i]].length > 0) setSelectArea(1);
+    }
+    console.log(selectArea);
+    if (selectArea === -1) setSelectArea(100);
+  }, [selCateLoc, selectArea]);
 
   const onDragEnd = (result) => {
     const { destination, source } = result;
@@ -93,38 +123,55 @@ const MainArea = ({
     <>
       <DragDropContext onDragEnd={onDragEnd}>
         <Container>
+          {selectArea === 100 && (
+            <Div>
+              <h2>여행 갈 곳이 읎다..</h2>
+              <FaceIcon
+                src={process.env.PUBLIC_URL + '/images/face1.png'}
+                alt=""
+              />
+              <FontDiv>😥선택한 블록(여행지)가 하나도 없어요.😥</FontDiv>
+              <FontDiv>😛이전으로 돌아가 여행지를 담아오세요!!😛</FontDiv>
+            </Div>
+          )}
           {/* 담은 블록 */}
-          <SelLocBasket
-            isOpen={isOpen}
-            category={category}
-            selCateLoc={selCateLoc}
-          />
-          <ToggleArea>
-            <Toggle onClick={onClickToggle}>
-              {!isOpen && (
-                <MdOutlineArrowForwardIos
-                  style={{
-                    color: 'white',
-                  }}
-                />
-              )}
-              {isOpen && (
-                <MdOutlineArrowBackIos
-                  style={{
-                    color: 'white',
-                  }}
-                />
-              )}
-            </Toggle>
-          </ToggleArea>
+          {selectArea === 1 && (
+            <SelLocBasket
+              isOpen={isOpen}
+              category={category}
+              selCateLoc={selCateLoc}
+            />
+          )}
+          {selectArea === 1 && (
+            <ToggleArea>
+              <Toggle onClick={onClickToggle}>
+                {!isOpen && (
+                  <MdOutlineArrowForwardIos
+                    style={{
+                      color: 'white',
+                    }}
+                  />
+                )}
+                {isOpen && (
+                  <MdOutlineArrowBackIos
+                    style={{
+                      color: 'white',
+                    }}
+                  />
+                )}
+              </Toggle>
+            </ToggleArea>
+          )}
           {/* 데이 */}
-          <PlanDays
-            dayLocDel={dayLocDel}
-            setViewTime={setViewTime}
-            userTravelDay={userTravelDay}
-            setTimeData={setTimeData}
-            splitTime={splitTime}
-          />
+          {selectArea === 1 && (
+            <PlanDays
+              dayLocDel={dayLocDel}
+              setViewTime={setViewTime}
+              userTravelDay={userTravelDay}
+              setTimeData={setTimeData}
+              splitTime={splitTime}
+            />
+          )}
         </Container>
       </DragDropContext>
     </>

@@ -8,6 +8,9 @@ const AuthTemplateBlock = styled.div`
   display: flex;
   flex-direction: row;
   background-color: #fff1a9;
+  @media screen and (max-width: 767px) {
+    display: block;
+  }
 `;
 
 const WhiteBox = styled.div`
@@ -15,13 +18,20 @@ const WhiteBox = styled.div`
   width: 45%;
   background: white;
   border-radius: 0 45px 45px 0;
+  @media screen and (max-width: 1023px) {
+    width: 70%;
+  }
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    border-radius: 0px;
+  }
 `;
 
 const Div = styled.div`
   padding: 50px 0px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: space-around; */
   align-items: center;
   min-height: 100vh;
   /* width: 100px; */
@@ -31,6 +41,10 @@ const Div = styled.div`
 const Main = styled.div`
   width: 55%;
   height: 100vh;
+  @media screen and (max-width: 767px) {
+    width: 0%;
+    display: none; // 0529  임시 none 처리, 메뉴 바 삽입 예정
+  }
 `;
 
 const Illustration = styled.div`
@@ -50,7 +64,11 @@ const Illustration = styled.div`
     `}
 `;
 
-const MainCharacter = styled.img``;
+const MainCharacter = styled.img`
+  @media screen and (max-width: 1023px) {
+    width: 60%;
+  }
+`;
 
 const AuthTemplate = ({ children }) => {
   return (

@@ -5,6 +5,8 @@ import styled, { css } from 'styled-components';
 const LogoLink = styled(Link)`
   display: flex;
   justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 50px;
 `;
 
 const SubDiv = styled.div`

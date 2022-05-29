@@ -6,8 +6,8 @@ import Button from 'components/common/Button';
 // import AccountCircle from './icons/AccountCircle';
 
 const AuthFormBlock = styled.div`
-  /* padding-top: 30px; */
-  width: 450px;
+  /* width: 300px; */
+  width: 100%;
 `;
 
 const Div = styled.div`
@@ -21,9 +21,10 @@ const H2 = styled.h2`
   margin-top: 0;
 `;
 
-// const Form = styled.form`
-//   margin: 30px;
-// `;
+const Form = styled.form`
+  margin: auto;
+  width: 70%;
+`;
 
 // const H4 = styled.h4`
 //   margin-top: 10px;
@@ -50,8 +51,8 @@ const StyledDiv = styled.div`
   position: relative;
   /* text-align: center; */
   /* display: flex; */
-  /* justify-content: space-between; */
-  margin-top: 10px;
+  justify-content: space-between;
+  margin: 5px 0px;
   /* justify-content: space-between; */
 `;
 
@@ -70,13 +71,20 @@ const StyledInput = styled.input`
   border-radius: 8px;
   /* padding-bottom: 0.5rem; */
   outline: none;
-  width: 350px;
+  /* width: 350px; */
+  width: 70%;
   height: 45px;
+  float: right;
   &:focus {
     border-bottom: 1px solid ${palette.gray[7]};
   }
   & + & {
     margin-top: 1rem;
+  }
+  @media screen and (max-width: 767px) {
+    height: 40px;
+    padding-left: 10px;
+    font-size: 0.9rem;
   }
 `;
 
@@ -89,13 +97,17 @@ const Select = styled.select`
   border-radius: 8px;
   /* padding-bottom: 0.5rem; */
   outline: none;
-  width: 350px;
+  /* width: 350px; */
+  width: 70%;
   height: 45px;
   &:focus {
     border-bottom: 1px solid ${palette.gray[7]};
   }
   & + & {
     margin-top: 1rem;
+  }
+  @media screen and (max-width: 767px) {
+    height: 40px;
   }
 `;
 
@@ -153,7 +165,7 @@ const AuthForm = ({
             {/* {text} */}
             {type === 'signup' && <SpanRed>( * 필수항목 )</SpanRed>}
           </H2>
-          <form onSubmit={onSubmit}>
+          <Form onSubmit={onSubmit}>
             <StyledDiv>
               <InputHeader>
                 {type === 'signup' && <SpanRed>*</SpanRed>}
@@ -309,7 +321,7 @@ const AuthForm = ({
             <ButtonWidthMarginTop cyan fullWidth>
               {text}
             </ButtonWidthMarginTop>
-          </form>
+          </Form>
           <Footer>
             {type === 'login' ? (
               <Links>
