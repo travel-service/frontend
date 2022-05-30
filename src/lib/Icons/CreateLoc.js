@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import ReactTooltip from 'react-tooltip';
 import ModalModule from 'components/common/modal/ModalModule';
 import { useStore } from 'lib/store/planStore';
+import { buildStore } from 'lib/store/CanvasBuildStore';
 
 const CreateLocBtn = styled(MdOutlineLibraryAdd)`
   cursor: pointer;
@@ -16,28 +17,38 @@ const Div = styled.div`
 `;
 
 const Container = styled.div`
-  padding-left: 50px;
+  /* padding-left: 50px; */
   display: flex;
   flex-direction: column;
   /* align-items: center; */
 `;
 
 const Label = styled.label`
-  width: 100px;
+  width: 100%;
 `;
 
 const Input = styled.input`
   margin-left: 10px;
   margin-right: 10px;
-  width: 180px;
+  width: 120px;
 `;
 
 const Type = styled.div`
   margin-left: 10px;
 `;
 
+const Select = styled.select`
+  width: 100px;
+  margin-right: 10px;
+`;
+
+const Span = styled.span`
+  width: 100px;
+`;
+
 const CreateLoc = ({ size, onClick }) => {
   const { category } = useStore();
+  const { memberLoc } = buildStore();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectValue, setSelectValue] = useState('');
 
@@ -83,20 +94,43 @@ const CreateLoc = ({ size, onClick }) => {
               id="name"
               onChange={onChange}
               placeholder="여행지 이름을 입력해주세요."
+              // value={memberLoc.name}
             />
           </Div>
           <Div>
             <Label htmlFor="coord">블록 좌표</Label>
-            <Input
+            <div>
+              {memberLoc.coord.lat
+                ? `x: ${memberLoc.coord.lat}, y: ${memberLoc.coord.lng}`
+                : '지도에서 선택해주세요'}
+            </div>
+            {/* <Input
               id="coord"
               onChange={onChange}
               placeholder="지도에 마커를 표시해주세요"
-            />
+            /> */}
           </Div>
+          {/* <Div>
+            <Label htmlFor="share">공유 여부</Label>
+            <Span>공개</Span>
+            <input
+              id="share"
+              onChange={onChange}
+              type="checkbox"
+              value="public"
+            />
+            <Span>비공개</Span>
+            <input
+              id="share"
+              onChange={onChange}
+              type="checkbox"
+              value="private"
+            />
+          </Div> */}
           <Div>
-            <Label>type 설정</Label>
+            <Label>카테고리 설정</Label>
             <Type>
-              <select name="type" onChange={onChange}>
+              <Select name="type" onChange={onChange}>
                 <option value="">선택</option>
                 {Object.keys(category).map((key, index) => (
                   <option value={category[key].kor} key={index}>
@@ -104,7 +138,7 @@ const CreateLoc = ({ size, onClick }) => {
                   </option>
                 ))}
                 <option value="기타">기타</option>
-              </select>
+              </Select>
             </Type>
           </Div>
           <Div>

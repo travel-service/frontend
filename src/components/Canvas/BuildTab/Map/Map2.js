@@ -2,123 +2,54 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styled from 'styled-components';
 
+const Container = styled.div`
+  position: relative;
+  width: 100%;
+  height: 500px;
+`;
+
 const Div = styled.div`
   width: 100%;
   height: 500px;
 `;
 
-const MapContainer = ({ searchPlace, forMarkerPositions }) => {
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const HeaderBtn = styled.button`
+  height: 30px;
+`;
+
+const Ul = styled.ul`
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 250px;
+  margin: 10px 0 30px 10px;
+  padding: 5px;
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.7);
+  z-index: 1;
+  font-size: 12px;
+  border-radius: 10px;
+`;
+
+const MapContainer = ({ searchPlace, forMarkerPositions, searchPlaces }) => {
   // let container = document.getElementById('myMap'); // DOM 접근
   const [kakaoMap, setKakaoMap] = useState(null);
   const [area, setArea] = useState(null);
-  const [, setMarkers] = useState([]);
+  const [markers, setMarkers] = useState([]);
   const container = useRef(null);
   const [latLng, setLatLng] = useState(null);
-
-  const initMap = useCallback(
-    (options) => {
-      let marker = new kakao.maps.Marker(); // 마커
-      let infoWindow = new kakao.maps.InfoWindow({ zIndex: 1 }); // 정보창 띄울 공간
-      let map = new kakao.maps.Map(container.current, options); // 카카오 맵
-      let mapTypeControl = new kakao.maps.MapTypeControl(); // 지도 타입전환 컨드롤러
-      let zoomControl = new kakao.maps.ZoomControl(); // 줌 제어 컨트롤러
-      let geocoder = new kakao.maps.services.Geocoder();
-      let ps = new kakao.maps.services.Places(); // 장소 검색 객체
-
-      map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
-      map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
-
-      const displayMarker = (place) => {
-        let marker = new kakao.maps.Marker({
-          map: map,
-          position: new kakao.maps.LatLng(place.y, place.x),
-        });
-        kakao.maps.event.addListener(marker, 'click', () => {
-          // 마커를 클릭하면 장소명이 인포윈도우에 표출
-          infoWindow.setContent(
-            '<div style="padding:5px;font-size:12px;">' +
-              place.place_name +
-              '</div>',
-          );
-          infoWindow.open(map, marker);
-        });
-      };
-
-      const placesSearchCB = (data, status, pagination) => {
-        if (status === kakao.maps.services.Status.OK) {
-          let bounds = new kakao.maps.LatLngBounds();
-          for (let i = 0; i < data.length; i++) {
-            displayMarker(data[i]);
-            bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
-          }
-          map.setBounds(bounds);
-        }
-      };
-
-      // if (!searchPlace) return;
-      // ps.keywordSearch(searchPlace, placesSearchCB); // 키워드로 장소 검색
-
-      // kakao.maps.event.addListener(map, 'click', (mouseEvent) => {
-      //   searchDetailAddrFromCoords(mouseEvent.latLng, (result, status) => {
-      //     if (status === kakao.maps.services.Status.OK) {
-      //       var detailAddr = !!result[0].road_address
-      //         ? '<div>도로명주소 : ' +
-      //           result[0].road_address.address_name +
-      //           '</div>'
-      //         : '';
-      //       detailAddr +=
-      //         '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
-      //       var content =
-      //         '<div class="bAddr">' +
-      //         '<span class="title">법정동 주소정보</span>' +
-      //         detailAddr +
-      //         '</div>';
-      //       // 마커를 클릭한 위치에 표시합니다
-      //       marker.setPosition(mouseEvent.latLng);
-      //       console.log(mouseEvent.latLng);
-      //       setCoord({
-      //         lat: null,
-      //         lng: null,
-      //       });
-      //       marker.setMap(map);
-      //       // 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시합니다
-      //       infoWindow.setContent(content);
-      //       infoWindow.open(map, marker);
-      //     }
-      //   });
-      // });
-      // kakao.maps.event.addListener(map, 'idle', () => {
-      //   searchAddrFromCoords(map.getCenter(), displayCenterInfo);
-      // });
-      // const searchAddrFromCoords = (coords, callback) => {
-      //   // 좌표로 행정동 주소 정보를 요청합니다
-      //   geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
-      // };
-      // const searchDetailAddrFromCoords = (coords, callback) => {
-      //   // 좌표로 법정동 상세 주소 정보를 요청합니다
-      //   geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
-      // };
-      // const displayCenterInfo = (result, status) => {
-      //   if (status === kakao.maps.services.Status.OK) {
-      //     var infoDiv = document.getElementById('centerAddr');
-      //     for (var i = 0; i < result.length; i++) {
-      //       // 행정동의 region_type 값은 'H' 이므로
-      //       if (result[i].region_type === 'H') {
-      //         infoDiv.innerHTML = result[i].address_name;
-      //         break;
-      //       }
-      //     }
-      //   }
-      // };
-    },
-    [searchPlace],
-  );
+  const [infoWin, setInfoWin] = useState(null);
 
   useEffect(() => {
-    // let marker = new kakao.maps.Marker(); // 마커
     const options = {
-      // 기본 좌표와 맵 확대 레벨
-      center: new kakao.maps.LatLng(33.499522, 126.531079),
+      center: new kakao.maps.LatLng(37.5776087830657, 126.976896737645),
       level: 3,
     };
     let map = new kakao.maps.Map(container.current, options); // 카카오 맵
@@ -128,56 +59,15 @@ const MapContainer = ({ searchPlace, forMarkerPositions }) => {
     map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
     setKakaoMap(map);
     console.log('create map');
-
-    // let geocoder = new kakao.maps.services.Geocoder();
-    // let marker = new kakao.maps.Marker(); // 마커
-    // 0525 마커 생성
-    // kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
-    //   // setMarkers([]);
-    //   marker.setMap(map);
-    //   let latlng = mouseEvent.latLng;
-    //   marker.setPosition(latlng);
-    //   console.log(latlng);
-    // console.log(marker);
-    // marker.setPosition(latlng);
-    // 마커 위치를 클릭한 위치로 옮깁니다
-    // var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
-    // message += '경도는 ' + latlng.getLng() + ' 입니다';
-
-    // var resultDiv = document.getElementById('clickLatlng');
-    // resultDiv.innerHTML = message;
-    // });
-
-    // 0523 카카오맵 좌표(대각 영역)
-    // kakao.maps.event.addListener(map, 'idle', () => {
-    //   let bounds = map.getBounds();
-    //   let se = bounds.getSouthWest();
-    //   let ne = bounds.getNorthEast();
-    //   console.log(se, ne);
-    // });
-
-    // const searchAddrFromCoords = (coords, callback) => {
-    //   // 좌표로 행정동 주소 정보를 요청합니다
-    //   geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
-    // };
-    // let ps = new kakao.maps.services.Places(); // 장소 검색 객체
-
-    // initMap(options);
   }, [container]);
 
-  // 0519 doing, 마커 표시까지 기능 구현, 여러개 검색하고 지역 이름 확인 창 여러개 유지되는 버그는 존재
   useEffect(() => {
     if (kakaoMap === null) {
       return;
     }
+    let infoWindow = new kakao.maps.InfoWindow({ zIndex: 1 });
+    setInfoWin(infoWindow);
 
-    let iwRemoveable = true;
-    let infoWindow = new kakao.maps.InfoWindow({
-      zIndex: 1,
-      map: kakaoMap,
-      removable: iwRemoveable,
-      // position: iwPosition,
-    }); // 정보창 띄울 공간
     const nameList = forMarkerPositions.map((pos) => {
       return pos.place_name;
     });
@@ -190,13 +80,11 @@ const MapContainer = ({ searchPlace, forMarkerPositions }) => {
         return new kakao.maps.Marker({ map: kakaoMap, position: position });
       });
       markerList.map((marker, i) => {
-        kakao.maps.event.addListener(marker, 'click', () => {
-          infoWindow.setContent(
-            '<div style="padding:5px;font-size:12px;">' +
-              nameList[i] +
-              '</div>',
-          );
-          infoWindow.open(kakaoMap, marker);
+        kakao.maps.event.addListener(marker, 'mouseover', () => {
+          displayInfoWindow(nameList[i], i);
+        });
+        kakao.maps.event.addListener(marker, 'mouseout', () => {
+          infoWin.close();
         });
       });
       return markerList;
@@ -207,21 +95,55 @@ const MapContainer = ({ searchPlace, forMarkerPositions }) => {
         new kakao.maps.LatLngBounds(),
       );
       kakaoMap.setBounds(bounds);
-      // console.log(bounds);
     }
-    let position = kakaoMap.getCenter().getLat();
-    console.log(position);
   }, [kakaoMap, forMarkerPositions]);
 
+  const displayInfoWindow = (name, i) => {
+    infoWin.setContent(
+      '<div style="padding:5px;font-size:12px;">' + name + '</div>',
+    );
+    infoWin.open(kakaoMap, markers[i]);
+  };
+
+  const closeInfoWindow = () => {
+    infoWin.close();
+  };
+
+  const onSelect = (e) => {
+    console.log(e);
+    // 0530
+    // 선택 버튼 클릭시
+    // CreateLoc에 있는 모달창에 이름, 좌표, 업데이트 !
+    // 지도 클릭시 인포윈도우(주소정도만) 보여주면서 클릭 가능하게 만들기!
+  };
+
   return (
-    <>
+    <Container>
       {/* map을 띄울 영역: Div */}
       <Div id="myMap" ref={container}></Div>
-      {/* <div className="hAddr">
-        <span className="title">지도중심기준 행정동 주소정보</span>
-        <span id="centerAddr"></span>
-      </div> */}
-    </>
+      {searchPlaces && (
+        <Ul>
+          {searchPlaces.map((e, i) => (
+            <li
+              onMouseEnter={() => displayInfoWindow(e.place_name, i)}
+              onMouseLeave={() => closeInfoWindow()}
+              key={i}
+            >
+              <Header>
+                <h4>{e.place_name}</h4>
+                <HeaderBtn onClick={() => onSelect(e)}>선택</HeaderBtn>
+              </Header>
+              <div>주소: {e.address_name}</div>
+              {e.road_address_name && (
+                <div>도로주소: {e.road_address_name}</div>
+              )}
+              {e.phone && <div>번호: {e.phone}</div>}
+              <hr />
+            </li>
+          ))}
+        </Ul>
+      )}
+    </Container>
   );
 };
 
