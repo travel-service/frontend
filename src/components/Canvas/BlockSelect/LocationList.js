@@ -21,6 +21,7 @@ const Block = styled.li`
   background-color: ${palette.gray[0]};
   box-shadow: 3px 3px 3px 3px ${palette.gray[5]};
   padding: 2%;
+  width: 33%;
 `;
 
 const BlockDiv = styled.div`
@@ -62,20 +63,23 @@ function Location ({location}) {
       </div>
       <BButton 
         onClick={() => {
-          console.log(location)
           if (location.isSelect === false) {
-            onAdd(location, location.type)
+            onAdd(location, location.type.type)
             location.isSelect = true
           }
           else {
-            remove(location.id, location.type);
+            remove(location.id, location.type.type);
             location.isSelect = false
           }
+          console.log(location)
         } 
       }>{location.isSelect ? '취소' : '선택'}</BButton>
+      <BButton onClick={() => {console.log(selCateLoc)}}>
+        test
+      </BButton>
       <Modal open={modalOpen} close={closeModal} header={location.name}>
         {location.info}
-        <BlockInfo type={location.type} id={location.id}/>
+        <BlockInfo type={location.type.type} id={location.id}/>
       </Modal>
     </Block>
   )

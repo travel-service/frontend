@@ -4,51 +4,61 @@
       "id": 1,
       "planForm": {
         "depart": "2022/01/16",
-        "destination": "어딘가",
+        "destination": "제주도",
         "name": "새로운 여행",
         "periods": 4,
         "planStatus": "MAIN",
         "thumbnail": "https://ifh.cc/g/qrVZrf.png"
       },
       "conceptForm": {
-        "concept": ["Love", "Family", "Alone"]
+        "concept": [
+          "Love",
+          "Family",
+          "Alone"
+        ]
       },
       "selectedLocationForm": {
-        "selectedLocation": [5, 6, 7]
+        "selectedLocation": [
+          5,
+          6,
+          7
+        ]
       },
       "dayForm": {
         "travelDay": [
           [
             {
-              "id": 2,
-              "type": "1",
-              "name": "만장굴",
+              "id": 8,
+              "type": "5",
+              "name": "그랜드 하얏트 호텔",
               "address": "주소",
               "tel": "010-1234-5678",
-              "category": "관광지",
-              "info": "제주도의 만장굴입니다",
+              "category": "숙박시설",
+              "info": "제주도의 그랜드 하얏트 호텔입니다",
               "image": "https://i.ibb.co/GFX3TZr/image.jpg",
               "isSelect": true,
-              "copyLocationId": "f788a-e144-3fcc-2a50-b420c0ea27",
+              "copyLocationId": "3e10f87-102c-666a-4173-5835a573eb6",
               "movingData": {
                 "startTime": "",
                 "stayTime": "",
                 "vehicle": "",
                 "movingTime": "",
                 "arriveTime": ""
-              }
+              },
+              "vehicle": "",
+              "movingTime": ""
             },
             {
-              "id": 2,
-              "type": "1",
-              "name": "만장굴",
+              "id": 7,
+              "type": "5",
+              "name": "레인보우인 제주",
               "address": "주소",
               "tel": "010-1234-5678",
-              "category": "관광지",
-              "info": "제주도의 만장굴입니다",
-              "image": "https://i.ibb.co/GFX3TZr/image.jpg",
+              "category": "숙박시설",
+              "info": "제주도의 레인보우인 제주입니다",
+              "image": "https://i.ibb.co/zJMMHVD/image.jpg",
               "isSelect": true,
-              "copyLocationId": "4df6dfd-7c4b-36be-85ca-f6c850527ad",
+              "copyLocationId": "60bd58-cd4c-48c-e124-6d453e33bbc8",
               "movingData": {
                 "startTime": "",
                 "stayTime": "",
@@ -69,7 +79,7 @@
               "info": "제주도의 대표적인 산인 한라산입니다",
               "image": "https://i.ibb.co/zJMMHVD/image.jpg",
               "isSelect": true,
-              "copyLocationId": "d2c0dce-fec5-6c34-5075-d2b307d10a4",
+              "copyLocationId": "403c2-2fc-1a24-db4a-7ff777c178af",
               "movingData": {
                 "startTime": "",
                 "stayTime": "",
@@ -79,23 +89,25 @@
               }
             },
             {
-              "id": 1,
-              "type": "1",
-              "name": "한라산",
+              "id": 9,
+              "type": "5",
+              "name": "제주 칼호텔",
               "address": "주소",
               "tel": "010-1234-5678",
-              "category": "관광지",
-              "info": "제주도의 대표적인 산인 한라산입니다",
-              "image": "https://i.ibb.co/zJMMHVD/image.jpg",
+              "category": "숙박시설",
+              "info": "제주도의 제주 칼호텔입니다",
+              "image": "https://i.ibb.co/MVvvPsX/image.jpg",
               "isSelect": true,
-              "copyLocationId": "3755148-5f62-602-45d6-ce2326625843",
+              "copyLocationId": "47471fc-1a2-d0b-30fe-8faa45053",
               "movingData": {
                 "startTime": "",
                 "stayTime": "",
                 "vehicle": "",
                 "movingTime": "",
                 "arriveTime": ""
-              }
+              },
+              "vehicle": "",
+              "movingTime": ""
             }
           ],
           [],
@@ -106,104 +118,22 @@
     {
       "id": 2,
       "planForm": {
-        "depart": "2022/01/16",
-        "destination": "어딘가",
-        "name": "새로운 여행",
-        "periods": 4,
+        "id": "",
+        "depart": "",
+        "destination": "",
+        "name": "",
+        "periods": 1,
         "planStatus": "MAIN",
-        "thumbnail": "https://ifh.cc/g/qrVZrf.png"
+        "thumbnail": []
       },
       "conceptForm": {
-        "concept": ["Love", "Family", "Alone"]
+        "concept": []
       },
       "selectedLocationForm": {
         "selectedLocation": []
       },
       "dayForm": {
-        "travelDay": [
-          [
-            {
-              "id": 2,
-              "type": "1",
-              "name": "만장굴",
-              "address": "주소",
-              "tel": "010-1234-5678",
-              "category": "관광지",
-              "info": "제주도의 만장굴입니다",
-              "image": "https://i.ibb.co/GFX3TZr/image.jpg",
-              "isSelect": true,
-              "copyLocationId": "f788a-e144-3fcc-2a50-b420c0ea27",
-              "movingData": {
-                "startTime": "",
-                "stayTime": "",
-                "vehicle": "",
-                "movingTime": "",
-                "arriveTime": ""
-              }
-            },
-            {
-              "id": 2,
-              "type": "1",
-              "name": "만장굴",
-              "address": "주소",
-              "tel": "010-1234-5678",
-              "category": "관광지",
-              "info": "제주도의 만장굴입니다",
-              "image": "https://i.ibb.co/GFX3TZr/image.jpg",
-              "isSelect": true,
-              "copyLocationId": "4df6dfd-7c4b-36be-85ca-f6c850527ad",
-              "movingData": {
-                "startTime": "",
-                "stayTime": "",
-                "vehicle": "",
-                "movingTime": "",
-                "arriveTime": ""
-              }
-            }
-          ],
-          [
-            {
-              "id": 1,
-              "type": "1",
-              "name": "한라산",
-              "address": "주소",
-              "tel": "010-1234-5678",
-              "category": "관광지",
-              "info": "제주도의 대표적인 산인 한라산입니다",
-              "image": "https://i.ibb.co/zJMMHVD/image.jpg",
-              "isSelect": true,
-              "copyLocationId": "d2c0dce-fec5-6c34-5075-d2b307d10a4",
-              "movingData": {
-                "startTime": "",
-                "stayTime": "",
-                "vehicle": "",
-                "movingTime": "",
-                "arriveTime": ""
-              }
-            },
-            {
-              "id": 1,
-              "type": "1",
-              "name": "한라산",
-              "address": "주소",
-              "tel": "010-1234-5678",
-              "category": "관광지",
-              "info": "제주도의 대표적인 산인 한라산입니다",
-              "image": "https://i.ibb.co/zJMMHVD/image.jpg",
-              "isSelect": true,
-              "copyLocationId": "3755148-5f62-602-45d6-ce2326625843",
-              "movingData": {
-                "startTime": "",
-                "stayTime": "",
-                "vehicle": "",
-                "movingTime": "",
-                "arriveTime": ""
-              }
-            }
-          ],
-          [],
-          []
-        ]
+        "travelDay": []
       }
     }
   ],
@@ -353,6 +283,189 @@
       "body": "16. HTML 내용입니다."
     }
   ],
+  "locations_v2": {
+    "Attraction": [
+      {
+        "id": 1,
+        "name": "휴애리자연생활공원",
+        "address1": "제주특별자치도 서귀포시 남원읍 신례동로 256",
+        "address2": "null",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/47/2615547_image2_1.bmp",
+        "type": {
+          "attraction": true,
+          "member": false,
+          "lodge": false,
+          "leports": false,
+          "restaurant": false,
+          "festival": false,
+          "culture": false,
+          "type": 0
+        }
+      },
+      {
+        "id": 2,
+        "name": "섭지코지",
+        "address1": "제주특별자치도 서귀포시 성산읍 섭지코지로 107",
+        "address2": "null",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/80/2513480_image2_1.jpg",
+        "type": {
+          "attraction": true,
+          "member": false,
+          "lodge": false,
+          "leports": false,
+          "restaurant": false,
+          "festival": false,
+          "culture": false,
+          "type": 0
+        }
+      },
+      {
+        "id": 3,
+        "name": "천지연폭포 (제주도 국가지질공원)",
+        "address1": "제주특별자치도 서귀포시 천지동",
+        "address2": "null",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/96/2612496_image2_1.jpg",
+        "type": {
+          "attraction": true,
+          "member": false,
+          "lodge": false,
+          "leports": false,
+          "restaurant": false,
+          "festival": false,
+          "culture": false,
+          "type": 0
+        }
+      },
+      {
+        "id": 4,
+        "name": "성산일출봉 [유네스코 세계자연유산]",
+        "address1": "제주특별자치도 서귀포시 성산읍 일출로 284-12",
+        "address2": "null",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/00/2613500_image2_1.jpg",
+        "type": {
+          "attraction": true,
+          "member": false,
+          "lodge": false,
+          "leports": false,
+          "restaurant": false,
+          "festival": false,
+          "culture": false,
+          "type": 0
+        }
+      }
+    ],
+    "Festival": [
+      {
+        "id": 8,
+        "name": "제주 유채꽃축제",
+        "address1": "제주특별자치도 서귀포시 녹산로 381-17",
+        "address2": "null",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/89/2539389_image2_1.JPG",
+        "type": {
+          "festival": true,
+          "member": false,
+          "lodge": false,
+          "leports": false,
+          "restaurant": false,
+          "attraction": false,
+          "culture": false,
+          "type": 2
+        }
+      },
+      {
+        "id": 10,
+        "name": "[문화관광축제] 제주들불축제",
+        "address1": "제주 제주시 애월읍 봉성리 산59-8",
+        "address2": "null",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/27/2689727_image2_1.png",
+        "type": {
+          "festival": true,
+          "member": false,
+          "lodge": false,
+          "leports": false,
+          "restaurant": false,
+          "attraction": false,
+          "culture": false,
+          "type": 2
+        }
+      },
+      {
+        "id": 11,
+        "name": "제주 허브동산 \"별빛놀이\" 2021",
+        "address1": "제주특별자치도 서귀포시 표선면 돈오름로 170",
+        "address2": "null",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/21/2582021_image2_1.jpg",
+        "type": {
+          "festival": true,
+          "member": false,
+          "lodge": false,
+          "leports": false,
+          "restaurant": false,
+          "attraction": false,
+          "culture": false,
+          "type": 2
+        }
+      }
+    ]
+  },
+  "locations_mark": {
+    "Attraction": [
+      {
+        "id": 1,
+        "name": "휴애리자연생활공원",
+        "coords": {
+          "latitude": "33.3085",
+          "longitude": "126.634"
+        },
+        "type": {
+          "attraction": true,
+          "festival": false,
+          "culture": false,
+          "leports": false,
+          "lodge": false,
+          "restaurant": false,
+          "member": false,
+          "type": 0
+        }
+      },
+      {
+        "id": 2,
+        "name": "섭지코지",
+        "coords": {
+          "latitude": "33.4302",
+          "longitude": "126.928"
+        },
+        "type": {
+          "attraction": true,
+          "festival": false,
+          "culture": false,
+          "leports": false,
+          "lodge": false,
+          "restaurant": false,
+          "member": false,
+          "type": 0
+        }
+      },
+      {
+        "id": 3,
+        "name": "천지연폭포 (제주도 국가지질공원)",
+        "coords": {
+          "latitude": "33.2445",
+          "longitude": "126.559"
+        },
+        "type": {
+          "attraction": true,
+          "festival": false,
+          "culture": false,
+          "leports": false,
+          "lodge": false,
+          "restaurant": false,
+          "member": false,
+          "type": 0
+        }
+      }
+    ]
+  },
   "locations": {
     "1": {
       "id": 1,

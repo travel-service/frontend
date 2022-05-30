@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import LocationList from './LocationList'
 import SelectedLocationList from './SelectedLocationList';
 import {useStore} from '../../../lib/store';
-import mapimg from './map.jpg'
 import TypeFilter from './TypeFilter';
 import { filterStore } from 'lib/filterStore';
 import Map from 'containers/Canvas/MapContainer'
@@ -22,37 +21,24 @@ const WhiteBox = styled.div`
   width: 90%;
 `;
 
-const BlueBox = styled.div`
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.025);
-  padding: 2rem;
-  width: 500px;
-  height: 200px;
-  margin: 5px;
-  background: skyblue;
-  border-radius: 8px;
-  float: left;
-`;
-
 const BlockListArea = styled.div`
-  width: 60%;
+  width: 50%;
   float: left;
   background-color: #E0FFDB;
 `
 
 const MapArea = styled.div`
-  width: 40%;
+  width: 50%;
   float: left;
   background-color: brown;
 `
 
 const SelectArea = ({ location, selLocs }) => {
 
-  const { Attractions, Restaurant, Lodge } = location
+  const { Attractions, Culture, Festival, Leports, Lodge, Restaurant } = location
   // const { selAttractions, selRestaurant, selLodge } = selLocs
   
   // const { selLodge, selAttractions, selRestaurant } = useStore();
-  const { selCateLoc } = useStore();
-  const { selLodge, selAttractions, selRestaurant } = selCateLoc;
   const { attIsCheck, culIsCheck, fesIsCheck, lepIsCheck, lodIsCheck, resIsCheck } = filterStore();
 
   var noneCheck = !attIsCheck && !lodIsCheck && !resIsCheck;
@@ -68,11 +54,21 @@ const SelectArea = ({ location, selLocs }) => {
             { (attIsCheck === true || noneCheck === true) && <LocationList locations = {Attractions}/>}
           </div>
           <div>
+            { (culIsCheck === true || noneCheck === true) && <LocationList locations = {Culture}/>}
+          </div>
+          <div>
+            { (fesIsCheck === true || noneCheck === true) && <LocationList locations = {Festival}/>}
+          </div>
+          <div>
+            { (lepIsCheck === true || noneCheck === true) && <LocationList locations = {Leports}/>}
+          </div>
+          <div>
             { (lodIsCheck === true || noneCheck === true) && <LocationList locations = {Lodge}/>}
           </div>
           <div>
             { (resIsCheck === true || noneCheck === true) && <LocationList locations = {Restaurant}/>}
           </div>
+
         </WhiteBox>
       </BlockListArea>
       <MapArea>

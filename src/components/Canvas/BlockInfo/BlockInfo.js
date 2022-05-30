@@ -186,17 +186,17 @@ function BlockInfo(typeId) {
     console.log(type)
     console.log(id);
     switch (type) {
-        case '1' :
+        case 0 :
             return <AttractionInfo id={id} />;
-        case '2' :
+        case 1 :
             return <CultureInfo id={id} />;
-        case '3' :
+        case 2 :
             return <FestivalInfo id={id} />;
-        case '4' :
+        case 3 :
             return <LeportsInfo id={id} />;
-        case '5' :
+        case 4 :
             return <LodgeInfo id={id} />;
-        case '6' :
+        case 5 :
             return <RestaurantInfo id={id}/>;
         default :
             return ;

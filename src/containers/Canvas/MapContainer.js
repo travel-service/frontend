@@ -25,7 +25,7 @@ const MapContainer = () => {
     return (
         <div id="myMap" style={{
             // width: '500px',
-            height: '500px'
+             height: '600px'
         }}>
 
         </div>
