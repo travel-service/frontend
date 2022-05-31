@@ -199,20 +199,4 @@ export const buildStore = create((set, get) => ({
         nowLoc['startTime'] = get().calcTime(stayT, nowLoc['arriveTime']);
     }
   },
-  // 0530 memberLoc 과 이를 바꾸는 onChangeMemberLoc함수 작성 필요
-  memberLoc: {
-    name: '',
-    type: '',
-    coord: {
-      lat: '',
-      lng: '',
-    },
-    address: '',
-    image: '',
-    memberLocation: {
-      memberId: '',
-      isPublic: true,
-    },
-  },
-  onChangeMemberLoc: (key, value) => {},
 }));

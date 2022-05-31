@@ -50,6 +50,7 @@ const ModalModule = ({
   day,
   fromLocName,
   toLocName,
+  onSelect,
 }) => {
   return (
     <Modal
@@ -73,7 +74,7 @@ const ModalModule = ({
             <div>kakao 지도</div>
             <Close size="20" onClick={closeModal} tooltip={false} />
           </Header>
-          {map === 'memberLoc' && <MapContainer />}
+          {map === 'memberLoc' && <MapContainer onSelect={onSelect} />}
           {map === 'moveLoc' && (
             <MapMove fromLocName={fromLocName} toLocName={toLocName} />
           )}

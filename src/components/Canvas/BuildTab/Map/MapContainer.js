@@ -19,7 +19,7 @@ const Ul = styled.ul`
   border-radius: 10px;
 `;
 
-const MapContainer = ({ memberLoc }) => {
+const MapContainer = ({ onSelect }) => {
   const [inputText, setInputText] = useState('한경대학교');
   const [place, setPlace] = useState('한경대학교');
   const [forMarkerPositions, setForMarkerPositions] = useState([]);
@@ -48,6 +48,7 @@ const MapContainer = ({ memberLoc }) => {
           ]);
           bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
         }
+        setSearchPlaces(data);
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
         alert('검색 결과가 존재하지 않습니다.');
         return;
@@ -84,7 +85,7 @@ const MapContainer = ({ memberLoc }) => {
         searchPlace={place}
         forMarkerPositions={forMarkerPositions}
         searchPlaces={searchPlaces}
-        memberLoc={memberLoc}
+        onSelect={onSelect}
       />
     </div>
   );

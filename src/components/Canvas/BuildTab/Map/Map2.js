@@ -38,7 +38,12 @@ const Ul = styled.ul`
   border-radius: 10px;
 `;
 
-const MapContainer = ({ searchPlace, forMarkerPositions, searchPlaces }) => {
+const MapContainer = ({
+  searchPlace,
+  forMarkerPositions,
+  searchPlaces,
+  onSelect,
+}) => {
   // let container = document.getElementById('myMap'); // DOM 접근
   const [kakaoMap, setKakaoMap] = useState(null);
   const [area, setArea] = useState(null);
@@ -109,13 +114,13 @@ const MapContainer = ({ searchPlace, forMarkerPositions, searchPlaces }) => {
     infoWin.close();
   };
 
-  const onSelect = (e) => {
-    console.log(e);
-    // 0530
-    // 선택 버튼 클릭시
-    // CreateLoc에 있는 모달창에 이름, 좌표, 업데이트 !
-    // 지도 클릭시 인포윈도우(주소정도만) 보여주면서 클릭 가능하게 만들기!
-  };
+  // const onSelect = (e) => {
+  //   console.log(e);
+  // 0530
+  // 선택 버튼 클릭시
+  // CreateLoc에 있는 모달창에 이름, 좌표, 업데이트 !
+  // 지도 클릭시 인포윈도우(주소정도만) 보여주면서 클릭 가능하게 만들기!
+  // };
 
   return (
     <Container>
