@@ -13,8 +13,9 @@ const CreateLocBtn = styled(MdOutlineLibraryAdd)`
 
 const Div = styled.div`
   display: flex;
-  margin-bottom: 7px;
+  margin-bottom: 10px;
   justify-content: space-between;
+  align-items: center;
 `;
 
 const Container = styled.div`
@@ -25,26 +26,40 @@ const Container = styled.div`
 `;
 
 const Label = styled.label`
-  width: 100%;
+  width: 35%;
+`;
+
+const AddressDiv = styled.div`
+  width: 65%;
 `;
 
 const Input = styled.input`
-  margin-left: 10px;
-  margin-right: 10px;
-  width: 120px;
+  /* margin-left: 10px; */
+  /* margin-right: 10px; */
+  width: 65%;
 `;
 
 const Type = styled.div`
-  margin-left: 10px;
+  /* margin-left: 10px; */
+  width: 65%;
 `;
 
 const Select = styled.select`
-  width: 100px;
-  margin-right: 10px;
+  width: 100%;
+  /* margin-right: 10px; */
+`;
+
+const Textarea = styled.textarea`
+  width: 65%;
+`;
+
+const Option = styled.option`
+  width: 100%;
 `;
 
 const Span = styled.span`
-  width: 100px;
+  /* width: 100px; */
+  margin-left: 20px;
 `;
 
 const DivDetail = styled.div`
@@ -59,29 +74,36 @@ const H4 = styled.h5`
   text-align: center;
 `;
 
+const Error = styled.div`
+  text-align: center;
+  color: red;
+  margin-top: 10px;
+`;
+
 const CreateLoc = ({ size, onClick }) => {
   const { category } = useStore();
   const { createMemberLoc, typeInfo, onChangeTypeInfo, resetTypeInfo } =
-    memLocStore(); // 0530 설정 완료시 확인 누르면 store에 전송
+    memLocStore();
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [selectValue, setSelectValue] = useState('');
   const [coords, setCoords] = useState({
     lat: null,
     lng: null,
   });
   const [form, setForm] = useState({
+    summary: '',
+    detail: '',
     name: '',
     share: null,
     type: '',
     address: '',
     image: '',
   });
-  const [detailForm, setdetailForm] = useState({});
   const [typeDefaultData, setTypeDefaultData] = useState({});
-  const { name, share, type, address, image } = form;
+  const [errMsg, setErrMsg] = useState(null);
+  const { name, share, type, address, image, summary, detail } = form;
 
   useEffect(() => {
-    setTypeDefaultData(typeInfo[type]);
+    setTypeDefaultData(typeInfo[type]); // 타입 설정시 타입별 기본 데이터 가져오기
   }, [type]);
 
   const onChange = (e) => {
@@ -97,10 +119,21 @@ const CreateLoc = ({ size, onClick }) => {
   };
 
   const closeModal = () => {
+    setErrMsg(null);
+    setForm({
+      name: '',
+      share: null,
+      type: '',
+      address: '',
+      image: '',
+      summary: '',
+      detail: '',
+    });
     setModalIsOpen(false);
   };
 
   const onSelect = (e) => {
+    console.log(e);
     setForm({
       ...form,
       name: e.place_name,
@@ -113,12 +146,20 @@ const CreateLoc = ({ size, onClick }) => {
   };
 
   const onSubmit = () => {
+    console.log(form);
     // typeInfo의 타입에 따라 데이터들 모두 store에 전송해서 api요청
-    createMemberLoc(form, coords, typeInfo[type]);
-    // 다시 초기화, typeDefaultData 사용, typeinfo 덮어쓰기
-    resetTypeInfo(type, typeDefaultData);
-    closeModal();
+    let res = createMemberLoc(form, coords, typeInfo[type]);
+    console.log(res);
+    if (res === 'success') {
+      // 다시 초기화, typeDefaultData 사용, typeInfo 덮어쓰기
+      resetTypeInfo(type, typeDefaultData);
+      closeModal();
+      alert('여행지가 생성되었습니다!');
+    } else {
+      setErrMsg(res[1]);
+    }
   };
+
   // 0531 필수입력감 검증 기능 추가 필요
 
   return (
@@ -142,6 +183,7 @@ const CreateLoc = ({ size, onClick }) => {
         onSubmit={onSubmit}
       >
         <Container>
+          {/*  Div + input, Div + radio 컴포넌트화 필요(220602) */}
           <Div>
             <Label htmlFor="name">여행지 이름</Label>
             <Input
@@ -153,51 +195,72 @@ const CreateLoc = ({ size, onClick }) => {
             />
           </Div>
           <Div>
-            <Label htmlFor="coord">블록 좌표</Label>
-            <div>
-              {coords.lat
-                ? `x: ${coords.lat}, y: ${coords.lng}`
-                : '지도에서 선택해주세요'}
-            </div>
+            <Label htmlFor="coord">여행지 주소</Label>
+            <AddressDiv>
+              {address
+                ? `${address}`
+                : `검색 후 선택하거나,  지도에 표시해주세요.`}
+            </AddressDiv>
           </Div>
           <Div>
-            <Label htmlFor="share">공유 여부</Label>
-            <Span>공개</Span>
-            <input
-              id="share"
-              name="share"
-              onChange={onChange}
-              type="radio"
-              value={true}
-            />
-            <Span>비공개</Span>
-            <input
-              id="share"
-              name="share"
-              onChange={onChange}
-              type="radio"
-              value={false}
-            />
+            <Label htmlFor="share">공유 가능 여부</Label>
+            <div>
+              <Span>가능</Span>
+              <input
+                id="share"
+                name="share"
+                onChange={onChange}
+                type="radio"
+                value={true}
+              />
+              <Span>불가능</Span>
+              <input
+                id="share"
+                name="share"
+                onChange={onChange}
+                type="radio"
+                value={false}
+              />
+            </div>
           </Div>
           <Div>
             <Label htmlFor="image">이미지</Label>
             <Input
               id="image"
+              name="image"
               onChange={onChange}
               placeholder="이미지 업로드해주세요"
+            />
+          </Div>
+          <Div>
+            <Label htmlFor="summary">간단한 설명</Label>
+            <Input
+              id="summary"
+              onChange={onChange}
+              placeholder="여행지에 대한 간단한 설명을 작성해주세요."
+              name="summary"
+            />
+          </Div>
+          <Div>
+            <Label htmlFor="detail">자세한 설명</Label>
+            <Textarea
+              id="detail"
+              name="detail"
+              onChange={onChange}
+              placeholder="여행지에 대한 자세한 설명을 작성해주세요."
             />
           </Div>
           <Div>
             <Label>카테고리 설정</Label>
             <Type>
               <Select name="type" onChange={onChange} value={type}>
-                <option value="">선택</option>
+                <Option value="">선택</Option>
                 {Object.keys(category).map((key, index) => (
-                  <option value={category[key].eng} key={index}>
+                  <Option value={category[key].eng} key={index}>
                     {category[key].kor}
-                  </option>
+                  </Option>
                 ))}
-                <option value="기타">기타</option>
+                <Option value="기타">기타</Option>
               </Select>
             </Type>
           </Div>
@@ -212,9 +275,10 @@ const CreateLoc = ({ size, onClick }) => {
                   let inputSample = typeDefaultData[e][1];
                   return (
                     <Div key={i}>
-                      <span>{title}</span>
+                      <Label>{title}</Label>
                       {typeof inputSample === 'boolean' && (
                         <div>
+                          {/* 수정필요 */}
                           가능
                           <input type="radio" />
                           불가능
@@ -222,11 +286,10 @@ const CreateLoc = ({ size, onClick }) => {
                         </div>
                       )}
                       {typeof inputSample !== 'boolean' && (
-                        <input
+                        <Input
                           onChange={(el) =>
                             onChangeTypeInfo(type, e, el.target.value)
                           }
-                          // value={typeInfo[type][e][1]}
                           placeholder={inputSample}
                           name={e}
                         />
@@ -234,32 +297,14 @@ const CreateLoc = ({ size, onClick }) => {
                     </Div>
                   );
                 })}
-                {/* {Object.keys(typeInfo[type]).map((e, i) => {
-                  let title = typeInfo[type][e][0];
-                  let inputSample = typeInfo[type][e][1];
-                  return (
-                    <Div key={i}>
-                      <span>{title}</span>
-                      {typeof inputSample === 'boolean' && (
-                        <div>
-                          가능
-                          <input type="radio" />
-                          불가능
-                          <input type="radio" />
-                        </div>
-                      )}
-                      {typeof inputSample !== 'boolean' && (
-                        <input
-                          value={inputSample}
-                          placeholder={inputSample}
-                          name={e}
-                        />
-                      )}
-                    </Div>
-                  );
-                })} */}
               </Ul>
             </DivDetail>
+          )}
+          {errMsg && (
+            <div>
+              {/* <hr /> */}
+              <Error>{errMsg}</Error>
+            </div>
           )}
         </Container>
       </ModalModule>

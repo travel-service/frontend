@@ -82,9 +82,10 @@ const MapContainer = ({ onSelect }) => {
       />
       {/* 마커 배열 변경될 때마다 넘겨줌 */}
       <Map2
-        searchPlace={place}
+        setInputText={setInputText}
         forMarkerPositions={forMarkerPositions}
         searchPlaces={searchPlaces}
+        setSearchPlaces={setSearchPlaces}
         onSelect={onSelect}
       />
     </div>

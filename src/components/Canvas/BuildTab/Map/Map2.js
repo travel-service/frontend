@@ -1,4 +1,5 @@
 /*global kakao*/
+import { FifteenMp } from '@mui/icons-material';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styled from 'styled-components';
 
@@ -39,9 +40,10 @@ const Ul = styled.ul`
 `;
 
 const MapContainer = ({
-  searchPlace,
+  setInputText,
   forMarkerPositions,
   searchPlaces,
+  setSearchPlaces,
   onSelect,
 }) => {
   // let container = document.getElementById('myMap'); // DOM 접근
@@ -70,6 +72,7 @@ const MapContainer = ({
     if (kakaoMap === null) {
       return;
     }
+    let geocoder = new kakao.maps.services.Geocoder();
     let infoWindow = new kakao.maps.InfoWindow({ zIndex: 1 });
     setInfoWin(infoWindow);
 
@@ -91,6 +94,10 @@ const MapContainer = ({
         kakao.maps.event.addListener(marker, 'mouseout', () => {
           infoWin.close();
         });
+        kakao.maps.event.addListener(marker, 'click', () => {
+          let loc = forMarkerPositions[i];
+          onSelect(loc);
+        });
       });
       return markerList;
     });
@@ -101,6 +108,54 @@ const MapContainer = ({
       );
       kakaoMap.setBounds(bounds);
     }
+    kakao.maps.event.addListener(kakaoMap, 'click', function (mouseEvent) {
+      // 클릭한 위도, 경도 정보를 가져옵니다
+      var latlng = mouseEvent.latLng;
+      let lat = latlng.getLat();
+      let lng = latlng.getLng();
+      let address;
+      const position = new kakao.maps.LatLng(lat, lng);
+      setMarkers((markers) => {
+        markers.forEach((marker) => marker.setMap(null));
+        let markerEl = new kakao.maps.Marker({
+          map: kakaoMap,
+          position: position,
+        });
+        kakao.maps.event.addListener(markerEl, 'mouseover', () => {
+          geocoder.coord2Address(
+            latlng.getLng(),
+            latlng.getLat(),
+            (result, status) => {
+              if (status === kakao.maps.services.Status.OK) {
+                let loc = result[0];
+                address = loc.address.address_name;
+                infoWin.setContent(
+                  '<div style="padding:5px;font-size:12px;">' +
+                    loc.address.address_name +
+                    '</div>',
+                );
+                infoWin.open(kakaoMap, markerEl);
+              }
+            },
+          );
+        });
+        kakao.maps.event.addListener(markerEl, 'mouseout', () => {
+          closeInfoWindow();
+        });
+        kakao.maps.event.addListener(markerEl, 'click', () => {
+          let loc = {
+            place_name: '',
+            address_name: address,
+            y: lat.toString(),
+            x: lng.toString(),
+          };
+          onSelect(loc);
+        });
+        return [markerEl];
+      });
+      setSearchPlaces([]);
+      setInputText('');
+    });
   }, [kakaoMap, forMarkerPositions]);
 
   const displayInfoWindow = (name, i) => {
@@ -114,19 +169,11 @@ const MapContainer = ({
     infoWin.close();
   };
 
-  // const onSelect = (e) => {
-  //   console.log(e);
-  // 0530
-  // 선택 버튼 클릭시
-  // CreateLoc에 있는 모달창에 이름, 좌표, 업데이트 !
-  // 지도 클릭시 인포윈도우(주소정도만) 보여주면서 클릭 가능하게 만들기!
-  // };
-
   return (
     <Container>
       {/* map을 띄울 영역: Div */}
       <Div id="myMap" ref={container}></Div>
-      {searchPlaces && (
+      {searchPlaces.length > 0 && (
         <Ul>
           {searchPlaces.map((e, i) => (
             <li

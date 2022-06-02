@@ -1,18 +1,32 @@
 import create from 'zustand';
 
 export const memLocStore = create((set, get) => ({
-  // 0530 memberLoc 과 이를 바꾸는 onChangeMemberLoc함수 작성 필요
+  // 0530 member Location 생성 store
+
+  // 생성한 memberLocation을 모두 담는 배열(삭제 예정)
   memberLocations: [],
-  createMemberLoc: (form, coords, detail) => {
+
+  // memLoc 생성 함수
+  createMemberLoc: (form, coords, typeData) => {
+    console.log(form);
+    // 이름, 주소, 좌표, 공유여부, 간단한 설명, 카테고리
     let obj = {};
-    if (detail) {
-      Object.keys(detail).map((e) => {
+    if (typeData) {
+      Object.keys(typeData).map((e) => {
         obj[e] = ''; // 디폴트값 설정
-        if (detail[e].length > 2) obj[e] = detail[e][2];
+        if (typeData[e].length > 2) obj[e] = typeData[e][2];
         return obj;
       });
     }
-    const { name, share, type, address, image } = form;
+    const { name, share, type, address, image, summary, detail } = form;
+    if (name === '') return ['fail', '여행지 이름을 입력해주세요.'];
+    else if (address === '') return ['fail', '여행지 주소를 선택해주세요.'];
+    else if (share === null) return ['fail', '공유 가능 여부를 선택해주세요.'];
+    else if (summary === '')
+      // 여기 인식을 못함
+      return ['fail', '여행지에 대한 간단한 설명을 작성해주세요.'];
+    else if (type === '') return ['fail', '여행지 카테고리를 선택해주세요.'];
+    console.log('pass');
     const { lat, lng } = coords;
     let isShare = false;
     if (share === 'true') isShare = true;
@@ -26,6 +40,10 @@ export const memLocStore = create((set, get) => ({
         },
         address,
         image,
+        information: {
+          summary,
+          detail,
+        },
         isMember: true,
       },
       member_location: {
@@ -37,7 +55,12 @@ export const memLocStore = create((set, get) => ({
     set({
       memberLocations: [...get().memberLocations, loc],
     });
+    console.log(get().memberLocations);
+    return 'success';
+    // post, data: loc
   },
+
+  // memLoc 생성 시 필드값 input에서 수정시에 typeInfo에 데이터 직접 수정 함수
   onChangeTypeInfo: (type, key, val) => {
     set((state) => ({
       typeInfo: {
@@ -53,6 +76,8 @@ export const memLocStore = create((set, get) => ({
       },
     }));
   },
+
+  // typeInfo 데이터 초기화
   resetTypeInfo: (type, initData) => {
     console.log(type, initData);
     set((state) => ({
@@ -62,7 +87,8 @@ export const memLocStore = create((set, get) => ({
       },
     }));
   },
-  // 타입별 다른 정보 입력 폼
+
+  // 타입별 다른 정보 입력 기본 폼
   typeInfo: {
     Attractions: {
       parking: ['주자 가능여부', false],
