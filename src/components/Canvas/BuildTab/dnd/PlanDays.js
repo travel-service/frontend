@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import oc from 'open-color';
-import DayHeader from 'components/Canvas/BuildTab/Detail/DayHeader';
+import DayHeader from 'components/Canvas/BuildTab/LocDetail/DayHeader';
 import { Droppable } from 'react-beautiful-dnd';
-import MoveDataDiv from '../Detail/MoveDataDiv';
-import Location from 'components/Canvas/BuildTab/Detail/Location';
-import CreateLoc from 'lib/Icons/CreateLoc';
+import MoveDataDiv from '../LocDetail/MoveDataDiv';
+import Location from 'components/Canvas/BuildTab/LocDetail/Location';
+import CreateLoc from 'components/Canvas/BuildTab/MemLoc/CreateLoc';
 // import { apiStore } from 'lib/store/apiStore';
 
 const Days = styled.div`

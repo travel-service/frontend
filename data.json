@@ -634,5 +634,100 @@
         }
       ]
     }
+  ],
+  "memberLocations": [
+    {
+      "data": {
+        "location": {
+          "name": "한경대학교",
+          "type": "Attractions",
+          "coords": {
+            "lat": "37.01183670770416",
+            "lng": "127.26378919389889"
+          },
+          "address1": "경기 안성시 석정동 63-1",
+          "address2": "",
+          "image": "",
+          "information": {
+            "summary": "12",
+            "detail": ""
+          },
+          "isMember": true
+        },
+        "member_location": {
+          "memberId": 1,
+          "isPublic": true
+        },
+        "Attractions": {
+          "parking": true,
+          "restDate": "",
+          "useTime": ""
+        }
+      },
+      "id": 1
+    },
+    {
+      "data": {
+        "location": {
+          "name": "우리집",
+          "type": "Lodge",
+          "coords": {
+            "lat": "37.006802340740215",
+            "lng": "127.2642133503599"
+          },
+          "address1": "경기 안성시 아양동 300",
+          "address2": "103동 408호",
+          "image": "",
+          "information": {
+            "summary": "찬우집",
+            "detail": "가는 길이 살짝 무서울 수 있음."
+          },
+          "isMember": true
+        },
+        "member_location": {
+          "memberId": 1,
+          "isPublic": false
+        },
+        "Lodge": {
+          "checkInTime": "18:00",
+          "checkOutTime": "13:00",
+          "cooking": true,
+          "parking": true,
+          "reservationUrl": "https://github.com/ShinChanU",
+          "subfacility": "베란다(빨래 널기 가능)"
+        }
+      },
+      "id": 2
+    },
+    {
+      "data": {
+        "location": {
+          "name": "한경대학교 나래관",
+          "type": "Attractions",
+          "coords": {
+            "lat": "37.0127324119188",
+            "lng": "127.261739413379"
+          },
+          "address1": "경기 안성시 석정동 63-1",
+          "address2": "",
+          "image": "",
+          "information": {
+            "summary": "12",
+            "detail": "11"
+          },
+          "isMember": true
+        },
+        "member_location": {
+          "memberId": 1,
+          "isPublic": true
+        },
+        "Attractions": {
+          "parking": "",
+          "restDate": "",
+          "useTime": ""
+        }
+      },
+      "id": 3
+    }
   ]
 }

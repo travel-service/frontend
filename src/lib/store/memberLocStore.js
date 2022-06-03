@@ -1,3 +1,4 @@
+import axios from 'axios';
 import create from 'zustand';
 
 export const memLocStore = create((set, get) => ({
@@ -18,9 +19,10 @@ export const memLocStore = create((set, get) => ({
         return obj;
       });
     }
-    const { name, share, type, address, image, summary, detail } = form;
+    const { name, share, type, address1, address2, image, summary, detail } =
+      form;
     if (name === '') return ['fail', '여행지 이름을 입력해주세요.'];
-    else if (address === '') return ['fail', '여행지 주소를 선택해주세요.'];
+    else if (address1 === '') return ['fail', '여행지 주소를 선택해주세요.'];
     else if (share === null) return ['fail', '공유 가능 여부를 선택해주세요.'];
     else if (summary === '')
       // 여기 인식을 못함
@@ -38,7 +40,8 @@ export const memLocStore = create((set, get) => ({
           lat,
           lng,
         },
-        address,
+        address1,
+        address2,
         image,
         information: {
           summary,
@@ -55,6 +58,9 @@ export const memLocStore = create((set, get) => ({
     set({
       memberLocations: [...get().memberLocations, loc],
     });
+    // axios.post('http://localhost:4000/memberLocations', {
+    //   data: loc,
+    // });
     console.log(get().memberLocations);
     return 'success';
     // post, data: loc
@@ -62,6 +68,9 @@ export const memLocStore = create((set, get) => ({
 
   // memLoc 생성 시 필드값 input에서 수정시에 typeInfo에 데이터 직접 수정 함수
   onChangeTypeInfo: (type, key, val) => {
+    if (val === 'true') val = true;
+    else if (val === 'false') val = false;
+    console.log(type, key, val);
     set((state) => ({
       typeInfo: {
         ...state.typeInfo,
@@ -75,6 +84,7 @@ export const memLocStore = create((set, get) => ({
         },
       },
     }));
+    console.log(get().typeInfo);
   },
 
   // typeInfo 데이터 초기화
@@ -91,12 +101,12 @@ export const memLocStore = create((set, get) => ({
   // 타입별 다른 정보 입력 기본 폼
   typeInfo: {
     Attractions: {
-      parking: ['주자 가능여부', false],
+      parking: ['주차 가능여부', false],
       restDate: ['휴무일', 'ex. 월, 화 휴무'], // null
       useTime: ['이용 시간', 'ex. 09:00 ~ 22:00'], // 09:00 ~ 22:00 (매표마감 21:20)
     },
     Culture: {
-      parking: ['주자 가능여부', false],
+      parking: ['주차 가능여부', false],
       restDate: ['휴무일', 'ex. 월, 화 휴무'],
       fee: ['가격', '10,000원'],
       useTime: ['이용 시간', 'ex. 09:00 ~ 22:00'],
@@ -116,7 +126,7 @@ export const memLocStore = create((set, get) => ({
       fee: ['이용 가격', '무료'],
     },
     Leports: {
-      parking: ['주자 가능여부', false],
+      parking: ['주차 가능여부', false],
       openPeriod: ['개장 시기', ''],
       reservation: ['예약', '예약 링크?'],
       restDate: ['휴무일', 'ex. 월, 화 휴무'],
@@ -127,7 +137,7 @@ export const memLocStore = create((set, get) => ({
       checkInTime: ['체크인', '18:00'],
       checkOutTime: ['체크아웃', '12:00'],
       cooking: ['취식 가능여부', false],
-      parking: ['주자 가능여부', false],
+      parking: ['주차 가능여부', false],
       reservationUrl: ['예약 링크', 'www.example.com'],
       subfacility: ['부대 시설', '수영장'],
     },
@@ -135,7 +145,7 @@ export const memLocStore = create((set, get) => ({
       popularMenu: ['인기메뉴', '김치찌개, 된장찌개...'],
       openTime: ['오픈 시간', 'ex. 09:00 ~ 22:00'],
       packing: ['포장 가능여부', false],
-      parking: ['주자 가능여부', false],
+      parking: ['주차 가능여부', false],
       restDate: ['휴무일', 'ex. 월, 화 휴무'],
       menu: ['메뉴', '김밥: 3000원, 우동: 4000원, ...'],
     },

@@ -6,9 +6,16 @@ import ReactTooltip from 'react-tooltip';
 import ModalModule from 'components/common/modal/ModalModule';
 import { useStore } from 'lib/store/planStore';
 import { memLocStore } from 'lib/store/memberLocStore';
+import DivInput from './DivInput';
+import DivAddr from './DivAddr';
+import DivRadioInput from './DivRadioInput';
 
 const CreateLocBtn = styled(MdOutlineLibraryAdd)`
   cursor: pointer;
+`;
+
+const EssenSpan = styled.span`
+  color: red;
 `;
 
 const Div = styled.div`
@@ -23,23 +30,14 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   /* align-items: center; */
+  width: 30vw;
 `;
 
 const Label = styled.label`
   width: 35%;
 `;
 
-const AddressDiv = styled.div`
-  width: 65%;
-`;
-
-const Input = styled.input`
-  /* margin-left: 10px; */
-  /* margin-right: 10px; */
-  width: 65%;
-`;
-
-const Type = styled.div`
+const RightDiv = styled.div`
   /* margin-left: 10px; */
   width: 65%;
 `;
@@ -49,26 +47,13 @@ const Select = styled.select`
   /* margin-right: 10px; */
 `;
 
-const Textarea = styled.textarea`
-  width: 65%;
-`;
-
 const Option = styled.option`
   width: 100%;
 `;
 
-const Span = styled.span`
-  /* width: 100px; */
-  margin-left: 20px;
-`;
+const DivDetail = styled.div``;
 
-const DivDetail = styled.div`
-  /* border: 2px solid red; */
-`;
-
-const Ul = styled.span`
-  /* width: 100px; */
-`;
+const Ul = styled.span``;
 
 const H4 = styled.h5`
   text-align: center;
@@ -90,17 +75,19 @@ const CreateLoc = ({ size, onClick }) => {
     lng: null,
   });
   const [form, setForm] = useState({
+    name: '',
+    address1: '',
+    address2: '',
+    share: null,
+    image: '',
     summary: '',
     detail: '',
-    name: '',
-    share: null,
     type: '',
-    address: '',
-    image: '',
   });
   const [typeDefaultData, setTypeDefaultData] = useState({});
   const [errMsg, setErrMsg] = useState(null);
-  const { name, share, type, address, image, summary, detail } = form;
+  const { name, share, type, address1, address2, image, summary, detail } =
+    form;
 
   useEffect(() => {
     setTypeDefaultData(typeInfo[type]); // 타입 설정시 타입별 기본 데이터 가져오기
@@ -124,7 +111,8 @@ const CreateLoc = ({ size, onClick }) => {
       name: '',
       share: null,
       type: '',
-      address: '',
+      address1: '',
+      address2: '',
       image: '',
       summary: '',
       detail: '',
@@ -133,11 +121,10 @@ const CreateLoc = ({ size, onClick }) => {
   };
 
   const onSelect = (e) => {
-    console.log(e);
     setForm({
       ...form,
       name: e.place_name,
-      address: e.address_name,
+      address1: e.address_name,
     });
     setCoords({
       lat: e.y,
@@ -146,7 +133,6 @@ const CreateLoc = ({ size, onClick }) => {
   };
 
   const onSubmit = () => {
-    console.log(form);
     // typeInfo의 타입에 따라 데이터들 모두 store에 전송해서 api요청
     let res = createMemberLoc(form, coords, typeInfo[type]);
     console.log(res);
@@ -159,8 +145,6 @@ const CreateLoc = ({ size, onClick }) => {
       setErrMsg(res[1]);
     }
   };
-
-  // 0531 필수입력감 검증 기능 추가 필요
 
   return (
     <>
@@ -183,76 +167,64 @@ const CreateLoc = ({ size, onClick }) => {
         onSubmit={onSubmit}
       >
         <Container>
-          {/*  Div + input, Div + radio 컴포넌트화 필요(220602) */}
+          <DivInput
+            title="여행지 이름"
+            onChange={onChange}
+            val={name}
+            id="name"
+            placeholder="여행지 이름을 입력해주세요."
+            essen={true}
+          />
+          <DivAddr
+            title="여행지 주소"
+            id="address1"
+            val={address1}
+            essen={true}
+          />
+          <DivInput
+            title="여행지 세부 주소"
+            onChange={onChange}
+            val={address2}
+            id="address2"
+            placeholder="여행지 세부주소를 입력해주세요"
+            essen={false}
+          />
+          <DivRadioInput
+            title="공유 가능 여부"
+            onChange={onChange}
+            id="share"
+            essen={true}
+          />
+          <DivInput
+            title="이미지"
+            onChange={onChange}
+            val={image}
+            id="image"
+            placeholder="이미지 업로드해주세요"
+            essen={false}
+          />
+          <DivInput
+            title="간단한 설명"
+            onChange={onChange}
+            val={summary}
+            id="summary"
+            placeholder="여행지에 대한 간단한 설명을 작성해주세요"
+            essen={true}
+          />
+          <DivInput
+            title="자세한 설명"
+            onChange={onChange}
+            val={detail}
+            id="detail"
+            placeholder="여행지에 대한 자세한 설명을 작성해주세요."
+            essen={false}
+            detail
+          />
           <Div>
-            <Label htmlFor="name">여행지 이름</Label>
-            <Input
-              id="name"
-              name="name"
-              onChange={onChange}
-              placeholder="여행지 이름을 입력해주세요."
-              value={name}
-            />
-          </Div>
-          <Div>
-            <Label htmlFor="coord">여행지 주소</Label>
-            <AddressDiv>
-              {address
-                ? `${address}`
-                : `검색 후 선택하거나,  지도에 표시해주세요.`}
-            </AddressDiv>
-          </Div>
-          <Div>
-            <Label htmlFor="share">공유 가능 여부</Label>
-            <div>
-              <Span>가능</Span>
-              <input
-                id="share"
-                name="share"
-                onChange={onChange}
-                type="radio"
-                value={true}
-              />
-              <Span>불가능</Span>
-              <input
-                id="share"
-                name="share"
-                onChange={onChange}
-                type="radio"
-                value={false}
-              />
-            </div>
-          </Div>
-          <Div>
-            <Label htmlFor="image">이미지</Label>
-            <Input
-              id="image"
-              name="image"
-              onChange={onChange}
-              placeholder="이미지 업로드해주세요"
-            />
-          </Div>
-          <Div>
-            <Label htmlFor="summary">간단한 설명</Label>
-            <Input
-              id="summary"
-              onChange={onChange}
-              placeholder="여행지에 대한 간단한 설명을 작성해주세요."
-              name="summary"
-            />
-          </Div>
-          <Div>
-            <Label htmlFor="detail">자세한 설명</Label>
-            <Textarea
-              id="detail"
-              name="detail"
-              onChange={onChange}
-              placeholder="여행지에 대한 자세한 설명을 작성해주세요."
-            />
-          </Div>
-          <Div>
-            <Label>카테고리 설정</Label>
-            <Type>
+            <Label>
+              <EssenSpan>*</EssenSpan>카테고리 설정
+            </Label>
+            <RightDiv>
               <Select name="type" onChange={onChange} value={type}>
                 <Option value="">선택</Option>
                 {Object.keys(category).map((key, index) => (
@@ -262,7 +234,7 @@ const CreateLoc = ({ size, onClick }) => {
                 ))}
                 <Option value="기타">기타</Option>
               </Select>
-            </Type>
+            </RightDiv>
           </Div>
           {typeDefaultData && (
             <DivDetail>
@@ -273,29 +245,28 @@ const CreateLoc = ({ size, onClick }) => {
                 {Object.keys(typeDefaultData).map((e, i) => {
                   let title = typeDefaultData[e][0];
                   let inputSample = typeDefaultData[e][1];
-                  return (
-                    <Div key={i}>
-                      <Label>{title}</Label>
-                      {typeof inputSample === 'boolean' && (
-                        <div>
-                          {/* 수정필요 */}
-                          가능
-                          <input type="radio" />
-                          불가능
-                          <input type="radio" />
-                        </div>
-                      )}
-                      {typeof inputSample !== 'boolean' && (
-                        <Input
-                          onChange={(el) =>
-                            onChangeTypeInfo(type, e, el.target.value)
-                          }
-                          placeholder={inputSample}
-                          name={e}
-                        />
-                      )}
-                    </Div>
-                  );
+                  if (typeof inputSample === 'boolean')
+                    return (
+                      <DivRadioInput
+                        title={title}
+                        onChange={(el) =>
+                          onChangeTypeInfo(type, e, el.target.value)
+                        }
+                        id={e}
+                      />
+                    );
+                  else
+                    return (
+                      <DivInput
+                        title={title}
+                        onChange={(el) =>
+                          onChangeTypeInfo(type, e, el.target.value)
+                        }
+                        placeholder={inputSample}
+                        id={e}
+                        sub
+                      />
+                    );
                 })}
               </Ul>
             </DivDetail>

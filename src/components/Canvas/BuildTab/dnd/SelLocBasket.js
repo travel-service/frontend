@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Location from '../Detail/Location';
+import Location from '../LocDetail/Location';
 import styled, { css } from 'styled-components';
 import oc from 'open-color';
 import { Droppable } from 'react-beautiful-dnd';
