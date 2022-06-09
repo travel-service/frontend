@@ -7,19 +7,21 @@ import {sysLocStore, useStore} from '../../lib/store';
 const Block = () => {
   // const [globalLocations, setGlobalLocations] = useState(null);
 
-  const { sysCateLoc, getSysLoc } = sysLocStore();
+  const { sysCateLoc, sysCateLocCoords, getSysLoc, getSysLocCoords } = sysLocStore();
   const { selCateLoc } = useStore();
 
   useEffect(() => {
     getSysLoc();
+    getSysLocCoords();
     console.log(sysCateLoc);
     console.log(selCateLoc);
+    console.log(sysCateLocCoords);
   }, []);
   
 
   return (
     <>
-      {sysCateLoc && <SelectArea location={sysCateLoc} selLocs={selCateLoc}/>}
+      {sysCateLoc && <SelectArea location={sysCateLoc} selLocs={selCateLoc} coords={sysCateLocCoords} />}
     </>
 
   );

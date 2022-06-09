@@ -8,7 +8,10 @@ export const infoStore = create((set) => ({
         switch (type) {
             case 'att': 
                 info = await axios.get(`http://localhost:4000/attractionInfo/${id}`);
-                set({attInfo: info.data})
+                console.log(info.data.location);
+                // set({attInfo: {ATTRACTION: info.data.ATTRACTION}})
+                set({attInfo: {location: info.data.location, ATTRACTION: info.data.ATTRACTION}})
+
                 break;
             case 'cult': 
                 info = await axios.get(`http://localhost:4000/cultureInfo/${id}`);
@@ -38,17 +41,21 @@ export const infoStore = create((set) => ({
     },
 
     attInfo: {
-        name: "test",
-        address1: "",
-        address2: "",
-        image1: "",
-        image2: "",
-        tel: "",
-        summary: "",
-        report: "",
-        parking: "",
-        restDate: "",
-        useTime: ""
+        ATTRACTION: {
+            parking: "",
+            restDate: "",
+            useTime: ""
+        },
+        location: {
+            name: "test",
+            address1: "",
+            address2: "",
+            image: "",
+            // image2: "",
+            tel: "",
+            summary: "",
+            report: "",
+        }
     },
     cultInfo: {
         name: "test",

@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import LocationList from './LocationList'
-import SelectedLocationList from './SelectedLocationList';
-import {useStore} from '../../../lib/store';
 import TypeFilter from './TypeFilter';
 import { filterStore } from 'lib/filterStore';
 import Map from 'containers/Canvas/MapContainer'
@@ -33,15 +31,15 @@ const MapArea = styled.div`
   background-color: brown;
 `
 
-const SelectArea = ({ location, selLocs }) => {
+const SelectArea = ({ location, selLocs, coords }) => {
 
   const { Attractions, Culture, Festival, Leports, Lodge, Restaurant } = location
-  // const { selAttractions, selRestaurant, selLodge } = selLocs
-  
-  // const { selLodge, selAttractions, selRestaurant } = useStore();
+
+  const { CoordsList } = coords
+
   const { attIsCheck, culIsCheck, fesIsCheck, lepIsCheck, lodIsCheck, resIsCheck } = filterStore();
 
-  var noneCheck = !attIsCheck && !lodIsCheck && !resIsCheck;
+  var noneCheck = !attIsCheck && !culIsCheck && !fesIsCheck && !lepIsCheck && !lodIsCheck && !resIsCheck;
 
   return (
     <ContentsArea>
@@ -49,7 +47,6 @@ const SelectArea = ({ location, selLocs }) => {
 
       <BlockListArea>
         <WhiteBox>
-          {/* <div>전체 블록</div> */}
           <div>
             { (attIsCheck === true || noneCheck === true) && <LocationList locations = {Attractions}/>}
           </div>
@@ -72,30 +69,8 @@ const SelectArea = ({ location, selLocs }) => {
         </WhiteBox>
       </BlockListArea>
       <MapArea>
-        <Map></Map>
-        {/* <img src={mapimg} /> */}
+        <Map coords={CoordsList}></Map>
       </MapArea>
-      {/* <WhiteBox>
-        <div>관광지 블록</div>
-        <LocationList locations = {Attractions}/>
-      </WhiteBox>
-      <WhiteBox>
-        <div>음식점 블록</div>
-        <LocationList locations = {Restaurant} />
-      </WhiteBox>
-      <WhiteBox>
-        <div>숙소 블록</div>
-        <LocationList locations = {Lodge} />
-      </WhiteBox>
-      <BlueBox>
-        <SelectedLocationList selectedLocations = {selAttractions} />
-      </BlueBox>
-      <BlueBox>
-        <SelectedLocationList selectedLocations = {selLodge} />
-      </BlueBox>
-      <BlueBox>
-        <SelectedLocationList selectedLocations = {selRestaurant} />
-      </BlueBox> */}
     </ContentsArea>
   );
 };

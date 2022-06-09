@@ -122,7 +122,7 @@
         "depart": "",
         "destination": "",
         "name": "",
-        "periods": 1,
+        "periods": 4,
         "planStatus": "MAIN",
         "thumbnail": []
       },
@@ -133,7 +133,12 @@
         "selectedLocation": []
       },
       "dayForm": {
-        "travelDay": []
+        "travelDay": [
+          [],
+          [],
+          [],
+          []
+        ]
       }
     }
   ],
@@ -443,7 +448,7 @@
           "lodge": false,
           "restaurant": false,
           "member": false,
-          "type": 0
+          "type": 1
         }
       },
       {
@@ -598,17 +603,33 @@
     },
     {
       "id": "3",
-      "name": "성산일출봉",
-      "address1": "",
-      "address2": "",
-      "image1": "",
-      "image2": "",
-      "tel": "",
-      "summary": "",
-      "report": "",
-      "parking": "",
-      "restDate": "",
-      "useTime": ""
+      "ATTRACTION": {
+        "id": 3,
+        "locationId": 3,
+        "parking": true,
+        "restDate": "null",
+        "useTime": "09:00 ~ 22:00 (매표마감 21:20)"
+      },
+      "location": {
+        "id": 3,
+        "name": "천지연폭포 (제주도 국가지질공원)",
+        "address1": "제주특별자치도 서귀포시 천지동",
+        "address2": "null",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/96/2612496_image2_1.jpg",
+        "tel": null,
+        "summary": null,
+        "report": null,
+        "type": {
+          "attraction": true,
+          "festival": false,
+          "culture": false,
+          "leports": false,
+          "lodge": false,
+          "restaurant": false,
+          "member": false,
+          "type": 0
+        }
+      }
     }
   ],
   "restaurantInfo": [

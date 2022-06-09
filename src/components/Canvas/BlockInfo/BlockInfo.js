@@ -10,21 +10,28 @@ const AttractionInfo = (locationId) => {
     useEffect(() => {
         getInfo(id, 'att');
     }, [getInfo, id]);
-    
+
+    console.log(attInfo);
+    if (attInfo.ATTRACTION.parking === true) {
+        attInfo.ATTRACTION.parking = "가능";
+    }
+    else {
+        attInfo.ATTRACTION.parking = "불가능";
+    }
     return (
         <div>
             관광지 정보<br />
-            이름: {attInfo.name}<br />
-            주소: {attInfo.address1}<br />
-            상세주소: {attInfo.address2}<br />
-            이미지: {attInfo.image1}<br />
-            이미지2: {attInfo.image2}<br />
-            전화: {attInfo.tel}<br />
-            설명: {attInfo.summary}<br />
-            상세설명: {attInfo.report}<br />
-            주차여부: {attInfo.parking}<br />
-            휴일: {attInfo.restDate}<br />
-            소요시간: {attInfo.useTime}<br />
+            이름: {attInfo.location.name}<br />
+            주소: {attInfo.location.address1}<br />
+            상세주소: {attInfo.location.address2}<br />
+            이미지: {attInfo.location.image}<br />
+            {/* 이미지2: {attInfo.location.image2}<br /> */}
+            전화: {attInfo.location.tel}<br />
+            설명: {attInfo.location.summary}<br />
+            상세설명: {attInfo.location.report}<br />
+            주차여부: {attInfo.ATTRACTION.parking}<br />
+            휴일: {attInfo.ATTRACTION.restDate}<br />
+            이용시간: {attInfo.ATTRACTION.useTime}<br />
         </div>
     );
 };

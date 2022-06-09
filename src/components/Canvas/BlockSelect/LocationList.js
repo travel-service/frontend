@@ -36,6 +36,7 @@ const Img = styled.img`
 
 const Blocks = styled.div`
   display: flex;
+  flex-wrap: wrap;
 `
 
 function Location ({location}) {
@@ -78,7 +79,6 @@ function Location ({location}) {
         test
       </BButton>
       <Modal open={modalOpen} close={closeModal} header={location.name}>
-        {location.info}
         <BlockInfo type={location.type.type} id={location.id}/>
       </Modal>
     </Block>

@@ -455,6 +455,9 @@ export const sysLocStore = create((set) => ({
     Lodge: [],
     Restaurant: [],
   },
+  sysCateLocCoords: {
+    CoordsList: [],
+  },
 
   getSysLoc: async () => {
     // const response = await axios.get('http://localhost:4000/locations');
@@ -500,10 +503,26 @@ export const sysLocStore = create((set) => ({
       x.isSelect = false;
       att.push(x);
     }
+    // for (let x of response.data["Culture"]) {
+    //   x.isSelect = false;
+    //   cul.push(x);
+    // }
     for (let x of response.data["Festival"]) {
       x.isSelect = false;
-      rest.push(x);
+      fes.push(x);
     }
+    // for (let x of response.data["Leports"]) {
+    //   x.isSelect = false;
+    //   lepo.push(x);
+    // }
+    // for (let x of response.data["Lodge"]) {
+    //   x.isSelect = false;
+    //   lod.push(x);
+    // }
+    // for (let x of response.data["Restaurant"]) {
+    //   x.isSelect = false;
+    //   rest.push(x);
+    // }
     set({
       sysCateLoc: {
         Attractions: att,
@@ -512,6 +531,34 @@ export const sysLocStore = create((set) => ({
         Leports: lepo,
         Lodge: lod,
         Restaurant: rest,
+      },
+    });
+  },
+
+  getSysLocCoords: async () => {
+    const response = await axios.get('http://localhost:4000/locations_mark');
+    let att = [];
+    // let cul = [];
+    // let fes = [];
+    // let lepo = [];
+    // let lod = [];
+    // let rest = [];
+    for (let x of response.data["Attraction"]) {
+      x.isSelect = false;
+      att.push(x);
+    }
+    // for (let x of response.data["Festival"]) {
+    //   x.isSelect = false;
+    //   fes.push(x);
+    // }
+    set({
+      sysCateLocCoords: {
+        CoordsList: att,
+        // Culture: cul,
+        // Festival: fes,
+        // Leports: lepo,
+        // Lodge: lod,
+        // Restaurant: rest,
       },
     });
   },
