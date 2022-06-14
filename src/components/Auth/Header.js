@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Button2 from 'components/common/Button2';
+import Button2 from 'components/common/Button';
 
 const Div = styled.div`
   height: 130px;

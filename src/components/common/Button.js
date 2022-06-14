@@ -1,18 +1,27 @@
-import React from "react";
-import styled, { css } from "styled-components";
-import { Link } from "react-router-dom";
-import palette from "lib/styles/palette";
+import React from 'react';
+import styled, { css } from 'styled-components';
+import oc from 'open-color';
+import { Link } from 'react-router-dom';
+import { shadow } from 'lib/styleUtils';
+// import palette from 'lib/styles/palette';
 
 const buttonStyle = css`
-  margin-left: 100px;
+  border: 3px solid ${oc.teal[6]};
+  border-radius: 3px;
   font-weight: 600;
-  font-size: 23px;
-  color: black;
+  padding: 0.5rem;
+  padding-bottom: 0.4rem;
+  color: ${oc.teal[6]};
+  /* color: black; */
   cursor: pointer;
   text-decoration: none;
   transition: 0.2s all;
+  background: white;
 
   &:hover {
+    background: ${oc.teal[6]};
+    color: white;
+    ${shadow(1)}
   }
 
   &:active {
@@ -33,9 +42,9 @@ const buttonStyle = css`
   ${(props) =>
     props.cyan &&
     css`
-      background: ${palette.cyan[5]};
+      background: ${oc.teal[5]};
       &:hover {
-        background: ${palette.cyan[5]};
+        background: ${oc.teal[5]};
       }
     `}
 `;
