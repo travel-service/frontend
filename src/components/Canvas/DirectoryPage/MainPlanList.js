@@ -1,19 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import PlanLayout from 'components/Canvas/common/PlanLayout';
 import Button from 'components/common/Button';
+import { dirStore } from 'lib/dirStore';
 
+// 디렉토리 클릭 시 플랜목록 div만 갈아끼워지게 하려고 만든 컴포넌트,, 고민 중
 //리스트 전체
 const PlanListContainer = styled.div`
-  flex-grow: 5;
+  //display: flex;
+  //flex-grow: 5;
+  width: 80%;
   padding: 1%;
+`;
+const PlansContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  //justify-content: space-between;
+  //align-items: center;
+  /*display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-gap: 25px;
+  align-items: center;
+  justify-items: center;
+  z-index: 0;*/
 `;
 //상단
 const TitleContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: yellow;
+  //background: yellow;
   padding: 5px 20px 5px 10px;
   margin-bottom: 20px;
 `;
@@ -22,6 +39,7 @@ const ItemsDiv = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   //margin-bottom: 20px;
   //margin-top: 20px;
 `;
@@ -35,9 +53,10 @@ const IconDiv = styled.div`
   height: 40px;
   margin-right: 10px;
 `;
-//각 디렉토리 내 text
-const DirTextDiv = styled.div`
-  font-size: 1.2rem;
+//각 플랜 내 text
+const TextDiv = styled.div`
+  ${(props) =>
+    props.op === 'title' ? 'font-size: 1.2rem' : 'margin: 0px 50px 0px 5px'};
 `;
 //플랜 개수
 const PlanCountContainer = styled.div`
@@ -60,17 +79,26 @@ const ComboDiv = styled.select`
   margin-left: 20px;
   width: 100px;
   height: 30px;
-  border: ;
 `;
 
 const PlanList = () => {
+  const [isClicked, setIsClicked] = useState(false);
+  const { mainPlans } = dirStore();
+  const [isShow, setIsShow] = useState(false);
+
+  const onClickMove = () => {
+    setIsShow(!isShow);
+    console.log('담기');
+  };
+
+  //console.log(mainPlans);
   return (
     <PlanListContainer>
       <TitleContainer>
         <ItemsDiv>
           <IconDiv>All</IconDiv>
-          <DirTextDiv>모든 여행</DirTextDiv>
-          <PlanCountContainer>5</PlanCountContainer>
+          <TextDiv op="title">모든 여행</TextDiv>
+          <PlanCountContainer>{mainPlans.length}</PlanCountContainer>
         </ItemsDiv>
         <ItemsDiv>
           <SearchBar>검색</SearchBar>
@@ -85,23 +113,35 @@ const PlanList = () => {
       </TitleContainer>
 
       <TitleContainer>
-        <div>
-          <input type="checkbox" />
-          전체 선택
-        </div>
         <ItemsDiv>
-          <Button>복사</Button>
-          <Button>
-            담기
-            {/*<select>
-                <option hidden>담기</option>
-                <option>디렉1</option>
-            </select>*/}
-          </Button>
-          <Button>삭제</Button>
+          <input type="checkbox" />
+          <TextDiv>전체 선택</TextDiv>
+          {isClicked && <TextDiv>n개 선택</TextDiv>}
+          <ItemsDiv>
+            <Button>복사</Button>
+            <Button
+              onClick={() => {
+                onClickMove();
+              }}
+            >
+              담기
+            </Button>
+            <Button>삭제</Button>
+          </ItemsDiv>
         </ItemsDiv>
       </TitleContainer>
-      <PlanLayout />
+      <PlansContainer>
+        {mainPlans.map((item) => {
+          return (
+            <PlanLayout
+              key={item.planId}
+              planName={item.name}
+              planPeriods={item.periods}
+              planDate={item.createdDate}
+            />
+          );
+        })}
+      </PlansContainer>
     </PlanListContainer>
   );
 };

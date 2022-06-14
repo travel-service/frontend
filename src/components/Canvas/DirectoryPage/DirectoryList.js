@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import Button from 'components/common/Button';
+import { dirStore } from 'lib/dirStore';
 
+// 좌측 바, 디렉터리 목록
+// (새여행 버튼, 디렉터리 생성/삭제, 디렉터리 이름, 플랜갯수)
 //리스트 전체
 const DirListContainer = styled.div`
   border-right: 2px solid black;
-  flex-grow: 1;
+  //flex-grow: 1;
+  width: 20%;
   padding: 1%;
 `;
 //버튼 정렬 용
@@ -24,7 +28,7 @@ const DirTextDiv = styled.div`
   font-size: 1.2rem;
 `;
 //각 디렉토리 네모박스
-const DirContainer = styled.button`
+const DirContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -38,6 +42,7 @@ const DirContainer = styled.button`
   &:hover {
     background: lightgray;
   }
+  cursor: pointer;
 `;
 //아이콘 들어갈 자리
 const IconDiv = styled.button`
@@ -61,9 +66,17 @@ const PlanCountContainer = styled.div`
   border-radius: 20px;
   padding: 5px;
   width: 40px;
+  background: white;
 `;
 
 const DirectoryList = () => {
+  const { mainPlans, trashPlans, userDirs, userPlans, getUserPlans } =
+    dirStore();
+
+  useEffect(() => {
+    getUserPlans(81);
+  }, []);
+
   return (
     <DirListContainer>
       <Button>새로운 여행 만들기</Button>
@@ -80,14 +93,27 @@ const DirectoryList = () => {
             <IconDiv>All</IconDiv>
             모든 여행
           </ButtonsDiv>
-          <PlanCountContainer>5</PlanCountContainer>
+          <PlanCountContainer>{mainPlans.length}</PlanCountContainer>
         </DirContainer>
+        {userDirs.map((item) => {
+          return (
+            <DirContainer key={item.id}>
+              <ButtonsDiv>
+                <IconDiv>dir</IconDiv>
+                {item.directoryName}
+              </ButtonsDiv>
+              <PlanCountContainer key={item.id}>
+                {userPlans.length}
+              </PlanCountContainer>
+            </DirContainer>
+          );
+        })}
         <DirContainer>
           <ButtonsDiv>
             <IconDiv>Trash</IconDiv>
             휴지통
           </ButtonsDiv>
-          <PlanCountContainer>1</PlanCountContainer>
+          <PlanCountContainer>{trashPlans.length}</PlanCountContainer>
         </DirContainer>
       </div>
     </DirListContainer>

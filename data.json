@@ -1,4 +1,79 @@
 {
+  "mainDirectory": [
+    {
+      "planId": 2,
+      "name": "제주도가자",
+      "periods": 2,
+      "createdDate": "2022-05-17T17:30:32.984683"
+    },
+    {
+      "planId": 11,
+      "name": "제주도가자2",
+      "periods": 2,
+      "createdDate": "2022-05-17T17:30:32.984683"
+    },
+    {
+      "planId": 28,
+      "name": "이종수3",
+      "periods": 2,
+      "createdDate": "2022-05-17T17:30:34.848498"
+    },
+    {
+      "planId": 41,
+      "name": "여행가자",
+      "periods": 2,
+      "createdDate": "2022-05-17T17:30:35.73649"
+    },
+    {
+      "planId": 30,
+      "name": "여행가자2",
+      "periods": 2,
+      "createdDate": "2022-05-17T17:30:35.73649"
+    }
+  ],
+  "mainUserDirectory": [
+    {
+      "userDirectoryId": 80,
+      "directoryName": "내여행들"
+    },
+    {
+      "userDirectoryId": 81,
+      "directoryName": "제주도대안"
+    }
+  ],
+  "userDirectory": [
+    {
+      "id": 81,
+      "plans": [
+        {
+          "planId": 2,
+          "name": "제주도A",
+          "periods": 2,
+          "createdDate": "2022-05-20T00:35:46.134753"
+        },
+        {
+          "planId": 15,
+          "name": "제주도B",
+          "periods": 2,
+          "createdDate": "2022-05-20T00:35:46.515233"
+        }
+      ]
+    }
+  ],
+  "trashDirectory": [
+    {
+      "planId": 2,
+      "name": "이종수3",
+      "periods": 2,
+      "createdDate": "2022-05-17T17:30:32.984683"
+    },
+    {
+      "planId": 15,
+      "name": "자라란",
+      "periods": 2,
+      "createdDate": "2022-05-17T17:30:33.946052"
+    }
+  ],
   "travelPlans": [
     {
       "id": 1,
