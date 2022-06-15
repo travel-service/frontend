@@ -1,8 +1,8 @@
 import React from 'react'; // useEffect
 import { DragDropContext } from 'react-beautiful-dnd';
 import styled from 'styled-components';
-import SelLocBasket from './dnd/SelLocBasket';
-import PlanDays from './dnd/PlanDays';
+import SelLocBasket from './Dnd/SelLocBasket';
+import PlanDays from './Dnd/PlanDays';
 import { useStore } from 'lib/store';
 
 const Container = styled.div`

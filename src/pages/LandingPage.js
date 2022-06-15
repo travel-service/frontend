@@ -5,6 +5,7 @@ import UseWays from 'components/Landing/UseWays';
 // import LandingTemplate from 'components/Landing/LandingTemplate';
 import styled from 'styled-components';
 import BackImg from 'images/landingBackV2.png';
+import { MdSearch } from 'react-icons/md';
 
 const Container = styled.div`
   /* border: 1px solid black; */
@@ -15,27 +16,22 @@ const FlexBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* background-color: #ffd3c4; */
   background-color: #ffd0c0;
-  /* background-color: rgb(255, 208, 192); */
   height: 100vh;
   padding: 0% 7%;
 `;
 
 const Contents = styled.div`
   height: 100%;
-  border: 1px solid blue;
   display: flex;
   flex-direction: column;
   justify-content: end;
 `;
 
 const SubContents = styled.div`
-  border: 1px solid green;
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* justify-content: ; */
 `;
 
 const TextH3 = styled.div`
@@ -52,11 +48,82 @@ const TextH2 = styled.div`
 
 const MainContents = styled.div`
   height: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background-image: url(${BackImg});
   background-repeat: no-repeat;
   background-position: center center;
   background-color: #ffd0c0;
 `;
+const InputContainer = styled.div`
+  margin: 30px 0px;
+  background-color: white;
+  width: 600px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  box-shadow: 4px 4px 4px grey;
+`;
+
+const SearchIcon = styled(MdSearch)`
+  font-size: 25px;
+  margin: 0px 20px;
+  opacity: 0.5;
+`;
+
+const Input = styled.input`
+  padding: 0;
+  width: 500px;
+  font-size: 14px;
+  border: none;
+  :focus {
+    outline: none;
+  }
+  ::placeholder {
+    font-size: 14px;
+  }
+`;
+
+const GoDirBtn = styled.button`
+  margin-bottom: 30px;
+  background-color: #f16b6c;
+  width: 200px;
+  height: 40px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 4px 4px 4px grey;
+  font-size: 18px;
+  font-weight: 520;
+`;
+
+const Banner = styled.div`
+  position: relative;
+  flex: 1;
+  display: flex;
+  margin-top: 20px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  width: 900px;
+  background-color: white;
+  box-shadow: 4px 4px 4px grey;
+  font-size: 40px;
+  font-weight: 520;
+  justify-content: center;
+  align-items: center;
+  top: 120px;
+`;
+
+// 0616
+// 검색 기능, 버튼
+// 여행보관함 버튼
+// 서비스 이용방법 만들기
+// 반응형
+// 코드 분할 리팩토링
 
 const LandingPage = () => {
   return (
@@ -69,7 +136,13 @@ const LandingPage = () => {
             <TextH2>여행 계획의 끝판왕, 트래블럭!</TextH2>
           </SubContents>
           <MainContents>
-            {/*  */}
+            <InputContainer>
+              <SearchIcon />
+              <Input placeholder="이번엔 어디로 가볼까요?" />
+              <button>검색</button>
+            </InputContainer>
+            <GoDirBtn>여행 보관함 가기</GoDirBtn>
+            <Banner>배너</Banner>
           </MainContents>
         </Contents>
       </FlexBox>

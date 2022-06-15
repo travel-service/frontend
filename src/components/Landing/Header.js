@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 const Container = styled.div`
-  border: 1px solid red;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -20,6 +19,9 @@ const Menu = styled.div`
 `;
 
 const MenuEl = styled(Link)`
+  color: black;
+  font-size: 17px;
+  font-weight: 550;
   margin-left: 30px;
   text-decoration: none;
 `;
