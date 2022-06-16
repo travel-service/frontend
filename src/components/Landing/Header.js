@@ -7,6 +7,7 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 80px;
+  padding: 0% 7%;
 `;
 
 const Img = styled.img`

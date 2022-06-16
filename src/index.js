@@ -13,6 +13,7 @@ import { tempSetUser, check } from 'redux/modules/user';
 import { CookiesProvider } from 'react-cookie';
 import axios from 'axios';
 import { setCookie, getCookie } from 'lib/cookies';
+
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 axios.defaults.withCredentials = true;

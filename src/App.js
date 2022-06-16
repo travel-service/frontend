@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   // Routes, Route,
   useRoutes,
@@ -13,8 +13,23 @@ import Modal from 'react-modal';
 import { onSilentRefresh } from 'lib/api/auth';
 import { setCookie, getCookie } from 'lib/cookies';
 import LandingPage from 'pages/LandingPage';
+import { useScroll } from 'lib/custom/useScroll';
+import { createGlobalStyle, css } from 'styled-components';
+
+const GlobalStyle = createGlobalStyle`
+  body::-webkit-scrollbar {
+    display: none;
+    ${(props) =>
+      props.isScroll &&
+      css`
+        display: block;
+      `}
+  }
+`;
 
 function App() {
+  const { scrollY } = useScroll();
+
   useEffect(() => {
     console.log('Set');
     onSilentRefresh();
@@ -43,6 +58,8 @@ function App() {
         <Route element={<LoginPage />} path="/login" />
         <Route element={<CanvasMainPage />} path="/canvas/*" />
       </Routes> */}
+      {/* 스크롤 액션 추가 */}
+      <GlobalStyle isScroll={scrollY} />
     </>
   );
 }

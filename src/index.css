@@ -5,8 +5,20 @@ body {
   padding: 0;
   font-family: sans-serif;
   box-sizing: border-box;
+  overflow: overlay;
   /* height: 100vh; */
   /* background: #f1f1f5; */
+  /* overflow: auto; */
+  -ms-overflow-style: none;
+}
+body::-webkit-scrollbar {
+  width: 13px;
+}
+body::-webkit-scrollbar-thumb {
+  background-color: #2f3542;
+  border-radius: 10px;
+  background-clip: padding-box;
+  border: 2px solid transparent;
 }
 
 *,
