@@ -45,18 +45,40 @@ const SubContents = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 70px;
+  @media screen and (max-width: 1023px) {
+    margin-top: 50px;
+  }
+  @media screen and (max-width: 767px) {
+    margin-top: 20px;
+  }
 `;
 
 const TextH3 = styled.div`
   font-size: 35px;
   font-weight: 350;
   line-height: 50px;
+  @media screen and (max-width: 1023px) {
+    font-size: 30px;
+    line-height: 30px;
+  }
+  @media screen and (max-width: 767px) {
+    font-size: 15px;
+    line-height: 20px;
+  }
 `;
 
 const TextH2 = styled.div`
   font-size: 50px;
   font-weight: 700;
   line-height: 80px;
+  @media screen and (max-width: 1023px) {
+    font-size: 40px;
+    line-height: 60px;
+  }
+  @media screen and (max-width: 767px) {
+    font-size: 20px;
+    line-height: 40px;
+  }
 `;
 
 const MainContents = styled.div`
@@ -75,6 +97,12 @@ const MainContents = styled.div`
   /* background-size: auto; */
   /* background-position: 0 center; */
   background-color: #ffd0c0;
+  @media screen and (max-width: 1023px) {
+    height: 400px;
+  }
+  @media screen and (max-width: 767px) {
+    height: 300px;
+  }
 `;
 const InputContainer = styled.div`
   margin: 30px 0px;
@@ -85,12 +113,19 @@ const InputContainer = styled.div`
   align-items: center;
   border-radius: 5px;
   box-shadow: 4px 4px 4px grey;
+  @media screen and (max-width: 767px) {
+    width: 300px;
+  }
 `;
 
 const SearchIcon = styled(MdSearch)`
   font-size: 25px;
   margin: 0px 20px;
   opacity: 0.5;
+  @media screen and (max-width: 767px) {
+    /* width: 300px; */
+    margin: 0px 10px;
+  }
 `;
 
 const Input = styled.input`
@@ -137,6 +172,16 @@ const Banner = styled.div`
   justify-content: center;
   align-items: center;
   top: 120px;
+  @media screen and (max-width: 1023px) {
+    width: 600px;
+    height: 200px;
+    top: 50px;
+  }
+  @media screen and (max-width: 767px) {
+    width: 300px;
+    height: 100px;
+    top: 20px;
+  }
 `;
 
 // 0616
@@ -147,14 +192,14 @@ const Banner = styled.div`
 // 코드 분할 리팩토링
 
 const LandingPage = () => {
-  const settings = {
-    dots: true,
-    fade: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
+  // const settings = {
+  //   dots: true,
+  //   fade: true,
+  //   infinite: true,
+  //   speed: 500,
+  //   slidesToShow: 1,
+  //   slidesToScroll: 1,
+  // };
 
   return (
     <Container>
@@ -180,35 +225,6 @@ const LandingPage = () => {
                 alt=""
               /> */}
             </Banner>
-            {/* <Banner>
-              배너
-              <Slider {...settings}>
-                <div>
-                  <img
-                    src={process.env.PUBLIC_URL + '/images/block1.png'}
-                    alt=""
-                  />
-                </div>
-                <div>
-                  <img
-                    src={process.env.PUBLIC_URL + '/images/block2.png'}
-                    alt=""
-                  />
-                </div>
-                <div>
-                  <img
-                    src={process.env.PUBLIC_URL + '/images/block3.png'}
-                    alt=""
-                  />
-                </div>
-                <div>
-                  <img
-                    src={process.env.PUBLIC_URL + '/images/block4.png'}
-                    alt=""
-                  />
-                </div>
-              </Slider>
-            </Banner> */}
           </MainContents>
         </Contents>
       </FlexBox>
