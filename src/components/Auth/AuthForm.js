@@ -33,7 +33,9 @@ const Form = styled.form`
 // `;
 
 const SpanRed = styled.span`
-  display: block;
+  /* display: block; */
+  display: flex;
+  justify-content: flex-end;
   text-align: center;
   font-size: 0.875rem;
   color: blue;
@@ -58,7 +60,7 @@ const StyledDiv = styled.div`
 `;
 
 const InputHeader = styled.div`
-  width: 100px;
+  /* width: 100px; */
   display: flex;
   align-items: center;
 `;
@@ -179,8 +181,6 @@ const AuthForm = ({
   error,
   onBlur,
   detailErr,
-  sendEmail,
-  isEmailSend,
 }) => {
   const text = textMap[type];
 
@@ -189,26 +189,33 @@ const AuthForm = ({
       <AuthFormBlock>
         <Div>
           <H2>
-            {/* {text} */}
+            {text}
             {type === 'signup' && <SpanRed>( * 필수항목 )</SpanRed>}
           </H2>
           <Form onSubmit={onSubmit}>
             <StyledDiv>
               <InputHeader>
                 {type === 'signup' && <SpanRed>*</SpanRed>}
-                아이디
+                이메일
               </InputHeader>
+              {/* <Email>
+                <EmailDiv
+                  name="email"
+                  type="email"
+                  onChange={onChange}
+                  value={form.email}
+                  placeholder="인증할 이메일을 작성해주세요."
+                />
+              </Email> */}
               <StyledInput
-                autoComplete="username"
-                name="userName"
-                placeholder="아이디 (20자 이내)"
+                name="email"
+                placeholder="ex. test@gmail.com"
+                type="email"
                 onChange={onChange}
-                value={form.userName}
-                onBlur={onBlur}
-                maxLength="20"
-                minLength="4"
+                value={form.email}
+                // onBlur={onBlur}
+                // maxLength="8"
               />
-              {/* <AccountCircle /> */}
             </StyledDiv>
             <StyledDiv>
               <InputHeader>
@@ -231,7 +238,7 @@ const AuthForm = ({
               {/* {detailErr.password && <div>asd</div>}} */}
             </StyledDiv>
             {type === 'signup' && (
-              <SpanRed>영문자, 숫자, 특수문자 조합 8자리 이상</SpanRed>
+              <SpanRed> - 영문자, 숫자, 특수문자 조합 8자리 이상</SpanRed>
             )}
             {type === 'signup' && detailErr.password && (
               <SpanRed detail>{detailErr.password}</SpanRed>
@@ -241,9 +248,7 @@ const AuthForm = ({
                 <StyledDiv>
                   <InputHeader>
                     <SpanRed>*</SpanRed>
-                    비밀번호
-                    <br />
-                    확인
+                    비밀번호 확인
                   </InputHeader>
                   <StyledInput
                     autoComplete="new-password"
@@ -257,19 +262,6 @@ const AuthForm = ({
                   {type === 'signup' && detailErr.passwordCheck && (
                     <SpanRed detail>{detailErr.passwordCheck}</SpanRed>
                   )}
-                </StyledDiv>
-                <StyledDiv>
-                  <InputHeader>
-                    <SpanRed>*</SpanRed>이름
-                  </InputHeader>
-                  <StyledInput
-                    name="realName"
-                    placeholder="이름"
-                    type="text"
-                    onChange={onChange}
-                    value={form.realName}
-                    onBlur={onBlur}
-                  />
                 </StyledDiv>
                 <StyledDiv>
                   <InputHeader>
@@ -306,68 +298,11 @@ const AuthForm = ({
                     <option value="FEMALE">여자</option>
                   </Select>
                 </StyledDiv>
-                <StyledDiv>
-                  <InputHeader>휴대전화</InputHeader>
-                  <StyledInput
-                    name="phoneNum"
-                    placeholder="ex.01028333904"
-                    type="tel"
-                    onChange={onChange}
-                    value={form.phoneNum}
-                    onBlur={onBlur}
-                    maxLength="13"
-                    minLength="11"
-                  />
-                </StyledDiv>
-
-                <StyledDiv>
-                  <InputHeader>
-                    <SpanRed>*</SpanRed>
-                    본인 확인
-                    <br /> 이메일
-                  </InputHeader>
-                  {/* <StyledInput
-                    name="email"
-                    type="email"
-                    onChange={onChange}
-                    value={form.email}
-                  /> */}
-                  <Email>
-                    <EmailDiv
-                      name="email"
-                      type="email"
-                      onChange={onChange}
-                      value={form.email}
-                      placeholder="인증할 이메일을 작성해주세요."
-                    />
-                    <button onClick={sendEmail}>
-                      {isEmailSend ? '인증번호 재전송' : '인증번호 전송'}
-                    </button>
-                  </Email>
-                  {/* <EmailDiv>
-                    <input></input>@<input></input>
-                    <select>
-                      <option>직접 입력</option>
-                      <option>naver.com</option>
-                      <option>daum.net</option>
-                      <option>gmail.com</option>
-                      <option>hanmail.net</option>
-                      <option>kakao.com</option>
-                    </select>
-                  </EmailDiv> */}
-                </StyledDiv>
-                {isEmailSend && ( // 수정필요 0529
-                  <StyledDiv>
-                    인증번호 입력해주쇼
-                    <input />
-                    <button>확인</button>
-                  </StyledDiv>
-                )}
               </>
             )}
             {error && <ErrorMessage>{error}</ErrorMessage>}
             <ButtonWidthMarginTop cyan fullWidth>
-              {text}
+              {text === '로그인' ? `${text}` : '이메일 본인인증 후 회원가입'}
             </ButtonWidthMarginTop>
           </Form>
           <Footer>

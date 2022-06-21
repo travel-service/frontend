@@ -29,33 +29,21 @@ const onLoginSuccess = (res) => {
 };
 
 // 로그인
-export const login = ({ userName, password }) => {
-  return client.post('/api/login', { userName, password }).then((res) => {
+export const login = ({ email, password }) => {
+  return client.post('/api/login', { email, password }).then((res) => {
     onLoginSuccess(res);
     return res;
   });
 };
 
 // 회원가입
-export const signup = ({
-  userName,
-  password,
-  realName,
-  nickName,
-  birthday,
-  phoneNum,
-  gender,
-  email,
-}) =>
+export const signup = ({ email, password, nickName, birthday, gender }) =>
   client.post('/api/signup', {
-    userName,
+    email,
     password,
-    realName,
     nickName,
     birthday,
-    phoneNum,
     gender,
-    email,
   });
 
 // 로그아웃

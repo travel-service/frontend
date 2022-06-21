@@ -31,29 +31,17 @@ export const initializeForm = createAction(INITIALIZE_FORM, (form) => form); // 
 
 export const signup = createAction(
   SIGNUP,
-  ({
-    userName,
+  ({ email, password, nickName, birthday, gender }) => ({
+    email,
     password,
-    realName,
     nickName,
     birthday,
-    phoneNum,
     gender,
-    email,
-  }) => ({
-    userName,
-    password,
-    realName,
-    nickName,
-    birthday,
-    phoneNum,
-    gender,
-    email,
   }),
 );
 
-export const login = createAction(LOGIN, ({ userName, password }) => ({
-  userName,
+export const login = createAction(LOGIN, ({ email, password }) => ({
+  email,
   password,
 }));
 
@@ -70,18 +58,15 @@ export function* authSaga() {
 const initialState = {
   // 불변성 유지하면서 객체 수정
   signup: {
-    userName: '',
+    email: '',
     password: '',
     passwordCheck: '',
-    realName: '',
     nickName: '',
     birthday: '',
-    phoneNum: '',
     gender: '',
-    email: '',
   },
   login: {
-    userName: '',
+    email: '',
     password: '',
   },
   auth: null,

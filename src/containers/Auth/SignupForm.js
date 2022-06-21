@@ -8,17 +8,10 @@ import { check } from 'redux/modules/user';
 const SignupForm = () => {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
-  const [usingEmail, setUsingEmail] = useState(false); // email 유효성 (인증이 되었는지)
-  const [number, setNumber] = useState(''); // 보내진 인증번호
-  const [inputNumber, setInputNumber] = useState(''); // 입력된 인증번호
-  const [isEmailSend, setIsEmailSend] = useState(false);
   const [detailErr, setDetailErr] = useState({
-    username: null,
     password: null,
     passwordCheck: null,
-    realName: null,
     nickName: null,
-    phoneNum: null,
   });
   const dispatch = useDispatch();
   const { form, auth, authError, userState } = useSelector(
@@ -30,14 +23,6 @@ const SignupForm = () => {
       userState: user.userState,
     }),
   );
-
-  const sendEmail = (e) => {
-    e.preventDefault();
-    setIsEmailSend(true);
-    // post api
-    // 서버와 통신(node, 아님 spring)
-    // 0529 https://coding-hwije.tistory.com/6?category=856854
-  };
 
   // 인풋 변경 이벤트 핸들러
   const onChange = useCallback(
@@ -57,23 +42,9 @@ const SignupForm = () => {
   // 폼 등록 이벤트 핸들러
   const onSubmit = (e) => {
     e.preventDefault();
-    const {
-      userName,
-      password,
-      passwordCheck,
-      realName,
-      nickName,
-      birthday,
-      phoneNum,
-      gender,
-      email,
-    } = form;
+    const { email, password, passwordCheck, nickName, birthday, gender } = form;
     // 필수항목 중 하나라도 비어 있다면
-    if (
-      [userName, password, passwordCheck, realName, nickName, email].includes(
-        '',
-      )
-    ) {
+    if ([password, passwordCheck, nickName, email].includes('')) {
       setError('필수항목을 모두 입력해 주세요.');
       return;
     }
@@ -88,14 +59,11 @@ const SignupForm = () => {
     }
     dispatch(
       signup({
-        userName,
+        email,
         password,
-        realName,
         nickName,
         birthday,
-        phoneNum,
         gender,
-        email,
       }),
     );
   };
@@ -183,8 +151,6 @@ const SignupForm = () => {
       error={error}
       detailErr={detailErr}
       onBlur={onBlur}
-      sendEmail={sendEmail}
-      isEmailSend={isEmailSend}
     />
   );
 };
