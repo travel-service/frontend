@@ -43,19 +43,42 @@
   ],
   "userDirectory": [
     {
+      "id": 80,
+      "plans": [
+        {
+          "planId": 28,
+          "name": "이종수3",
+          "periods": 2,
+          "createdDate": "2022-05-17T17:30:34.848498"
+        },
+        {
+          "planId": 41,
+          "name": "여행가자",
+          "periods": 2,
+          "createdDate": "2022-05-17T17:30:35.73649"
+        },
+        {
+          "planId": 30,
+          "name": "여행가자2",
+          "periods": 2,
+          "createdDate": "2022-05-17T17:30:35.73649"
+        }
+      ]
+    },
+    {
       "id": 81,
       "plans": [
         {
           "planId": 2,
-          "name": "제주도A",
+          "name": "제주도가자",
           "periods": 2,
-          "createdDate": "2022-05-20T00:35:46.134753"
+          "createdDate": "2022-05-17T17:30:32.984683"
         },
         {
-          "planId": 15,
-          "name": "제주도B",
+          "planId": 11,
+          "name": "제주도가자2",
           "periods": 2,
-          "createdDate": "2022-05-20T00:35:46.515233"
+          "createdDate": "2022-05-17T17:30:32.984683"
         }
       ]
     }

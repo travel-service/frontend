@@ -34,12 +34,27 @@ const PeriodsDiv = styled.div`
 `;
 const ThumbnailContainer = styled.div`
   border: 1px solid gray;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   height: 72%; //70 75
   margin: 10px 10px 7px 10px;
   &:hover {
-    background: gray;
-    cursor: pointer;
+    background: lightgray;
   }
+`;
+const LinkButton = styled.button`
+  text-align: center;
+  font-size: 15px;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  background: white;
+  width: 70%;
+  cursor: pointer;
+  margin-bottom: 5%;
+  //margin: 0% 15% 5% 15%;
 `;
 const DateDiv = styled.div`
   margin-left: 10px;
@@ -87,6 +102,7 @@ const PlanLayout = ({ planName, planId, planPeriods, planDate }) => {
   const [clickMore, setClickMore] = useState(false);
   const [isShow, setIsShow] = useState(false);
   const [isOver, setIsOver] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
 
   const { userDirs } = dirStore();
 
@@ -95,7 +111,11 @@ const PlanLayout = ({ planName, planId, planPeriods, planDate }) => {
     console.log('click');
   };
   const onMO = () => {
+    // mouseover
     setIsOver(!isOver);
+  };
+  const onClickView = () => {
+    console.log('d');
   };
   const onClicktext = (text) => {
     text === '담기' ? setClickMore(!clickMore) : console.log(text);
@@ -108,14 +128,35 @@ const PlanLayout = ({ planName, planId, planPeriods, planDate }) => {
         <PeriodsDiv>{planPeriods}일</PeriodsDiv>
       </PlanTitleDiv>
       <ThumbnailContainer // 마우스 올리면 컴포넌트 나오게
-        onMouseOver={() => {
+        onMouseEnter={() => {
           onMO();
         }}
-        onMouseOut={() => {
+        onMouseLeave={() => {
           onMO();
+        }}
+        onClick={() => {
+          setIsChecked(!isChecked);
         }}
       >
-        {isOver && <PlanNameDiv>dd</PlanNameDiv>}
+        {isOver && (
+          <>
+            {isChecked && <input type="checkbox" />}
+            <LinkButton
+              onClick={() => {
+                onClickView();
+              }}
+            >
+              완성된 여행 보기
+            </LinkButton>
+            <LinkButton
+              onClick={() => {
+                onClickView();
+              }}
+            >
+              수정하기
+            </LinkButton>
+          </>
+        )}
       </ThumbnailContainer>
       <PlanTitleDiv>
         <DateDiv>{planDate.substr(0, 10)}</DateDiv>
@@ -155,7 +196,11 @@ const PlanLayout = ({ planName, planId, planPeriods, planDate }) => {
           {isShow &&
             clickMore &&
             userDirs.map((item) => {
-              return <MovePlan key={item.id}>{item.directoryName}</MovePlan>;
+              return (
+                <MovePlan key={item.userDirectoryId}>
+                  {item.directoryName}
+                </MovePlan>
+              );
             })}
         </MoreDiv>
       </PlanTitleDiv>

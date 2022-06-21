@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Button from 'components/common/Button';
 import { dirStore } from 'lib/dirStore';
@@ -20,7 +20,7 @@ const ButtonsDiv = styled.div`
   margin-bottom: 10px;
   margin-top: 10px;
 `;
-//각 디렉토리 내 text
+// 내여행 text
 const DirTextDiv = styled.div`
   margin-left: 10px;
   padding-left: 10px;
@@ -32,17 +32,17 @@ const DirContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border: 2px solid lightgray;
-  background: none;
+  border: 2px ${(props) => (props.new ? 'dashed' : 'solid')} lightgray;
+  ${(props) =>
+    props.ck ? 'background: lightgray;' : 'background: none; cursor: pointer'};
   margin-bottom: 20px;
   padding: 5px 20px 5px 10px;
   height: 70px;
   width: 100%;
   font-size: 1.2rem;
   &:hover {
-    background: lightgray;
+    ${(props) => (props.new ? '' : 'background: lightgray;')}
   }
-  cursor: pointer;
 `;
 //아이콘 들어갈 자리
 const IconDiv = styled.button`
@@ -53,10 +53,22 @@ const IconDiv = styled.button`
   width: 40px;
   height: 40px;
   margin-right: 10px;
+  border: none;
   cursor: pointer;
   &:hover {
+    border: 2px solid black;
     background: lightgray;
   }
+`;
+//기본 아이콘 들어갈 자리
+const BaseIconDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: red;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
 `;
 //플랜 개수
 const PlanCountContainer = styled.div`
@@ -68,49 +80,128 @@ const PlanCountContainer = styled.div`
   width: 40px;
   background: white;
 `;
+//디렉토리 생성 input
+const CreateInput = styled.input`
+  border: none;
+  width: 80%;
+  font-size: 1.2rem;
+`;
 
 const DirectoryList = () => {
-  const { mainPlans, trashPlans, userDirs, userPlans, getUserPlans } =
-    dirStore();
+  const {
+    mainPlans,
+    trashPlans,
+    userDirs,
+    userPlans,
+    currentDirId,
+    createUserDir,
+    setCurrentDir,
+    setCreateUserDir,
+    getUserPlans,
+    postCreateDir,
+  } = dirStore();
+  const [cD, setCD] = useState(false); // 디렉터리 생성 show
 
   useEffect(() => {
-    getUserPlans(81);
+    getUserPlans();
   }, []);
+
+  const onClickSetDir = (id) => {
+    setCurrentDir(id);
+  };
+
+  const onBlurDir = () => {
+    console.log(cD);
+    createUserDir !== '' ? postCreateDir() : setCD(!cD);
+    console.log(cD);
+  };
+
+  const onChangeDirName = (e) => {
+    setCreateUserDir(e);
+    console.log(createUserDir);
+  };
 
   return (
     <DirListContainer>
-      <Button>새로운 여행 만들기</Button>
+      <Button fullWidth={true} cyan={true}>
+        새로운 여행 만들기
+      </Button>
       <ButtonsDiv>
         <DirTextDiv>내 여행</DirTextDiv>
         <ButtonsDiv>
-          <IconDiv>생성</IconDiv>
+          <IconDiv
+            onClick={() => {
+              setCD(true);
+            }}
+          >
+            생성
+          </IconDiv>
           <IconDiv>삭제</IconDiv>
         </ButtonsDiv>
       </ButtonsDiv>
       <div>
-        <DirContainer>
+        <DirContainer
+          ck={currentDirId === 'main' ? true : false}
+          onClick={() => {
+            onClickSetDir('main');
+          }}
+        >
           <ButtonsDiv>
-            <IconDiv>All</IconDiv>
+            <BaseIconDiv>All</BaseIconDiv>
             모든 여행
           </ButtonsDiv>
           <PlanCountContainer>{mainPlans.length}</PlanCountContainer>
         </DirContainer>
         {userDirs.map((item) => {
+          //console.log(userPlans.plans.length); test 데이터 구조 바꾸기
           return (
-            <DirContainer key={item.id}>
+            <DirContainer
+              key={item.userDirectoryId}
+              ck={currentDirId === item.userDirectoryId ? true : false}
+              onClick={() => {
+                onClickSetDir(item.userDirectoryId);
+              }}
+            >
               <ButtonsDiv>
                 <IconDiv>dir</IconDiv>
                 {item.directoryName}
               </ButtonsDiv>
-              <PlanCountContainer key={item.id}>
-                {userPlans.length}
+              <PlanCountContainer>
+                {
+                  // 여기도 코드 정리필요
+                  userPlans.find((plan) => {
+                    return plan.id === item.userDirectoryId;
+                  }).plans.length
+                }
               </PlanCountContainer>
             </DirContainer>
           );
         })}
-        <DirContainer>
+        {cD && (
+          <DirContainer new={true}>
+            <ButtonsDiv>
+              <IconDiv>dir</IconDiv>
+              <CreateInput
+                placeholder="제목을 입력하세요."
+                onChange={(e) => {
+                  onChangeDirName(e.target.value);
+                }}
+                onBlur={() => {
+                  //제목 입력 후 다른 곳 클릭 시
+                  onBlurDir(); // dir 이름 입력 있으면 post, 없으면 없어지게
+                }}
+              />
+            </ButtonsDiv>
+          </DirContainer>
+        )}
+        <DirContainer
+          ck={currentDirId === 'trash' ? true : false}
+          onClick={() => {
+            onClickSetDir('trash');
+          }}
+        >
           <ButtonsDiv>
-            <IconDiv>Trash</IconDiv>
+            <BaseIconDiv>Trash</BaseIconDiv>
             휴지통
           </ButtonsDiv>
           <PlanCountContainer>{trashPlans.length}</PlanCountContainer>

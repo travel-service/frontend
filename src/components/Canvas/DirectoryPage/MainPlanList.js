@@ -83,7 +83,8 @@ const ComboDiv = styled.select`
 
 const PlanList = () => {
   const [isClicked, setIsClicked] = useState(false);
-  const { mainPlans } = dirStore();
+  const { mainPlans, trashPlans, userPlans, currentDirId, userDirs } =
+    dirStore();
   const [isShow, setIsShow] = useState(false);
 
   const onClickMove = () => {
@@ -96,9 +97,40 @@ const PlanList = () => {
     <PlanListContainer>
       <TitleContainer>
         <ItemsDiv>
-          <IconDiv>All</IconDiv>
-          <TextDiv op="title">모든 여행</TextDiv>
-          <PlanCountContainer>{mainPlans.length}</PlanCountContainer>
+          {
+            /*해당 디렉토리 제목, 아이콘, 갯수 변경*/
+            currentDirId === 'main' ? (
+              <>
+                <IconDiv>All</IconDiv>
+                <TextDiv op="title">모든 여행</TextDiv>
+                <PlanCountContainer>{mainPlans.length}</PlanCountContainer>
+              </>
+            ) : currentDirId === 'trash' ? (
+              <>
+                <IconDiv>Trash</IconDiv>
+                <TextDiv op="title">휴지통</TextDiv>
+                <PlanCountContainer>{trashPlans.length}</PlanCountContainer>
+              </>
+            ) : (
+              <>
+                <IconDiv>dir</IconDiv>
+                <TextDiv op="title">
+                  {
+                    userDirs.find((dir) => {
+                      return dir.userDirectoryId === currentDirId;
+                    }).directoryName
+                  }
+                </TextDiv>
+                <PlanCountContainer>
+                  {
+                    userPlans.find((plan) => {
+                      return plan.id === currentDirId;
+                    }).plans.length
+                  }
+                </PlanCountContainer>
+              </>
+            )
+          }
         </ItemsDiv>
         <ItemsDiv>
           <SearchBar>검색</SearchBar>
@@ -131,16 +163,44 @@ const PlanList = () => {
         </ItemsDiv>
       </TitleContainer>
       <PlansContainer>
-        {mainPlans.map((item) => {
-          return (
-            <PlanLayout
-              key={item.planId}
-              planName={item.name}
-              planPeriods={item.periods}
-              planDate={item.createdDate}
-            />
-          );
-        })}
+        {currentDirId === 'main'
+          ? mainPlans.map((item) => {
+              return (
+                <PlanLayout
+                  key={item.planId}
+                  planName={item.name}
+                  planPeriods={item.periods}
+                  planDate={item.createdDate}
+                />
+              );
+            })
+          : currentDirId === 'trash'
+          ? trashPlans.map((item) => {
+              return (
+                <PlanLayout
+                  key={item.planId}
+                  planName={item.name}
+                  planPeriods={item.periods}
+                  planDate={item.createdDate}
+                />
+              );
+            })
+          : typeof currentDirId === 'number'
+          ? userPlans // 코드 정리해야..
+              .find((plan) => {
+                return plan.id === currentDirId;
+              })
+              .plans.map((item) => {
+                return (
+                  <PlanLayout
+                    key={item.planId}
+                    planName={item.name}
+                    planPeriods={item.periods}
+                    planDate={item.createdDate}
+                  />
+                );
+              })
+          : null}
       </PlansContainer>
     </PlanListContainer>
   );

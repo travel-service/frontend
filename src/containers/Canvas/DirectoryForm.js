@@ -23,7 +23,6 @@ const DirectoryPage = () => {
     getMainPlans();
     getUserDirs();
     getTrashPlans();
-    //console.log(mainPlans);
   }, []);
 
   return (

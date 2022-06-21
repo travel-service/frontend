@@ -3,24 +3,42 @@ import create from 'zustand';
 
 // 여행보관함용 store
 export const dirStore = create((set, get) => ({
+  currentDirId: 'main', // 클릭한 디렉터리(보여줄 디렉터리)
   mainPlans: [], // 메인 디렉터리 플랜들
-  userDirs: [], // 유저 디렉토리 이름들(목록)
-  userPlans: [], // 하나의 유저 디렉토리 내 플랜들
+  userDirs: [], // 유저 디렉터리 이름들(목록)
+  userPlans: [], // 유저 디렉터리 내 플랜들, userDirectory?
+  //currentUserPlan: [], // 선택된 유저 디렉터리 내 플랜, 디렉터리 선택 시 보여주기용
   trashPlans: [], // 휴지통 내 플랜들
   controlPlans: {
     cancelPlanId: [], // 삭제할 플랜 id
     revertPlanId: [], // 복원할 플랜 id
     deletePlanId: [], // 영구삭제할 플랜 id
   },
-  createUserDir: {
+  createUserDir: '',
+  /*createUserDir: {
     dirName: '', //생성할 디렉터리 이름
-  },
+  }*/
   deleteUserDir: {
-    dirId: [], //삭제할 디렉터리 id
+    dirId: [], //삭제할 디렉터리 id, 다중체크
   },
   movePlans: {
     dirId: '', //이동할 디렉터리 id
-    planId: [], //플랜 아이디들
+    planId: [], //플랜 아이디들, 다중 체크
+  },
+  setCurrentDir: (input) => {
+    //현재 디렉터리 설정
+    set({
+      currentDirId: input,
+    });
+
+    /*if (typeof input === 'number') {
+      const userPlan = userPlans.find((plan) => {
+        return plan.id === currentDirId;
+      }).plans;
+      set({
+        currentUserPlan: userPlan,
+      });
+    }*/
   },
   // planId setting
   setCancel: (input) => {
@@ -43,9 +61,12 @@ export const dirStore = create((set, get) => ({
   },
   setCreateUserDir: (input) => {
     //사용자 디렉터리 생성
-    set((state) => ({
+    set({
+      createUserDir: input,
+    });
+    /*set((state) => ({
       createUserDir: { ...state.createUserDir, dirName: input },
-    }));
+    }));*/
   },
   setDeleteUserDir: (input) => {
     //사용자 디렉터리 삭제
@@ -72,20 +93,23 @@ export const dirStore = create((set, get) => ({
     /*const response = await axios.get(
       `http://localhost:4000/main-user-directory`,
     );*/
-    const response = await axios.get(`http://localhost:4000/mainUserDirectory`);
+    const response = await axios.get(
+      `http://localhost:4000/mainUserDirectory/`,
+    );
     set({ userDirs: response.data });
     console.log('getUD: ', response);
   },
   // 해당 userDir 내 플랜들
-  getUserPlans: async (userDirectoryId) => {
+  getUserPlans: async () => {
     /*const response = await axios.get(
       `http://localhost:4000/main-directory/${userDirectoryId}`,
     );*/
     const response = await axios.get(
-      `http://localhost:4000/userDirectory/${userDirectoryId}`,
+      `http://localhost:4000/userDirectory`,
+      //`http://localhost:4000/userDirectory/${userDirId}`,
     );
     //set({ userPlans: response.data.userDirectory });
-    set({ userPlans: response.data.plans }); //test용
+    set({ userPlans: response.data }); //test용
     console.log('userPlans: ', response);
   },
   // trashdir 내 플랜들
@@ -98,13 +122,14 @@ export const dirStore = create((set, get) => ({
   // 삭제
   postTrash: async () => {
     const controlPlans = get().controlPlans;
-    const response = await axios.post(
+    console.log(controlPlans.cancelPlanId);
+    /*const response = await axios.post(
       `http://localhost:4000/main-directory/cancel`,
       {
         planId: controlPlans.cancelPlanId,
       },
     );
-    console.log('삭제: ', response);
+    console.log('삭제: ', response);*/
   },
   // 복원
   postRevert: async () => {
@@ -117,7 +142,7 @@ export const dirStore = create((set, get) => ({
     );
     console.log('복원: ', response);
   },
-  // 영구 삭제
+  // 영구 삭제, 수정 필요
   postDelete: async () => {
     const controlPlans = get().controlPlans;
     const response = await axios.post(
@@ -128,24 +153,26 @@ export const dirStore = create((set, get) => ({
     );
     console.log('영구삭제: ', response);
   },
-  // userdir 생성
+  // userdir 생성, 수정 필요
   postCreateDir: async () => {
     const createUserDir = get().createUserDir;
-    const response = await axios.post(
-      `http://localhost:4000/create/user-directory`,
+    const response = await axios.patch(
+      //post
+      //`http://localhost:4000/create/user-directory`,
+      `http://localhost:4000/mainUserDirectory`,
       {
-        directoryName: createUserDir.dirName,
+        directoryName: createUserDir,
       },
     );
     console.log('udir 생성: ', response);
   },
-  // userdir 삭제
+  // userdir 삭제, 수정 필요
   postDeleteDir: async () => {
-    const createUserDir = get().createUserDir;
+    const deleteUserDir = get().deleteUserDir;
     const response = await axios.post(
       `http://localhost:4000/delete/user-directory`,
       {
-        userDirectoryId: createUserDir.dirName,
+        userDirectoryId: deleteUserDir.dirId,
       },
     );
     console.log('udir 삭제: ', response);
