@@ -2,10 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
+  width: 100%;
   position: relative;
-  margin: 7%;
-  /* top: 120px; */
-  /* margin-bottom: 250px; */
+  margin-bottom: 7%;
 `;
 
 const List = styled.div`
@@ -14,7 +13,6 @@ const List = styled.div`
   justify-content: space-around;
   flex-wrap: wrap;
   gap: 2%;
-  /* justify-content: space-between; */
 `;
 
 const Way = styled.div`
@@ -29,8 +27,6 @@ const Way = styled.div`
   justify-content: space-around;
   flex-basis: 22%;
   margin: 1% 0px;
-  /* flex-shrink: 1; */
-  /* flex-grow: 1; */
 
   :hover {
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);

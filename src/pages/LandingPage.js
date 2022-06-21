@@ -1,50 +1,35 @@
 import React from 'react';
 import Header from 'components/Landing/Header';
-import Main from 'components/Landing/Main';
 import UseWays from 'components/Landing/UseWays';
-// import LandingTemplate from 'components/Landing/LandingTemplate';
 import styled from 'styled-components';
 import BackImg from 'images/landingBackV2.png';
 import { MdSearch } from 'react-icons/md';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 
 const Container = styled.div`
-  /* overflow: auto;
-  ::-webkit-scrollbar {
-    display: block;
-  } */
-  /* ::-webkit-scrollbar {
-    width: 20px;
-    position: absolute;
-  } */
-  /* border: 1px solid black; */
-  /* padding: 0% 7%; */
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const FlexBox = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
   background-color: #ffd0c0;
-  /* height: 100vh; */
   padding: 0% 0%;
 `;
 
 const Contents = styled.div`
-  /* flex: 1; */
-  /* height: 100%; */
   display: flex;
   flex-direction: column;
-  /* justify-content: end; */
 `;
 
 const SubContents = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 70px;
+  margin-top: 30px;
   @media screen and (max-width: 1023px) {
     margin-top: 50px;
   }
@@ -85,37 +70,31 @@ const MainContents = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 600px;
-  /* height: 1500px; */
-  justify-content: center;
-  /* margin-top: 20px; */
-  /* width: 1700px; */
+  height: calc(100vw * 0.39);
   background-size: 100vw calc(100vw * 0.39);
   background-image: url(${BackImg});
   background-repeat: no-repeat;
   background-position: center top;
-  /* background-size: auto; */
-  /* background-position: 0 center; */
   background-color: #ffd0c0;
-  @media screen and (max-width: 1023px) {
-    height: 400px;
-  }
-  @media screen and (max-width: 767px) {
-    height: 300px;
-  }
 `;
 const InputContainer = styled.div`
-  margin: 30px 0px;
+  margin: 50px 0px;
   background-color: white;
-  width: 600px;
-  height: 40px;
+  height: 50px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   border-radius: 5px;
   box-shadow: 4px 4px 4px grey;
+  padding-right: 20px;
   @media screen and (max-width: 767px) {
-    width: 300px;
+    height: 40px;
   }
+`;
+
+const Div = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const SearchIcon = styled(MdSearch)`
@@ -123,7 +102,6 @@ const SearchIcon = styled(MdSearch)`
   margin: 0px 20px;
   opacity: 0.5;
   @media screen and (max-width: 767px) {
-    /* width: 300px; */
     margin: 0px 10px;
   }
 `;
@@ -139,13 +117,15 @@ const Input = styled.input`
   ::placeholder {
     font-size: 14px;
   }
+  @media screen and (max-width: 767px) {
+    width: 200px;
+  }
 `;
 
 const GoDirBtn = styled.button`
-  margin-top: 30px;
   background-color: #f16b6c;
   width: 200px;
-  height: 40px;
+  height: 50px;
   color: white;
   border: none;
   border-radius: 5px;
@@ -156,9 +136,7 @@ const GoDirBtn = styled.button`
 
 const Banner = styled.div`
   position: relative;
-  /* flex: 1; */
   display: flex;
-  /* margin-top: 30px; */
   border-style: solid;
   border-width: 1px;
   border-color: rgba(0, 0, 0, 0.1);
@@ -171,25 +149,18 @@ const Banner = styled.div`
   font-weight: 520;
   justify-content: center;
   align-items: center;
-  top: 120px;
+  top: -160px;
   @media screen and (max-width: 1023px) {
     width: 600px;
     height: 200px;
-    top: 50px;
+    top: -100px;
   }
   @media screen and (max-width: 767px) {
     width: 300px;
     height: 100px;
-    top: 20px;
+    top: -30px;
   }
 `;
-
-// 0616
-// 검색 기능, 버튼
-// 여행보관함 버튼
-// 서비스 이용방법 만들기
-// 반응형
-// 코드 분할 리팩토링
 
 const LandingPage = () => {
   // const settings = {
@@ -212,22 +183,17 @@ const LandingPage = () => {
           </SubContents>
           <MainContents>
             <InputContainer>
-              <SearchIcon />
-              <Input placeholder="이번엔 어디로 가볼까요?" />
+              <Div>
+                <SearchIcon />
+                <Input placeholder="이번엔 어디로 가볼까요?" />
+              </Div>
               <button>검색</button>
             </InputContainer>
             <GoDirBtn>여행 보관함 가기</GoDirBtn>
-            <Banner>
-              배너
-              {/* <img
-                style={{ width: '80%', height: '100%' }}
-                src={process.env.PUBLIC_URL + '/images/test.jpg'}
-                alt=""
-              /> */}
-            </Banner>
           </MainContents>
         </Contents>
       </FlexBox>
+      <Banner>배너</Banner>
       <UseWays />
     </Container>
   );
@@ -237,5 +203,6 @@ export default LandingPage;
 // 랜딩 디자인(피그마)
 // https://www.figma.com/file/hfE6NPBRZb4eWXvYbGDztU/%ED%8A%B8%EB%9E%98%EB%B8%94%EB%9F%AD-%EC%9B%B9%EB%94%94%EC%9E%90%EC%9D%B8-%3A-%EC%88%98%EC%A0%95-_-220512?node-id=0%3A1
 
-//0616
+// 0616
+// 배너에서 사용할 수 있을 라이브러리
 // https://velog.io/@cookncoding/React-slick%EC%97%90-styled-components-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0
