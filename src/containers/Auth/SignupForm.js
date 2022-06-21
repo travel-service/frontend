@@ -20,7 +20,7 @@ const SignupForm = () => {
       form: auth.signup, // store이름 auth, auth.signup에(회원 정보 목록 있음)
       auth: auth.auth,
       authError: auth.authError,
-      userState: user.userState,
+      // userState: user.userState,
     }),
   );
 
@@ -42,9 +42,19 @@ const SignupForm = () => {
   // 폼 등록 이벤트 핸들러
   const onSubmit = (e) => {
     e.preventDefault();
-    const { email, password, passwordCheck, nickName, birthday, gender } = form;
+    const {
+      userName,
+      email,
+      password,
+      passwordCheck,
+      nickName,
+      birthday,
+      gender,
+    } = form;
     // 필수항목 중 하나라도 비어 있다면
-    if ([password, passwordCheck, nickName, email].includes('')) {
+    if (
+      [userName, password, passwordCheck, nickName, email, gender].includes('')
+    ) {
       setError('필수항목을 모두 입력해 주세요.');
       return;
     }
@@ -59,6 +69,7 @@ const SignupForm = () => {
     }
     dispatch(
       signup({
+        userName,
         email,
         password,
         nickName,
@@ -87,17 +98,18 @@ const SignupForm = () => {
     if (auth) {
       console.log('회원가입 성공');
       console.log(auth);
-      dispatch(check());
-      alert('회원가입이 완료되었습니다!');
-    }
-  }, [auth, authError, dispatch]);
-
-  // user 값이 잘 설정되었는지 확인
-  useEffect(() => {
-    if (userState) {
+      // dispatch(check());
+      alert('회원가입이 완료되었습니다! 로그인해주세요!');
       navigate(process.env.PUBLIC_URL + '/');
     }
-  }, [userState, navigate]);
+  }, [auth, authError, dispatch, navigate]);
+
+  // user 값이 잘 설정되었는지 확인
+  // useEffect(() => {
+  //   if (userState) {
+  //     navigate(process.env.PUBLIC_URL + '/');
+  //   }
+  // }, [userState, navigate]);
 
   const onBlur = (e) => {
     let { name, value } = e.target;
@@ -133,13 +145,14 @@ const SignupForm = () => {
         let tmp = birthday.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3');
         dispatch(changeField({ form: 'signup', key: 'birthday', value: tmp }));
       }
-    } else if (name === 'phoneNum') {
-      const { phoneNum } = form;
-      if (phoneNum.length === 11) {
-        let tmp = phoneNum.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
-        dispatch(changeField({ form: 'signup', key: 'phoneNum', value: tmp }));
-      }
     }
+    // else if (name === 'phoneNum') {
+    //   const { phoneNum } = form;
+    //   if (phoneNum.length === 11) {
+    //     let tmp = phoneNum.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+    //     dispatch(changeField({ form: 'signup', key: 'phoneNum', value: tmp }));
+    //   }
+    // }
   };
 
   return (

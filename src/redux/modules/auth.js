@@ -1,22 +1,22 @@
 import { createAction, handleActions } from 'redux-actions';
+import { takeLatest, call } from 'redux-saga/effects';
 import produce from 'immer';
-import { takeLatest } from 'redux-saga/effects';
 import createRequestSaga, {
   createRequestActionTypes,
 } from 'lib/createRequestSaga';
 import * as authAPI from 'lib/api/auth';
 
 // 액션 생성
-const CHANGE_FIELD = 'auth/CHANGE_FIELD'; // input 값
+const CHANGE_FIELD = 'auth/CHANGE_FIELD'; // input 값 변화 감지
 const INITIALIZE_FORM = 'auth/INITIALIZE_FORM'; // form 초기화
-
-// 액션 함수 생성
+const TEMP_SET_AUTH = 'auth/TEMP_SET_AUTH'; //새로고침 이후 임시 로그인 처리
 const [SIGNUP, SIGNUP_SUCCESS, SIGNUP_FAILURE] =
-  createRequestActionTypes('auth/SIGNUP');
-
+  createRequestActionTypes('auth/SIGNUP'); // 회원가입
 const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] =
-  createRequestActionTypes('auth/LOGIN');
+  createRequestActionTypes('auth/LOGIN'); // 로그인
+const LOGOUT = 'auth/LOGOUT'; // 로그아웃
 
+// createAction(타입, 현재 상태)
 export const changeField = createAction(
   CHANGE_FIELD,
   ({ form, key, value }) => ({
@@ -25,13 +25,11 @@ export const changeField = createAction(
     value,
   }),
 );
-
-// createAction(타입, 현재 상태)
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => form); // signup, login
-
 export const signup = createAction(
   SIGNUP,
-  ({ email, password, nickName, birthday, gender }) => ({
+  ({ userName, email, password, nickName, birthday, gender }) => ({
+    userName,
     email,
     password,
     nickName,
@@ -39,11 +37,26 @@ export const signup = createAction(
     gender,
   }),
 );
-
-export const login = createAction(LOGIN, ({ email, password }) => ({
-  email,
+export const login = createAction(LOGIN, ({ userName, password }) => ({
+  userName,
   password,
 }));
+export const tempSetAuth = createAction(
+  TEMP_SET_AUTH,
+  (userState) => userState,
+);
+export const logout = createAction(LOGOUT);
+
+function* logoutSaga() {
+  // 로그아웃시 스토리지 삭제
+  try {
+    yield call(authAPI.logout);
+    localStorage.removeItem('userState');
+    localStorage.removeItem('accessToken');
+  } catch (e) {
+    console.log(e);
+  }
+}
 
 // 사가 생성
 // yield 비동기 통신
@@ -52,12 +65,14 @@ const loginSaga = createRequestSaga(LOGIN, authAPI.login);
 export function* authSaga() {
   yield takeLatest(SIGNUP, signupSaga);
   yield takeLatest(LOGIN, loginSaga);
+  yield takeLatest(LOGOUT, logoutSaga);
 }
 
 // 초기값
 const initialState = {
   // 불변성 유지하면서 객체 수정
   signup: {
+    userName: '',
     email: '',
     password: '',
     passwordCheck: '',
@@ -66,11 +81,12 @@ const initialState = {
     gender: '',
   },
   login: {
-    email: '',
+    userName: '',
     password: '',
   },
   auth: null,
   authError: null,
+  userState: null,
   accessToken: null,
 };
 
@@ -87,14 +103,16 @@ const auth = handleActions(
       ...state,
       [form]: initialState[form],
       authError: null, // 폼 전환 시 외원 인증 에러 초기화
-      accessToken: null,
     }),
     // 회원가입 성공
-    [SIGNUP_SUCCESS]: (state, { payload: auth }) => ({
-      ...state,
-      authError: null,
-      auth,
-    }),
+    [SIGNUP_SUCCESS]: (state, { payload: auth }) => {
+      console.log(auth);
+      return {
+        ...state,
+        authError: null,
+        auth: auth.statusText,
+      };
+    },
     // 회원가입 실패
     [SIGNUP_FAILURE]: (state, { payload: error }) => ({
       ...state,
@@ -102,10 +120,12 @@ const auth = handleActions(
     }),
     // 로그인 성공
     [LOGIN_SUCCESS]: (state, { payload: auth }) => {
+      console.log(auth);
       return {
         ...state,
         authError: null,
-        auth,
+        userState: auth.data,
+        accessToken: auth.headers.accesstoken,
       };
     },
     // 로그인 실패
@@ -115,6 +135,21 @@ const auth = handleActions(
         authError: error,
       };
     },
+    // 새로고침 userState 유지
+    [TEMP_SET_AUTH]: (state, { payload: userState }) => {
+      return {
+        ...state,
+        userState,
+      };
+    },
+    // 로그아웃
+    [LOGOUT]: (state) => ({
+      ...state,
+      userState: null,
+      auth: null,
+      authError: null,
+      accessToken: null,
+    }),
   },
   initialState,
 );

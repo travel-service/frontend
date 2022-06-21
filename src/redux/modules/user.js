@@ -15,10 +15,15 @@ export const tempSetUser = createAction(
   TEMP_SET_USER,
   (userState) => userState,
 );
-export const check = createAction(CHECK);
+// export const check = createAction(CHECK);
+export const check = createAction(CHECK, ({ userName, password }) => ({
+  userName,
+  password,
+}));
 export const logout = createAction(LOGOUT);
 
-const checkSaga = createRequestSaga(CHECK, authAPI.onSilentRefresh);
+// const checkSaga = createRequestSaga(CHECK, authAPI.onSilentRefresh);
+const checkSaga = createRequestSaga(CHECK, authAPI.login);
 
 function checkFailureSaga() {
   try {
@@ -55,9 +60,10 @@ export default handleActions(
       userState,
     }),
     [CHECK_SUCCESS]: (state, action) => {
+      console.log(state, action);
       return {
         ...state,
-        userState: 'tester', // 임시 닉네임, refresh토큰이 제거되면 failure로 가지 않을까
+        userState: action.payload.data, // 임시 닉네임, refresh토큰이 제거되면 failure로 가지 않을까
         checkError: null,
       };
     },

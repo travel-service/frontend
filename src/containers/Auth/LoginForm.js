@@ -3,20 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeField, initializeForm, login } from 'redux/modules/auth';
 import AuthForm from 'components/Auth/AuthForm';
 import { useNavigate } from 'react-router-dom';
-import { check } from 'redux/modules/user';
+// import { check } from 'redux/modules/user';
 
 const LoginForm = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { form, auth, authError, userState } = useSelector(
-    ({ auth, user }) => ({
-      // state.auth, state.user
+  const { form, auth, userState, authError, accessToken } = useSelector(
+    ({ auth }) => ({
       form: auth.login, // store이름 auth, auth.signup에(회원 정보 목록 있음)
       auth: auth.auth,
+      userState: auth.userState,
       authError: auth.authError,
       accessToken: auth.accessToken,
-      userState: user.userState,
     }),
   );
 
@@ -38,8 +37,8 @@ const LoginForm = () => {
   // 폼 등록 이벤트 핸들러
   const onSubmit = (e) => {
     e.preventDefault();
-    const { email, password } = form;
-    dispatch(login({ email, password }));
+    const { userName, password } = form;
+    dispatch(login({ userName, password }));
   };
 
   // 컴포넌트가 처음 렌더링될 때 form 초기화
@@ -52,21 +51,16 @@ const LoginForm = () => {
       setError('아이디 또는 비밀번호를 잘못 입력했습니다.');
       return;
     }
-    if (auth) {
-      dispatch(check());
-    }
-  }, [auth, authError, dispatch, navigate]);
-
-  useEffect(() => {
     if (userState) {
       navigate(process.env.PUBLIC_URL + '/');
       try {
         localStorage.setItem('userState', JSON.stringify(userState));
+        localStorage.setItem('accessToken', JSON.stringify(accessToken));
       } catch (e) {
         console.log('localStorage is not working');
       }
     }
-  }, [userState, navigate]);
+  }, [authError, dispatch, navigate, accessToken, userState]);
 
   return (
     <AuthForm

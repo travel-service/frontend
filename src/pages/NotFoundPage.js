@@ -28,7 +28,7 @@ const NotFoundPage = () => {
     <Div>
       <Img src={process.env.PUBLIC_URL + '/images/notfoundPhone.jpg'} />
       <StyleLink to={process.env.PUBLIC_URL + '/'}>
-        휴대폰액정처럼 메인으로 꺼지기
+        없는 페이지 입니당.
       </StyleLink>
     </Div>
   );

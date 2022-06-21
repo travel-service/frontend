@@ -196,25 +196,17 @@ const AuthForm = ({
             <StyledDiv>
               <InputHeader>
                 {type === 'signup' && <SpanRed>*</SpanRed>}
-                이메일
+                아이디
               </InputHeader>
-              {/* <Email>
-                <EmailDiv
-                  name="email"
-                  type="email"
-                  onChange={onChange}
-                  value={form.email}
-                  placeholder="인증할 이메일을 작성해주세요."
-                />
-              </Email> */}
               <StyledInput
-                name="email"
-                placeholder="ex. test@gmail.com"
-                type="email"
+                autoComplete="username"
+                name="userName"
+                placeholder="아이디 (20자 이내)"
                 onChange={onChange}
-                value={form.email}
-                // onBlur={onBlur}
-                // maxLength="8"
+                value={form.userName}
+                onBlur={onBlur}
+                maxLength="20"
+                minLength="4"
               />
             </StyledDiv>
             <StyledDiv>
@@ -291,12 +283,26 @@ const AuthForm = ({
                   />
                 </StyledDiv>
                 <StyledDiv gender>
-                  <InputHeader>성별</InputHeader>
+                  <InputHeader>
+                    <SpanRed>*</SpanRed>성별
+                  </InputHeader>
                   <Select name="gender" onChange={onChange}>
                     <option value="">선택</option>
                     <option value="MALE">남자</option>
                     <option value="FEMALE">여자</option>
                   </Select>
+                </StyledDiv>
+                <StyledDiv>
+                  <InputHeader>
+                    <SpanRed>*</SpanRed>이메일
+                  </InputHeader>
+                  <StyledInput
+                    name="email"
+                    placeholder="ex. test@gmail.com"
+                    type="email"
+                    onChange={onChange}
+                    value={form.email}
+                  />
                 </StyledDiv>
               </>
             )}
