@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import imageTest from './마커테스트3.png'
 
 const { kakao } = window;
 
@@ -6,12 +7,10 @@ const MapContainer = ({coords}) => {
   const [kakaoMap, setKakaoMap] = useState(null);
   const container = useRef(null);
 
-  console.log(coords);
-
   useEffect(() => {
     const options = {
-      center : new kakao.maps.LatLng(33.380701, 126.570667),
-        level: 9
+      center : new kakao.maps.LatLng(33.280701, 126.570667),
+        level: 7
       }
 
       let map = new kakao.maps.Map(container.current, options); // 카카오 맵
@@ -39,10 +38,10 @@ const MapContainer = ({coords}) => {
       var imageSrc2 = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png';
 
       for (var i = 0; i < positions.length; i++) {
-        var imageSize = new kakao.maps.Size(24, 35);
+        var imageSize = new kakao.maps.Size(25, 25);
 
         if (positions[i].type === 0) {
-          var typeImg = new kakao.maps.MarkerImage(imageSrc1, imageSize)
+          var typeImg = new kakao.maps.MarkerImage(imageTest, imageSize)
         }
         else {
           var typeImg = new kakao.maps.MarkerImage(imageSrc2, imageSize)
@@ -54,10 +53,27 @@ const MapContainer = ({coords}) => {
           position: positions[i].latlng,
           title:  positions[i].title,
           type: positions[i].type,
-          image: typeImg
+          image: typeImg,
+          clickable: true
         })
         marker.setMap(kakaoMap);
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content : `<div style="padding:10px; height:60px;">${positions[i].title}</div>`,
+          // content : positions[i].title,
+          removable : true
+        });
+
+        kakao.maps.event.addListener(marker, 'click', makeOverListener(kakaoMap, marker, infowindow));
       }
+
+      // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 없을 시 마지막 마커만 기능함
+      function makeOverListener(map, marker, infowindow) {
+        return function() {
+            infowindow.open(map, marker);
+        };
+      }
+    
     }
     else {
       return;

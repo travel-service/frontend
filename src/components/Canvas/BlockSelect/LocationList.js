@@ -52,6 +52,7 @@ function Location ({location}) {
 
   const {selCateLoc, onAdd, remove} = useStore();
 
+  console.log(location.isSelect);
   return (
     <Block>
       <div onClick={OpenModal}>
@@ -72,12 +73,9 @@ function Location ({location}) {
             remove(location.id, location.type.type);
             location.isSelect = false
           }
-          console.log(location)
+          //console.log(location)
         } 
       }>{location.isSelect ? '취소' : '선택'}</BButton>
-      <BButton onClick={() => {console.log(selCateLoc)}}>
-        test
-      </BButton>
       <Modal open={modalOpen} close={closeModal} header={location.name}>
         <BlockInfo type={location.type.type} id={location.id}/>
       </Modal>

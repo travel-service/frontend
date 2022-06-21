@@ -122,7 +122,7 @@
         "depart": "",
         "destination": "",
         "name": "",
-        "periods": 4,
+        "periods": 1,
         "planStatus": "MAIN",
         "thumbnail": []
       },
@@ -133,12 +133,7 @@
         "selectedLocation": []
       },
       "dayForm": {
-        "travelDay": [
-          [],
-          [],
-          [],
-          []
-        ]
+        "travelDay": []
       }
     }
   ],
@@ -359,6 +354,78 @@
         }
       }
     ],
+    "Restaurant": [
+      {
+        "id": 19,
+        "name": "삼성혈해물탕",
+        "address1": "제주특별자치도 제주시 선덕로5길 20",
+        "address2": "null",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/45/656845_image2_1.jpg",
+        "type": {
+          "restaurant": true,
+          "member": false,
+          "lodge": false,
+          "leports": false,
+          "attraction": false,
+          "festival": false,
+          "culture": false,
+          "type": 5
+        }
+      }
+    ],
+    "Leports": [
+      {
+        "id": 17,
+        "name": "제주도 스쿠터 여행사 한라하이킹",
+        "address1": "제주특별자치도 제주시 용두암길 50-1",
+        "address2": "(용담이동)",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/91/2394691_image2_1.jpg",
+        "type": {
+          "leports": true,
+          "member": false,
+          "lodge": false,
+          "restaurant": false,
+          "attraction": false,
+          "festival": false,
+          "culture": false,
+          "type": 3
+        }
+      },
+      {
+        "id": 20,
+        "name": "라마다프라자제주호텔 스포츠센터(실내.외 수영장)",
+        "address1": "제주특별자치도 제주시 탑동로 66",
+        "address2": "(삼도이동)",
+        "image": "null",
+        "type": {
+          "leports": true,
+          "member": false,
+          "lodge": false,
+          "restaurant": false,
+          "attraction": false,
+          "festival": false,
+          "culture": false,
+          "type": 3
+        }
+      },
+      {
+        "id": 24,
+        "name": "우도",
+        "address1": "제주특별자치도 제주시 우도면 우도로 153",
+        "address2": "null",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/95/2364395_image2_1.jpg",
+        "type": {
+          "leports": true,
+          "member": false,
+          "lodge": false,
+          "restaurant": false,
+          "attraction": false,
+          "festival": false,
+          "culture": false,
+          "type": 3
+        }
+      }
+    ],
     "Festival": [
       {
         "id": 8,
@@ -409,6 +476,112 @@
           "attraction": false,
           "culture": false,
           "type": 2
+        }
+      }
+    ],
+    "Lodge": [
+      {
+        "id": 25,
+        "name": "도라지식당",
+        "address1": "제주특별자치도 제주시 연삼로 128",
+        "address2": "null",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/01/1934501_image2_1.jpg",
+        "type": {
+          "lodge": true,
+          "member": false,
+          "leports": false,
+          "restaurant": false,
+          "attraction": false,
+          "festival": false,
+          "culture": false,
+          "type": 4
+        }
+      },
+      {
+        "id": 36,
+        "name": "성산해오름식당",
+        "address1": "제주특별자치도 서귀포시 성산읍 일출로 260",
+        "address2": "null",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/15/1937215_image2_1.jpg",
+        "type": {
+          "lodge": true,
+          "member": false,
+          "leports": false,
+          "restaurant": false,
+          "attraction": false,
+          "festival": false,
+          "culture": false,
+          "type": 4
+        }
+      },
+      {
+        "id": 38,
+        "name": "네거리식당",
+        "address1": "제주특별자치도 서귀포시 서문로29번길 20",
+        "address2": "null",
+        "image": "null",
+        "type": {
+          "lodge": true,
+          "member": false,
+          "leports": false,
+          "restaurant": false,
+          "attraction": false,
+          "festival": false,
+          "culture": false,
+          "type": 4
+        }
+      }
+    ],
+    "Culture": [
+      {
+        "id": 14,
+        "name": "제주민속촌",
+        "address1": "제주특별자치도 서귀포시 표선면 민속해안로 631-34",
+        "address2": "null",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/78/2659578_image2_1.bmp",
+        "type": {
+          "culture": true,
+          "member": false,
+          "lodge": false,
+          "leports": false,
+          "restaurant": false,
+          "attraction": false,
+          "festival": false,
+          "type": 1
+        }
+      },
+      {
+        "id": 15,
+        "name": "김영갑 갤러리(두모악)",
+        "address1": "제주특별자치도 서귀포시 성산읍 삼달로 137",
+        "address2": "null",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/79/1619979_image2_1.jpg",
+        "type": {
+          "culture": true,
+          "member": false,
+          "lodge": false,
+          "leports": false,
+          "restaurant": false,
+          "attraction": false,
+          "festival": false,
+          "type": 1
+        }
+      },
+      {
+        "id": 16,
+        "name": "하멜상선전시관",
+        "address1": "제주특별자치도 서귀포시 안덕면 사계남로216번길 24-30",
+        "address2": "(안덕면)",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/03/1620203_image2_1.jpg",
+        "type": {
+          "culture": true,
+          "member": false,
+          "lodge": false,
+          "leports": false,
+          "restaurant": false,
+          "attraction": false,
+          "festival": false,
+          "type": 1
         }
       }
     ]

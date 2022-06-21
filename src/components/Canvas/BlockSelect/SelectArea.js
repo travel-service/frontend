@@ -37,7 +37,9 @@ const SelectArea = ({ location, selLocs, coords }) => {
 
   const { CoordsList } = coords
 
-  const { attIsCheck, culIsCheck, fesIsCheck, lepIsCheck, lodIsCheck, resIsCheck } = filterStore();
+  const { selAttractions } = selLocs
+
+  const { attIsCheck, culIsCheck, fesIsCheck, lepIsCheck, lodIsCheck, resIsCheck, selectedOnly } = filterStore();
 
   var noneCheck = !attIsCheck && !culIsCheck && !fesIsCheck && !lepIsCheck && !lodIsCheck && !resIsCheck;
 
@@ -48,22 +50,25 @@ const SelectArea = ({ location, selLocs, coords }) => {
       <BlockListArea>
         <WhiteBox>
           <div>
-            { (attIsCheck === true || noneCheck === true) && <LocationList locations = {Attractions}/>}
+            { ((attIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Attractions}/>}
           </div>
           <div>
-            { (culIsCheck === true || noneCheck === true) && <LocationList locations = {Culture}/>}
+            { ((culIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Culture}/>}
           </div>
           <div>
-            { (fesIsCheck === true || noneCheck === true) && <LocationList locations = {Festival}/>}
+            { ((fesIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Festival}/>}
           </div>
           <div>
-            { (lepIsCheck === true || noneCheck === true) && <LocationList locations = {Leports}/>}
+            { ((lepIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Leports}/>}
           </div>
           <div>
-            { (lodIsCheck === true || noneCheck === true) && <LocationList locations = {Lodge}/>}
+            { ((lodIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Lodge}/>}
           </div>
           <div>
-            { (resIsCheck === true || noneCheck === true) && <LocationList locations = {Restaurant}/>}
+            { ((resIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Restaurant}/>}
+          </div>
+          <div>
+            { (selectedOnly === true) && <LocationList locations = {selAttractions}/>}
           </div>
 
         </WhiteBox>

@@ -143,33 +143,29 @@ export const useStore = create((set, get) => ({
 
   //selCateLoc배열에 해당 블록을 추가하는 함수
   onAdd: (loc, type) => {
+    console.log(loc);
     console.log(type);
     switch (type) {
       case 0:
-        console.log(loc);
-        console.log(get().selCateLoc);
-        //  set(state => ({ selAttractions: [...state.selAttractions, loc] }));
          set(state => ({ selCateLoc: {
           ...state.selCateLoc,
           selAttractions: [...state.selCateLoc.selAttractions, loc]
          }}));
+         set(state => ({ }));
         break;
       case 1:
-        // set(state => ({ selCulture: [...state.selCulture, loc] }));
         set(state => ({ selCateLoc: {
           ...state.selCateLoc,
           selCulture: [...state.selCateLoc.selCulture, loc]
          }}));
         break;
       case 2:
-        // set(state => ({ selFestival: [...state.selFestival, loc] }));
         set(state => ({ selCateLoc: {
           ...state.selCateLoc,
           selFestival: [...state.selCateLoc.selFestival, loc]
          }}));
         break;
       case 3:
-        // set(state => ({ selLeports: [...state.selLeports, loc] }));
         set(state => ({ selCateLoc: {
           ...state.selCateLoc,
           selLeports: [...state.selCateLoc.selLeports, loc]
@@ -177,7 +173,6 @@ export const useStore = create((set, get) => ({
         break;
       case 4:
         console.log(loc);
-        // set(state => ({ selLodge: [...state.selLodge, loc] }));
         set(state => ({ selCateLoc: {
           ...state.selCateLoc,
           selLodge: [...state.selCateLoc.selLodge, loc]
@@ -185,7 +180,6 @@ export const useStore = create((set, get) => ({
         break;
       case 5:
         console.log(loc);
-        // set(state => ({ selRestaurant: [...state.selRestaurant, loc] }));
         set(state => ({ selCateLoc: {
           ...state.selCateLoc,
           selRestaurant: [...state.selCateLoc.selRestaurant, loc]
@@ -445,7 +439,7 @@ export const planStore = create((set, get) => ({
 }));
 
 // systemLocation 받아오고, 카테고리 따라서 분류
-export const sysLocStore = create((set) => ({
+export const sysLocStore = create((set, get) => ({
   sysCateLoc: {
     // 전체 location => 분류
     Attractions: [],
@@ -458,81 +452,53 @@ export const sysLocStore = create((set) => ({
   sysCateLocCoords: {
     CoordsList: [],
   },
+  flag: false,
 
   getSysLoc: async () => {
-    // const response = await axios.get('http://localhost:4000/locations');
-    // const obj = Object.values(response.data);
-    // console.log(obj);
-    // let att = [];
-    // let cul = [];
-    // let fes = [];
-    // let lepo = [];
-    // let lod = [];
-    // let rest = [];
-    // for (let x of obj) {
-    //   switch (x.type) {
-    //     case '1':
-    //       att.push(x);
-    //       break;
-    //     case '2':
-    //       cul.push(x);
-    //       break;
-    //     case '3':
-    //       fes.push(x);
-    //       break;
-    //     case '4':
-    //       lepo.push(x);
-    //       break;
-    //     case '5':
-    //       lod.push(x);
-    //       break;
-    //     case '6':
-    //       rest.push(x);
-    //       break;
-    //     default:
-    //   }
-    // }
-    const response = await axios.get('http://localhost:4000/locations_v2');
-    let att = [];
-    let cul = [];
-    let fes = [];
-    let lepo = [];
-    let lod = [];
-    let rest = [];
-    for (let x of response.data["Attraction"]) {
-      x.isSelect = false;
-      att.push(x);
+    if (get().flag === false) {
+      const response = await axios.get('http://localhost:4000/locations_v2');
+      let att = [];
+      let cul = [];
+      let fes = [];
+      let lepo = [];
+      let lod = [];
+      let rest = [];
+      for (let x of response.data["Attraction"]) {
+        x.isSelect = false;
+        att.push(x);
+      }
+      for (let x of response.data["Culture"]) {
+        x.isSelect = false;
+        cul.push(x);
+      }
+      for (let x of response.data["Festival"]) {
+        x.isSelect = false;
+        fes.push(x);
+      }
+      for (let x of response.data["Leports"]) {
+        x.isSelect = false;
+        lepo.push(x);
+      }
+      for (let x of response.data["Lodge"]) {
+        x.isSelect = false;
+        lod.push(x);
+      }
+      for (let x of response.data["Restaurant"]) {
+        x.isSelect = false;
+        rest.push(x);
+      }
+      set({
+        sysCateLoc: {
+          Attractions: att,
+          Culture: cul,
+          Festival: fes,
+          Leports: lepo,
+          Lodge: lod,
+          Restaurant: rest,
+        },
+      });
+      set({flag: true})
     }
-    // for (let x of response.data["Culture"]) {
-    //   x.isSelect = false;
-    //   cul.push(x);
-    // }
-    for (let x of response.data["Festival"]) {
-      x.isSelect = false;
-      fes.push(x);
-    }
-    // for (let x of response.data["Leports"]) {
-    //   x.isSelect = false;
-    //   lepo.push(x);
-    // }
-    // for (let x of response.data["Lodge"]) {
-    //   x.isSelect = false;
-    //   lod.push(x);
-    // }
-    // for (let x of response.data["Restaurant"]) {
-    //   x.isSelect = false;
-    //   rest.push(x);
-    // }
-    set({
-      sysCateLoc: {
-        Attractions: att,
-        Culture: cul,
-        Festival: fes,
-        Leports: lepo,
-        Lodge: lod,
-        Restaurant: rest,
-      },
-    });
   },
 
   getSysLocCoords: async () => {

@@ -16,8 +16,8 @@ const TypeSelect = styled.div`
 function TypeFilter() {
 
   const { attIsCheck, culIsCheck, fesIsCheck, lepIsCheck, 
-    lodIsCheck, resIsCheck, changeAttState, changeCulState, changeFesState,
-    changeLepState, changeLodState, changeResState } = filterStore()
+    lodIsCheck, resIsCheck, selectedOnly, changeAttState, changeCulState, changeFesState,
+    changeLepState, changeLodState, changeResState, changeSelState } = filterStore()
 
   return (
       <TypeSelect>
@@ -72,6 +72,8 @@ function TypeFilter() {
         <p>
         <input 
             type="checkbox"
+            checked={selectedOnly}
+            onChange={changeSelState}
         />
           <span>선택한 블록만 보기</span>
         </p>
