@@ -5,10 +5,25 @@ import LoginPage from 'pages/LoginPage';
 import CanvasMainPage from 'pages/CanvasPages/CanvasMainPage';
 import NoticeMainPage from 'pages/NoticePages/NoticeMainPage';
 import Modal from 'react-modal';
-import LandingPage from 'pages/LandingPage';
 import NotFoundPage from 'pages/NotFoundPage';
+import LandingPage from 'pages/LandingPage';
+import { useScroll } from 'lib/custom/useScroll';
+import { createGlobalStyle, css } from 'styled-components';
+
+const GlobalStyle = createGlobalStyle`
+  body::-webkit-scrollbar {
+    display: none;
+    ${(props) =>
+      props.isScroll &&
+      css`
+        display: block;
+      `}
+  }
+`;
 
 function App() {
+  const { scrollY } = useScroll();
+
   return (
     <>
       {/* 배포 url */}
@@ -29,6 +44,7 @@ function App() {
           element: <NotFoundPage />,
         },
       ])}
+      <GlobalStyle isScroll={scrollY} />
     </>
   );
 }
