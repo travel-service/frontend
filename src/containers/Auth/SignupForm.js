@@ -20,7 +20,7 @@ const SignupForm = () => {
       form: auth.signup, // store이름 auth, auth.signup에(회원 정보 목록 있음)
       auth: auth.auth,
       authError: auth.authError,
-      // userState: user.userState,
+      userState: user.userState,
     }),
   );
 
@@ -105,11 +105,11 @@ const SignupForm = () => {
   }, [auth, authError, dispatch, navigate]);
 
   // user 값이 잘 설정되었는지 확인
-  // useEffect(() => {
-  //   if (userState) {
-  //     navigate(process.env.PUBLIC_URL + '/');
-  //   }
-  // }, [userState, navigate]);
+  useEffect(() => {
+    if (userState) {
+      navigate(process.env.PUBLIC_URL + '/');
+    }
+  }, [userState, navigate]);
 
   const onBlur = (e) => {
     let { name, value } = e.target;

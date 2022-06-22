@@ -9,12 +9,12 @@ import * as authAPI from 'lib/api/auth';
 // 액션 생성
 const CHANGE_FIELD = 'auth/CHANGE_FIELD'; // input 값 변화 감지
 const INITIALIZE_FORM = 'auth/INITIALIZE_FORM'; // form 초기화
-const TEMP_SET_AUTH = 'auth/TEMP_SET_AUTH'; //새로고침 이후 임시 로그인 처리
+// const TEMP_SET_AUTH = 'auth/TEMP_SET_AUTH'; //새로고침 이후 임시 로그인 처리
 const [SIGNUP, SIGNUP_SUCCESS, SIGNUP_FAILURE] =
   createRequestActionTypes('auth/SIGNUP'); // 회원가입
 const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] =
   createRequestActionTypes('auth/LOGIN'); // 로그인
-const LOGOUT = 'auth/LOGOUT'; // 로그아웃
+// const LOGOUT = 'auth/LOGOUT'; // 로그아웃
 
 // createAction(타입, 현재 상태)
 export const changeField = createAction(
@@ -41,22 +41,22 @@ export const login = createAction(LOGIN, ({ userName, password }) => ({
   userName,
   password,
 }));
-export const tempSetAuth = createAction(
-  TEMP_SET_AUTH,
-  (userState) => userState,
-);
-export const logout = createAction(LOGOUT);
+// export const tempSetAuth = createAction(
+//   TEMP_SET_AUTH,
+//   (userState) => userState,
+// // );
+// export const logout = createAction(LOGOUT);
 
-function* logoutSaga() {
-  // 로그아웃시 스토리지 삭제
-  try {
-    yield call(authAPI.logout);
-    localStorage.removeItem('userState');
-    localStorage.removeItem('accessToken');
-  } catch (e) {
-    console.log(e);
-  }
-}
+// function* logoutSaga() {
+//   // 로그아웃시 스토리지 삭제
+//   try {
+//     yield call(authAPI.logout);
+//     localStorage.removeItem('userState');
+//     localStorage.removeItem('accessToken');
+//   } catch (e) {
+//     console.log(e);
+//   }
+// }
 
 // 사가 생성
 // yield 비동기 통신
@@ -65,7 +65,7 @@ const loginSaga = createRequestSaga(LOGIN, authAPI.login);
 export function* authSaga() {
   yield takeLatest(SIGNUP, signupSaga);
   yield takeLatest(LOGIN, loginSaga);
-  yield takeLatest(LOGOUT, logoutSaga);
+  // yield takeLatest(LOGOUT, logoutSaga);
 }
 
 // 초기값
@@ -86,8 +86,8 @@ const initialState = {
   },
   auth: null,
   authError: null,
-  userState: null,
-  accessToken: null,
+  // userState: null,
+  // accessToken: null,
 };
 
 const auth = handleActions(
@@ -110,7 +110,7 @@ const auth = handleActions(
       return {
         ...state,
         authError: null,
-        auth: auth.statusText,
+        auth,
       };
     },
     // 회원가입 실패
@@ -124,8 +124,8 @@ const auth = handleActions(
       return {
         ...state,
         authError: null,
-        userState: auth.data,
-        accessToken: auth.headers.accesstoken,
+        // userState: auth.data,
+        // accessToken: auth.headers.accesstoken,
       };
     },
     // 로그인 실패
@@ -135,21 +135,21 @@ const auth = handleActions(
         authError: error,
       };
     },
-    // 새로고침 userState 유지
-    [TEMP_SET_AUTH]: (state, { payload: userState }) => {
-      return {
-        ...state,
-        userState,
-      };
-    },
-    // 로그아웃
-    [LOGOUT]: (state) => ({
-      ...state,
-      userState: null,
-      auth: null,
-      authError: null,
-      accessToken: null,
-    }),
+    // // 새로고침 userState 유지
+    // [TEMP_SET_AUTH]: (state, { payload: userState }) => {
+    //   return {
+    //     ...state,
+    //     userState,
+    //   };
+    // },
+    // // 로그아웃
+    // [LOGOUT]: (state) => ({
+    //   ...state,
+    //   userState: null,
+    //   auth: null,
+    //   authError: null,
+    //   accessToken: null,
+    // }),
   },
   initialState,
 );

@@ -3,16 +3,12 @@ import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import palette from 'lib/styles/palette';
 import Button from 'components/common/Button';
-// import AccountCircle from './icons/AccountCircle';
 
 const AuthFormBlock = styled.div`
-  /* width: 300px; */
   width: 100%;
 `;
 
-const Div = styled.div`
-  /* margin: 30px 60px; */
-`;
+const Div = styled.div``;
 
 const H2 = styled.h2`
   display: flex;
@@ -26,14 +22,7 @@ const Form = styled.form`
   width: 70%;
 `;
 
-// const H4 = styled.h4`
-//   margin-top: 10px;
-//   font-weight: lighter;
-//   text-align: center;
-// `;
-
 const SpanRed = styled.span`
-  /* display: block; */
   display: flex;
   justify-content: flex-end;
   text-align: center;
@@ -51,16 +40,11 @@ const StyledDiv = styled.div`
   display: flex;
   align-items: center;
   position: relative;
-  /* text-align: center; */
-  /* display: flex; */
   justify-content: space-between;
   margin: 5px 0px;
-  /* justify-content: space-between; */
-  /* width: 360px; */
 `;
 
 const InputHeader = styled.div`
-  /* width: 100px; */
   display: flex;
   align-items: center;
 `;
@@ -89,14 +73,10 @@ const StyledInput = styled.input`
 
 const Select = styled.select`
   padding-left: 30px;
-  /* margin-right: 30px; */
   font-size: 1rem;
-  /* border: none; */
   border: 1px solid ${palette.gray[5]};
   border-radius: 8px;
-  /* padding-bottom: 0.5rem; */
   outline: none;
-  /* width: 350px; */
   width: 70%;
   height: 45px;
   &:focus {
@@ -112,7 +92,6 @@ const Select = styled.select`
 
 const Footer = styled.div`
   margin-top: 2rem;
-  /* text-align: right; */
   a {
     color: ${palette.gray[6]};
     text-decoration: underline;
@@ -143,34 +122,6 @@ const ErrorMessage = styled.div`
   text-align: center;
   font-size: 0.875rem;
   margin-top: 1rem;
-`;
-
-const Email = styled.div`
-  width: 70%;
-  display: flex;
-  justify-content: space-between;
-`;
-
-const EmailDiv = styled.input`
-  padding-left: 30px;
-  font-size: 1rem;
-  border: 1px solid ${palette.gray[5]};
-  border-radius: 8px;
-  outline: none;
-  width: 70%;
-  height: 45px;
-  /* float: right; */
-  &:focus {
-    border-bottom: 1px solid ${palette.gray[7]};
-  }
-  & + & {
-    margin-top: 1rem;
-  }
-  @media screen and (max-width: 767px) {
-    height: 40px;
-    padding-left: 10px;
-    font-size: 0.9rem;
-  }
 `;
 
 const AuthForm = ({

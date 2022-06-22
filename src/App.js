@@ -29,12 +29,6 @@ function App() {
           element: <NotFoundPage />,
         },
       ])}
-      {/* <Routes>
-        <Route element={<SignUpPage />} path="/" />
-        <Route element={<SignUpPage />} path="/signup" />
-        <Route element={<LoginPage />} path="/login" />
-        <Route element={<CanvasMainPage />} path="/canvas/*" />
-      </Routes> */}
     </>
   );
 }
@@ -42,5 +36,3 @@ function App() {
 Modal.setAppElement('#root'); // Modal 사용을 위해 붙임(0311)
 
 export default App;
-
-// 0303 useRoutes 사용

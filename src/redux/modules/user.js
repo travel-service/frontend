@@ -5,42 +5,45 @@ import createRequestSaga, {
 } from 'lib/createRequestSaga';
 import * as authAPI from 'lib/api/auth';
 
-const TEMP_SET_USER = 'user/TEMP_SET_USER'; //새로고침 이후 임시 로그인 처리
+// const TEMP_SET_USER = 'user/TEMP_SET_USER'; //새로고침 이후 임시 로그인 처리
 // 회원 정보 확인
 const [CHECK, CHECK_SUCCESS, CHECK_FAILURE] =
   createRequestActionTypes('user/CHECK');
 const LOGOUT = 'user/LOGOUT';
 
-export const tempSetUser = createAction(
-  TEMP_SET_USER,
-  (userState) => userState,
-);
-// export const check = createAction(CHECK);
-export const check = createAction(CHECK, ({ userName, password }) => ({
-  userName,
-  password,
-}));
+// export const tempSetUser = createAction(
+//   TEMP_SET_USER,
+//   (userState) => userState,
+// );
+export const check = createAction(CHECK);
 export const logout = createAction(LOGOUT);
+// export const check = createAction(CHECK, ({ userName, password }) => ({
+//   userName,
+//   password,
+// }));
 
 // const checkSaga = createRequestSaga(CHECK, authAPI.onSilentRefresh);
-const checkSaga = createRequestSaga(CHECK, authAPI.login);
+// const checkSaga = createRequestSaga(CHECK, authAPI.login);
+const checkSaga = createRequestSaga(CHECK, authAPI.userCheck);
+const logoutSaga = createRequestSaga(LOGOUT, authAPI.logout);
+const checkFailureSaga = createRequestSaga(LOGOUT, authAPI.refresh); // 0622 잘모르게씀
 
-function checkFailureSaga() {
-  try {
-    localStorage.removeItem('userState');
-  } catch (e) {
-    console.log('localStorage is not working');
-  }
-}
+// function checkFailureSaga() {
+//   try {
+//     localStorage.removeItem('userState');
+//   } catch (e) {
+//     console.log('localStorage is not working');
+//   }
+// }
 
-function* logoutSaga() {
-  try {
-    yield call(authAPI.logout);
-    localStorage.removeItem('userState');
-  } catch (e) {
-    console.log(e);
-  }
-}
+// function* logoutSaga() {
+//   try {
+//     yield call(authAPI.logout);
+//     localStorage.removeItem('userState');
+//   } catch (e) {
+//     console.log(e);
+//   }
+// }
 
 export function* userSaga() {
   yield takeLatest(CHECK, checkSaga);
@@ -55,10 +58,10 @@ const initialState = {
 
 export default handleActions(
   {
-    [TEMP_SET_USER]: (state, { payload: userState }) => ({
-      ...state,
-      userState,
-    }),
+    // [TEMP_SET_USER]: (state, { payload: userState }) => ({
+    //   ...state,
+    //   userState,
+    // }),
     [CHECK_SUCCESS]: (state, action) => {
       console.log(state, action);
       return {

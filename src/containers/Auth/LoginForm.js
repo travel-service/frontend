@@ -9,15 +9,11 @@ const LoginForm = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { form, auth, userState, authError, accessToken } = useSelector(
-    ({ auth }) => ({
-      form: auth.login, // store이름 auth, auth.signup에(회원 정보 목록 있음)
-      auth: auth.auth,
-      userState: auth.userState,
-      authError: auth.authError,
-      accessToken: auth.accessToken,
-    }),
-  );
+  const { form, auth, authError } = useSelector(({ auth }) => ({
+    form: auth.login, // store이름 auth, auth.signup에(회원 정보 목록 있음)
+    auth: auth.auth,
+    authError: auth.authError,
+  }));
 
   // 인풋 변경 이벤트 핸들러
   const onChange = useCallback(
@@ -51,16 +47,10 @@ const LoginForm = () => {
       setError('아이디 또는 비밀번호를 잘못 입력했습니다.');
       return;
     }
-    if (userState) {
+    if (auth) {
       navigate(process.env.PUBLIC_URL + '/');
-      try {
-        localStorage.setItem('userState', JSON.stringify(userState));
-        localStorage.setItem('accessToken', JSON.stringify(accessToken));
-      } catch (e) {
-        console.log('localStorage is not working');
-      }
     }
-  }, [authError, dispatch, navigate, accessToken, userState]);
+  }, [auth, authError, dispatch, navigate]);
 
   return (
     <AuthForm
