@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
-import { MdMenu } from 'react-icons/md';
+import { MdMenu, MdPerson } from 'react-icons/md';
 
 const Container = styled.div`
   display: flex;
@@ -84,7 +84,12 @@ const MenuBtn = styled(MdMenu)`
   }
 `;
 
-const Header = () => {
+const UserInfo = styled.div`
+  font-weight: 600;
+  margin-right: 1rem;
+`;
+
+const Header = ({ userState, onLogout }) => {
   const [menu, setMenu] = useState(false);
 
   const btnClick = () => {
@@ -104,12 +109,27 @@ const Header = () => {
         <MenuBtn onClick={btnClick} />
       </SubFlex>
       <Menu btnMenu={menu}>
-        <Div>
-          <MenuEl to={process.env.PUBLIC_URL + '/login'}>로그인</MenuEl>
-        </Div>
-        <Div>
-          <MenuEl to={process.env.PUBLIC_URL + '/signup'}>회원가입</MenuEl>
-        </Div>
+        {userState ? (
+          <>
+            <UserInfo>{userState.nickName}</UserInfo>
+            <MdPerson />
+            <Div>
+              <MenuEl to={process.env.PUBLIC_URL + '/login'}>로그아웃</MenuEl>
+            </Div>
+            <Div>
+              <MenuEl to={process.env.PUBLIC_URL + '/login'}>여행보관함</MenuEl>
+            </Div>
+          </>
+        ) : (
+          <>
+            <Div>
+              <MenuEl to={process.env.PUBLIC_URL + '/login'}>로그인</MenuEl>
+            </Div>
+            <Div>
+              <MenuEl to={process.env.PUBLIC_URL + '/signup'}>회원가입</MenuEl>
+            </Div>
+          </>
+        )}
         <Div>
           <MenuEl to={process.env.PUBLIC_URL + '/notice/noticelist'}>
             공지사항

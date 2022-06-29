@@ -12,6 +12,7 @@ import createSagaMiddleware from 'redux-saga';
 import { check } from 'redux/modules/user';
 import axios from 'axios';
 import './interceptors/axios';
+import * as authAPI from 'lib/api/auth';
 
 axios.defaults.withCredentials = true;
 
@@ -26,9 +27,12 @@ function loadUser() {
   // 0622 수정, 백엔드 로직 후 적용
   (async () => {
     try {
-      // const resData = authAPI.userCheck; // user정보
+      console.log('try');
+      const resData = authAPI.userCheck; // user정보
+      console.log(resData);
       check(); // userCheck, 에러시 refresh 까지
     } catch (e) {
+      console.log('catch');
       // error시 access 만료, 로그인 페이지로 리다이렉트
     }
   })();
@@ -39,14 +43,12 @@ function loadUser() {
   //   store.dispatch(tempSetAuth(userState));
   // } catch (e) {
   //   console.log('localStorage is not working');
-  // }
 }
-
 // saga run 이후에 user loading
 sagaMiddleware.run(rootSaga);
 // onSilentRefresh();
 
-loadUser();
+// loadUser();
 
 ReactDOM.render(
   <Provider store={store}>

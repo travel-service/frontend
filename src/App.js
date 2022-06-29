@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRoutes } from 'react-router-dom';
 import SignUpPage from 'pages/SignupPage';
 import LoginPage from 'pages/LoginPage';
@@ -9,6 +9,8 @@ import NotFoundPage from 'pages/NotFoundPage';
 import LandingPage from 'pages/LandingPage';
 import { useScroll } from 'lib/custom/useScroll';
 import { createGlobalStyle, css } from 'styled-components';
+import axios from 'axios';
+import './interceptors/axios';
 
 const GlobalStyle = createGlobalStyle`
   body::-webkit-scrollbar {
@@ -23,6 +25,13 @@ const GlobalStyle = createGlobalStyle`
 
 function App() {
   const { scrollY } = useScroll();
+
+  useEffect(() => {
+    (async () => {
+      const response = await axios.get('/auth/info');
+      console.log(response); // refresh로 받아오고 userState update만 시켜주면됨
+    })();
+  }, []);
 
   return (
     <>

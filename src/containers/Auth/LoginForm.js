@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeField, initializeForm, login } from 'redux/modules/auth';
 import AuthForm from 'components/Auth/AuthForm';
 import { useNavigate } from 'react-router-dom';
-// import { check } from 'redux/modules/user';
+import { check } from 'redux/modules/user';
 
 const LoginForm = () => {
   const [error, setError] = useState(null);
@@ -49,6 +49,7 @@ const LoginForm = () => {
     }
     if (auth) {
       navigate(process.env.PUBLIC_URL + '/');
+      dispatch(check());
     }
   }, [auth, authError, dispatch, navigate]);
 

@@ -5,16 +5,16 @@ import createRequestSaga, {
 } from 'lib/createRequestSaga';
 import * as authAPI from 'lib/api/auth';
 
-// const TEMP_SET_USER = 'user/TEMP_SET_USER'; //새로고침 이후 임시 로그인 처리
+const TEMP_SET_USER = 'user/TEMP_SET_USER'; //새로고침 이후 임시 로그인 처리
 // 회원 정보 확인
 const [CHECK, CHECK_SUCCESS, CHECK_FAILURE] =
   createRequestActionTypes('user/CHECK');
 const LOGOUT = 'user/LOGOUT';
 
-// export const tempSetUser = createAction(
-//   TEMP_SET_USER,
-//   (userState) => userState,
-// );
+export const tempSetUser = createAction(
+  TEMP_SET_USER,
+  (userState) => userState,
+);
 export const check = createAction(CHECK);
 export const logout = createAction(LOGOUT);
 // export const check = createAction(CHECK, ({ userName, password }) => ({
@@ -26,7 +26,7 @@ export const logout = createAction(LOGOUT);
 // const checkSaga = createRequestSaga(CHECK, authAPI.login);
 const checkSaga = createRequestSaga(CHECK, authAPI.userCheck);
 const logoutSaga = createRequestSaga(LOGOUT, authAPI.logout);
-const checkFailureSaga = createRequestSaga(LOGOUT, authAPI.refresh); // 0622 잘모르게씀
+// const checkFailureSaga = createRequestSaga(LOGOUT, authAPI.refresh); // 0622 잘모르게씀
 
 // function checkFailureSaga() {
 //   try {
@@ -47,7 +47,7 @@ const checkFailureSaga = createRequestSaga(LOGOUT, authAPI.refresh); // 0622 잘
 
 export function* userSaga() {
   yield takeLatest(CHECK, checkSaga);
-  yield takeLatest(CHECK_FAILURE, checkFailureSaga);
+  // yield takeLatest(CHECK_FAILURE, checkFailureSaga);
   yield takeLatest(LOGOUT, logoutSaga);
 }
 
@@ -58,10 +58,10 @@ const initialState = {
 
 export default handleActions(
   {
-    // [TEMP_SET_USER]: (state, { payload: userState }) => ({
-    //   ...state,
-    //   userState,
-    // }),
+    [TEMP_SET_USER]: (state, { payload: userState }) => ({
+      ...state,
+      userState,
+    }),
     [CHECK_SUCCESS]: (state, action) => {
       console.log(state, action);
       return {
@@ -70,15 +70,21 @@ export default handleActions(
         checkError: null,
       };
     },
-    [CHECK_FAILURE]: (state, { payload: error }) => ({
-      ...state,
-      userState: null,
-      checkError: error,
-    }),
-    [LOGOUT]: (state) => ({
-      ...state,
-      userState: null,
-    }),
+    [CHECK_FAILURE]: (state, action) => {
+      console.log(state, action);
+      return {
+        ...state,
+        userState: null,
+        checkError: action.payload.error,
+      };
+    },
+    [LOGOUT]: (state) => {
+      console.log(state);
+      return {
+        ...state,
+        userState: null,
+      };
+    },
   },
   initialState,
 );

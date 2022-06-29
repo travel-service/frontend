@@ -177,8 +177,8 @@ const LandingPage = () => {
     <Container>
       <FlexBox>
         {/* update 필요 0622 */}
-        {/* <HeaderContainer /> */}
-        <Header />
+        <HeaderContainer />
+        {/* <Header /> */}
         <Contents>
           <SubContents>
             <TextH3>복잡한 여행 계획은 그만!</TextH3>

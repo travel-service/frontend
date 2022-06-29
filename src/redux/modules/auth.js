@@ -123,6 +123,7 @@ const auth = handleActions(
       console.log(auth);
       return {
         ...state,
+        auth: auth.data,
         authError: null,
         // userState: auth.data,
         // accessToken: auth.headers.accesstoken,

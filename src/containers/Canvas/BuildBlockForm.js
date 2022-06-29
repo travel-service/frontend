@@ -11,6 +11,7 @@ const Container = styled.div`
   background-color: ${palette.gray[3]};
   height: 70vh;
   width: 100vw;
+  border: 1px solid blue;
 `;
 
 // export let travelPlan = {};

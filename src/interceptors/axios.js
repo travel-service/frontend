@@ -6,17 +6,17 @@ let refresh = false; // 무한 루프 방지
 // axios response error시 인터셉터 발생, refresh 토큰 으로 access 발급
 axios.interceptors.response.use(
   (resp) => resp,
-  (error) => {
-    if (error.response.status === 401 && !refresh) {
+  async (error) => {
+    console.log('error:', error.response.data.code);
+    if (error.response.data.code === 'MEMBER-EX' && !refresh) {
       // unauthenticated
+      console.log('Test');
       refresh = true;
-      const response = authAPI.refresh; // new AccessToken
-
+      const response = await authAPI.refresh(); // new AccessToken
+      console.log(response);
       if (response.status === 200) {
-        axios.defaults.headers.common[
-          'Authorization'
-        ] = `Bearer ${response.data['token']}`;
-
+        axios.defaults.headers.common['authorization'] =
+          response.headers.authorization;
         return axios(error.config);
       }
     }

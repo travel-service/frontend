@@ -14,6 +14,9 @@ const Container = styled.div`
     css`
       width: 0vw;
     `}
+  @media screen and (max-width: 767px) {
+    display: block;
+  }
 `;
 
 const List = styled.div`
@@ -22,6 +25,11 @@ const List = styled.div`
   flex-direction: column;
   border: 2px solid ${oc.teal[6]};
   justify-content: space-around;
+  @media screen and (max-width: 767px) {
+    flex-direction: row;
+    /* display: block; */
+    width: 100%;
+  }
 `;
 
 const Item = styled.div`

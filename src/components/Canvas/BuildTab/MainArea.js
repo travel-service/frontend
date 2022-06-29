@@ -7,6 +7,7 @@ import {
   MdOutlineArrowForwardIos,
   MdOutlineArrowBackIos,
 } from 'react-icons/md';
+import { Mobile, Tablet, Pc } from 'lib/custom/responsive';
 
 const Div = styled.div`
   /* width: 150px; */
@@ -31,6 +32,9 @@ const FontDiv = styled.div`
 const Container = styled.div`
   display: flex;
   width: 100%;
+  @media screen and (max-width: 767px) {
+    display: block;
+  }
 `;
 
 const ToggleArea = styled.div`
