@@ -140,7 +140,7 @@ const PlanLayout = ({ planName, planId, planPeriods, planDate }) => {
       >
         {isOver && (
           <>
-            {isChecked && <input type="checkbox" />}
+            {isChecked && <input type="checkbox" /> /*체크 기능*/}
             <LinkButton
               onClick={() => {
                 onClickView();
@@ -195,7 +195,7 @@ const PlanLayout = ({ planName, planId, planPeriods, planDate }) => {
           )}
           {isShow &&
             clickMore &&
-            userDirs.map((item) => {
+            userDirs.mainUserDirectory.map((item) => {
               return (
                 <MovePlan key={item.userDirectoryId}>
                   {item.directoryName}

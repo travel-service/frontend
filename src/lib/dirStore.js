@@ -3,9 +3,10 @@ import create from 'zustand';
 
 // 여행보관함용 store
 export const dirStore = create((set, get) => ({
-  currentDirId: 'main', // 클릭한 디렉터리(보여줄 디렉터리)
+  currentDirId: 'm', // 클릭한 디렉터리(보여줄 디렉터리)
   mainPlans: [], // 메인 디렉터리 플랜들
   userDirs: [], // 유저 디렉터리 이름들(목록)
+  currentCheckedDirs: [], // 현재 선택된 디렉터리들
   userPlans: [], // 유저 디렉터리 내 플랜들, userDirectory?
   //currentUserPlan: [], // 선택된 유저 디렉터리 내 플랜, 디렉터리 선택 시 보여주기용
   trashPlans: [], // 휴지통 내 플랜들
@@ -14,10 +15,8 @@ export const dirStore = create((set, get) => ({
     revertPlanId: [], // 복원할 플랜 id
     deletePlanId: [], // 영구삭제할 플랜 id
   },
-  createUserDir: '',
-  /*createUserDir: {
-    dirName: '', //생성할 디렉터리 이름
-  }*/
+  createUserDir: '', //생성할 디렉터리 이름
+  changeDirName: '', // 디렉터리 이름
   deleteUserDir: {
     dirId: [], //삭제할 디렉터리 id, 다중체크
   },
@@ -30,15 +29,32 @@ export const dirStore = create((set, get) => ({
     set({
       currentDirId: input,
     });
-
-    /*if (typeof input === 'number') {
-      const userPlan = userPlans.find((plan) => {
-        return plan.id === currentDirId;
-      }).plans;
+  },
+  setCurrentCheckedDir: (input) => {
+    // 현재 선택된 디렉터리
+    set({
+      currentCheckedDirs: input,
+    });
+    /*const userDirs = get().userDirs;
+    if (typeof input === 'number') {
+      const n = userDirs.find((dir) => {
+        return dir.userDirectoryId === input;
+      }).directoryName;
       set({
-        currentUserPlan: userPlan,
+        currentCheckedDirs: input,
+        changeDirName: n,
+      });
+    } else {
+      set({
+        currentCheckedDirs: input,
       });
     }*/
+  },
+  setDirName: (input) => {
+    // 디렉터리 이름 변경
+    set({
+      changeDirName: input,
+    });
   },
   // planId setting
   setCancel: (input) => {
@@ -64,9 +80,6 @@ export const dirStore = create((set, get) => ({
     set({
       createUserDir: input,
     });
-    /*set((state) => ({
-      createUserDir: { ...state.createUserDir, dirName: input },
-    }));*/
   },
   setDeleteUserDir: (input) => {
     //사용자 디렉터리 삭제
@@ -84,7 +97,7 @@ export const dirStore = create((set, get) => ({
   // maindir 내 플랜들
   getMainPlans: async () => {
     //const response = await axios.get(`http://localhost:4000/main-directory`);
-    const response = await axios.get(`http://localhost:4000/mainDirectory`);
+    const response = await axios.get('http://localhost:4000/mainD');
     set({ mainPlans: response.data });
     console.log('getMP: ', response);
   },
@@ -93,20 +106,19 @@ export const dirStore = create((set, get) => ({
     /*const response = await axios.get(
       `http://localhost:4000/main-user-directory`,
     );*/
-    const response = await axios.get(
-      `http://localhost:4000/mainUserDirectory/`,
-    );
-    set({ userDirs: response.data });
+    const response = await axios.get('http://localhost:4000/userD');
+    set({
+      userDirs: response.data,
+    });
     console.log('getUD: ', response);
   },
   // 해당 userDir 내 플랜들
-  getUserPlans: async () => {
+  getUserPlans: async (userDirId) => {
     /*const response = await axios.get(
       `http://localhost:4000/main-directory/${userDirectoryId}`,
     );*/
     const response = await axios.get(
-      `http://localhost:4000/userDirectory`,
-      //`http://localhost:4000/userDirectory/${userDirId}`,
+      `http://localhost:4000/userDirectory${userDirId}`,
     );
     //set({ userPlans: response.data.userDirectory });
     set({ userPlans: response.data }); //test용
@@ -115,9 +127,9 @@ export const dirStore = create((set, get) => ({
   // trashdir 내 플랜들
   getTrashPlans: async () => {
     //const response = await axios.get(`http://localhost:4000/trash-directory`);
-    const response = await axios.get(`http://localhost:4000/trashDirectory`);
+    const response = await axios.get('http://localhost:4000/trashD');
     set({ trashPlans: response.data });
-    console.log('trashPlans: ', response);
+    console.log('getTP: ', response);
   },
   // 삭제
   postTrash: async () => {
@@ -156,11 +168,13 @@ export const dirStore = create((set, get) => ({
   // userdir 생성, 수정 필요
   postCreateDir: async () => {
     const createUserDir = get().createUserDir;
-    const response = await axios.patch(
+    const response = await axios.post(
       //post
       //`http://localhost:4000/create/user-directory`,
-      `http://localhost:4000/mainUserDirectory`,
+      'http://localhost:4000/mainUserDirectory',
       {
+        id: 82, //test용
+        userDirectoryId: 82,
         directoryName: createUserDir,
       },
     );
@@ -188,5 +202,18 @@ export const dirStore = create((set, get) => ({
       },
     );
     console.log('moveplan: ', response);
+  },
+  // 이름 변경
+  postChangeDirName: async (dirId) => {
+    const changeDirName = get().changeDirName;
+    const response = await axios.post(
+      //post
+      //`http://localhost:4000/update/user-directory/${dirId}`
+      `http://localhost:4000/mainUserDirectory`,
+      {
+        directoryName: changeDirName,
+      },
+    );
+    console.log('dirName: ', response);
   },
 }));

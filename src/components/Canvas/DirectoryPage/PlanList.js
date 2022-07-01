@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import PlanLayout from 'components/Canvas/common/PlanLayout';
 import Button from 'components/common/Button';
@@ -83,8 +83,14 @@ const ComboDiv = styled.select`
 
 const PlanList = () => {
   const [isClicked, setIsClicked] = useState(false);
-  const { mainPlans, trashPlans, userPlans, currentDirId, userDirs } =
-    dirStore();
+  const {
+    mainPlans,
+    trashPlans,
+    userPlans,
+    currentDirId,
+    userDirs,
+    getUserPlans,
+  } = dirStore();
   const [isShow, setIsShow] = useState(false);
 
   const onClickMove = () => {
@@ -92,42 +98,37 @@ const PlanList = () => {
     console.log('담기');
   };
 
-  //console.log(mainPlans);
   return (
     <PlanListContainer>
       <TitleContainer>
         <ItemsDiv>
           {
             /*해당 디렉토리 제목, 아이콘, 갯수 변경*/
-            currentDirId === 'main' ? (
+            currentDirId === 'm' ? (
               <>
                 <IconDiv>All</IconDiv>
                 <TextDiv op="title">모든 여행</TextDiv>
-                <PlanCountContainer>{mainPlans.length}</PlanCountContainer>
+                <PlanCountContainer>{mainPlans.planCount}</PlanCountContainer>
               </>
-            ) : currentDirId === 'trash' ? (
+            ) : currentDirId === 't' ? (
               <>
                 <IconDiv>Trash</IconDiv>
                 <TextDiv op="title">휴지통</TextDiv>
-                <PlanCountContainer>{trashPlans.length}</PlanCountContainer>
+                <PlanCountContainer>
+                  {trashPlans.trashPlanCount}
+                </PlanCountContainer>
               </>
             ) : (
               <>
                 <IconDiv>dir</IconDiv>
                 <TextDiv op="title">
                   {
-                    userDirs.find((dir) => {
+                    userDirs.mainUserDirectory.find((dir) => {
                       return dir.userDirectoryId === currentDirId;
                     }).directoryName
                   }
                 </TextDiv>
-                <PlanCountContainer>
-                  {
-                    userPlans.find((plan) => {
-                      return plan.id === currentDirId;
-                    }).plans.length
-                  }
-                </PlanCountContainer>
+                <PlanCountContainer>{userPlans.length}</PlanCountContainer>
               </>
             )
           }
@@ -163,8 +164,8 @@ const PlanList = () => {
         </ItemsDiv>
       </TitleContainer>
       <PlansContainer>
-        {currentDirId === 'main'
-          ? mainPlans.map((item) => {
+        {currentDirId === 'm' && mainPlans.mainDirectory
+          ? mainPlans.mainDirectory.map((item) => {
               return (
                 <PlanLayout
                   key={item.planId}
@@ -174,8 +175,8 @@ const PlanList = () => {
                 />
               );
             })
-          : currentDirId === 'trash'
-          ? trashPlans.map((item) => {
+          : currentDirId === 't' && trashPlans.trashDirectory
+          ? trashPlans.trashDirectory.map((item) => {
               return (
                 <PlanLayout
                   key={item.planId}
@@ -185,21 +186,17 @@ const PlanList = () => {
                 />
               );
             })
-          : typeof currentDirId === 'number'
-          ? userPlans // 코드 정리해야..
-              .find((plan) => {
-                return plan.id === currentDirId;
-              })
-              .plans.map((item) => {
-                return (
-                  <PlanLayout
-                    key={item.planId}
-                    planName={item.name}
-                    planPeriods={item.periods}
-                    planDate={item.createdDate}
-                  />
-                );
-              })
+          : typeof currentDirId === 'number' && userPlans
+          ? userPlans.map((item) => {
+              return (
+                <PlanLayout
+                  key={item.planId}
+                  planName={item.name}
+                  planPeriods={item.periods}
+                  planDate={item.createdDate}
+                />
+              );
+            })
           : null}
       </PlansContainer>
     </PlanListContainer>
@@ -207,57 +204,3 @@ const PlanList = () => {
 };
 
 export default PlanList;
-
-/*import React, { useEffect } from 'react';
-import styled from 'styled-components';
-//import { planStore, useStore } from 'lib/store';
-//import { Link } from 'react-router-dom';
-
-const PlanListContainer = styled.div`
-  background: green;
-  //flex-grow: 3;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  // margin: auto;
-  border: 1px solid black;
-  // height: 80vh;
-`;
-
-const PlanList = () => {
-  const { travelPlans, getPlans } = planStore();
-  const { getPlan } = useStore();
-
-  useEffect(() => {
-    getPlans(); // 나중에는 userId를 파라미터로
-  }, [getPlans]);
-
-  const onClick = (id) => {
-    getPlan(id);
-  };
-
-  return (
-    <PlanListContainer>
-      hihi
-      {travelPlans.length !== 0 && (
-        <div>
-          {travelPlans.map((e) => (
-            <div key={e.id}>
-              <div>플랜 id: {e.id}</div>
-              <Link
-                to={process.env.PUBLIC_URL + '/canvas/setting'}
-                onClick={() => onClick(e.id)}
-              >
-                수정하러가기
-              </Link>
-            </div>
-          ))}
-        </div>
-      )}
-    </PlanListContainer>
-  );
-};
-
-export default PlanList;*/

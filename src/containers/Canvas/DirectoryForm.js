@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import MainPlanList from 'components/Canvas/DirectoryPage/MainPlanList';
+import PlanList from 'components/Canvas/DirectoryPage/PlanList';
 import DirectoryList from 'components/Canvas/DirectoryPage/DirectoryList';
 import styled from 'styled-components';
 import { dirStore } from 'lib/dirStore';
@@ -28,7 +28,7 @@ const DirectoryPage = () => {
   return (
     <DirContainer>
       <DirectoryList />
-      <MainPlanList />
+      <PlanList />
     </DirContainer>
   );
 };
