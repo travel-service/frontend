@@ -8,6 +8,7 @@ import LoginPage from 'pages/LoginPage';
 import CanvasMainPage from 'pages/CanvasPages/CanvasMainPage';
 import HeaderContainer from './containers/common/HeaderContainer';
 import NoticeMainPage from 'pages/NoticePages/NoticeMainPage';
+import MyMainPage from 'pages/MyPages/MyMainPage';
 // import LandingPage from 'pages/LandingPage';
 import Modal from 'react-modal';
 import { onSilentRefresh } from 'lib/api/auth';
@@ -34,6 +35,10 @@ function App() {
         {
           path: process.env.PUBLIC_URL + '/notice/*',
           element: <NoticeMainPage />,
+        },
+        {
+          path: process.env.PUBLIC_URL + '/mypage/*',
+          element: <MyMainPage />,
         },
       ])}
       {/* <Routes>

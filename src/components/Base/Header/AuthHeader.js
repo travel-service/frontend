@@ -31,6 +31,9 @@ const Header = ({ user, onLogout }) => {
         <AuthPageButton to={process.env.PUBLIC_URL + '/notice/noticeList'}>
           Notice
         </AuthPageButton>
+        <AuthPageButton to={process.env.PUBLIC_URL + '/mypage/MyInfo'}>
+          MyPage
+        </AuthPageButton>
       </Div>
       <ModalModule
         modalIsOpen={modalIsOpen}
