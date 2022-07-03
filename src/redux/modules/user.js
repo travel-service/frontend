@@ -17,42 +17,19 @@ export const tempSetUser = createAction(
 );
 export const check = createAction(CHECK);
 export const logout = createAction(LOGOUT);
-// export const check = createAction(CHECK, ({ userName, password }) => ({
-//   userName,
-//   password,
-// }));
 
-// const checkSaga = createRequestSaga(CHECK, authAPI.onSilentRefresh);
-// const checkSaga = createRequestSaga(CHECK, authAPI.login);
 const checkSaga = createRequestSaga(CHECK, authAPI.userCheck);
-const logoutSaga = createRequestSaga(LOGOUT, authAPI.logout);
+const logoutSaga = createRequestSaga(LOGOUT, authAPI.logout); // 백엔드 로직 필요
 // const checkFailureSaga = createRequestSaga(LOGOUT, authAPI.refresh); // 0622 잘모르게씀
-
-// function checkFailureSaga() {
-//   try {
-//     localStorage.removeItem('userState');
-//   } catch (e) {
-//     console.log('localStorage is not working');
-//   }
-// }
-
-// function* logoutSaga() {
-//   try {
-//     yield call(authAPI.logout);
-//     localStorage.removeItem('userState');
-//   } catch (e) {
-//     console.log(e);
-//   }
-// }
 
 export function* userSaga() {
   yield takeLatest(CHECK, checkSaga);
-  // yield takeLatest(CHECK_FAILURE, checkFailureSaga);
   yield takeLatest(LOGOUT, logoutSaga);
+  // yield takeLatest(CHECK_FAILURE, checkFailureSaga);
 }
 
 const initialState = {
-  userState: null, // user 로 적용이 안됨
+  userState: null,
   checkError: null,
 };
 
@@ -81,7 +58,7 @@ export default handleActions(
       console.log(state);
       return {
         ...state,
-        userState: null,
+        // userState: null,
       };
     },
   },

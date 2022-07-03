@@ -7,17 +7,10 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0% 7%;
-  margin: 20px 0px;
-  /* height: 80px; */
-
-  /* justify-content: space-between;
-  align-items: center;
-  padding: 0% 7%;
-  margin: 20px 0px; */
+  padding: 20px 7%;
+  background-color: #ffd0c0;
   @media screen and (max-width: 767px) {
     display: block;
-    /* flex-basis: 60%; */
   }
 `;
 
@@ -85,9 +78,15 @@ const MenuBtn = styled(MdMenu)`
   }
 `;
 
-const UserInfo = styled.div`
-  font-weight: 600;
-  margin-right: 1rem;
+const Profile = styled.div`
+  margin-left: 5px;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Header = ({ userState, onLogout }) => {
@@ -99,6 +98,7 @@ const Header = ({ userState, onLogout }) => {
 
   return (
     <Container>
+      {/* logo 분리 필요, logo component 삭제 필요 */}
       <SubFlex>
         <Link to={process.env.PUBLIC_URL + '/'}>
           <Img
@@ -113,11 +113,19 @@ const Header = ({ userState, onLogout }) => {
         {userState ? (
           <>
             <Div>
-              {userState.nickName}
-              <MdPerson />
+              <MenuEl to={process.env.PUBLIC_URL + '/my-page'}>
+                {userState.nickName}
+              </MenuEl>
+              <Profile>
+                <MdPerson />
+              </Profile>
+              {/* 썸네일 이미지로 변환 필요 */}
             </Div>
             <Div>
-              <MenuEl to={process.env.PUBLIC_URL + '/login'}>로그아웃</MenuEl>
+              {/* <MenuEl to={process.env.PUBLIC_URL + '/login'}>로그아웃</MenuEl> */}
+              <MenuEl to={process.env.PUBLIC_URL} onClick={onLogout}>
+                로그아웃
+              </MenuEl>
             </Div>
             <Div>
               <MenuEl to={process.env.PUBLIC_URL + '/canvas/directory'}>
