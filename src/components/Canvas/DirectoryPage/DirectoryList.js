@@ -115,11 +115,7 @@ const DirectoryList = () => {
   const [chDir, setChDir] = useState([]);
 
   useEffect(() => {
-    if (typeof currentDirId === 'number') {
-      getUserPlans(currentDirId);
-    } else {
-      console.log('no userPlans');
-    }
+    typeof currentDirId === 'number' && getUserPlans(currentDirId);
   }, [currentDirId]);
 
   const onBlurDir = () => {
@@ -171,10 +167,6 @@ const DirectoryList = () => {
               side={true}
               onClick={() => {
                 setCreateDir(true);
-              }}
-              onBlur={() => {
-                //제목 입력 후 다른 곳 클릭 시
-                onBlurDir(); // dir 이름 입력 있으면 post, 없으면 없어지게: input창 의존 ..
               }}
             >
               생성

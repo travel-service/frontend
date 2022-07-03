@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { dirStore } from 'lib/dirStore';
+//import ModalModule from 'components/common/modal/ModalModule';
+//import MoreSettings from '../DirectoryPage/MoreSettings';
 
 // 플랜 레이아웃(이름, 기간, 날짜, 썸네일(호버 시 정보), 이동/복사/담기 버튼)
 const PlanContainer = styled.div`
@@ -62,35 +64,47 @@ const DateDiv = styled.div`
   width: 40%;
 `;
 const MoreDiv = styled.div`
+  // 설정(점세개) div
   text-align: right;
   //background: red;
-  z-index: 100;
   //width: 20%;
+  z-index: 100;
 `;
 const MoreButton = styled.button`
+  // 설정 버튼
+  /*display: flex;
+  width: 10px;*/
   margin-right: 10px;
   border: none;
   font-weight: bold;
   background: none;
   cursor: pointer;
 `;
-const PlanControl = styled.ul`
-  text-decoration: none;
+const PlanControlUl = styled.ul`
+  //display: block;
+  //position: relative;
   list-style: none;
-  padding: 0px;
-  margin: 5px;
-  border: 0.1px solid silver;
+  padding: 5px;
+  margin: 0px;
+  background: gray;
+  //border: 0.1px solid silver;
 `;
-const PlanDetail = styled.li`
+const PlanControlLi = styled.li`
+  //display: block;
+  //position: relative;
   decoration: none;
   background: white;
   padding: 5px 15px 5px 15px;
   border: 0.1px solid silver;
   cursor: pointer;
+  margin: 5px;
 `;
-const MovePlan = styled.li`
+const MoveLi = styled.li`
+  //position: relative;
+  width: 150px;
+  //margin-left: 85px;
+  //margin-top: -40px;
   list-style: none;
-  //padding: 0px;
   background: white;
   text-align: center;
   padding: 5px 15px 5px 15px;
@@ -107,18 +121,18 @@ const PlanLayout = ({ planName, planId, planPeriods, planDate }) => {
   const { userDirs } = dirStore();
 
   const onClickMore = () => {
+    setClickMore(false);
     setIsShow(!isShow);
     console.log('click');
   };
   const onMO = () => {
-    // mouseover
     setIsOver(!isOver);
-  };
-  const onClickView = () => {
-    console.log('d');
   };
   const onClicktext = (text) => {
     text === '담기' ? setClickMore(!clickMore) : console.log(text);
+  };
+  const onClickView = (w) => {
+    w === 'v' ? console.log('link to view') : console.log('link to canvas');
   };
 
   return (
@@ -140,17 +154,17 @@ const PlanLayout = ({ planName, planId, planPeriods, planDate }) => {
       >
         {isOver && (
           <>
-            {isChecked && <input type="checkbox" /> /*체크 기능*/}
+            {/*isChecked && <input type="checkbox" /> /*체크 기능*/}
             <LinkButton
               onClick={() => {
-                onClickView();
+                onClickView('v');
               }}
             >
               완성된 여행 보기
             </LinkButton>
             <LinkButton
               onClick={() => {
-                onClickView();
+                onClickView('f');
               }}
             >
               수정하기
@@ -159,7 +173,7 @@ const PlanLayout = ({ planName, planId, planPeriods, planDate }) => {
         )}
       </ThumbnailContainer>
       <PlanTitleDiv>
-        <DateDiv>{planDate.substr(0, 10)}</DateDiv>
+        <DateDiv>{planDate.substr(0, 10).replace(/-/g, '.')}</DateDiv>
         <MoreDiv>
           <MoreButton
             onClick={() => {
@@ -169,37 +183,35 @@ const PlanLayout = ({ planName, planId, planPeriods, planDate }) => {
             :
           </MoreButton>
           {isShow && (
-            <PlanControl>
-              <PlanDetail
+            <PlanControlUl>
+              <PlanControlLi
                 onClick={() => {
                   onClicktext('복사');
                 }}
               >
                 복사
-              </PlanDetail>
-              <PlanDetail
+              </PlanControlLi>
+              <PlanControlLi
                 onClick={() => {
                   onClicktext('삭제');
                 }}
               >
                 삭제
-              </PlanDetail>
-              <PlanDetail
+              </PlanControlLi>
+              <PlanControlLi
                 onClick={() => {
                   onClicktext('담기');
                 }}
               >
                 담기
-              </PlanDetail>
-            </PlanControl>
+              </PlanControlLi>
+            </PlanControlUl>
           )}
           {isShow &&
             clickMore &&
             userDirs.mainUserDirectory.map((item) => {
               return (
-                <MovePlan key={item.userDirectoryId}>
-                  {item.directoryName}
-                </MovePlan>
+                <MoveLi key={item.userDirectoryId}>{item.directoryName}</MoveLi>
               );
             })}
         </MoreDiv>

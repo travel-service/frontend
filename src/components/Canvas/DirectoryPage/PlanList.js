@@ -69,7 +69,7 @@ const PlanCountContainer = styled.div`
   margin-left: 20px;
 `;
 // 검색창, 컴포넌트 재활용 예정..
-const SearchBar = styled.div`
+const SearchBar = styled.input`
   width: 300px;
   height: 30px;
   border: 1px solid black;
@@ -83,6 +83,7 @@ const ComboDiv = styled.select`
 
 const PlanList = () => {
   const [isClicked, setIsClicked] = useState(false);
+  const [sortTmp, setSortTmp] = useState([]);
   const {
     mainPlans,
     trashPlans,
@@ -92,10 +93,61 @@ const PlanList = () => {
     getUserPlans,
   } = dirStore();
   const [isShow, setIsShow] = useState(false);
+  const [plansList, setPL] = useState([]); // 플랜 컴포넌트 공통
+  const [searchT, setSearchT] = useState('');
+  const [resPlans, setRP] = useState([]); // 검색 및 정렬 통합용
 
   const onClickMove = () => {
     setIsShow(!isShow);
     console.log('담기');
+  };
+
+  useEffect(() => {
+    currentDirId === 'm'
+      ? setPL(mainPlans.mainDirectory)
+      : currentDirId === 't'
+      ? setPL(trashPlans.trashDirectory)
+      : setPL(userPlans);
+
+    /*console.log('planList: ', plansList);
+    console.log('sort: ', sortTmp); //0701 고민중
+    console.log('search: ', resPlans);*/
+  }, [currentDirId /*, sortTmp, resPlans, plansList*/]);
+
+  useEffect(() => {
+    setRP(resPlans);
+  }, [resPlans]);
+
+  const Searching = (e) => {
+    setSearchT(e);
+    setRP(
+      plansList.filter((p) => {
+        return p.name.includes(searchT);
+      }),
+    );
+    //console.log(resPlans);
+  };
+
+  const SortPlans = (e) => {
+    if (e.target.value === 'name') {
+      setSortTmp(
+        plansList.sort((a, b) => {
+          let n = a.name.toLowerCase();
+          let m = b.name.toLowerCase();
+          return n < m ? -1 : n == m ? 0 : 1;
+        }),
+      );
+    }
+    if (e.target.value === 'date') {
+      setSortTmp(
+        plansList.sort((a, b) => {
+          let n = a.createdDate.toLowerCase();
+          let m = b.createdDate.toLowerCase();
+          return n < m ? -1 : n == m ? 0 : 1;
+        }),
+      );
+    }
+    setSortTmp([]);
   };
 
   return (
@@ -134,8 +186,13 @@ const PlanList = () => {
           }
         </ItemsDiv>
         <ItemsDiv>
-          <SearchBar>검색</SearchBar>
-          <ComboDiv>
+          <SearchBar
+            onChange={(e) => {
+              Searching(e.target.value);
+            }}
+            placeholder="Search"
+          />
+          <ComboDiv onChange={SortPlans}>
             <option value="none" hidden>
               내용
             </option>
@@ -164,7 +221,30 @@ const PlanList = () => {
         </ItemsDiv>
       </TitleContainer>
       <PlansContainer>
-        {currentDirId === 'm' && mainPlans.mainDirectory
+        {resPlans !== [] && searchT !== ''
+          ? resPlans && // search & sort result
+            resPlans.map((item) => {
+              return (
+                <PlanLayout
+                  key={item.planId}
+                  planName={item.name}
+                  planPeriods={item.periods}
+                  planDate={item.createdDate}
+                />
+              );
+            })
+          : plansList && // 0703 조건 수정
+            plansList.map((item) => {
+              return (
+                <PlanLayout
+                  key={item.planId}
+                  planName={item.name}
+                  planPeriods={item.periods}
+                  planDate={item.createdDate}
+                />
+              );
+            })}
+        {/*currentDirId === 'm' && mainPlans.mainDirectory
           ? mainPlans.mainDirectory.map((item) => {
               return (
                 <PlanLayout
@@ -197,7 +277,7 @@ const PlanList = () => {
                 />
               );
             })
-          : null}
+          : null*/}
       </PlansContainer>
     </PlanListContainer>
   );

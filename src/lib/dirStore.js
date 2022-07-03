@@ -6,16 +6,15 @@ export const dirStore = create((set, get) => ({
   currentDirId: 'm', // 클릭한 디렉터리(보여줄 디렉터리)
   mainPlans: [], // 메인 디렉터리 플랜들
   userDirs: [], // 유저 디렉터리 이름들(목록)
-  currentCheckedDirs: [], // 현재 선택된 디렉터리들
+  //currentCheckedDirs: [], // 현재 선택된 디렉터리들
   userPlans: [], // 유저 디렉터리 내 플랜들, userDirectory?
-  //currentUserPlan: [], // 선택된 유저 디렉터리 내 플랜, 디렉터리 선택 시 보여주기용
   trashPlans: [], // 휴지통 내 플랜들
   controlPlans: {
     cancelPlanId: [], // 삭제할 플랜 id
     revertPlanId: [], // 복원할 플랜 id
     deletePlanId: [], // 영구삭제할 플랜 id
   },
-  createUserDir: '', //생성할 디렉터리 이름
+  createUserDir: '', // 생성할 디렉터리 이름
   changeDirName: '', // 디렉터리 이름
   deleteUserDir: {
     dirId: [], //삭제할 디렉터리 id, 다중체크
@@ -23,6 +22,15 @@ export const dirStore = create((set, get) => ({
   movePlans: {
     dirId: '', //이동할 디렉터리 id
     planId: [], //플랜 아이디들, 다중 체크
+  },
+  setMainPlans: (input) => {
+    set({ mainPlans: input });
+  },
+  setTrashPlans: (input) => {
+    set({ trashPlans: input });
+  },
+  setUserPlans: (input) => {
+    set({ userPlans: input });
   },
   setCurrentDir: (input) => {
     //현재 디렉터리 설정
@@ -168,10 +176,10 @@ export const dirStore = create((set, get) => ({
   // userdir 생성, 수정 필요
   postCreateDir: async () => {
     const createUserDir = get().createUserDir;
-    const response = await axios.post(
+    const response = await axios.patch(
       //post
       //`http://localhost:4000/create/user-directory`,
-      'http://localhost:4000/mainUserDirectory',
+      'http://localhost:4000/userD',
       {
         id: 82, //test용
         userDirectoryId: 82,
@@ -206,11 +214,18 @@ export const dirStore = create((set, get) => ({
   // 이름 변경
   postChangeDirName: async (dirId) => {
     const changeDirName = get().changeDirName;
-    const response = await axios.post(
+    const planCount = get().planCount;
+    const userDirs = get().userDirs;
+    const tmp = userDirs.find((dir) => {
+      return dir.userDirectoryId === dirId;
+    });
+
+    const response = await axios.patch(
       //post
       //`http://localhost:4000/update/user-directory/${dirId}`
-      `http://localhost:4000/mainUserDirectory`,
+      `http://localhost:4000/userD`,
       {
+        planCount: [...planCount, 0],
         directoryName: changeDirName,
       },
     );
