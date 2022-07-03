@@ -202,10 +202,10 @@ const AuthForm = ({
                     value={form.passwordCheck}
                     onBlur={onBlur}
                   />
-                  {type === 'signup' && detailErr.passwordCheck && (
-                    <SpanRed detail>{detailErr.passwordCheck}</SpanRed>
-                  )}
                 </StyledDiv>
+                {type === 'signup' && detailErr.passwordCheck && (
+                  <SpanRed detail>{detailErr.passwordCheck}</SpanRed>
+                )}
                 <StyledDiv>
                   <InputHeader>
                     <SpanRed>*</SpanRed>닉네임

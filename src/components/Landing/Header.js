@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { MdMenu, MdPerson } from 'react-icons/md';
@@ -52,6 +52,7 @@ const Div = styled.div`
   padding: 10px 0px;
   display: flex;
   justify-content: center;
+  align-items: center;
 
   @media screen and (max-width: 767px) {
     :hover {
@@ -111,13 +112,17 @@ const Header = ({ userState, onLogout }) => {
       <Menu btnMenu={menu}>
         {userState ? (
           <>
-            <UserInfo>{userState.nickName}</UserInfo>
-            <MdPerson />
+            <Div>
+              {userState.nickName}
+              <MdPerson />
+            </Div>
             <Div>
               <MenuEl to={process.env.PUBLIC_URL + '/login'}>로그아웃</MenuEl>
             </Div>
             <Div>
-              <MenuEl to={process.env.PUBLIC_URL + '/login'}>여행보관함</MenuEl>
+              <MenuEl to={process.env.PUBLIC_URL + '/canvas/directory'}>
+                여행보관함
+              </MenuEl>
             </Div>
           </>
         ) : (

@@ -9,7 +9,7 @@ import * as authAPI from 'lib/api/auth';
 // 액션 생성
 const CHANGE_FIELD = 'auth/CHANGE_FIELD'; // input 값 변화 감지
 const INITIALIZE_FORM = 'auth/INITIALIZE_FORM'; // form 초기화
-// const TEMP_SET_AUTH = 'auth/TEMP_SET_AUTH'; //새로고침 이후 임시 로그인 처리
+const TEMP_SET_AUTH = 'auth/TEMP_SET_AUTH'; //새로고침 이후 임시 로그인 처리
 const [SIGNUP, SIGNUP_SUCCESS, SIGNUP_FAILURE] =
   createRequestActionTypes('auth/SIGNUP'); // 회원가입
 const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] =
@@ -41,10 +41,7 @@ export const login = createAction(LOGIN, ({ userName, password }) => ({
   userName,
   password,
 }));
-// export const tempSetAuth = createAction(
-//   TEMP_SET_AUTH,
-//   (userState) => userState,
-// // );
+export const tempSetAuth = createAction(TEMP_SET_AUTH, (auth) => auth);
 // export const logout = createAction(LOGOUT);
 
 // function* logoutSaga() {
@@ -86,8 +83,6 @@ const initialState = {
   },
   auth: null,
   authError: null,
-  // userState: null,
-  // accessToken: null,
 };
 
 const auth = handleActions(
@@ -106,11 +101,10 @@ const auth = handleActions(
     }),
     // 회원가입 성공
     [SIGNUP_SUCCESS]: (state, { payload: auth }) => {
-      console.log(auth);
       return {
         ...state,
-        authError: null,
         auth,
+        authError: null,
       };
     },
     // 회원가입 실패
@@ -120,29 +114,28 @@ const auth = handleActions(
     }),
     // 로그인 성공
     [LOGIN_SUCCESS]: (state, { payload: auth }) => {
-      console.log(auth);
       return {
         ...state,
         auth: auth.data,
         authError: null,
-        // userState: auth.data,
-        // accessToken: auth.headers.accesstoken,
       };
     },
     // 로그인 실패
     [LOGIN_FAILURE]: (state, { payload: error }) => {
+      console.log(error);
       return {
         ...state,
         authError: error,
       };
     },
-    // // 새로고침 userState 유지
-    // [TEMP_SET_AUTH]: (state, { payload: userState }) => {
-    //   return {
-    //     ...state,
-    //     userState,
-    //   };
-    // },
+    // 회원가입후 auth 제거
+    [TEMP_SET_AUTH]: (state, action) => {
+      console.log(action);
+      return {
+        ...state,
+        auth: null,
+      };
+    },
     // // 로그아웃
     // [LOGOUT]: (state) => ({
     //   ...state,

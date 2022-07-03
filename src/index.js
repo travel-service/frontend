@@ -9,10 +9,10 @@ import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer, { rootSaga } from 'redux/modules';
 import createSagaMiddleware from 'redux-saga';
-import { check } from 'redux/modules/user';
 import axios from 'axios';
 import './interceptors/axios';
-import * as authAPI from 'lib/api/auth';
+import { useDispatch } from 'react-redux';
+import { check } from 'redux/modules/user';
 
 axios.defaults.withCredentials = true;
 
@@ -24,31 +24,17 @@ const store = createStore(
 
 // api/user/refresh :
 function loadUser() {
-  // 0622 수정, 백엔드 로직 후 적용
-  (async () => {
-    try {
-      console.log('try');
-      const resData = authAPI.userCheck; // user정보
-      console.log(resData);
-      check(); // userCheck, 에러시 refresh 까지
-    } catch (e) {
-      console.log('catch');
-      // error시 access 만료, 로그인 페이지로 리다이렉트
-    }
-  })();
-  // api 요청 refresh 토큰으로 access 발금 ->
-  // try {
-  //   const userState = JSON.parse(localStorage.getItem('userState'));
-  //   if (!userState) return;
-  //   store.dispatch(tempSetAuth(userState));
-  // } catch (e) {
-  //   console.log('localStorage is not working');
+  try {
+    store.dispatch(check());
+  } catch (e) {
+    console.log('localStorage is not working');
+  }
 }
 // saga run 이후에 user loading
 sagaMiddleware.run(rootSaga);
 // onSilentRefresh();
 
-// loadUser();
+loadUser();
 
 ReactDOM.render(
   <Provider store={store}>

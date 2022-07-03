@@ -9,11 +9,14 @@ const LoginForm = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { form, auth, authError } = useSelector(({ auth }) => ({
-    form: auth.login, // store이름 auth, auth.signup에(회원 정보 목록 있음)
-    auth: auth.auth,
-    authError: auth.authError,
-  }));
+  const { form, auth, authError, userState } = useSelector(
+    ({ auth, user }) => ({
+      form: auth.login, // store이름 auth, auth.signup에(회원 정보 목록 있음)
+      auth: auth.auth,
+      authError: auth.authError,
+      userState: user.userState,
+    }),
+  );
 
   // 인풋 변경 이벤트 핸들러
   const onChange = useCallback(
@@ -48,10 +51,16 @@ const LoginForm = () => {
       return;
     }
     if (auth) {
-      navigate(process.env.PUBLIC_URL + '/');
+      console.log('로그인 완료');
       dispatch(check());
     }
   }, [auth, authError, dispatch, navigate]);
+
+  useEffect(() => {
+    if (userState) {
+      navigate(process.env.PUBLIC_URL + '/');
+    }
+  }, [userState, navigate]);
 
   return (
     <AuthForm

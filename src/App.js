@@ -11,6 +11,10 @@ import { useScroll } from 'lib/custom/useScroll';
 import { createGlobalStyle, css } from 'styled-components';
 import axios from 'axios';
 import './interceptors/axios';
+import * as authAPI from 'lib/api/auth';
+import { check } from 'redux/modules/user';
+import { useDispatch } from 'react-redux';
+import SearchPage from 'pages/SearchPage';
 
 const GlobalStyle = createGlobalStyle`
   body::-webkit-scrollbar {
@@ -24,14 +28,16 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
+  const dispatch = useDispatch();
   const { scrollY } = useScroll();
 
-  useEffect(() => {
-    (async () => {
-      const response = await axios.get('/auth/info');
-      console.log(response); // refresh로 받아오고 userState update만 시켜주면됨
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     dispatch(check()); // new AccessToken
+  //     // const response = await axios.get('/auth/info');
+  //     // console.log(response); // refresh로 받아오고 userState update만 시켜주면됨
+  //   })();
+  // }, []);
 
   return (
     <>
@@ -47,6 +53,10 @@ function App() {
         {
           path: process.env.PUBLIC_URL + '/notice/*',
           element: <NoticeMainPage />,
+        },
+        {
+          path: process.env.PUBLIC_URL + '/search',
+          element: <SearchPage />,
         },
         {
           path: process.env.PUBLIC_URL + '*',

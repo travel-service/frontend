@@ -13,7 +13,6 @@ axios.interceptors.response.use(
       console.log('Test');
       refresh = true;
       const response = await authAPI.refresh(); // new AccessToken
-      console.log(response);
       if (response.status === 200) {
         axios.defaults.headers.common['authorization'] =
           response.headers.authorization;

@@ -63,7 +63,6 @@ export default handleActions(
       userState,
     }),
     [CHECK_SUCCESS]: (state, action) => {
-      console.log(state, action);
       return {
         ...state,
         userState: action.payload.data, // 임시 닉네임, refresh토큰이 제거되면 failure로 가지 않을까

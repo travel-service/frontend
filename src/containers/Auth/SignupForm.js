@@ -1,9 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeField, initializeForm, signup } from 'redux/modules/auth';
+import {
+  changeField,
+  initializeForm,
+  signup,
+  tempSetAuth,
+} from 'redux/modules/auth';
 import AuthForm from 'components/Auth/AuthForm';
 import { useNavigate } from 'react-router-dom';
-import { check } from 'redux/modules/user';
 
 const SignupForm = () => {
   const navigate = useNavigate();
@@ -89,17 +93,16 @@ const SignupForm = () => {
     if (authError) {
       // 아이디가 이미 존재
       setError(authError.response.data.message);
-      // return;
+      return;
       // }
       // 기타 이유
       // setError('회원가입 실패');
-      return;
+      // return;
     }
     if (auth) {
       console.log('회원가입 성공');
-      console.log(auth);
-      // dispatch(check());
-      alert('회원가입이 완료되었습니다! 로그인해주세요!');
+      dispatch(tempSetAuth()); // 회원가입후 auth 제거
+      alert('회원가입이 완료되었습니다!');
       navigate(process.env.PUBLIC_URL + '/');
     }
   }, [auth, authError, dispatch, navigate]);
@@ -109,6 +112,7 @@ const SignupForm = () => {
     if (userState) {
       navigate(process.env.PUBLIC_URL + '/');
     }
+    return;
   }, [userState, navigate]);
 
   const onBlur = (e) => {

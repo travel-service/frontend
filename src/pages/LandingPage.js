@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import BackImg from 'images/landingBackV2.png';
 import { MdSearch } from 'react-icons/md';
 import HeaderContainer from 'containers/common/HeaderContainer';
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
   width: 100vw;
@@ -123,16 +124,20 @@ const Input = styled.input`
   }
 `;
 
-const GoDirBtn = styled.button`
+const GoDirBtn = styled(Link)`
+  text-decoration: none;
   background-color: #f16b6c;
   width: 200px;
   height: 50px;
   color: white;
-  border: none;
+  /* border: none; */
   border-radius: 5px;
   box-shadow: 4px 4px 4px grey;
   font-size: 18px;
   font-weight: 520;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Banner = styled.div`
@@ -188,11 +193,15 @@ const LandingPage = () => {
             <InputContainer>
               <Div>
                 <SearchIcon />
-                <Input placeholder="이번엔 어디로 가볼까요?" />
+                <Input placeholder="현재는 제주도로만 서비스중!" />
               </Div>
-              <button>검색</button>
+              {/* <button>검색</button> */}
+              <Link to={process.env.PUBLIC_URL + '/search'}>검색</Link>
             </InputContainer>
-            <GoDirBtn>여행 보관함 가기</GoDirBtn>
+            <GoDirBtn to={process.env.PUBLIC_URL + '/canvas/directory'}>
+              여행 보관함 가기
+            </GoDirBtn>
+            {/* 사용자 검증 필요 */}
           </MainContents>
         </Contents>
       </FlexBox>
