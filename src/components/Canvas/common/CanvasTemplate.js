@@ -3,6 +3,7 @@ import CanvasMenu from './CanvasMenu';
 import styled from 'styled-components';
 import CanvasButtons from './CanvasButtons';
 import oc from 'open-color';
+import PageTemplate from 'components/common/PageTemplate';
 
 const Container = styled.div`
   /* display: flex; */
@@ -21,13 +22,15 @@ const Div = styled.div`
 
 const CanvasTemplate = ({ children }) => {
   return (
-    <Container>
-      <CanvasMenu />
-      <Div>
-        {children}
-        <CanvasButtons />
-      </Div>
-    </Container>
+    <PageTemplate>
+      <Container>
+        <CanvasMenu />
+        <Div>
+          {children}
+          <CanvasButtons />
+        </Div>
+      </Container>
+    </PageTemplate>
   );
 };
 export default CanvasTemplate;

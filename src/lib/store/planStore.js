@@ -1,20 +1,17 @@
 import axios from 'axios';
 import create from 'zustand';
+import * as planAPI from 'lib/api/plan';
 
 export const useStore = create((set, get) => ({
+  id: null,
   userPlan: {
     // planForm
-    // db 전용
-    id: '',
     depart: '',
     destination: '',
     name: '',
     periods: 1,
     planStatus: 'MAIN',
-    thumbnail: [], // FormData, 이름
-    //concept: [],
-    //travelDay: [],
-    //dbSelectedLocations: [], // 변수 확인, id값만 담기는 배열
+    thumbnail: '', // FormData, 이름
   },
   userPlanConcept: {
     concept: [],
@@ -77,45 +74,6 @@ export const useStore = create((set, get) => ({
       result.push(x['id']);
     }
     return result;
-  },
-
-  // GET userPlan
-  getPlan: async (id) => {
-    //const userPlan = get().userPlan;
-    const response = await axios.get(`http://localhost:4000/travelPlans/${id}`);
-    //const response = await axios.get(`http://localhost:4000/travelPlans/1`);
-    set({ userPlan: response.data.planForm });
-    set({ userPlanConcept: response.data.conceptForm });
-    set({ userTravelDay: response.data.dayForm });
-  },
-
-  // POST userPlan
-  postPlan: async (id) => {
-    // 매개변수 id는 userPlan id
-    const userPlan = get().userPlan;
-    const userPlanConcept = get().userPlanConcept;
-    const userTravelDay = get().userTravelDay;
-    if (id === '') {
-      const response = await axios.post(`http://localhost:4000/travelPlans/`, {
-        /*...userPlan,*/
-        planForm: userPlan,
-        conceptForm: userPlanConcept,
-        dayForm: userTravelDay,
-      });
-      //set({ userPlan: response.data }); // 백에서 보내주는 데이터가 userPlan
-    } else {
-      //const response = await axios.post(`/members/1/plan`, {
-      //test용 patch..
-      const response = await axios.patch(
-        `http://localhost:4000/travelPlans/${id}`,
-        {
-          planForm: userPlan,
-          conceptForm: userPlanConcept,
-          dayForm: userTravelDay,
-        },
-      );
-      console.log(response); // 성공하면 success
-    }
   },
 
   selCateLoc: {
@@ -287,16 +245,72 @@ export const useStore = create((set, get) => ({
   //   // set((state) => ({ userPlan: { ...state.userPlan } }));
   //   // console.log(get().userPlan);
   // },
+
+  // 0704 찬우 수
+  // GET userPlan
+  getPlan: async (id) => {
+    const res = await planAPI.getPlan(id);
+    set({ userPlan: res.planForm });
+    // set({ userPlanConcept: response.data.conceptForm });
+    // set({ userTravelDay: response.data.dayForm });
+  },
+
+  // POST plan (다음으로, 저장하기)
+  // create plan, post, 반환 id, id 설정 완료
+  postPlan: async (type) => {
+    // 매개변수 id는 userPlan id
+    const userPlan = get().userPlan;
+    // const userPlanConcept = get().userPlanConcept;
+    // const userTravelDay = get().userTravelDay;
+    const id = get().id;
+    if (type === 0 && !id) {
+      // plan 생성
+      const res = await planAPI.createPlan(userPlan);
+      if (res > 0) {
+        // 정상적 id 반환
+        set({ id: res });
+      } else {
+        // postPlan 에러
+      }
+    } else if (type === 0 && id > 0) {
+      // plan 수정
+    } else if (type === 1) {
+      // selectedLocation 생성 및 수정
+    } else if (type === 2) {
+      // day 생성 및 수정
+    }
+
+    // if (id === undefined) {
+    //   const response = await axios.post(`http://localhost:8080/members/plan`, {
+    //     /*...userPlan,*/
+    //     planForm: userPlan,
+    //     conceptForm: userPlanConcept,
+    //     dayForm: userTravelDay,
+    //   });
+    //   console.log(response);
+    //   //set({ userPlan: response.data }); // 백에서 보내주는 데이터가 userPlan
+    // } else {
+    //   //const response = await axios.post(`/members/1/plan`, {
+    //   //test용 patch..
+    //   const response = await axios.patch(
+    //     `http://localhost:4000/travelPlans/${id}`,
+    //     {
+    //       planForm: userPlan,
+    //       conceptForm: userPlanConcept,
+    //       dayForm: userTravelDay,
+    //     },
+    //   );
+    //   console.log(response); // 성공하면 success
+    // }
+  },
 }));
 
 // 여행 보관함에서 사용
 export const planStore = create((set, get) => ({
-  travelPlans: [],
-
-  getPlans: async (id) => {
-    const response = await axios.get(`http://localhost:4000/travelPlans`);
-    set({ travelPlans: response.data }); // 백에서 보내주는 데이터가 userPlan
-    set((state) => ({ ...state.userPlan, test: 'test' }));
+  plans: null, // 여행 보관함
+  getAllPlans: async () => {
+    const res = await planAPI.getAllPlans();
+    set({ plans: res });
   },
 }));
 

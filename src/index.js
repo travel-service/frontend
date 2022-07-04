@@ -10,9 +10,8 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer, { rootSaga } from 'redux/modules';
 import createSagaMiddleware from 'redux-saga';
 import axios from 'axios';
-import './interceptors/axios';
-import { useDispatch } from 'react-redux';
 import { check } from 'redux/modules/user';
+import './interceptors/axios';
 
 axios.defaults.withCredentials = true;
 
@@ -22,18 +21,14 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(sagaMiddleware)),
 );
 
-// api/user/refresh :
 function loadUser() {
   try {
     store.dispatch(check());
   } catch (e) {
-    console.log('localStorage is not working');
+    console.log('not working');
   }
 }
-// saga run 이후에 user loading
 sagaMiddleware.run(rootSaga);
-// onSilentRefresh();
-
 loadUser();
 
 ReactDOM.render(

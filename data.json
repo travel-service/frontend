@@ -123,15 +123,17 @@
       "id": 2,
       "planForm": {
         "id": "",
-        "depart": "2022/06/15",
-        "destination": "",
+        "depart": "2022/07/05",
+        "destination": "제주도",
         "name": "",
         "periods": 3,
         "planStatus": "MAIN",
         "thumbnail": []
       },
       "conceptForm": {
-        "concept": []
+        "concept": [
+          "Love"
+        ]
       },
       "selectedLocationForm": {
         "selectedLocation": []

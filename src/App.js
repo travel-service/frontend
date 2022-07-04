@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useRoutes } from 'react-router-dom';
 import SignUpPage from 'pages/SignupPage';
 import LoginPage from 'pages/LoginPage';
@@ -7,14 +7,9 @@ import NoticeMainPage from 'pages/NoticePages/NoticeMainPage';
 import Modal from 'react-modal';
 import NotFoundPage from 'pages/NotFoundPage';
 import LandingPage from 'pages/LandingPage';
+import SearchPage from 'pages/SearchPage';
 import { useScroll } from 'lib/custom/useScroll';
 import { createGlobalStyle, css } from 'styled-components';
-import axios from 'axios';
-import './interceptors/axios';
-import * as authAPI from 'lib/api/auth';
-import { check } from 'redux/modules/user';
-import { useDispatch } from 'react-redux';
-import SearchPage from 'pages/SearchPage';
 
 const GlobalStyle = createGlobalStyle`
   body::-webkit-scrollbar {
@@ -28,16 +23,7 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
-  const dispatch = useDispatch();
   const { scrollY } = useScroll();
-
-  // useEffect(() => {
-  //   (async () => {
-  //     dispatch(check()); // new AccessToken
-  //     // const response = await axios.get('/auth/info');
-  //     // console.log(response); // refresh로 받아오고 userState update만 시켜주면됨
-  //   })();
-  // }, []);
 
   return (
     <>

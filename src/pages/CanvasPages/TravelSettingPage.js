@@ -4,11 +4,9 @@ import CanvasForm from 'components/Canvas/common/CanvasForm';
 
 const TravelSettingPage = () => {
   return (
-    <>
-      <CanvasTemplate>
-        <CanvasForm type="setting" />
-      </CanvasTemplate>
-    </>
+    <CanvasTemplate>
+      <CanvasForm type="setting" />
+    </CanvasTemplate>
   );
 };
 

@@ -32,22 +32,24 @@ const siteMap = ['setting', 'select', 'build', 'share'];
 const CanvasButtons = () => {
   const location = useLocation();
   const { postPlan } = useStore();
-
   const urlName = location.pathname.replace(/\/trablock\/canvas\//g, '');
   const idx = siteMap.indexOf(urlName);
 
-  const onClickSettingNextButton = () => {
-    postPlan(2);
-  };
+  // const onClickSettingNextButton = () => {
+  //   // postPlan(2);
+  //   postPlan(idx);
+  // };
 
   const onClickNext = (idx) => {
-    idx === 0 ? onClickSettingNextButton() : console.log('next');
+    // idx === 0 ? onClickSettingNextButton() : console.log('next');
+    postPlan(idx);
   };
   const onClickPrev = () => {
     console.log('prev');
   };
   const onClickExit = () => {
-    postPlan(1);
+    // postPlan(1);
+    postPlan(idx);
     console.log('저장하고 나가기');
   };
 

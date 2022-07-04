@@ -10,7 +10,6 @@ axios.interceptors.response.use(
     console.log('error:', error.response.data.code);
     if (error.response.data.code === 'MEMBER-EX' && !refresh) {
       // unauthenticated
-      console.log('Test');
       refresh = true;
       const response = await authAPI.refresh(); // new AccessToken
       if (response.status === 200) {

@@ -31,11 +31,8 @@ const Div = styled.div`
   padding: 50px 0px;
   display: flex;
   flex-direction: column;
-  /* justify-content: space-around; */
   align-items: center;
   min-height: 100vh;
-  /* width: 100px; */
-  /* width: 70%; */
 `;
 
 const Main = styled.div`
@@ -70,12 +67,18 @@ const MainCharacter = styled.img`
   }
 `;
 
+const AuthLogo = styled.div`
+  margin-bottom: 50px;
+`;
+
 const AuthTemplate = ({ children }) => {
   return (
     <AuthTemplateBlock>
       <WhiteBox>
         <Div>
-          <Logo />
+          <AuthLogo>
+            <Logo auth={true} />
+          </AuthLogo>
           {children}
         </Div>
       </WhiteBox>

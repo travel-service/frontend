@@ -47,7 +47,6 @@ export default handleActions(
       };
     },
     [CHECK_FAILURE]: (state, action) => {
-      console.log(state, action);
       return {
         ...state,
         userState: null,
@@ -55,7 +54,6 @@ export default handleActions(
       };
     },
     [LOGOUT]: (state) => {
-      console.log(state);
       return {
         ...state,
         // userState: null,

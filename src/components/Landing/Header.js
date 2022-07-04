@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { MdMenu, MdPerson } from 'react-icons/md';
+import Logo from './Logo';
 
 const Container = styled.div`
   display: flex;
@@ -18,14 +19,6 @@ const SubFlex = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
-
-const Img = styled.img`
-  height: 40px;
-  margin-right: 10px;
-  @media screen and (max-width: 767px) {
-    height: 25px;
-  }
 `;
 
 const Menu = styled.div`
@@ -56,6 +49,8 @@ const Div = styled.div`
 `;
 
 const MenuEl = styled(Link)`
+  display: flex;
+  justify-content: center;
   color: black;
   font-size: 17px;
   font-weight: 550;
@@ -98,15 +93,8 @@ const Header = ({ userState, onLogout }) => {
 
   return (
     <Container>
-      {/* logo 분리 필요, logo component 삭제 필요 */}
       <SubFlex>
-        <Link to={process.env.PUBLIC_URL + '/'}>
-          <Img
-            alt=""
-            src={process.env.PUBLIC_URL + '/images/logoPainting.png'}
-          />
-          <Img alt="" src={process.env.PUBLIC_URL + '/images/FontLogo.png'} />
-        </Link>
+        <Logo />
         <MenuBtn onClick={btnClick} />
       </SubFlex>
       <Menu btnMenu={menu}>
@@ -115,10 +103,10 @@ const Header = ({ userState, onLogout }) => {
             <Div>
               <MenuEl to={process.env.PUBLIC_URL + '/my-page'}>
                 {userState.nickName}
+                <Profile>
+                  <MdPerson />
+                </Profile>
               </MenuEl>
-              <Profile>
-                <MdPerson />
-              </Profile>
               {/* 썸네일 이미지로 변환 필요 */}
             </Div>
             <Div>
