@@ -44,7 +44,7 @@ const DirContainer = styled.div`
     ${(props) => (props.new ? '' : 'background: lightgray;')}
   }
 `;
-//아이콘 들어갈 자리
+//아이콘 들어갈 자리, div로 수정하기
 const IconDiv = styled.button`
   display: flex;
   align-items: center;
@@ -54,10 +54,10 @@ const IconDiv = styled.button`
   height: 40px;
   margin-right: ${(props) => (props.side ? '10px' : '')};
   border: none;
-  ${(props) =>
+  /*${(props) =>
     props.dis
       ? ''
-      : 'cursor: pointer; &:hover {border: 2px solid black; background: lightgray;}'}
+      : 'cursor: pointer; &:hover {border: 2px solid black; background: lightgray;}'}*/
 `;
 //기본 아이콘 들어갈 자리
 const BaseIconDiv = styled.div`
@@ -103,14 +103,13 @@ const DirectoryList = () => {
     setCreateUserDir,
     getUserPlans,
     postCreateDir,
-    postDeleteDir,
-    postChangeDirName,
+    //postDeleteDir,
+    //postChangeDirName,
     setDirName,
   } = dirStore();
-  const { getMainPlans, getUserDirs, getTrashPlans } = dirStore();
 
   const [createDir, setCreateDir] = useState(false); // 디렉터리 생성 show
-  const [showChecked, setShowChecked] = useState(false); // 디렉터리 선택 확인용
+  //const [showChecked, setShowChecked] = useState(false); // 디렉터리 선택 확인용
   const [chName, setChName] = useState(false); // 이름 변경용
   const [chDir, setChDir] = useState([]);
 

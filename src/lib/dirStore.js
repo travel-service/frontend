@@ -3,11 +3,10 @@ import create from 'zustand';
 
 // 여행보관함용 store
 export const dirStore = create((set, get) => ({
-  currentDirId: 'm', // 클릭한 디렉터리(보여줄 디렉터리)
+  currentDirId: 'm', // 현재 클릭한 디렉터리(보여줄 디렉터리)
   mainPlans: [], // 메인 디렉터리 플랜들
   userDirs: [], // 유저 디렉터리 이름들(목록)
-  //currentCheckedDirs: [], // 현재 선택된 디렉터리들
-  userPlans: [], // 유저 디렉터리 내 플랜들, userDirectory?
+  userPlans: [], // 해당 유저 디렉터리 내 플랜
   trashPlans: [], // 휴지통 내 플랜들
   controlPlans: {
     cancelPlanId: [], // 삭제할 플랜 id
@@ -43,20 +42,6 @@ export const dirStore = create((set, get) => ({
     set({
       currentCheckedDirs: input,
     });
-    /*const userDirs = get().userDirs;
-    if (typeof input === 'number') {
-      const n = userDirs.find((dir) => {
-        return dir.userDirectoryId === input;
-      }).directoryName;
-      set({
-        currentCheckedDirs: input,
-        changeDirName: n,
-      });
-    } else {
-      set({
-        currentCheckedDirs: input,
-      });
-    }*/
   },
   setDirName: (input) => {
     // 디렉터리 이름 변경
@@ -211,7 +196,7 @@ export const dirStore = create((set, get) => ({
     );
     console.log('moveplan: ', response);
   },
-  // 이름 변경
+  // 이름 변경 고민중..
   postChangeDirName: async (dirId) => {
     const changeDirName = get().changeDirName;
     const planCount = get().planCount;

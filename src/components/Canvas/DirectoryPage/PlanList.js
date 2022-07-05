@@ -84,14 +84,8 @@ const ComboDiv = styled.select`
 const PlanList = () => {
   const [isClicked, setIsClicked] = useState(false);
   const [sortTmp, setSortTmp] = useState([]);
-  const {
-    mainPlans,
-    trashPlans,
-    userPlans,
-    currentDirId,
-    userDirs,
-    getUserPlans,
-  } = dirStore();
+  const { mainPlans, trashPlans, userPlans, currentDirId, userDirs } =
+    dirStore();
   const [isShow, setIsShow] = useState(false);
   const [plansList, setPL] = useState([]); // 플랜 컴포넌트 공통
   const [searchT, setSearchT] = useState('');
@@ -108,21 +102,19 @@ const PlanList = () => {
       : currentDirId === 't'
       ? setPL(trashPlans.trashDirectory)
       : setPL(userPlans);
-
-    /*console.log('planList: ', plansList);
-    console.log('sort: ', sortTmp); //0701 고민중
-    console.log('search: ', resPlans);*/
-  }, [currentDirId /*, sortTmp, resPlans, plansList*/]);
-
-  useEffect(() => {
-    setRP(resPlans);
-  }, [resPlans]);
+  }, [
+    currentDirId,
+    mainPlans.mainDirectory,
+    trashPlans.trashDirectory,
+    userPlans,
+    plansList,
+  ]);
 
   const Searching = (e) => {
-    setSearchT(e);
+    setSearchT(e.toLowerCase());
     setRP(
       plansList.filter((p) => {
-        return p.name.includes(searchT);
+        return p.name.toLowerCase().includes(searchT);
       }),
     );
     //console.log(resPlans);
@@ -134,7 +126,7 @@ const PlanList = () => {
         plansList.sort((a, b) => {
           let n = a.name.toLowerCase();
           let m = b.name.toLowerCase();
-          return n < m ? -1 : n == m ? 0 : 1;
+          return n < m ? -1 : n === m ? 0 : 1;
         }),
       );
     }
@@ -143,7 +135,7 @@ const PlanList = () => {
         plansList.sort((a, b) => {
           let n = a.createdDate.toLowerCase();
           let m = b.createdDate.toLowerCase();
-          return n < m ? -1 : n == m ? 0 : 1;
+          return n < m ? -1 : n === m ? 0 : 1;
         }),
       );
     }
@@ -222,17 +214,21 @@ const PlanList = () => {
       </TitleContainer>
       <PlansContainer>
         {resPlans !== [] && searchT !== ''
-          ? resPlans && // search & sort result
-            resPlans.map((item) => {
-              return (
-                <PlanLayout
-                  key={item.planId}
-                  planName={item.name}
-                  planPeriods={item.periods}
-                  planDate={item.createdDate}
-                />
-              );
-            })
+          ? resPlans && // 검색 후 정렬 적용을 위한 플랜 리스트
+            plansList
+              .filter((p) => {
+                return p.name.toLowerCase().includes(searchT);
+              })
+              .map((item) => {
+                return (
+                  <PlanLayout
+                    key={item.planId}
+                    planName={item.name}
+                    planPeriods={item.periods}
+                    planDate={item.createdDate}
+                  />
+                );
+              })
           : plansList && // 0703 조건 수정
             plansList.map((item) => {
               return (
