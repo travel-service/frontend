@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import LocationList from './LocationList';
 import SelectedLocationList from './SelectedLocationList';
-import { useStore } from '../../../lib/store/planStore';
+import { useStore } from '../../../lib/zustand/planStore';
 
 const ContentsArea = styled.div`
   padding: 3rem;

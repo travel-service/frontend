@@ -307,7 +307,7 @@ export const useStore = create((set, get) => ({
 
 // 여행 보관함에서 사용
 export const planStore = create((set, get) => ({
-  plans: null, // 여행 보관함
+  plans: undefined, // 여행 보관함
   getAllPlans: async () => {
     const res = await planAPI.getAllPlans();
     set({ plans: res });

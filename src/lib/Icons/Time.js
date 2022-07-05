@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import ModalModule from 'components/common/modal/ModalModule';
 // import TimeInput from 'components/Canvas/common/TimeInput';
 import ReactTooltip from 'react-tooltip';
-import { buildStore } from 'lib/store/CanvasBuildStore';
+import { buildStore } from 'lib/zustand/CanvasBuildStore';
 
 const TimeBtn = styled(MdMoreTime)`
   cursor: pointer;

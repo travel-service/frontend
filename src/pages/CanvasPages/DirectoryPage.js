@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { useStore, planStore } from 'lib/store/planStore';
+import { useStore, planStore } from 'lib/zustand/planStore';
 import { Link } from 'react-router-dom';
 import PageTemplate from 'components/common/PageTemplate';
 
@@ -14,11 +14,6 @@ const Container = styled.div`
 `;
 
 // 여행 보관함
-// React 컴포넌트 상태 라이브러리 구조(api 요청 관련)
-// 1. container(컴포넌트말구!) 에서 redux or zustand 상태 라이브러리를 접근한다.
-// 2. 상태 라이브러리에서 lib/api/... 에 지정된 axios api 함수를 사용한다.
-// 3. 상태 라이브러리에서 데이터가 생성, 수정, 삭제가 되고, container로 변경된 값을 탐지한다.
-// 4. container에서 각 component 로 상태를 뿌려 재렌더링이 된다.
 
 const DirectoryPage = () => {
   const { getPlan } = useStore();
@@ -34,6 +29,7 @@ const DirectoryPage = () => {
 
   return (
     <PageTemplate>
+      {console.log(plans)}
       <Container>
         {plans && (
           <div>

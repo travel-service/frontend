@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import Pencil from 'lib/Icons/Pencil';
-import { useStore } from 'lib/store/planStore';
+import { useStore } from 'lib/zustand/planStore';
 
 const NamingDiv = styled.div`
   display: flex;

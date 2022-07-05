@@ -7,11 +7,11 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import rootReducer, { rootSaga } from 'redux/modules';
+import rootReducer, { rootSaga } from 'lib/redux/modules';
 import createSagaMiddleware from 'redux-saga';
 import axios from 'axios';
-import { check } from 'redux/modules/user';
-import './interceptors/axios';
+import { check } from 'lib/redux/modules/user';
+import './lib/interceptors/axios';
 
 axios.defaults.withCredentials = true;
 

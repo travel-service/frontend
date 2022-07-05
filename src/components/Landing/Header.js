@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
-import { MdMenu, MdPerson } from 'react-icons/md';
+import { MdMenu } from 'react-icons/md';
 import Logo from './Logo';
 
 const Container = styled.div`
@@ -51,6 +51,7 @@ const Div = styled.div`
 const MenuEl = styled(Link)`
   display: flex;
   justify-content: center;
+  align-items: center;
   color: black;
   font-size: 17px;
   font-weight: 550;
@@ -76,12 +77,17 @@ const MenuBtn = styled(MdMenu)`
 const Profile = styled.div`
   margin-left: 5px;
   border-radius: 50%;
-  width: 25px;
-  height: 25px;
-  background-color: white;
+  width: 40px;
+  height: 40px;
+  background-color: rgba(133, 207, 194, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const Thumbnail = styled.img`
+  width: 80%;
+  /* height: 100%; */
 `;
 
 const Header = ({ userState, onLogout }) => {
@@ -104,7 +110,10 @@ const Header = ({ userState, onLogout }) => {
               <MenuEl to={process.env.PUBLIC_URL + '/my-page'}>
                 {userState.nickName}
                 <Profile>
-                  <MdPerson />
+                  <Thumbnail
+                    src={process.env.PUBLIC_URL + '/images/face1.png'}
+                    alt=""
+                  />
                 </Profile>
               </MenuEl>
               {/* 썸네일 이미지로 변환 필요 */}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { infoStore } from '../../../lib/store/infoStore';
+import { infoStore } from '../../../lib/zustand/infoStore';
 
 const AttractionInfo = (locationId) => {
   const { attInfo, getInfo } = infoStore();

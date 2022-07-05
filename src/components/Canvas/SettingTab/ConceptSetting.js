@@ -1,5 +1,5 @@
 import React from 'react';
-import { useStore } from 'lib/store/planStore';
+import { useStore } from 'lib/zustand/planStore';
 import ReactTooltip from 'react-tooltip';
 import styled from 'styled-components';
 

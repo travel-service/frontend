@@ -1,7 +1,7 @@
 import React from 'react';
 import UseWays from 'components/Landing/UseWays';
 import styled from 'styled-components';
-import BackImg from 'images/landingBackV2.png';
+import BackImg from 'lib/images/landingBackV2.png';
 import { MdSearch } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 

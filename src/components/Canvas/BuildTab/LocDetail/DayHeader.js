@@ -1,7 +1,7 @@
 import oc from 'open-color';
 import React, { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
-import { useStore } from 'lib/store/planStore';
+import { useStore } from 'lib/zustand/planStore';
 
 const Container = styled.div`
   /* position: fixed; */

@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import MainArea from 'components/Canvas/BuildTab/MainArea';
 import palette from 'lib/styles/palette';
-import { useStore } from 'lib/store/planStore';
-import { buildStore } from 'lib/store/CanvasBuildStore';
+import { useStore } from 'lib/zustand/planStore';
+import { buildStore } from 'lib/zustand/CanvasBuildStore';
 
 const Container = styled.div`
   display: flex;

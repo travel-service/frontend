@@ -1,15 +1,15 @@
 import React from 'react';
 import { useRoutes } from 'react-router-dom';
-import SignUpPage from 'pages/SignupPage';
-import LoginPage from 'pages/LoginPage';
+import SignUpPage from 'pages/AuthPages/SignupPage';
+import LoginPage from 'pages/AuthPages/LoginPage';
 import CanvasMainPage from 'pages/CanvasPages/CanvasMainPage';
 import NoticeMainPage from 'pages/NoticePages/NoticeMainPage';
-import Modal from 'react-modal';
-import NotFoundPage from 'pages/NotFoundPage';
-import LandingPage from 'pages/LandingPage';
-import SearchPage from 'pages/SearchPage';
+import NotFoundPage from 'pages/OtherPages/NotFoundPage';
+import LandingPage from 'pages/OtherPages/LandingPage';
+import SearchPage from 'pages/OtherPages/SearchPage';
 import { useScroll } from 'lib/custom/useScroll';
 import { createGlobalStyle, css } from 'styled-components';
+import Modal from 'react-modal';
 
 const GlobalStyle = createGlobalStyle`
   body::-webkit-scrollbar {
@@ -54,6 +54,6 @@ function App() {
   );
 }
 
-Modal.setAppElement('#root'); // Modal 사용을 위해 붙임(0311)
+Modal.setAppElement('#root'); // Modal 사용을 위해 붙임
 
 export default App;

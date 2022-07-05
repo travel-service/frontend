@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useStore } from 'lib/store/planStore';
+import { useStore } from 'lib/zustand/planStore';
 import { Link } from 'react-router-dom';
 
 const Container = styled.div`
@@ -37,3 +37,4 @@ const InsertCanvas = ({ closeModal }) => {
 };
 
 export default InsertCanvas;
+// 삭제 필요??

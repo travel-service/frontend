@@ -3,7 +3,7 @@ import { takeLatest, call } from 'redux-saga/effects';
 import produce from 'immer';
 import createRequestSaga, {
   createRequestActionTypes,
-} from 'lib/createRequestSaga';
+} from 'lib/redux/createRequestSaga';
 import * as authAPI from 'lib/api/auth';
 
 // 액션 생성

@@ -1,9 +1,9 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeField, initializeForm, login } from 'redux/modules/auth';
-import AuthForm from 'components/Auth/AuthForm';
 import { useNavigate } from 'react-router-dom';
-import { check } from 'redux/modules/user';
+import AuthForm from 'components/Auth/AuthForm';
+import { changeField, initializeForm, login } from 'lib/redux/modules/auth';
+import { check } from 'lib/redux/modules/user';
 
 const LoginForm = () => {
   const [error, setError] = useState(null);

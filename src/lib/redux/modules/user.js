@@ -2,7 +2,7 @@ import { createAction, handleActions } from 'redux-actions';
 import { takeLatest, call } from 'redux-saga/effects';
 import createRequestSaga, {
   createRequestActionTypes,
-} from 'lib/createRequestSaga';
+} from 'lib/redux/createRequestSaga';
 import * as authAPI from 'lib/api/auth';
 
 const TEMP_SET_USER = 'user/TEMP_SET_USER'; //새로고침 이후 임시 로그인 처리

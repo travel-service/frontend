@@ -5,7 +5,7 @@ import {
   initializeForm,
   signup,
   tempSetAuth,
-} from 'redux/modules/auth';
+} from 'lib/redux/modules/auth';
 import AuthForm from 'components/Auth/AuthForm';
 import { useNavigate } from 'react-router-dom';
 
