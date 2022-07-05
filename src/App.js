@@ -29,7 +29,7 @@ function App() {
     <>
       {/* 배포 url */}
       {useRoutes([
-        { path: process.env.PUBLIC_URL + '/', element: <LandingPage /> }, // 임시로 signup
+        { path: process.env.PUBLIC_URL + '/', element: <LandingPage /> },
         { path: process.env.PUBLIC_URL + '/signup', element: <SignUpPage /> },
         { path: process.env.PUBLIC_URL + '/login', element: <LoginPage /> },
         {

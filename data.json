@@ -1,92 +1,101 @@
 {
-  "planForm": {
-    "depart": "2022/01/16",
-    "destination": "어딘가",
-    "name": "새로운 여행",
-    "periods": 2,
-    "planStatus": "MAIN",
-    "thumbnail": "https://ifh.cc/g/qrVZrf.png"
-  },
-  "conceptForm": {
-    "concept": [
-      "Love",
-      "Family",
-      "Alone"
+  "mainD": {
+    "planCount": 5,
+    "mainDirectory": [
+      {
+        "planId": 2,
+        "name": "제주도가자",
+        "periods": 2,
+        "createdDate": "2022-05-15T17:30:32.984683"
+      },
+      {
+        "planId": 11,
+        "name": "제주도가자2",
+        "periods": 2,
+        "createdDate": "2022-05-16T17:30:32.984683"
+      },
+      {
+        "planId": 28,
+        "name": "이종수3",
+        "periods": 2,
+        "createdDate": "2022-05-17T17:30:34.848498"
+      },
+      {
+        "planId": 41,
+        "name": "여행가자",
+        "periods": 2,
+        "createdDate": "2022-05-17T17:30:35.73649"
+      },
+      {
+        "planId": 30,
+        "name": "여행가자2",
+        "periods": 2,
+        "createdDate": "2022-05-18T17:30:35.73649"
+      }
     ]
   },
-  "selectedLocationForm": {
-    "selectedLocation": [
-      5,
-      6,
-      7
+  "userD": {
+    "planCount": [3, 2],
+    "mainUserDirectory": [
+      {
+        "userDirectoryId": 80,
+        "directoryName": "내여행들"
+      },
+      {
+        "userDirectoryId": 81,
+        "directoryName": "제주도대안"
+      }
     ]
   },
-  "dayForm": {
-    "travelDay": [
-      [
-        {
-          "id": 5,
-          "copyLocationId": "13-1",
-          "movingData": {
-            "startTime": "12:3",
-            "stayTime": "14124",
-            "vehicle": "car124",
-            "movingTime": "1:12300"
-          }
-        },
-        {
-          "id": 6,
-          "copyLocationId": "13-1",
-          "movingData": {
-            "startTime": "12:3",
-            "stayTime": "14124",
-            "vehicle": "car124",
-            "movingTime": "1:12300"
-          }
-        },
-        {
-          "id": 7,
-          "copyLocationId": "13-1",
-          "movingData": {
-            "startTime": "12:3",
-            "stayTime": "14124",
-            "vehicle": "car124",
-            "movingTime": "1:12300"
-          }
-        }
-      ],
-      [
-        {
-          "id": 8,
-          "copyLocationId": "13-1",
-          "movingData": {
-            "startTime": "12:3",
-            "stayTime": "14124",
-            "vehicle": "car124",
-            "movingTime": "1:12300"
-          }
-        },
-        {
-          "id": 9,
-          "copyLocationId": "13-1",
-          "movingData": {
-            "startTime": "12:3",
-            "stayTime": "14124",
-            "vehicle": "car124",
-            "movingTime": "1:12300"
-          }
-        },
-        {
-          "id": 10,
-          "copyLocationId": "13-1",
-          "movingData": {
-            "startTime": "12:3",
-            "stayTime": "14124",
-            "vehicle": "car124",
-            "movingTime": "1:12300"
-          }
-        }
-      ]
+  "userDirectory80": [
+    {
+      "planId": 28,
+      "name": "이종수3",
+      "periods": 2,
+      "createdDate": "2022-05-17T17:30:34.848498"
+    },
+    {
+      "planId": 41,
+      "name": "여행가자",
+      "periods": 2,
+      "createdDate": "2022-05-17T17:30:35.73649"
+    },
+    {
+      "planId": 30,
+      "name": "여행가자2",
+      "periods": 2,
+      "createdDate": "2022-05-18T17:30:35.73649"
+    }
+  ],
+  "userDirectory81": [
+    {
+      "planId": 2,
+      "name": "제주도가자",
+      "periods": 2,
+      "createdDate": "2022-05-15T17:30:32.984683"
+    },
+    {
+      "planId": 11,
+      "name": "제주도가자2",
+      "periods": 2,
+      "createdDate": "2022-05-16T17:30:32.984683"
+    }
+  ],
+  "trashD": {
+    "trashPlanCount": 2,
+    "trashDirectory": [
+      {
+        "planId": 2,
+        "name": "이종수3",
+        "periods": 2,
+        "createdDate": "2022-05-17T17:30:32.984683"
+      },
+      {
+        "planId": 15,
+        "name": "자라란",
+        "periods": 2,
+        "createdDate": "2022-05-14T17:30:33.946052"
+      }
     ]
   },
   "travelPlans": [
@@ -102,48 +111,34 @@
         "thumbnail": []
       },
       "conceptForm": {
-        "concept": []
+        "concept": ["Love", "Family", "Alone"]
       },
       "selectedLocationForm": {
-        "selectedLocation": [
-          5,
-          6,
-          7
-        ]
+        "selectedLocation": [5, 6, 7]
       },
       "dayForm": {
-        "travelDay": [
-          [],
-          [],
-          []
-        ]
+        "travelDay": [[], [], []]
       }
     },
     {
       "id": 2,
       "planForm": {
         "id": "",
-        "depart": "2022/07/05",
-        "destination": "제주도",
+        "depart": "",
+        "destination": "",
         "name": "",
-        "periods": 3,
+        "periods": 1,
         "planStatus": "MAIN",
         "thumbnail": []
       },
       "conceptForm": {
-        "concept": [
-          "Love"
-        ]
+        "concept": []
       },
       "selectedLocationForm": {
         "selectedLocation": []
       },
       "dayForm": {
-        "travelDay": [
-          [],
-          [],
-          []
-        ]
+        "travelDay": []
       }
     }
   ],
