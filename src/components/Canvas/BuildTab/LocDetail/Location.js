@@ -25,6 +25,8 @@ const Span = styled.span`
 `;
 
 const Div = styled.div`
+  width: 220px;
+  margin: auto;
   ${(props) =>
     props.index === 0 &&
     props.day > -1 &&
@@ -35,7 +37,8 @@ const Div = styled.div`
       }
       background-color: ${oc.teal[6]};
       padding-bottom: 10px;
-    `}
+      width: 100%;
+    `};
 `;
 
 const LocTime = styled.div`

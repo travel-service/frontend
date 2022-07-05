@@ -24,6 +24,7 @@ export const useStore = create((set, get) => ({
   ],
   userTravelDay: {
     travelDay: [],
+    status: false,
   },
   setName: (input) => {
     set((state) => ({ userPlan: { ...state.userPlan, name: input } }));
@@ -255,13 +256,45 @@ export const useStore = create((set, get) => ({
     // set({ userTravelDay: response.data.dayForm });
   },
 
+  getPlanDays: async (id) => {
+    const res = await planAPI.getPlanDay(id);
+    console.log(res);
+    if (!res) {
+      console.log('get day 실패');
+      return;
+    }
+    let n = res.dayForm.length;
+    if (n > 0) {
+      let tempDayArr = [];
+      for (let i = 0; i < n; i++) {
+        const idx = res.dayForm[i].days - 1;
+        if (!tempDayArr[idx]) {
+          // undefined
+          tempDayArr[idx] = [res.dayForm[i]];
+        } else {
+          tempDayArr[idx].push(res.dayForm[i]);
+        }
+      }
+      // 0705 수정중... id => locationId 수정 필요
+      set({
+        userTravelDay: {
+          travelDay: tempDayArr,
+          status: true,
+        },
+      });
+    }
+    // console.log(get().userTravelDay);
+    // set({ userTravelDay: response.data.dayForm });
+  },
+
   // POST plan (다음으로, 저장하기)
   // create plan, post, 반환 id, id 설정 완료
   postPlan: async (type) => {
+    //  0 1 2
     // 매개변수 id는 userPlan id
     const userPlan = get().userPlan;
     // const userPlanConcept = get().userPlanConcept;
-    // const userTravelDay = get().userTravelDay;
+    const userTravelDay = get().userTravelDay;
     const id = get().id;
     if (type === 0 && !id) {
       // plan 생성
@@ -278,6 +311,8 @@ export const useStore = create((set, get) => ({
       // selectedLocation 생성 및 수정
     } else if (type === 2) {
       // day 생성 및 수정
+      console.log('dayForm post');
+      const res = await planAPI.postPlanDay(userTravelDay, id);
     }
 
     // if (id === undefined) {

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import CanvasButtons from './CanvasButtons';
 import oc from 'open-color';
 import PageTemplate from 'components/common/PageTemplate';
+import { useLocation } from 'react-router-dom';
 
 const Container = styled.div`
   /* display: flex; */

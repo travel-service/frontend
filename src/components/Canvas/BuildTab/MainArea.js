@@ -80,7 +80,6 @@ const MainArea = ({
     for (let i = 0; i < n; i++) {
       if (selCateLoc[keys[i]].length > 0) setSelectArea(1);
     }
-    console.log(selectArea);
     if (selectArea === -1) setSelectArea(100);
   }, [selCateLoc, selectArea]);
 

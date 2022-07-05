@@ -4,6 +4,7 @@ import MainArea from 'components/Canvas/BuildTab/MainArea';
 import palette from 'lib/styles/palette';
 import { useStore } from 'lib/zustand/planStore';
 import { buildStore } from 'lib/zustand/CanvasBuildStore';
+import { useLocation } from 'react-router-dom';
 
 const Container = styled.div`
   display: flex;
@@ -16,8 +17,9 @@ const Container = styled.div`
 
 // export let travelPlan = {};
 
-const BuildBlockForm = () => {
-  const { category, selCateLoc, userTravelDay } = useStore();
+const BuildBlockForm = ({ idx }) => {
+  const { category, selCateLoc, userTravelDay, getPlanDays, postPlan, id } =
+    useStore();
   const {
     dayLocDel,
     pushLocToDay,
@@ -30,8 +32,9 @@ const BuildBlockForm = () => {
   // 앞부분 api 설정이 되면 작성 예정(0518)
   useEffect(() => {
     // get api
-    return {
-      // post api
+    getPlanDays(id);
+    return () => {
+      postPlan(idx);
     };
   }, []);
 

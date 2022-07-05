@@ -46,3 +46,31 @@ export const getPlan = async (id) => {
     return 0;
   }
 };
+
+// day 생성(post)
+export const postPlanDay = async (dayForm, id) => {
+  try {
+    const response = await axios.post(`/members/plan/${id}/day`, {
+      dayForm,
+    });
+    headerToken(response);
+    console.log('여행 캔버스 : ', response);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    return 0;
+  }
+};
+
+// day 조회
+export const getPlanDay = async (id) => {
+  try {
+    const response = await axios.get(`/members/plan/${id}/day`);
+    headerToken(response);
+    console.log(`get ${id} 여행 캔버스: `, response);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    return 0;
+  }
+};
