@@ -62,6 +62,21 @@ export const postPlanDay = async (dayForm, id) => {
   }
 };
 
+// day 수정(put)
+export const updatePlanDay = async (dayForm, id) => {
+  try {
+    const response = await axios.put(`/members/plan/${id}/day`, {
+      dayForm,
+    });
+    headerToken(response);
+    console.log('여행 캔버스 수정 : ', response);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    return 0;
+  }
+};
+
 // day 조회
 export const getPlanDay = async (id) => {
   try {

@@ -59,15 +59,18 @@ const SelectedLocations = ({ selectedLocation }) => {
       </BlockDiv>
       <BButton
         onClick={() => {
-          console.log(selectedLocation.id);
-          remove(selectedLocation.id, selectedLocation.type);
+          console.log(selectedLocation.locationId);
+          remove(selectedLocation.locationId, selectedLocation.type);
         }}
       >
         취소
       </BButton>
       <Modal open={modalOpen} close={closeModal} header={selectedLocation.name}>
         {selectedLocation.info}
-        <BlockInfo type={selectedLocation.type} id={selectedLocation.id} />
+        <BlockInfo
+          type={selectedLocation.type}
+          id={selectedLocation.locationId}
+        />
       </Modal>
     </Block>
   );
@@ -79,7 +82,7 @@ const SelectedLocationList = ({ selectedLocations }) => {
       {selectedLocations.map((selectedLocation) => (
         <SelectedLocations
           selectedLocation={selectedLocation}
-          key={selectedLocation.id}
+          key={selectedLocation.locationId}
         />
       ))}
     </div>

@@ -106,10 +106,10 @@ const SelLocBasket = ({ isOpen, category, selCateLoc }) => {
                 selCateLoc[`sel${type}`].map((location, index) => {
                   return (
                     <Location
-                      key={location.id}
+                      key={location.locationId}
                       location={location}
                       index={index}
-                      id={location.id}
+                      id={location.locationId}
                     />
                   );
                 })}

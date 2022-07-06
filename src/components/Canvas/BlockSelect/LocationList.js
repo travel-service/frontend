@@ -64,7 +64,7 @@ function Location({ location }) {
             onAdd(location, location.type);
             location.isSelect = true;
           } else {
-            remove(location.id, location.type);
+            remove(location.locationId, location.type);
             location.isSelect = false;
           }
         }}
@@ -80,7 +80,7 @@ function Location({ location }) {
       </BButton>
       <Modal open={modalOpen} close={closeModal} header={location.name}>
         {location.info}
-        <BlockInfo type={location.type} id={location.id} />
+        <BlockInfo type={location.type} id={location.locationId} />
       </Modal>
     </Block>
   );
@@ -90,7 +90,7 @@ function LocationList({ locations }) {
   return (
     <div>
       {locations.map((location) => (
-        <Location location={location} key={location.id} />
+        <Location location={location} key={location.locationId} />
       ))}
     </div>
   );

@@ -253,12 +253,13 @@ export const useStore = create((set, get) => ({
     const res = await planAPI.getPlan(id);
     set({ userPlan: res.planForm });
     // set({ userPlanConcept: response.data.conceptForm });
-    // set({ userTravelDay: response.data.dayForm });
   },
 
+  // GET day
   getPlanDays: async (id) => {
     const res = await planAPI.getPlanDay(id);
     console.log(res);
+    console.log(get().userPlan);
     if (!res) {
       console.log('get day 실패');
       return;
@@ -275,7 +276,6 @@ export const useStore = create((set, get) => ({
           tempDayArr[idx].push(res.dayForm[i]);
         }
       }
-      // 0705 수정중... id => locationId 수정 필요
       set({
         userTravelDay: {
           travelDay: tempDayArr,
@@ -283,15 +283,12 @@ export const useStore = create((set, get) => ({
         },
       });
     }
-    // console.log(get().userTravelDay);
-    // set({ userTravelDay: response.data.dayForm });
   },
 
   // POST plan (다음으로, 저장하기)
   // create plan, post, 반환 id, id 설정 완료
   postPlan: async (type) => {
-    //  0 1 2
-    // 매개변수 id는 userPlan id
+    // 매개변수 type는 userPlan id
     const userPlan = get().userPlan;
     // const userPlanConcept = get().userPlanConcept;
     const userTravelDay = get().userTravelDay;
@@ -311,32 +308,16 @@ export const useStore = create((set, get) => ({
       // selectedLocation 생성 및 수정
     } else if (type === 2) {
       // day 생성 및 수정
-      console.log('dayForm post');
-      const res = await planAPI.postPlanDay(userTravelDay, id);
+      if (!userTravelDay.status) {
+        // day가 없는 상태 => 생성 필요 post
+        console.log('새로운 dayForm 생성');
+        planAPI.postPlanDay(userTravelDay, id);
+      } else {
+        // day가 있는 상태 => 수정 필요 put
+        console.log('dayForm 수정');
+        planAPI.updatePlanDay(userTravelDay, id);
+      }
     }
-
-    // if (id === undefined) {
-    //   const response = await axios.post(`http://localhost:8080/members/plan`, {
-    //     /*...userPlan,*/
-    //     planForm: userPlan,
-    //     conceptForm: userPlanConcept,
-    //     dayForm: userTravelDay,
-    //   });
-    //   console.log(response);
-    //   //set({ userPlan: response.data }); // 백에서 보내주는 데이터가 userPlan
-    // } else {
-    //   //const response = await axios.post(`/members/1/plan`, {
-    //   //test용 patch..
-    //   const response = await axios.patch(
-    //     `http://localhost:4000/travelPlans/${id}`,
-    //     {
-    //       planForm: userPlan,
-    //       conceptForm: userPlanConcept,
-    //       dayForm: userTravelDay,
-    //     },
-    //   );
-    //   console.log(response); // 성공하면 success
-    // }
   },
 }));
 

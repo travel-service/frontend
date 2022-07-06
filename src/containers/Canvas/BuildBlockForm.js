@@ -33,6 +33,7 @@ const BuildBlockForm = ({ idx }) => {
   useEffect(() => {
     // get api
     getPlanDays(id);
+    console.log(selCateLoc);
     return () => {
       postPlan(idx);
     };
