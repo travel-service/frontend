@@ -7,7 +7,6 @@ import {
   MdOutlineArrowForwardIos,
   MdOutlineArrowBackIos,
 } from 'react-icons/md';
-import { Mobile, Tablet, Pc } from 'lib/custom/responsive';
 
 const Div = styled.div`
   /* width: 150px; */
@@ -85,6 +84,7 @@ const MainArea = ({
 
   const onDragEnd = (result) => {
     const { destination, source } = result;
+    console.log(result);
     if (!destination) return;
     if (
       destination.droppableId === source.droppableId &&

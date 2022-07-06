@@ -52,9 +52,18 @@ const Item = styled.div`
 const Basket = styled.div`
   padding: 10px;
   border: 2px solid ${oc.teal[6]};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
-const SelLocBasket = ({ isOpen, category, selCateLoc }) => {
+const SelLocBasket = ({
+  isOpen,
+  category,
+  selCateLoc,
+  dragging,
+  changeDragging,
+}) => {
   const list = Object.keys(category);
   const [type, setType] = useState(category[list[0]].eng);
   const [typeId, setTypeId] = useState(list[0]);
@@ -98,6 +107,7 @@ const SelLocBasket = ({ isOpen, category, selCateLoc }) => {
               ref={provided.innerRef}
               // {...provided.droppableProps}
               isDraggingOver={snapshot.isDraggingOver}
+              length={selCateLoc[`sel${type}`].length}
             >
               {selCateLoc[`sel${type}`].length === 0 && (
                 <>로케이션을 담아오세요</>
@@ -110,6 +120,9 @@ const SelLocBasket = ({ isOpen, category, selCateLoc }) => {
                       location={location}
                       index={index}
                       id={location.locationId}
+                      dragging={dragging}
+                      changeDragging={changeDragging}
+                      max={selCateLoc[`sel${type}`].length - 1}
                     />
                   );
                 })}

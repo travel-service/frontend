@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled, { css } from 'styled-components';
 import oc from 'open-color';
 import DayHeader from 'components/Canvas/BuildTab/LocDetail/DayHeader';
@@ -6,7 +6,6 @@ import { Droppable } from 'react-beautiful-dnd';
 import MoveDataDiv from '../LocDetail/MoveDataDiv';
 import Location from 'components/Canvas/BuildTab/LocDetail/Location';
 import CreateLoc from 'components/Canvas/BuildTab/MemLoc/CreateLoc';
-// import { apiStore } from 'lib/store/apiStore';
 
 const Days = styled.div`
   display: flex;
@@ -48,6 +47,18 @@ const LocationsList = styled('div')`
     props.isDraggingOver &&
     css`
       background-color: ${oc.indigo[2]};
+    `}
+`;
+
+const Div = styled.div`
+  ${(props) =>
+    props.idx === 0 &&
+    css`
+      background-color: ${oc.teal[6]};
+      padding-bottom: 1px;
+      > li {
+        box-shadow: 0px 0px 0px 0px;
+      }
     `}
 `;
 
@@ -93,7 +104,7 @@ const PlanDays = ({
                 {/* location map */}
                 {day.map((loc, idx) => {
                   return (
-                    <div key={idx}>
+                    <Div key={idx} idx={idx}>
                       <Location
                         key={idx}
                         location={loc}
@@ -114,7 +125,7 @@ const PlanDays = ({
                           splitTime={splitTime}
                         />
                       )}
-                    </div>
+                    </Div>
                   );
                 })}
                 {provided.placeholder}

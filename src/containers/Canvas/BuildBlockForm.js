@@ -4,7 +4,6 @@ import MainArea from 'components/Canvas/BuildTab/MainArea';
 import palette from 'lib/styles/palette';
 import { useStore } from 'lib/zustand/planStore';
 import { buildStore } from 'lib/zustand/CanvasBuildStore';
-import { useLocation } from 'react-router-dom';
 
 const Container = styled.div`
   display: flex;
@@ -14,8 +13,6 @@ const Container = styled.div`
   width: 100vw;
   border: 1px solid blue;
 `;
-
-// export let travelPlan = {};
 
 const BuildBlockForm = ({ idx }) => {
   const { category, selCateLoc, userTravelDay, getPlanDays, postPlan, id } =
@@ -33,7 +30,6 @@ const BuildBlockForm = ({ idx }) => {
   useEffect(() => {
     // get api
     getPlanDays(id);
-    console.log(selCateLoc);
     return () => {
       postPlan(idx);
     };

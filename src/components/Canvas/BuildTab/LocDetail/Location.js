@@ -4,54 +4,15 @@ import palette from 'lib/styles/palette';
 import { Draggable } from 'react-beautiful-dnd';
 import Time from 'lib/Icons/Time';
 import Close from 'lib/Icons/Close';
-import oc from 'open-color';
-
-const Container = styled.div`
-  white-space: normal;
-  display: flex;
-  line-height: 1.5;
-  user-select: none;
-  width: 220px;
-  margin: auto;
-  margin-bottom: 10px;
-  box-shadow: 3px 3px 3px 3px ${palette.gray[5]};
-  border-radius: 4px;
-  background: ${(props) => (props.isDragging ? 'lightgreen' : 'white')};
-`;
 
 const Span = styled.span`
   font-weight: normal;
   font-size: 12px;
 `;
 
-const Div = styled.div`
-  width: 220px;
-  margin: auto;
-  ${(props) =>
-    props.index === 0 &&
-    props.day > -1 &&
-    css`
-      > div {
-        margin-bottom: 0px;
-        box-shadow: 0px 0px 0px 0px ${palette.gray[5]};
-      }
-      background-color: ${oc.teal[6]};
-      padding-bottom: 10px;
-      width: 100%;
-    `};
-`;
-
 const LocTime = styled.div`
   font-weight: normal;
   font-size: 12px;
-  /* height: 300px; */
-  /* background-color: blue; */
-`;
-
-const Clone = styled(Container)`
-  ~ div {
-    transform: none !important;
-  }
 `;
 
 const List = styled.li`
@@ -59,7 +20,30 @@ const List = styled.li`
   list-style: none;
   width: 100%;
   padding: 5px;
+  white-space: normal;
+  line-height: 1.5;
+  user-select: none;
+  width: 220px;
+  margin-bottom: 10px;
+  box-shadow: 3px 3px 3px 3px ${palette.gray[5]};
+  border-radius: 4px;
+  background: ${(props) => (props.isDragging ? 'lightgreen' : 'white')};
+  ${(props) =>
+    props.day > -1 &&
+    css`
+      margin: auto;
+      margin-bottom: 10px;
+    `}
+  ${(props) =>
+    props.isDragging &&
+    css`
+      + li {
+        display: none !important;
+      }
+    `}
 `;
+
+const Clone = styled(List)``;
 
 const ImgDiv = styled.div`
   display: flex;
@@ -109,19 +93,18 @@ const Location = ({
 
   return (
     <Draggable draggableId={String(id)} index={index} key={id}>
-      {(provided, snapshot) => (
-        // <Div index={index} day={day}>
-        <React.Fragment>
-          <Container
-            ref={provided.innerRef}
-            {...provided.dragHandleProps}
-            {...provided.draggableProps}
-            isDragging={snapshot.isDragging}
-            style={provided.draggableProps.style}
-            index={index}
-            day={day}
-          >
-            <List>
+      {(provided, snapshot) => {
+        return (
+          <React.Fragment>
+            <List
+              ref={provided.innerRef}
+              {...provided.dragHandleProps}
+              {...provided.draggableProps}
+              isDragging={snapshot.isDragging}
+              style={provided.draggableProps.style}
+              index={index}
+              day={day}
+            >
               <ImgDiv>
                 <Img src={location.image} alt="img" />
               </ImgDiv>
@@ -177,20 +160,17 @@ const Location = ({
                 </Btn>
               </ListDiv>
             </List>
-          </Container>
-          {snapshot.isDragging && day === undefined && (
-            <Clone>
-              <List>
+            {snapshot.isDragging && day === undefined && (
+              <Clone>
                 <ImgDiv>
                   <Img src={location.image} alt="img" />
                 </ImgDiv>
                 <ListDiv>{location.name}</ListDiv>
-              </List>
-            </Clone>
-          )}
-        </React.Fragment>
-        // </Div>
-      )}
+              </Clone>
+            )}
+          </React.Fragment>
+        );
+      }}
     </Draggable>
   );
 };
