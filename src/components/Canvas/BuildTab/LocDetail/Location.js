@@ -49,7 +49,6 @@ const LocTime = styled.div`
 `;
 
 const Clone = styled(Container)`
-  /* color: red; */
   ~ div {
     transform: none !important;
   }
@@ -109,91 +108,90 @@ const Location = ({
   };
 
   return (
-    <>
-      <Draggable draggableId={String(id)} index={index} key={id}>
-        {(provided, snapshot) => (
-          <Div index={index} day={day}>
-            <Container
-              ref={provided.innerRef}
-              {...provided.dragHandleProps}
-              {...provided.draggableProps}
-              isDragging={snapshot.isDragging}
-              style={provided.draggableProps.style}
-              index={index}
-              day={day}
-            >
+    <Draggable draggableId={String(id)} index={index} key={id}>
+      {(provided, snapshot) => (
+        // <Div index={index} day={day}>
+        <React.Fragment>
+          <Container
+            ref={provided.innerRef}
+            {...provided.dragHandleProps}
+            {...provided.draggableProps}
+            isDragging={snapshot.isDragging}
+            style={provided.draggableProps.style}
+            index={index}
+            day={day}
+          >
+            <List>
+              <ImgDiv>
+                <Img src={location.image} alt="img" />
+              </ImgDiv>
+              <ListDiv>
+                <div>
+                  <div>
+                    {location.name}
+                    {day > -1 &&
+                      index !== 0 &&
+                      movingData['arriveTime'] !== '' && (
+                        <Span>({movingData['arriveTime']} 도착)</Span>
+                      )}
+                  </div>
+                  {day > -1 ? (
+                    <LocTime>
+                      {index === 0 ? (
+                        <>
+                          {movingData['startTime']
+                            ? `${setViewTime(
+                                movingData['startTime'],
+                                'start',
+                              )} 출발`
+                            : `출발지의 출발시각을 입력해주세용`}
+                        </>
+                      ) : (
+                        <>
+                          {index < lastIdx ? (
+                            <>
+                              {movingData['stayTime']
+                                ? `${setViewTime(
+                                    movingData['stayTime'],
+                                    'stay',
+                                  )} 체류 (${movingData['startTime']} 출발)` // 0422 출발시간도 보여줄까?
+                                : '체류시간과 이동수단 및 시간을 입력해주세용'}
+                            </>
+                          ) : (
+                            ''
+                          )}
+                        </>
+                      )}
+                    </LocTime>
+                  ) : (
+                    ''
+                  )}
+                </div>
+                <Btn day={day}>
+                  <Close size="18" onClick={onClick} tooltip={true} />
+                  <Time
+                    title={index === 0 ? '출발시각' : '체류시간'}
+                    index={index}
+                    day={day}
+                  />
+                </Btn>
+              </ListDiv>
+            </List>
+          </Container>
+          {snapshot.isDragging && day === undefined && (
+            <Clone>
               <List>
                 <ImgDiv>
                   <Img src={location.image} alt="img" />
                 </ImgDiv>
-                <ListDiv>
-                  <div>
-                    <div>
-                      {location.name}
-                      {day > -1 &&
-                        index !== 0 &&
-                        movingData['arriveTime'] !== '' && (
-                          <Span>({movingData['arriveTime']} 도착)</Span>
-                        )}
-                    </div>
-                    {day > -1 ? (
-                      <LocTime>
-                        {index === 0 ? (
-                          <>
-                            {movingData['startTime']
-                              ? `${setViewTime(
-                                  movingData['startTime'],
-                                  'start',
-                                )} 출발`
-                              : `출발지의 출발시각을 입력해주세용`}
-                          </>
-                        ) : (
-                          <>
-                            {index < lastIdx ? (
-                              <>
-                                {movingData['stayTime']
-                                  ? `${setViewTime(
-                                      movingData['stayTime'],
-                                      'stay',
-                                    )} 체류 (${movingData['startTime']} 출발)` // 0422 출발시간도 보여줄까?
-                                  : '체류시간과 이동수단 및 시간을 입력해주세용'}
-                              </>
-                            ) : (
-                              ''
-                            )}
-                          </>
-                        )}
-                      </LocTime>
-                    ) : (
-                      ''
-                    )}
-                  </div>
-                  <Btn day={day}>
-                    <Close size="18" onClick={onClick} tooltip={true} />
-                    <Time
-                      title={index === 0 ? '출발시각' : '체류시간'}
-                      index={index}
-                      day={day}
-                    />
-                  </Btn>
-                </ListDiv>
+                <ListDiv>{location.name}</ListDiv>
               </List>
-            </Container>
-            {/* {console.log(day)} */}
-            {snapshot.isDragging && day === undefined && (
-              <Clone>
-                <List>
-                  <ImgDiv>
-                    <Img src={location.image} alt="img" />
-                  </ImgDiv>
-                  <ListDiv>{location.name}</ListDiv>
-                </List>
-              </Clone>
-            )}
-          </Div>
-        )}
-      </Draggable>
-    </>
+            </Clone>
+          )}
+        </React.Fragment>
+        // </Div>
+      )}
+    </Draggable>
   );
 };
 
