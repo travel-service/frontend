@@ -5,7 +5,14 @@ import TravelSettingForm from 'containers/Canvas/TravelSettingForm';
 import Block from 'containers/Canvas/Block';
 import { useState } from 'react';
 
-const CanvasDiv = styled.div``;
+const CanvasDiv = styled.div`
+  height: 70vh;
+  @media screen and (max-width: 767px) {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+`;
 
 const siteMap = ['setting', 'select', 'build', 'share'];
 

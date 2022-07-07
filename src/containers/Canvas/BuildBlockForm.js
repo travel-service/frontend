@@ -8,10 +8,12 @@ import { buildStore } from 'lib/zustand/CanvasBuildStore';
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: ${palette.gray[3]};
-  height: 70vh;
+  /* background-color: ${palette.gray[3]}; */
+  background-color: #ffd0c0;
   width: 100vw;
-  border: 1px solid blue;
+  /* flex: 1; */
+  height: 100%;
+  flex: 1;
 `;
 
 const BuildBlockForm = ({ idx }) => {

@@ -27,7 +27,8 @@ const List = styled.li`
   margin-bottom: 10px;
   box-shadow: 3px 3px 3px 3px ${palette.gray[5]};
   border-radius: 4px;
-  background: ${(props) => (props.isDragging ? 'lightgreen' : 'white')};
+  background: ${(props) =>
+    props.isDragging ? 'rgba(133, 207, 194, 1);' : 'white'};
   ${(props) =>
     props.day > -1 &&
     css`
@@ -43,7 +44,11 @@ const List = styled.li`
     `}
 `;
 
-const Clone = styled(List)``;
+const Clone = styled(List)`
+  /* ~ li {
+    transform: none !important;
+  } */
+`;
 
 const ImgDiv = styled.div`
   display: flex;

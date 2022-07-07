@@ -8,7 +8,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   transition: all 0.3s;
-  margin-right: 8px;
+  /* margin-right: 8px; */
   ${(props) =>
     !props.isOpen &&
     css`
@@ -23,7 +23,8 @@ const List = styled.div`
   display: flex;
   width: 100px;
   flex-direction: column;
-  border: 2px solid ${oc.teal[6]};
+  /* border: 2px solid ${oc.teal[6]}; */
+  border: 2px solid black;
   justify-content: space-around;
   @media screen and (max-width: 767px) {
     flex-direction: row;
@@ -38,23 +39,37 @@ const Item = styled.div`
   padding: 20px 0px;
   align-items: center;
   justify-content: center;
+  font-size: 15px;
   :hover {
     cursor: pointer;
-    background: ${oc.teal[6]};
-    color: white;
+    background: rgba(133, 207, 194, 1);
+    /* color: white; */
     transition: background 0.2s linear;
+    font-weight: 600;
+    font-size: 18px;
   }
   :active {
     transform: translateY(1px);
   }
+  ${(props) =>
+    props.checked === props.index &&
+    css`
+      background: rgba(133, 207, 194, 1);
+      font-weight: 600;
+      font-size: 18px;
+    `}
 `;
 
 const Basket = styled.div`
   padding: 10px;
-  border: 2px solid ${oc.teal[6]};
+  /* border: 2px solid rgba(133, 207, 194, 1); */
+  border: 2px solid black;
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* li[data-rbd-placeholder-context-id] {
+    display: none !important;
+  } */
 `;
 
 const SelLocBasket = ({
@@ -88,7 +103,12 @@ const SelLocBasket = ({
           {Object.keys(selCateLoc).map((cate, idx) => {
             if (selCateLoc[cate].length > 0)
               return (
-                <Item key={idx} onClick={() => onClick(idx + 1)}>
+                <Item
+                  checked={typeId}
+                  key={idx}
+                  index={idx + 1}
+                  onClick={() => onClick(idx + 1)}
+                >
                   {category[idx + 1].kor}
                 </Item>
               );

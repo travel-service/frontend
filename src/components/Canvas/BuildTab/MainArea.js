@@ -7,6 +7,9 @@ import {
   MdOutlineArrowForwardIos,
   MdOutlineArrowBackIos,
 } from 'react-icons/md';
+import { Mobile, Tablet, Pc } from 'lib/custom/responsive';
+import WebDayArea from './Others/WebDayArea';
+import MobileDayArea from './Others/MobileDayArea';
 
 const Div = styled.div`
   /* width: 150px; */
@@ -32,7 +35,8 @@ const Container = styled.div`
   display: flex;
   width: 100%;
   @media screen and (max-width: 767px) {
-    display: block;
+    /* display: block; */
+    flex-direction: column;
   }
 `;
 
@@ -146,34 +150,30 @@ const MainArea = ({
             />
           )}
           {selectArea === 1 && (
-            <ToggleArea>
-              <Toggle onClick={onClickToggle}>
-                {!isOpen && (
-                  <MdOutlineArrowForwardIos
-                    style={{
-                      color: 'white',
-                    }}
-                  />
-                )}
-                {isOpen && (
-                  <MdOutlineArrowBackIos
-                    style={{
-                      color: 'white',
-                    }}
-                  />
-                )}
-              </Toggle>
-            </ToggleArea>
-          )}
-          {/* 데이 */}
-          {selectArea === 1 && (
-            <PlanDays
-              dayLocDel={dayLocDel}
-              setViewTime={setViewTime}
-              userTravelDay={userTravelDay}
-              setTimeData={setTimeData}
-              splitTime={splitTime}
-            />
+            <React.Fragment>
+              <Pc>
+                <WebDayArea
+                  onClickToggle={onClickToggle}
+                  isOpen={isOpen}
+                  dayLocDel={dayLocDel}
+                  setViewTime={setViewTime}
+                  userTravelDay={userTravelDay}
+                  setTimeData={setTimeData}
+                  splitTime={splitTime}
+                />
+              </Pc>
+              <Mobile>
+                <MobileDayArea
+                  onClickToggle={onClickToggle}
+                  isOpen={isOpen}
+                  dayLocDel={dayLocDel}
+                  setViewTime={setViewTime}
+                  userTravelDay={userTravelDay}
+                  setTimeData={setTimeData}
+                  splitTime={splitTime}
+                />
+              </Mobile>
+            </React.Fragment>
           )}
         </Container>
       </DragDropContext>

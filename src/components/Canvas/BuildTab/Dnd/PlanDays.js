@@ -10,9 +10,11 @@ import CreateLoc from 'components/Canvas/BuildTab/MemLoc/CreateLoc';
 const Days = styled.div`
   display: flex;
   justify-content: space-between;
-  flex: 1; //남은 영역 모두 채움
+  flex: 1;
   overflow: auto;
   white-space: nowrap;
+  @media screen and (max-width: 767px) {
+  }
 `;
 
 const Container = styled.div`
