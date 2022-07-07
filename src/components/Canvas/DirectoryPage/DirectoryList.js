@@ -30,11 +30,12 @@ const DirTextDiv = styled.div`
 //각 디렉토리 네모박스
 const DirContainer = styled.div`
   display: flex;
+  //background: white;
   align-items: center;
   justify-content: space-between;
   border: 2px ${(props) => (props.new ? 'dashed' : 'solid')} lightgray;
   ${(props) =>
-    props.ck ? 'background: lightgray;' : 'background: none; cursor: pointer'};
+    props.ck ? 'background: lightgray;' : 'background: white; cursor: pointer'};
   margin-bottom: 20px;
   padding: 5px 20px 5px 10px;
   height: 70px;

@@ -6,6 +6,7 @@ import { dirStore } from 'lib/dirStore';
 
 // 플랜 레이아웃(이름, 기간, 날짜, 썸네일(호버 시 정보), 이동/복사/담기 버튼)
 const PlanContainer = styled.div`
+  background: white;
   //display: flex;
   margin: 10px;
   padding: 10px;

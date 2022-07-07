@@ -1,7 +1,7 @@
 import { DateSetting } from 'components/Canvas/SettingTab/DateSetting';
 import { ConceptSetting } from 'components/Canvas/SettingTab/ConceptSetting';
-import { DestSetting } from 'components/Canvas/SettingTab/DestSetting';
 import { ImageSetting } from 'components/Canvas/SettingTab/ImageSetting';
+import PlanName from 'components/Canvas/common/PlanName';
 import React, { useEffect } from 'react';
 import { useStore } from 'lib/zustand/planStore';
 import styled from 'styled-components';
@@ -13,19 +13,29 @@ const StyledDiv = styled.div`
 `;
 const TravelSettingForm = () => {
   // 여행 계획 이어서 버튼 누르면
-  const { getPlan } = useStore();
+  const { userPlan, userPlanConcept, Concepts } = useStore();
+  const { setDepart, setPeriods, setConcept, setThumbnail, setName } =
+    useStore();
 
-  // useEffect(() => {
-  //   getPlan(2);
-  // }, [getPlan]);
+  /*useEffect(() => {
+    // 컨셉 초기화?
+  }, []);*/
 
   return (
     <div>
-      <DateSetting />
-      <DestSetting />
+      <PlanName userPlan={userPlan} setName={setName} />
+      <DateSetting
+        userPlan={userPlan}
+        setDepart={setDepart}
+        setPeriods={setPeriods}
+      />
       <StyledDiv>
-        <ConceptSetting />
-        <ImageSetting />
+        <ConceptSetting
+          userPlanConcept={userPlanConcept}
+          Concepts={Concepts}
+          setConcept={setConcept}
+        />
+        <ImageSetting userPlan={userPlan} setThumbnail={setThumbnail} />
       </StyledDiv>
     </div>
   );

@@ -1,5 +1,4 @@
 import React from 'react';
-import { useStore } from 'lib/zustand/planStore';
 import ReactTooltip from 'react-tooltip';
 import styled from 'styled-components';
 
@@ -38,9 +37,7 @@ const ElementDiv = styled.li`
   width: 20%;
 `;
 
-export const ConceptSetting = () => {
-  const { userPlanConcept, Concepts, setConcept } = useStore();
-
+export const ConceptSetting = ({ userPlanConcept, Concepts, setConcept }) => {
   const onClickConcept = (checked, word) => {
     if (checked) {
       setConcept([...userPlanConcept.concept, word]);
@@ -51,7 +48,7 @@ export const ConceptSetting = () => {
 
   return (
     <ConceptSettingDiv>
-      <TitleSpan>3. 여행 컨셉 </TitleSpan>
+      <TitleSpan>2. 여행 컨셉 </TitleSpan>
       <TooltipButton data-tip data-for="conceptsetting">
         ?
       </TooltipButton>
