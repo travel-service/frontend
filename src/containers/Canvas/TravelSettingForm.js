@@ -13,13 +13,21 @@ const StyledDiv = styled.div`
 `;
 const TravelSettingForm = () => {
   // 여행 계획 이어서 버튼 누르면
-  const { userPlan, userPlanConcept, Concepts } = useStore();
+  const { id, userPlan, userPlanConcept, Concepts } = useStore();
   const { setDepart, setPeriods, setConcept, setThumbnail, setName } =
     useStore();
 
-  /*useEffect(() => {
-    // 컨셉 초기화?
-  }, []);*/
+  useEffect(() => {
+    // depart, periods, name, concept, thumbnail 초기화
+    if (id === null) {
+      setDepart(new Date());
+      setPeriods(1);
+      setName('');
+      setConcept([]);
+      setThumbnail('');
+    }
+    console.log('초기화');
+  }, [id, setDepart, setPeriods, setName, setConcept, setThumbnail]);
 
   return (
     <div>

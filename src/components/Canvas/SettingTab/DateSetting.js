@@ -43,12 +43,6 @@ export const DateSetting = ({ userPlan, setDepart, setPeriods }) => {
   //const [minDate, setMinDate] = useState(new Date());
 
   useEffect(() => {
-    // depart 초기화
-    setDepart(startDate);
-    setPeriods(1);
-  }, []);
-
-  useEffect(() => {
     //depart가 있으면
     if (!isNaN(Date.parse(userPlan.depart))) {
       setStartDate(new Date(userPlan.depart));

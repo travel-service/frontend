@@ -26,6 +26,9 @@ export const useStore = create((set, get) => ({
   userTravelDay: {
     travelDay: [],
   },
+  setId: (input) => {
+    set({ id: input });
+  },
   setName: (input) => {
     set((state) => ({ userPlan: { ...state.userPlan, name: input } }));
   },
@@ -48,6 +51,11 @@ export const useStore = create((set, get) => ({
     set((state) => ({
       userPlanConcept: { ...state.userPlanConcept, concept: input },
     }));
+    if (input === []) {
+      set({
+        userPlanConcept: { concept: input },
+      });
+    }
   },
   setDepart: (input) => {
     const pD =
@@ -317,13 +325,13 @@ export const useStore = create((set, get) => ({
 }));
 
 // 여행 보관함에서 사용
-export const planStore = create((set, get) => ({
+/*export const planStore = create((set, get) => ({
   plans: undefined, // 여행 보관함
   getAllPlans: async () => {
     const res = await planAPI.getAllPlans();
     set({ plans: res });
   },
-}));
+}));*/
 
 // systemLocation 받아오고, 카테고리 따라서 분류
 export const sysLocStore = create((set) => ({
