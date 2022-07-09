@@ -1,14 +1,114 @@
 {
+  "mainD": {
+    "planCount": 5,
+    "mainDirectory": [
+      {
+        "planId": 2,
+        "name": "제주도가자",
+        "periods": 2,
+        "createdDate": "2022-05-15T17:30:32.984683"
+      },
+      {
+        "planId": 11,
+        "name": "제주도가자2",
+        "periods": 2,
+        "createdDate": "2022-05-16T17:30:32.984683"
+      },
+      {
+        "planId": 28,
+        "name": "이종수3",
+        "periods": 2,
+        "createdDate": "2022-05-17T17:30:34.848498"
+      },
+      {
+        "planId": 41,
+        "name": "여행가자",
+        "periods": 2,
+        "createdDate": "2022-05-17T17:30:35.73649"
+      },
+      {
+        "planId": 30,
+        "name": "여행가자2",
+        "periods": 2,
+        "createdDate": "2022-05-18T17:30:35.73649"
+      }
+    ]
+  },
+  "userD": {
+    "planCount": [3, 2],
+    "mainUserDirectory": [
+      {
+        "userDirectoryId": 80,
+        "directoryName": "내여행들"
+      },
+      {
+        "userDirectoryId": 81,
+        "directoryName": "제주도대안"
+      }
+    ]
+  },
+  "userDirectory80": [
+    {
+      "planId": 28,
+      "name": "이종수3",
+      "periods": 2,
+      "createdDate": "2022-05-17T17:30:34.848498"
+    },
+    {
+      "planId": 41,
+      "name": "여행가자",
+      "periods": 2,
+      "createdDate": "2022-05-17T17:30:35.73649"
+    },
+    {
+      "planId": 30,
+      "name": "여행가자2",
+      "periods": 2,
+      "createdDate": "2022-05-18T17:30:35.73649"
+    }
+  ],
+  "userDirectory81": [
+    {
+      "planId": 2,
+      "name": "제주도가자",
+      "periods": 2,
+      "createdDate": "2022-05-15T17:30:32.984683"
+    },
+    {
+      "planId": 11,
+      "name": "제주도가자2",
+      "periods": 2,
+      "createdDate": "2022-05-16T17:30:32.984683"
+    }
+  ],
+  "trashD": {
+    "trashPlanCount": 2,
+    "trashDirectory": [
+      {
+        "planId": 2,
+        "name": "이종수3",
+        "periods": 2,
+        "createdDate": "2022-05-17T17:30:32.984683"
+      },
+      {
+        "planId": 15,
+        "name": "자라란",
+        "periods": 2,
+        "createdDate": "2022-05-14T17:30:33.946052"
+      }
+    ]
+  },
   "travelPlans": [
     {
       "id": 1,
       "planForm": {
-        "depart": "2022/01/16",
-        "destination": "어딘가",
-        "name": "새로운 여행",
-        "periods": 4,
+        "id": "",
+        "depart": "",
+        "destination": "",
+        "name": "",
+        "periods": 3,
         "planStatus": "MAIN",
-        "thumbnail": "https://ifh.cc/g/qrVZrf.png"
+        "thumbnail": []
       },
       "conceptForm": {
         "concept": ["Love", "Family", "Alone"]
@@ -17,193 +117,28 @@
         "selectedLocation": [5, 6, 7]
       },
       "dayForm": {
-        "travelDay": [
-          [
-            {
-              "id": 2,
-              "type": "1",
-              "name": "만장굴",
-              "address": "주소",
-              "tel": "010-1234-5678",
-              "category": "관광지",
-              "info": "제주도의 만장굴입니다",
-              "image": "https://i.ibb.co/GFX3TZr/image.jpg",
-              "isSelect": true,
-              "copyLocationId": "f788a-e144-3fcc-2a50-b420c0ea27",
-              "movingData": {
-                "startTime": "",
-                "stayTime": "",
-                "vehicle": "",
-                "movingTime": "",
-                "arriveTime": ""
-              }
-            },
-            {
-              "id": 2,
-              "type": "1",
-              "name": "만장굴",
-              "address": "주소",
-              "tel": "010-1234-5678",
-              "category": "관광지",
-              "info": "제주도의 만장굴입니다",
-              "image": "https://i.ibb.co/GFX3TZr/image.jpg",
-              "isSelect": true,
-              "copyLocationId": "4df6dfd-7c4b-36be-85ca-f6c850527ad",
-              "movingData": {
-                "startTime": "",
-                "stayTime": "",
-                "vehicle": "",
-                "movingTime": "",
-                "arriveTime": ""
-              }
-            }
-          ],
-          [
-            {
-              "id": 1,
-              "type": "1",
-              "name": "한라산",
-              "address": "주소",
-              "tel": "010-1234-5678",
-              "category": "관광지",
-              "info": "제주도의 대표적인 산인 한라산입니다",
-              "image": "https://i.ibb.co/zJMMHVD/image.jpg",
-              "isSelect": true,
-              "copyLocationId": "d2c0dce-fec5-6c34-5075-d2b307d10a4",
-              "movingData": {
-                "startTime": "",
-                "stayTime": "",
-                "vehicle": "",
-                "movingTime": "",
-                "arriveTime": ""
-              }
-            },
-            {
-              "id": 1,
-              "type": "1",
-              "name": "한라산",
-              "address": "주소",
-              "tel": "010-1234-5678",
-              "category": "관광지",
-              "info": "제주도의 대표적인 산인 한라산입니다",
-              "image": "https://i.ibb.co/zJMMHVD/image.jpg",
-              "isSelect": true,
-              "copyLocationId": "3755148-5f62-602-45d6-ce2326625843",
-              "movingData": {
-                "startTime": "",
-                "stayTime": "",
-                "vehicle": "",
-                "movingTime": "",
-                "arriveTime": ""
-              }
-            }
-          ],
-          [],
-          []
-        ]
+        "travelDay": [[], [], []]
       }
     },
     {
       "id": 2,
       "planForm": {
-        "depart": "2022/01/16",
-        "destination": "어딘가",
-        "name": "새로운 여행",
-        "periods": 4,
+        "id": "",
+        "depart": "",
+        "destination": "",
+        "name": "",
+        "periods": 1,
         "planStatus": "MAIN",
-        "thumbnail": "https://ifh.cc/g/qrVZrf.png"
+        "thumbnail": []
       },
       "conceptForm": {
-        "concept": ["Love", "Family", "Alone"]
+        "concept": []
       },
       "selectedLocationForm": {
         "selectedLocation": []
       },
       "dayForm": {
-        "travelDay": [
-          [
-            {
-              "id": 2,
-              "type": "1",
-              "name": "만장굴",
-              "address": "주소",
-              "tel": "010-1234-5678",
-              "category": "관광지",
-              "info": "제주도의 만장굴입니다",
-              "image": "https://i.ibb.co/GFX3TZr/image.jpg",
-              "isSelect": true,
-              "copyLocationId": "f788a-e144-3fcc-2a50-b420c0ea27",
-              "movingData": {
-                "startTime": "",
-                "stayTime": "",
-                "vehicle": "",
-                "movingTime": "",
-                "arriveTime": ""
-              }
-            },
-            {
-              "id": 2,
-              "type": "1",
-              "name": "만장굴",
-              "address": "주소",
-              "tel": "010-1234-5678",
-              "category": "관광지",
-              "info": "제주도의 만장굴입니다",
-              "image": "https://i.ibb.co/GFX3TZr/image.jpg",
-              "isSelect": true,
-              "copyLocationId": "4df6dfd-7c4b-36be-85ca-f6c850527ad",
-              "movingData": {
-                "startTime": "",
-                "stayTime": "",
-                "vehicle": "",
-                "movingTime": "",
-                "arriveTime": ""
-              }
-            }
-          ],
-          [
-            {
-              "id": 1,
-              "type": "1",
-              "name": "한라산",
-              "address": "주소",
-              "tel": "010-1234-5678",
-              "category": "관광지",
-              "info": "제주도의 대표적인 산인 한라산입니다",
-              "image": "https://i.ibb.co/zJMMHVD/image.jpg",
-              "isSelect": true,
-              "copyLocationId": "d2c0dce-fec5-6c34-5075-d2b307d10a4",
-              "movingData": {
-                "startTime": "",
-                "stayTime": "",
-                "vehicle": "",
-                "movingTime": "",
-                "arriveTime": ""
-              }
-            },
-            {
-              "id": 1,
-              "type": "1",
-              "name": "한라산",
-              "address": "주소",
-              "tel": "010-1234-5678",
-              "category": "관광지",
-              "info": "제주도의 대표적인 산인 한라산입니다",
-              "image": "https://i.ibb.co/zJMMHVD/image.jpg",
-              "isSelect": true,
-              "copyLocationId": "3755148-5f62-602-45d6-ce2326625843",
-              "movingData": {
-                "startTime": "",
-                "stayTime": "",
-                "vehicle": "",
-                "movingTime": "",
-                "arriveTime": ""
-              }
-            }
-          ],
-          [],
-          []
-        ]
+        "travelDay": []
       }
     }
   ],
@@ -665,7 +600,135 @@
       "phoneNum": "123",
       "gender": "MALE",
       "email": "tlscksnd963@naver.com",
+      "id": 3,
+      "plan": [
+        {
+          "id": 1,
+          "planForm": {},
+          "conceptForm": {},
+          "selectedLocationForm": {},
+          "dayForm": {}
+        }
+      ]
+    },
+    {
+      "userId": "tlscksdn",
+      "password": "123",
+      "passwordCheck": "123",
+      "username": "123",
+      "nickname": "123",
+      "birthday": "123123-12-23",
+      "phoneNum": "123",
+      "gender": "MALE",
+      "email": "tlscksnd963@naver.com",
+      "id": 2,
+      "plan": [
+        {
+          "id": 1,
+          "planForm": {
+            "depart": "2022/01/16",
+            "periods": 2
+          },
+          "conceptForm": {},
+          "selectedLocationForm": {},
+          "dayForm": {}
+        }
+      ]
+    }
+  ],
+  "memberLocations": [
+    {
+      "data": {
+        "location": {
+          "name": "한경대학교",
+          "type": "Attractions",
+          "coords": {
+            "lat": "37.01183670770416",
+            "lng": "127.26378919389889"
+          },
+          "address1": "경기 안성시 석정동 63-1",
+          "address2": "",
+          "image": "",
+          "information": {
+            "summary": "12",
+            "detail": ""
+          },
+          "isMember": true
+        },
+        "member_location": {
+          "memberId": 1,
+          "isPublic": true
+        },
+        "Attractions": {
+          "parking": true,
+          "restDate": "",
+          "useTime": ""
+        }
+      },
       "id": 1
+    },
+    {
+      "data": {
+        "location": {
+          "name": "우리집",
+          "type": "Lodge",
+          "coords": {
+            "lat": "37.006802340740215",
+            "lng": "127.2642133503599"
+          },
+          "address1": "경기 안성시 아양동 300",
+          "address2": "103동 408호",
+          "image": "",
+          "information": {
+            "summary": "찬우집",
+            "detail": "가는 길이 살짝 무서울 수 있음."
+          },
+          "isMember": true
+        },
+        "member_location": {
+          "memberId": 1,
+          "isPublic": false
+        },
+        "Lodge": {
+          "checkInTime": "18:00",
+          "checkOutTime": "13:00",
+          "cooking": true,
+          "parking": true,
+          "reservationUrl": "https://github.com/ShinChanU",
+          "subfacility": "베란다(빨래 널기 가능)"
+        }
+      },
+      "id": 2
+    },
+    {
+      "data": {
+        "location": {
+          "name": "한경대학교 나래관",
+          "type": "Attractions",
+          "coords": {
+            "lat": "37.0127324119188",
+            "lng": "127.261739413379"
+          },
+          "address1": "경기 안성시 석정동 63-1",
+          "address2": "",
+          "image": "",
+          "information": {
+            "summary": "12",
+            "detail": "11"
+          },
+          "isMember": true
+        },
+        "member_location": {
+          "memberId": 1,
+          "isPublic": true
+        },
+        "Attractions": {
+          "parking": "",
+          "restDate": "",
+          "useTime": ""
+        }
+      },
+      "id": 3
     }
   ]
 }

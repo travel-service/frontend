@@ -1,20 +1,21 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeField, initializeForm, signup } from 'lib/redux/modules/auth';
+import {
+  changeField,
+  initializeForm,
+  signup,
+  tempSetAuth,
+} from 'lib/redux/modules/auth';
 import AuthForm from 'components/Auth/AuthForm';
 import { useNavigate } from 'react-router-dom';
-// import { check } from 'redux/modules/user';
 
 const SignupForm = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [detailErr, setDetailErr] = useState({
-    username: null,
     password: null,
     passwordCheck: null,
-    realName: null,
     nickName: null,
-    phoneNum: null,
   });
   const dispatch = useDispatch();
   const { form, auth, authError, userState } = useSelector(
@@ -47,20 +48,16 @@ const SignupForm = () => {
     e.preventDefault();
     const {
       userName,
+      email,
       password,
       passwordCheck,
-      realName,
       nickName,
       birthday,
-      phoneNum,
       gender,
-      email,
     } = form;
     // 필수항목 중 하나라도 비어 있다면
     if (
-      [userName, password, passwordCheck, realName, nickName, email].includes(
-        '',
-      )
+      [userName, password, passwordCheck, nickName, email, gender].includes('')
     ) {
       setError('필수항목을 모두 입력해 주세요.');
       return;
@@ -77,13 +74,11 @@ const SignupForm = () => {
     dispatch(
       signup({
         userName,
+        email,
         password,
-        realName,
         nickName,
         birthday,
-        phoneNum,
         gender,
-        email,
       }),
     );
   };
@@ -98,31 +93,27 @@ const SignupForm = () => {
     if (authError) {
       // 아이디가 이미 존재
       setError(authError.response.data.message);
-      // return;
+      return;
       // }
       // 기타 이유
       // setError('회원가입 실패');
-      return;
+      // return;
     }
     if (auth) {
       console.log('회원가입 성공');
-      console.log(auth);
-      // dispatch(check());
+      dispatch(tempSetAuth()); // 회원가입후 auth 제거
+      alert('회원가입이 완료되었습니다!');
+      navigate(process.env.PUBLIC_URL + '/');
     }
-  }, [auth, authError, dispatch]);
+  }, [auth, authError, dispatch, navigate]);
 
   // user 값이 잘 설정되었는지 확인
-  // useEffect(() => {
-  //   console.log(userState);
-  //   if (userState) {
-  //     navigate('/'); // 수정 필요
-  //     try {
-  //       localStorage.setItem('userState', JSON.stringify(userState));
-  //     } catch (e) {
-  //       console.log('localStorage is not working');
-  //     }
-  //   }
-  // }, [userState, navigate]);
+  useEffect(() => {
+    if (userState) {
+      navigate(process.env.PUBLIC_URL + '/');
+    }
+    return;
+  }, [userState, navigate]);
 
   const onBlur = (e) => {
     let { name, value } = e.target;
@@ -158,13 +149,14 @@ const SignupForm = () => {
         let tmp = birthday.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3');
         dispatch(changeField({ form: 'signup', key: 'birthday', value: tmp }));
       }
-    } else if (name === 'phoneNum') {
-      const { phoneNum } = form;
-      if (phoneNum.length === 11) {
-        let tmp = phoneNum.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
-        dispatch(changeField({ form: 'signup', key: 'phoneNum', value: tmp }));
-      }
     }
+    // else if (name === 'phoneNum') {
+    //   const { phoneNum } = form;
+    //   if (phoneNum.length === 11) {
+    //     let tmp = phoneNum.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+    //     dispatch(changeField({ form: 'signup', key: 'phoneNum', value: tmp }));
+    //   }
+    // }
   };
 
   return (

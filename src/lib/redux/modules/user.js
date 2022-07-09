@@ -11,37 +11,25 @@ const [CHECK, CHECK_SUCCESS, CHECK_FAILURE] =
   createRequestActionTypes('user/CHECK');
 const LOGOUT = 'user/LOGOUT';
 
-export const tempSetUser = createAction(TEMP_SET_USER, (user) => user);
+export const tempSetUser = createAction(
+  TEMP_SET_USER,
+  (userState) => userState,
+);
 export const check = createAction(CHECK);
 export const logout = createAction(LOGOUT);
 
-const checkSaga = createRequestSaga(CHECK, authAPI.check);
-
-function checkFailureSaga() {
-  try {
-    localStorage.removeItem('userState');
-  } catch (e) {
-    console.log('localStorage is not working');
-  }
-}
-
-function* logoutSaga() {
-  try {
-    yield call(authAPI.logout);
-    localStorage.removeItem('userState');
-  } catch (e) {
-    console.log(e);
-  }
-}
+const checkSaga = createRequestSaga(CHECK, authAPI.userCheck);
+const logoutSaga = createRequestSaga(LOGOUT, authAPI.logout); // 백엔드 로직 필요
+// const checkFailureSaga = createRequestSaga(LOGOUT, authAPI.refresh); // 0622 잘모르게씀
 
 export function* userSaga() {
   yield takeLatest(CHECK, checkSaga);
-  yield takeLatest(CHECK_FAILURE, checkFailureSaga);
   yield takeLatest(LOGOUT, logoutSaga);
+  // yield takeLatest(CHECK_FAILURE, checkFailureSaga);
 }
 
 const initialState = {
-  userState: null, // user 로 적용이 안됨
+  userState: null,
   checkError: null,
 };
 
@@ -51,20 +39,26 @@ export default handleActions(
       ...state,
       userState,
     }),
-    [CHECK_SUCCESS]: (state, { payload: userState }) => ({
-      ...state,
-      userState,
-      checkError: null,
-    }),
-    [CHECK_FAILURE]: (state, { payload: error }) => ({
-      ...state,
-      userState: null,
-      checkError: error,
-    }),
-    [LOGOUT]: (state) => ({
-      ...state,
-      userState: null,
-    }),
+    [CHECK_SUCCESS]: (state, action) => {
+      return {
+        ...state,
+        userState: action.payload.data, // 임시 닉네임, refresh토큰이 제거되면 failure로 가지 않을까
+        checkError: null,
+      };
+    },
+    [CHECK_FAILURE]: (state, action) => {
+      return {
+        ...state,
+        userState: null,
+        checkError: action.payload.error,
+      };
+    },
+    [LOGOUT]: (state) => {
+      return {
+        ...state,
+        // userState: null,
+      };
+    },
   },
   initialState,
 );

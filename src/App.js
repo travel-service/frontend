@@ -1,31 +1,36 @@
-import React, { useEffect } from 'react';
-import {
-  // Routes, Route,
-  useRoutes,
-} from 'react-router-dom';
-import SignUpPage from 'pages/SignupPage';
-import LoginPage from 'pages/LoginPage';
+import React from 'react';
+import { useRoutes } from 'react-router-dom';
+import SignUpPage from 'pages/AuthPages/SignupPage';
+import LoginPage from 'pages/AuthPages/LoginPage';
 import CanvasMainPage from 'pages/CanvasPages/CanvasMainPage';
-import HeaderContainer from './containers/common/HeaderContainer';
 import NoticeMainPage from 'pages/NoticePages/NoticeMainPage';
+import NotFoundPage from 'pages/OtherPages/NotFoundPage';
+import LandingPage from 'pages/OtherPages/LandingPage';
+import SearchPage from 'pages/OtherPages/SearchPage';
 import MyMainPage from 'pages/MyPages/MyMainPage';
-// import LandingPage from 'pages/LandingPage';
+import { useScroll } from 'lib/custom/useScroll';
+import { createGlobalStyle, css } from 'styled-components';
 import Modal from 'react-modal';
-import { onSilentRefresh } from 'lib/api/auth';
-import { setCookie, getCookie } from 'lib/cookies';
+
+const GlobalStyle = createGlobalStyle`
+  body::-webkit-scrollbar {
+    display: none;
+    ${(props) =>
+      props.isScroll &&
+      css`
+        display: block;
+      `}
+  }
+`;
 
 function App() {
-  useEffect(() => {
-    console.log('Set');
-    onSilentRefresh();
-  }, []);
+  const { scrollY } = useScroll();
 
   return (
     <>
-      {/* <HeaderContainer /> */}
       {/* 배포 url */}
       {useRoutes([
-        { path: process.env.PUBLIC_URL + '/', element: <SignUpPage /> }, // 임시로 signup
+        { path: process.env.PUBLIC_URL + '/', element: <LandingPage /> },
         { path: process.env.PUBLIC_URL + '/signup', element: <SignUpPage /> },
         { path: process.env.PUBLIC_URL + '/login', element: <LoginPage /> },
         {
@@ -40,19 +45,20 @@ function App() {
           path: process.env.PUBLIC_URL + '/mypage/*',
           element: <MyMainPage />,
         },
+        {
+          path: process.env.PUBLIC_URL + '/search',
+          element: <SearchPage />,
+        },
+        {
+          path: process.env.PUBLIC_URL + '*',
+          element: <NotFoundPage />,
+        },
       ])}
-      {/* <Routes>
-        <Route element={<SignUpPage />} path="/" />
-        <Route element={<SignUpPage />} path="/signup" />
-        <Route element={<LoginPage />} path="/login" />
-        <Route element={<CanvasMainPage />} path="/canvas/*" />
-      </Routes> */}
+      <GlobalStyle isScroll={scrollY} />
     </>
   );
 }
 
-Modal.setAppElement('#root'); // Modal 사용을 위해 붙임(0311)
+Modal.setAppElement('#root'); // Modal 사용을 위해 붙임
 
 export default App;
-
-// 0303 useRoutes 사용

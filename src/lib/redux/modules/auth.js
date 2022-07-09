@@ -1,5 +1,5 @@
 import { createAction, handleActions } from 'redux-actions';
-import { takeLatest } from 'redux-saga/effects';
+import { takeLatest, call } from 'redux-saga/effects';
 import produce from 'immer';
 import createRequestSaga, {
   createRequestActionTypes,
@@ -7,16 +7,16 @@ import createRequestSaga, {
 import * as authAPI from 'lib/api/auth';
 
 // 액션 생성
-const CHANGE_FIELD = 'auth/CHANGE_FIELD'; // input 값
+const CHANGE_FIELD = 'auth/CHANGE_FIELD'; // input 값 변화 감지
 const INITIALIZE_FORM = 'auth/INITIALIZE_FORM'; // form 초기화
-
-// 액션 함수 생성
+const TEMP_SET_AUTH = 'auth/TEMP_SET_AUTH'; //새로고침 이후 임시 로그인 처리
 const [SIGNUP, SIGNUP_SUCCESS, SIGNUP_FAILURE] =
-  createRequestActionTypes('auth/SIGNUP');
-
+  createRequestActionTypes('auth/SIGNUP'); // 회원가입
 const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] =
-  createRequestActionTypes('auth/LOGIN');
+  createRequestActionTypes('auth/LOGIN'); // 로그인
+// const LOGOUT = 'auth/LOGOUT'; // 로그아웃
 
+// createAction(타입, 현재 상태)
 export const changeField = createAction(
   CHANGE_FIELD,
   ({ form, key, value }) => ({
@@ -25,39 +25,35 @@ export const changeField = createAction(
     value,
   }),
 );
-
-// createAction(타입, 현재 상태)
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => form); // signup, login
-// export const initializeForm = (form) => ({type: INITIALIZE_FORM, form})
-
 export const signup = createAction(
   SIGNUP,
-  ({
+  ({ userName, email, password, nickName, birthday, gender }) => ({
     userName,
+    email,
     password,
-    realName,
     nickName,
     birthday,
-    phoneNum,
     gender,
-    email,
-  }) => ({
-    userName,
-    password,
-    realName,
-    nickName,
-    birthday,
-    phoneNum,
-    gender,
-    email,
   }),
 );
-
 export const login = createAction(LOGIN, ({ userName, password }) => ({
   userName,
   password,
 }));
-// export const login = ({ type: LOGIN });
+export const tempSetAuth = createAction(TEMP_SET_AUTH, (auth) => auth);
+// export const logout = createAction(LOGOUT);
+
+// function* logoutSaga() {
+//   // 로그아웃시 스토리지 삭제
+//   try {
+//     yield call(authAPI.logout);
+//     localStorage.removeItem('userState');
+//     localStorage.removeItem('accessToken');
+//   } catch (e) {
+//     console.log(e);
+//   }
+// }
 
 // 사가 생성
 // yield 비동기 통신
@@ -66,6 +62,7 @@ const loginSaga = createRequestSaga(LOGIN, authAPI.login);
 export function* authSaga() {
   yield takeLatest(SIGNUP, signupSaga);
   yield takeLatest(LOGIN, loginSaga);
+  // yield takeLatest(LOGOUT, logoutSaga);
 }
 
 // 초기값
@@ -73,14 +70,12 @@ const initialState = {
   // 불변성 유지하면서 객체 수정
   signup: {
     userName: '',
+    email: '',
     password: '',
     passwordCheck: '',
-    realName: '',
     nickName: '',
     birthday: '',
-    phoneNum: '',
     gender: '',
-    email: '',
   },
   login: {
     userName: '',
@@ -89,28 +84,6 @@ const initialState = {
   auth: null,
   authError: null,
 };
-
-// function auth(state = initialState, action) {
-//   switch(action.type) {
-//     case LOGIN:
-//       return {
-//         ...state
-//         ..
-//       }
-//   }
-// }
-
-// const auth = (state = initState, action) => {
-//   switch (action.type) {
-//     case CHANGE_USER:
-//       return { ...state, user: action.user };
-//   }
-// };
-
-// import { handleActions } from 'redux-actions';
-// const reducer = handleActions({
-//   [CHANGE_USER]: (state, action) => ({ ...state, user: action.user }),
-// });
 
 const auth = handleActions(
   {
@@ -127,27 +100,50 @@ const auth = handleActions(
       authError: null, // 폼 전환 시 외원 인증 에러 초기화
     }),
     // 회원가입 성공
-    [SIGNUP_SUCCESS]: (state, { payload: auth }) => ({
-      ...state,
-      authError: null,
-      auth,
-    }),
+    [SIGNUP_SUCCESS]: (state, { payload: auth }) => {
+      return {
+        ...state,
+        auth,
+        authError: null,
+      };
+    },
     // 회원가입 실패
     [SIGNUP_FAILURE]: (state, { payload: error }) => ({
       ...state,
       authError: error,
     }),
     // 로그인 성공
-    [LOGIN_SUCCESS]: (state, { payload: auth }) => ({
-      ...state,
-      authError: null,
-      auth,
-    }),
+    [LOGIN_SUCCESS]: (state, { payload: auth }) => {
+      return {
+        ...state,
+        auth: auth.data,
+        authError: null,
+      };
+    },
     // 로그인 실패
-    [LOGIN_FAILURE]: (state, { payload: error }) => ({
-      ...state,
-      authError: error,
-    }),
+    [LOGIN_FAILURE]: (state, { payload: error }) => {
+      console.log(error);
+      return {
+        ...state,
+        authError: error,
+      };
+    },
+    // 회원가입후 auth 제거
+    [TEMP_SET_AUTH]: (state, action) => {
+      console.log(action);
+      return {
+        ...state,
+        auth: null,
+      };
+    },
+    // // 로그아웃
+    // [LOGOUT]: (state) => ({
+    //   ...state,
+    //   userState: null,
+    //   auth: null,
+    //   authError: null,
+    //   accessToken: null,
+    // }),
   },
   initialState,
 );

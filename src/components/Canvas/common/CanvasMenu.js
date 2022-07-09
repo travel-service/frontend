@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import oc from 'open-color';
-import { shadow } from 'lib/styleUtils';
+import { shadow } from 'lib/styles/styleUtils';
 
 const Menu = styled.div`
   /* height: calc(100vh - 58px); // header 크기가 58px(55 + 3) */

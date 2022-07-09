@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { planStore, useStore } from 'lib/store';
+import { useStore, planStore } from 'lib/zustand/planStore';
 import { Link } from 'react-router-dom';
+import PageTemplate from 'components/common/PageTemplate';
+import DirectoryForm from 'containers/Canvas/DirectoryForm';
 
 const Container = styled.div`
   margin: auto;
@@ -9,41 +11,49 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* margin: auto; // */
   border: 1px solid black;
-  /* height: 80vh; */
 `;
 
+// 여행 보관함
+
 const DirectoryPage = () => {
-  const { travelPlans, getPlans } = planStore();
-  const { getPlan } = useStore();
+  // const { getPlan } = useStore();
+  // const { plans, getAllPlans } = planStore();
 
-  useEffect(() => {
-    getPlans(); // 나중에는 userId를 파라미터로
-  }, [getPlans]);
+  // useEffect(() => {
+  //   getAllPlans();
+  // }, [getAllPlans]);
 
-  const onClick = (id) => {
-    getPlan(id);
-  };
+  // const onClick = (id) => {
+  //   getPlan(id);
+  // };
 
+  // return (
+  //   <PageTemplate>
+  //     {console.log(plans)}
+  //     <Container>
+  //       {plans && (
+  //         <div>
+  //           {plans.mainDirectory.map((plan, idx) => (
+  //             <div key={plan.planId}>
+  //               <div>이름: {plan.name}</div>
+  //               <div>기간: {plan.periods}</div>
+  //               <Link
+  //                 to={process.env.PUBLIC_URL + '/canvas/setting'}
+  //                 onClick={() => onClick(plan.planId)}
+  //               >
+  //                 수정하러가기
+  //               </Link>
+  //             </div>
+  //           ))}
+  //         </div>
+  //       )}
+  //     </Container>
+  //   </PageTemplate>
   return (
-    <Container>
-      {travelPlans.length !== 0 && (
-        <div>
-          {travelPlans.map((e) => (
-            <div key={e.id}>
-              <div>플랜 id: {e.id}</div>
-              <Link
-                to={process.env.PUBLIC_URL + '/canvas/setting'}
-                onClick={() => onClick(e.id)}
-              >
-                수정하러가기
-              </Link>
-            </div>
-          ))}
-        </div>
-      )}
-    </Container>
+    <>
+      <DirectoryForm />
+    </>
   );
 };
 

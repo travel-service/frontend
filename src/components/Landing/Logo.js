@@ -2,42 +2,31 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
-const SubDiv = styled.div`
-  ${(props) =>
-    props.letter &&
-    css`
-      text-align: center;
-      height: 80px;
-      padding-top: 15px;
-    `}
-`;
-
 const Img = styled.img`
+  height: 40px;
+  margin-right: 10px;
   ${(props) =>
-    props.picture &&
+    !props.auth &&
     css`
-      position: absolute;
-      left: 3%;
+      @media screen and (max-width: 767px) {
+        height: 25px;
+      }
     `}
 `;
 
-const Logo = () => {
+const Logo = ({ auth }) => {
   return (
     <Link to={process.env.PUBLIC_URL + '/'}>
-      <SubDiv>
-        <Img
-          src={process.env.PUBLIC_URL + '/images/logoPainting.png'}
-          alt=""
-          picture
-        />
-      </SubDiv>
-      <SubDiv letter>
-        <Img
-          src={process.env.PUBLIC_URL + '/images/logoLetter.png'}
-          alt=""
-          letter
-        />
-      </SubDiv>
+      <Img
+        auth={auth}
+        alt=""
+        src={process.env.PUBLIC_URL + '/images/logoPainting.png'}
+      />
+      <Img
+        auth={auth}
+        alt=""
+        src={process.env.PUBLIC_URL + '/images/FontLogo.png'}
+      />
     </Link>
   );
 };

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import AuthForm from 'components/Auth/AuthForm';
 import { changeField, initializeForm, login } from 'lib/redux/modules/auth';
-// import { check } from 'redux/modules/user';
+import { check } from 'lib/redux/modules/user';
 
 const LoginForm = () => {
   const [error, setError] = useState(null);
@@ -11,7 +11,6 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const { form, auth, authError, userState } = useSelector(
     ({ auth, user }) => ({
-      // state.auth, state.user
       form: auth.login, // store이름 auth, auth.signup에(회원 정보 목록 있음)
       auth: auth.auth,
       authError: auth.authError,
@@ -48,27 +47,19 @@ const LoginForm = () => {
 
   useEffect(() => {
     if (authError) {
-      console.log('오류 발생');
-      setError(authError.response.data.message);
+      setError('아이디 또는 비밀번호를 잘못 입력했습니다.');
       return;
     }
     if (auth) {
-      console.log('로그인 성공');
-      // navigate(process.env.PUBLIC_URL + '/canvas/directory');
-      // dispatch(check());
+      console.log('로그인 완료');
+      dispatch(check());
     }
   }, [auth, authError, dispatch, navigate]);
 
   useEffect(() => {
-    // if (userState) {
-    //   console.log('check 성공');
-    //   navigate(process.env.PUBLIC_URL + '/canvas/directory');
-    //   try {
-    //     localStorage.setItem('userState', JSON.stringify(userState));
-    //   } catch (e) {
-    //     console.log('localStorage is not working');
-    //   }
-    // }
+    if (userState) {
+      navigate(process.env.PUBLIC_URL + '/');
+    }
   }, [userState, navigate]);
 
   return (

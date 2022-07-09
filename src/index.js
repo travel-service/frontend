@@ -11,8 +11,7 @@ import rootReducer, { rootSaga } from 'lib/redux/modules';
 import createSagaMiddleware from 'redux-saga';
 import axios from 'axios';
 import { check } from 'lib/redux/modules/user';
-import { setCookie, getCookie } from 'lib/cookies';
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import './lib/interceptors/axios';
 
 axios.defaults.withCredentials = true;
 
@@ -22,20 +21,15 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(sagaMiddleware)),
 );
 
-// function loadUser() {
-//   try {
-//     const user = localStorage.getItem('userState');
-//     if (!user) return;
-//     store.dispatch(tempSetUser(user));
-//     store.dispatch(check());
-//   } catch (e) {
-//     console.log('localStorage is not working');
-//   }
-// }
-
-// saga run 이후에 user loading
+function loadUser() {
+  try {
+    store.dispatch(check());
+  } catch (e) {
+    console.log('not working');
+  }
+}
 sagaMiddleware.run(rootSaga);
-// loadUser();
+loadUser();
 
 ReactDOM.render(
   <Provider store={store}>

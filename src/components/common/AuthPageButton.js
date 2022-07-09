@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import palette from 'lib/styles/palette';
 
 const buttonStyle = css`
-  margin-left: 100px;
+  /* margin-left: 100px; */
   font-weight: 600;
   font-size: 23px;
   color: black;

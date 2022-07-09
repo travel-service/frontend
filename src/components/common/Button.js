@@ -2,7 +2,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import oc from 'open-color';
 import { Link } from 'react-router-dom';
-import { shadow } from 'lib/styleUtils';
+import { shadow } from 'lib/styles/styleUtils';
 // import palette from 'lib/styles/palette';
 
 const buttonStyle = css`
