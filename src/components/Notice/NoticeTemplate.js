@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import AuthHeader from 'components/Base/Header/AuthHeader';
 import Logo from 'components/Landing/Logo';
 
