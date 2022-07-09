@@ -2,7 +2,7 @@ import { createAction, handleActions } from 'redux-actions';
 import { takeLatest } from 'redux-saga/effects';
 import createRequestSaga, {
   createRequestActionTypes,
-} from 'lib/createRequestSaga';
+} from 'lib/redux/createRequestSaga';
 import * as planAPI from 'lib/api/plan';
 
 const [GET_PLAN, GET_PLAN_SUCCESS, GET_PLAN_FAILURE] =
