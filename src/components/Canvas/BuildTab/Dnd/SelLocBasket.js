@@ -7,12 +7,14 @@ import { Droppable } from 'react-beautiful-dnd';
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  transition: all 0.3s;
-  /* margin-right: 8px; */
+  /* transition: all 0.3s; */
+  border: 2px solid black;
   ${(props) =>
     !props.isOpen &&
     css`
       width: 0vw;
+      height: 0px;
+      border: none;
     `}
   @media screen and (max-width: 767px) {
     display: block;
@@ -23,13 +25,11 @@ const List = styled.div`
   display: flex;
   width: 100px;
   flex-direction: column;
-  /* border: 2px solid ${oc.teal[6]}; */
   border: 2px solid black;
   justify-content: space-around;
   @media screen and (max-width: 767px) {
-    flex-direction: row;
-    /* display: block; */
     width: 100%;
+    flex-direction: row;
   }
 `;
 
@@ -43,7 +43,6 @@ const Item = styled.div`
   :hover {
     cursor: pointer;
     background: rgba(133, 207, 194, 1);
-    /* color: white; */
     transition: background 0.2s linear;
     font-weight: 600;
     font-size: 18px;
@@ -67,9 +66,14 @@ const Basket = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* li[data-rbd-placeholder-context-id] {
+
+  @media screen and (max-width: 767px) {
+    max-height: 150px;
+    overflow: auto;
+  }
+  li[data-rbd-placeholder-context-id] {
     display: none !important;
-  } */
+  }
 `;
 
 const SelLocBasket = ({

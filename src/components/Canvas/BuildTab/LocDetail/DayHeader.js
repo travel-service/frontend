@@ -5,7 +5,9 @@ import { useStore } from 'lib/zustand/planStore';
 
 const Container = styled.div`
   /* position: fixed; */
-  width: 270px;
+  /* width: 270px; */
+  width: 100%;
+
   display: flex;
   justify-content: center;
   align-items: center;

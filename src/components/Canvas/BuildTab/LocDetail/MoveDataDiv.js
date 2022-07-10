@@ -13,14 +13,21 @@ import {
 
 const Container = styled.div`
   position: relative;
-  width: 500px; // 이동 데이터 풍선과 관련
+  /* overflow: visible; */
+  /* z-index: 1; */
+  /* width: 500px; // 이동 데이터 풍선과 관련 */
 `;
 
 const Div = styled.div`
   position: absolute;
   // 수정 예정 0317
-  left: 270px;
+  left: 90%;
   top: -20px;
+  /* overflow: visible; */
+  @media screen and (max-width: 767px) {
+    left: 65%;
+  }
+
   :after {
     content: '';
     position: absolute;
@@ -65,6 +72,9 @@ const BubbleDiv = styled.div`
 
 const TimeDiv = styled.div`
   margin-right: 5px;
+  @media screen and (max-width: 767px) {
+    font-size: 13px;
+  }
 `;
 
 const PencilIcon = styled(MdMode)`

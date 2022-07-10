@@ -18,12 +18,11 @@ const LocTime = styled.div`
 const List = styled.li`
   display: flex;
   list-style: none;
-  width: 100%;
   padding: 5px;
   white-space: normal;
   line-height: 1.5;
   user-select: none;
-  width: 220px;
+  width: 250px;
   margin-bottom: 10px;
   box-shadow: 3px 3px 3px 3px ${palette.gray[5]};
   border-radius: 4px;
@@ -34,20 +33,18 @@ const List = styled.li`
     css`
       margin: auto;
       margin-bottom: 10px;
-    `}
-  ${(props) =>
-    props.isDragging &&
-    css`
-      + li {
-        display: none !important;
+      width: 85%;
+      @media screen and (max-width: 767px) {
+        width: 60%;
+        margin: 0px 0px 10px 20px;
       }
     `}
 `;
 
 const Clone = styled(List)`
-  /* ~ li {
+  ~ li {
     transform: none !important;
-  } */
+  }
 `;
 
 const ImgDiv = styled.div`

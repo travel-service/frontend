@@ -67,6 +67,7 @@ const MobileDayArea = ({
         userTravelDay={userTravelDay}
         setTimeData={setTimeData}
         splitTime={splitTime}
+        mobile={true}
       />
     </React.Fragment>
   );
