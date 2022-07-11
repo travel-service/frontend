@@ -9,7 +9,6 @@ import CreateLoc from 'components/Canvas/BuildTab/MemLoc/CreateLoc';
 
 const Days = styled.div`
   display: flex;
-  justify-content: space-between;
   flex: 1;
   overflow: auto;
   white-space: nowrap;
@@ -38,10 +37,15 @@ const Container = styled.div`
 const Day = styled.div`
   margin: 8px;
   border-radius: 15px;
-  width: 270px;
   background: white;
   max-height: 60vh;
   flex: 1;
+  ${(props) =>
+    !props.mobile &&
+    css`
+      min-width: 270px;
+      max-width: 270px;
+    `}
 
   ${(props) =>
     props.mobile &&
@@ -65,7 +69,14 @@ const CarBtn = styled.button`
   margin: 5px 20px;
   background-color: white;
   border-radius: 5px;
-  border: 1px solid black;
+  border: none;
+  :hover {
+    cursor: pointer;
+    background-color: ${oc.teal[6]};
+    color: white;
+    transform: scale(1.1);
+    transition: all 0.1s linear;
+  }
 `;
 
 const InitForm = styled.div`
@@ -134,8 +145,15 @@ const PlanDays = ({
   };
 
   const onClickBtn = (di) => {
+    let last = travelDay.length - 1;
     if (di === 'p') {
+      // 이전 day 보여주기
+      if (dayIdx === 0) return;
+      else setDayIdx(dayIdx - 1);
     } else if (di === 'n') {
+      // 이후 day 보여주기
+      if (dayIdx === last) return;
+      else setDayIdx(dayIdx + 1);
     }
   };
 
@@ -146,7 +164,6 @@ const PlanDays = ({
           // 각 day
           <>
             <Day key={index} idx={index} dayIdx={dayIdx} mobile={mobile}>
-              {console.log(index, dayIdx)}
               <DayHeader index={index} />
               {/* day 영역 */}
               <Droppable droppableId={`day${index}`}>
@@ -204,10 +221,12 @@ const PlanDays = ({
         {/* <button onClick={onClickTest}>state 출력 버튼</button> */}
       </Days>
       {/* 0711 기능 구현 예정 */}
-      <CarouselBtns>
-        <CarBtn>이전</CarBtn>
-        <CarBtn>이후</CarBtn>
-      </CarouselBtns>
+      {mobile && (
+        <CarouselBtns>
+          <CarBtn onClick={() => onClickBtn('p')}>이전</CarBtn>
+          <CarBtn onClick={() => onClickBtn('n')}>이후</CarBtn>
+        </CarouselBtns>
+      )}
     </Container>
   );
 };
