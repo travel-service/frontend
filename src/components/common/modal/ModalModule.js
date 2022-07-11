@@ -6,6 +6,13 @@ import 'lib/styles/Modal.css';
 import MapContainer from 'components/Canvas/BuildTab/Map/MapContainer';
 import MapMove from 'components/Canvas/BuildTab/Map/MapMove';
 
+const StyledModal = styled(Modal)`
+  @media screen and (max-width: 767px) {
+    flex-direction: column-reverse;
+    justify-content: center;
+  }
+`;
+
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
@@ -21,7 +28,21 @@ const Section = styled.div`
   background-color: #fff;
   animation: modal-show 0.3s;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
   /* width: 100px; */
+  @media screen and (max-width: 767px) {
+    height: 25vh;
+    width: 100%;
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
 `;
 
 const Section2 = styled.div`
@@ -31,6 +52,17 @@ const Section2 = styled.div`
   background-color: #fff;
   animation: modal-show 0.3s;
   overflow: hidden;
+  height: 90vh;
+
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    ${MapMove} {
+      /* height: 60vh; */
+    }
+  }
 `;
 
 const Btn = styled.div`
@@ -53,7 +85,7 @@ const ModalModule = ({
   onSelect,
 }) => {
   return (
-    <Modal
+    <StyledModal
       className={modalIsOpen ? 'openModal modal' : 'modal'}
       isOpen={modalIsOpen}
       onRequestClose={closeModal}
@@ -70,20 +102,32 @@ const ModalModule = ({
       </Section>
       {map && (
         <Section2>
-          <Header>
-            <div>kakao 지도</div>
-            <Close size="20" onClick={closeModal} tooltip={false} />
-          </Header>
-          {map === 'memberLoc' && <MapContainer onSelect={onSelect} />}
+          {map === 'memberLoc' && (
+            <>
+              <Header>
+                <div>kakao 지도</div>
+                <Close size="20" onClick={closeModal} tooltip={false} />
+              </Header>
+              <MapContainer onSelect={onSelect} />
+            </>
+          )}
           {map === 'moveLoc' && (
-            <MapMove fromLocName={fromLocName} toLocName={toLocName} />
+            <>
+              <Header>
+                <div>
+                  kakao 지도 {fromLocName} -&gt {toLocName}
+                </div>
+                <Close size="20" onClick={closeModal} tooltip={false} />
+              </Header>
+              <MapMove fromLocName={fromLocName} toLocName={toLocName} />
+            </>
           )}
           <Btn>
             <button onClick={onSubmit}>닫기</button>
           </Btn>
         </Section2>
       )}
-    </Modal>
+    </StyledModal>
   );
 };
 

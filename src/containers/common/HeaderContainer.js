@@ -8,8 +8,8 @@ const HeaderContainer = () => {
     userState: user.userState,
   }));
   const dispatch = useDispatch();
-  const onLogout = () => {
-    dispatch(logout()); // 아직 구현 X 0703
+  const onLogout = async () => {
+    dispatch(logout());
   };
   return <Header userState={userState} onLogout={onLogout} />;
 };

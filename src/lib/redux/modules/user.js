@@ -1,5 +1,5 @@
 import { createAction, handleActions } from 'redux-actions';
-import { takeLatest, call } from 'redux-saga/effects';
+import { takeLatest } from 'redux-saga/effects';
 import createRequestSaga, {
   createRequestActionTypes,
 } from 'lib/redux/createRequestSaga';
@@ -19,13 +19,11 @@ export const check = createAction(CHECK);
 export const logout = createAction(LOGOUT);
 
 const checkSaga = createRequestSaga(CHECK, authAPI.userCheck);
-const logoutSaga = createRequestSaga(LOGOUT, authAPI.logout); // 백엔드 로직 필요
-// const checkFailureSaga = createRequestSaga(LOGOUT, authAPI.refresh); // 0622 잘모르게씀
+const logoutSaga = createRequestSaga(LOGOUT, authAPI.logout);
 
 export function* userSaga() {
   yield takeLatest(CHECK, checkSaga);
   yield takeLatest(LOGOUT, logoutSaga);
-  // yield takeLatest(CHECK_FAILURE, checkFailureSaga);
 }
 
 const initialState = {
@@ -42,7 +40,7 @@ export default handleActions(
     [CHECK_SUCCESS]: (state, action) => {
       return {
         ...state,
-        userState: action.payload.data, // 임시 닉네임, refresh토큰이 제거되면 failure로 가지 않을까
+        userState: action.payload.data, // nickName
         checkError: null,
       };
     },
@@ -56,7 +54,7 @@ export default handleActions(
     [LOGOUT]: (state) => {
       return {
         ...state,
-        // userState: null,
+        userState: null,
       };
     },
   },

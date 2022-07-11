@@ -18,8 +18,15 @@ const Container = styled.div`
   align-items: center;
 `;
 
+const Div = styled.div`
+  font-size: 20px;
+`;
+
 const Input = styled.input`
   margin-left: 10px;
+  margin-bottom: 10px;
+  height: 30px;
+  font-size: 20px;
 `;
 
 const Time = ({ title, day, index }) => {
@@ -102,18 +109,19 @@ const Time = ({ title, day, index }) => {
       >
         <Container>
           {title === '출발시각' && (
-            <div>
+            <Div>
               출발시각
               <Input
                 type="time"
                 value={startTime}
                 onChange={onChangeStartTime}
               />
-            </div>
+            </Div>
           )}
           {title === '체류시간' && (
             <>
-              <div>
+              <Div>
+                체류시간
                 <Input
                   type="number"
                   onChange={onChangeStayTime}
@@ -134,7 +142,7 @@ const Time = ({ title, day, index }) => {
                   max="59"
                 />
                 &nbsp;분
-              </div>
+              </Div>
               <div>
                 {parseInt(hour) > 0 ? `${hour}시간` : ''}
                 {parseInt(min) > 0 ? ` ${min}분` : ''}

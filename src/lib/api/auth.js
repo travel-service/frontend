@@ -21,8 +21,8 @@ export const signup = async ({
   nickName,
   birthday,
   gender,
-}) => {
-  const response = await axios.post('/api/signup', {
+}) =>
+  axios.post('/api/signup', {
     userName,
     email,
     password,
@@ -30,9 +30,6 @@ export const signup = async ({
     birthday,
     gender,
   });
-  console.log(response);
-  return response;
-};
 
 export const userCheck = async () => {
   const response = await axios.get('/auth/info');
@@ -47,8 +44,7 @@ export const refresh = async () => {
 
 // 로그아웃
 export const logout = async () => {
-  const response = await axios.post('/api/logout', {});
+  const response = await axios.delete('/api/user/logout');
+  window.location.reload(); // 페이지 새로고침, access 휘발
   return response;
-  // 백엔드 logout 요청후 refreshToken 제거 필요
-  // 0517
 };
