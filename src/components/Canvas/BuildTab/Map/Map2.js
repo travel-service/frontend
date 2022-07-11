@@ -1,17 +1,22 @@
 /*global kakao*/
-import { FifteenMp } from '@mui/icons-material';
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
   position: relative;
   width: 100%;
   height: 500px;
+  @media screen and (max-width: 767px) {
+    height: 280px;
+  }
 `;
 
 const Div = styled.div`
   width: 100%;
   height: 500px;
+  @media screen and (max-width: 767px) {
+    height: 290px;
+  }
 `;
 
 const Header = styled.div`
@@ -46,12 +51,9 @@ const MapContainer = ({
   setSearchPlaces,
   onSelect,
 }) => {
-  // let container = document.getElementById('myMap'); // DOM 접근
   const [kakaoMap, setKakaoMap] = useState(null);
-  const [area, setArea] = useState(null);
   const [markers, setMarkers] = useState([]);
   const container = useRef(null);
-  const [latLng, setLatLng] = useState(null);
   const [infoWin, setInfoWin] = useState(null);
 
   useEffect(() => {

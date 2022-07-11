@@ -14,7 +14,6 @@ const Days = styled.div`
   white-space: nowrap;
   @media screen and (max-width: 767px) {
     width: 95vw;
-    /* transform: translateX(-100%); */
   }
 `;
 
@@ -124,9 +123,7 @@ const Div = styled.div`
     `}
 `;
 
-const Buttons = styled.div`
-  width: 100px;
-`;
+const Buttons = styled.div``;
 
 const PlanDays = ({
   dayLocDel,
@@ -137,12 +134,7 @@ const PlanDays = ({
   mobile,
 }) => {
   const { travelDay } = userTravelDay;
-  // slider 구현
   const [dayIdx, setDayIdx] = useState(0);
-
-  const onClickTest = () => {
-    console.log(userTravelDay);
-  };
 
   const onClickBtn = (di) => {
     let last = travelDay.length - 1;
@@ -215,12 +207,10 @@ const PlanDays = ({
             </Day>
           </>
         ))}
-        {/* <Buttons>
-          <CreateLoc size="30" />
-        </Buttons> */}
-        {/* <button onClick={onClickTest}>state 출력 버튼</button> */}
       </Days>
-      {/* 0711 기능 구현 예정 */}
+      <Buttons>
+        <CreateLoc size="30" />
+      </Buttons>
       {mobile && (
         <CarouselBtns>
           <CarBtn onClick={() => onClickBtn('p')}>이전</CarBtn>

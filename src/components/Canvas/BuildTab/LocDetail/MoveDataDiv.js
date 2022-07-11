@@ -15,15 +15,12 @@ const Container = styled.div`
   position: relative;
   /* overflow: visible; */
   /* z-index: 1; */
-  /* width: 500px; // 이동 데이터 풍선과 관련 */
 `;
 
 const Div = styled.div`
   position: absolute;
-  // 수정 예정 0317
   left: 90%;
   top: -20px;
-  /* overflow: visible; */
   @media screen and (max-width: 767px) {
     left: 65%;
   }

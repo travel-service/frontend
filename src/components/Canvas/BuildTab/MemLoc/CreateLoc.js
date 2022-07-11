@@ -31,6 +31,10 @@ const Container = styled.div`
   flex-direction: column;
   /* align-items: center; */
   width: 30vw;
+  @media screen and (max-width: 767px) {
+    width: 90vw;
+    /* height: 40vh; */
+  }
 `;
 
 const Label = styled.label`
@@ -166,7 +170,7 @@ const CreateLoc = ({ size, onClick }) => {
         onSelect={onSelect}
         onSubmit={onSubmit}
       >
-        <Container>
+        <Container className="memberLoc">
           <DivInput
             title="여행지 이름"
             onChange={onChange}

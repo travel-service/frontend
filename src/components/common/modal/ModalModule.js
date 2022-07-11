@@ -30,16 +30,18 @@ const Section = styled.div`
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  /* width: 100px; */
+
   @media screen and (max-width: 767px) {
-    height: 25vh;
     width: 100%;
+    overflow: auto;
+
     main {
       flex: 1;
       display: flex;
       justify-content: center;
       align-items: center;
     }
+
     margin-top: 30px;
     margin-bottom: 30px;
   }
@@ -52,16 +54,18 @@ const Section2 = styled.div`
   background-color: #fff;
   animation: modal-show 0.3s;
   overflow: hidden;
-  height: 90vh;
 
   @media screen and (max-width: 767px) {
     width: 100%;
     margin: 0;
     display: flex;
     flex-direction: column;
-    ${MapMove} {
-      /* height: 60vh; */
-    }
+  }
+`;
+
+const Div = styled.div`
+  @media screen and (max-width: 767px) {
+    height: 40vh;
   }
 `;
 
@@ -103,19 +107,19 @@ const ModalModule = ({
       {map && (
         <Section2>
           {map === 'memberLoc' && (
-            <>
+            <Div>
               <Header>
                 <div>kakao 지도</div>
                 <Close size="20" onClick={closeModal} tooltip={false} />
               </Header>
               <MapContainer onSelect={onSelect} />
-            </>
+            </Div>
           )}
           {map === 'moveLoc' && (
             <>
               <Header>
                 <div>
-                  kakao 지도 {fromLocName} -&gt {toLocName}
+                  kakao 지도 {fromLocName} -&gt; {toLocName}
                 </div>
                 <Close size="20" onClick={closeModal} tooltip={false} />
               </Header>
