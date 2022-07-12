@@ -87,144 +87,80 @@ export const useStore = create((set, get) => ({
     selRestaurant: [],
   },
 
-  category: {
-    1: { eng: 'Attractions', kor: '관광지' },
-    2: { eng: 'Culture', kor: '문화시설' },
-    3: { eng: 'Festival', kor: '축제' },
-    4: { eng: 'Leports', kor: '레포츠' },
-    5: { eng: 'Lodge', kor: '숙박 시설' },
-    6: { eng: 'Restaurant', kor: '음식점' },
-  },
-
-  //onAdd: (loc, type) => set(state => ({ selLoc: [...state.selLoc, loc] })),
+  //selCateLoc배열에 해당 블록을 추가하는 함수
   onAdd: (loc, type) => {
+    console.log(loc);
+    console.log(type);
     switch (type) {
-      case '1':
-        //  set(state => ({ selAttractions: [...state.selAttractions, loc] }));
-        set((state) => ({
-          selCateLoc: {
-            ...state.selCateLoc,
-            selAttractions: [...state.selCateLoc.selAttractions, loc],
-          },
-        }));
+      case 0:
+         set(state => ({ selCateLoc: {
+          ...state.selCateLoc,
+          selAttractions: [...state.selCateLoc.selAttractions, loc]
+         }}));
+         set(state => ({ }));
         break;
-      case '2':
-        // set(state => ({ selCulture: [...state.selCulture, loc] }));
-        set((state) => ({
-          selCateLoc: {
-            ...state.selCateLoc,
-            selCulture: [...state.selCateLoc.selCulture, loc],
-          },
-        }));
+      case 1:
+        set(state => ({ selCateLoc: {
+          ...state.selCateLoc,
+          selCulture: [...state.selCateLoc.selCulture, loc]
+         }}));
         break;
-      case '3':
-        // set(state => ({ selFestival: [...state.selFestival, loc] }));
-        set((state) => ({
-          selCateLoc: {
-            ...state.selCateLoc,
-            selFestival: [...state.selCateLoc.selFestival, loc],
-          },
-        }));
+      case 2:
+        set(state => ({ selCateLoc: {
+          ...state.selCateLoc,
+          selFestival: [...state.selCateLoc.selFestival, loc]
+         }}));
         break;
-      case '4':
-        // set(state => ({ selLeports: [...state.selLeports, loc] }));
-        set((state) => ({
-          selCateLoc: {
-            ...state.selCateLoc,
-            selLeports: [...state.selCateLoc.selLeports, loc],
-          },
-        }));
+      case 3:
+        set(state => ({ selCateLoc: {
+          ...state.selCateLoc,
+          selLeports: [...state.selCateLoc.selLeports, loc]
+         }}));
         break;
-      case '5':
-        // set(state => ({ selLodge: [...state.selLodge, loc] }));
-        set((state) => ({
-          selCateLoc: {
-            ...state.selCateLoc,
-            selLodge: [...state.selCateLoc.selLodge, loc],
-          },
-        }));
+      case 4:
+        console.log(loc);
+        set(state => ({ selCateLoc: {
+          ...state.selCateLoc,
+          selLodge: [...state.selCateLoc.selLodge, loc]
+         }}));
         break;
-      case '6':
-        // set(state => ({ selRestaurant: [...state.selRestaurant, loc] }));
-        set((state) => ({
-          selCateLoc: {
-            ...state.selCateLoc,
-            selRestaurant: [...state.selCateLoc.selRestaurant, loc],
-          },
-        }));
+      case 5:
+        console.log(loc);
+        set(state => ({ selCateLoc: {
+          ...state.selCateLoc,
+          selRestaurant: [...state.selCateLoc.selRestaurant, loc]
+         }}));
         break;
       default:
     }
   },
 
-  //remove: (locId) => set(state => ({ selLoc: state.selLoc.filter(loc => loc.id !== locId)})),
+  //selCateLoc 배열에 있는 로케이션 블록을 삭제하는 함수
   remove: (locId, type) => {
     switch (type) {
-      case '1':
+      case 0:
         // set(state => ({ selAttractions: state.selAttractions.filter(loc => loc.id !== locId)}));
-        set((state) => ({
-          selCateLoc: {
-            ...state.selCateLoc,
-            selAttractions: state.selCateLoc.selAttractions.filter(
-              (loc) => loc.id !== locId,
-            ),
-          },
-        }));
+        set(state => ({ selCateLoc: {...state.selCateLoc, selAttractions: state.selCateLoc.selAttractions.filter(loc => loc.id !== locId)}}));
         break;
-      case '2':
+      case 1:
         // set(state => ({ selCulture: state.selCulture.filter(loc => loc.id !== locId)}));
-        set((state) => ({
-          selCateLoc: {
-            ...state.selCateLoc,
-            selCulture: state.selCateLoc.selCulture.filter(
-              (loc) => loc.id !== locId,
-            ),
-          },
-        }));
+        set(state => ({ selCateLoc: {...state.selCateLoc, selCulture: state.selCateLoc.selCulture.filter(loc => loc.id !== locId)}}));
         break;
-      case '3':
+      case 2:
         // set(state => ({ selFestival: state.selFestival.filter(loc => loc.id !== locId)}));
-        set((state) => ({
-          selCateLoc: {
-            ...state.selCateLoc,
-            selFestival: state.selCateLoc.selFestival.filter(
-              (loc) => loc.id !== locId,
-            ),
-          },
-        }));
+        set(state => ({ selCateLoc: {...state.selCateLoc, selFestival: state.selCateLoc.selFestival.filter(loc => loc.id !== locId)}}));
         break;
-      case '4':
+      case 3:
         // set(state => ({ selLeports: state.selLeports.filter(loc => loc.id !== locId)}));
-        set((state) => ({
-          selCateLoc: {
-            ...state.selCateLoc,
-            selLeports: state.selCateLoc.selLeports.filter(
-              (loc) => loc.id !== locId,
-            ),
-          },
-        }));
+        set(state => ({ selCateLoc: {...state.selCateLoc, selLeports: state.selCateLoc.selLeports.filter(loc => loc.id !== locId)}}));
         break;
-      case '5':
+      case 4:
         // set(state => ({ selLodge: state.selLodge.filter(loc => loc.id !== locId)}));
-        set((state) => ({
-          selCateLoc: {
-            ...state.selCateLoc,
-            selLodge: state.selCateLoc.selLodge.filter(
-              (loc) => loc.id !== locId,
-            ),
-          },
-        }));
+        set(state => ({ selCateLoc: {...state.selCateLoc, selLodge: state.selCateLoc.selLodge.filter(loc => loc.id !== locId)}}));
         break;
-      case '6':
+      case 5:
         // set(state => ({ selRestaurant: state.selRestaurant.filter(loc => loc.id !== locId)}));
-        set((state) => ({
-          selCateLoc: {
-            ...state.selCateLoc,
-            selRestaurant: state.selCateLoc.selRestaurant.filter(
-              (loc) => loc.id !== locId,
-            ),
-          },
-        }));
+        set(state => ({ selCateLoc: {...state.selCateLoc, selRestaurant: state.selCateLoc.selRestaurant.filter(loc => loc.id !== locId)}}));
         break;
       default:
     }
@@ -315,7 +251,7 @@ export const planStore = create((set, get) => ({
 }));
 
 // systemLocation 받아오고, 카테고리 따라서 분류
-export const sysLocStore = create((set) => ({
+export const sysLocStore = create((set, get) => ({
   sysCateLoc: {
     // 전체 location => 분류
     Attractions: [],
@@ -325,47 +261,82 @@ export const sysLocStore = create((set) => ({
     Lodge: [],
     Restaurant: [],
   },
+  sysCateLocCoords: {
+    CoordsList: [],
+  },
+  flag: false,
 
   getSysLoc: async () => {
-    const response = await axios.get('http://localhost:4000/locations');
-    const obj = Object.values(response.data);
-    let att = [];
-    let cul = [];
-    let fes = [];
-    let lepo = [];
-    let lod = [];
-    let rest = [];
-    for (let x of obj) {
-      switch (x.type) {
-        case '1':
-          att.push(x);
-          break;
-        case '2':
-          cul.push(x);
-          break;
-        case '3':
-          fes.push(x);
-          break;
-        case '4':
-          lepo.push(x);
-          break;
-        case '5':
-          lod.push(x);
-          break;
-        case '6':
-          rest.push(x);
-          break;
-        default:
+    if (get().flag === false) {
+      const response = await axios.get('http://localhost:4000/locations_v2');
+      let att = [];
+      let cul = [];
+      let fes = [];
+      let lepo = [];
+      let lod = [];
+      let rest = [];
+      for (let x of response.data["Attraction"]) {
+        x.isSelect = false;
+        att.push(x);
       }
+      for (let x of response.data["Culture"]) {
+        x.isSelect = false;
+        cul.push(x);
+      }
+      for (let x of response.data["Festival"]) {
+        x.isSelect = false;
+        fes.push(x);
+      }
+      for (let x of response.data["Leports"]) {
+        x.isSelect = false;
+        lepo.push(x);
+      }
+      for (let x of response.data["Lodge"]) {
+        x.isSelect = false;
+        lod.push(x);
+      }
+      for (let x of response.data["Restaurant"]) {
+        x.isSelect = false;
+        rest.push(x);
+      }
+      set({
+        sysCateLoc: {
+          Attractions: att,
+          Culture: cul,
+          Festival: fes,
+          Leports: lepo,
+          Lodge: lod,
+          Restaurant: rest,
+        },
+      });
+      set({flag: true})
     }
+  },
+
+  getSysLocCoords: async () => {
+    const response = await axios.get('http://localhost:4000/locations_mark');
+    let att = [];
+    // let cul = [];
+    // let fes = [];
+    // let lepo = [];
+    // let lod = [];
+    // let rest = [];
+    for (let x of response.data["Attraction"]) {
+      x.isSelect = false;
+      att.push(x);
+    }
+    // for (let x of response.data["Festival"]) {
+    //   x.isSelect = false;
+    //   fes.push(x);
+    // }
     set({
-      sysCateLoc: {
-        Attractions: att,
-        Culture: cul,
-        Festival: fes,
-        Leports: lepo,
-        Lodge: lod,
-        Restaurant: rest,
+      sysCateLocCoords: {
+        CoordsList: att,
+        // Culture: cul,
+        // Festival: fes,
+        // Leports: lepo,
+        // Lodge: lod,
+        // Restaurant: rest,
       },
     });
   },

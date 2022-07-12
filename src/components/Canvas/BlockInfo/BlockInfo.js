@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import {infoStore} from '../../../lib/infoStore';
+import {infoStore} from '../../../lib/zustand/infoStore';
 
 
 const AttractionInfo = (locationId) => {

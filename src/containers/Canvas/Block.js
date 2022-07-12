@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import SelectArea from 'components/Canvas/BlockSelect/SelectArea';
-import {sysLocStore, useStore} from '../../lib/store';
+import {sysLocStore, useStore} from '../../lib/zustand/planStore';
 
 const Block = () => {
 
