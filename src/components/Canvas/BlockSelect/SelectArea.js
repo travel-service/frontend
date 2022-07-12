@@ -29,18 +29,17 @@ const BlueBox = styled.div`
 `;
 
 const SelectArea = ({ location, selLocs }) => {
-  const { Attractions, Restaurant, Lodge } = location;
-  // const { selAttractions, selRestaurant, selLodge } = selLocs
+  const { Attraction, Restaurant, Lodge } = location;
+  // const { selAttraction, selRestaurant, selLodge } = selLocs
 
-  // const { selLodge, selAttractions, selRestaurant } = useStore();
+  // const { selLodge, selAttraction, selRestaurant } = useStore();
   const { selCateLoc } = useStore();
-  const { selLodge, selAttractions, selRestaurant } = selCateLoc;
-
+  const { selLodge, selAttraction, selRestaurant } = selCateLoc;
   return (
     <ContentsArea>
       <WhiteBox>
         <div>관광지 블록</div>
-        <LocationList locations={Attractions} />
+        <LocationList locations={Attraction} />
       </WhiteBox>
       <WhiteBox>
         <div>음식점 블록</div>
@@ -51,7 +50,7 @@ const SelectArea = ({ location, selLocs }) => {
         <LocationList locations={Lodge} />
       </WhiteBox>
       <BlueBox>
-        <SelectedLocationList selectedLocations={selAttractions} />
+        <SelectedLocationList selectedLocations={selAttraction} />
       </BlueBox>
       <BlueBox>
         <SelectedLocationList selectedLocations={selLodge} />

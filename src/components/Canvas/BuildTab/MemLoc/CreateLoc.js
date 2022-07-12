@@ -75,8 +75,8 @@ const CreateLoc = ({ size, onClick }) => {
     memLocStore();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [coords, setCoords] = useState({
-    lat: null,
-    lng: null,
+    latitude: null,
+    longitude: null,
   });
   const [form, setForm] = useState({
     name: '',
@@ -84,14 +84,28 @@ const CreateLoc = ({ size, onClick }) => {
     address2: '',
     share: null,
     image: '',
+    image1: '',
+    image2: '',
+    tel: '',
     summary: '',
-    detail: '',
+    report: '',
     type: '',
   });
   const [typeDefaultData, setTypeDefaultData] = useState({});
   const [errMsg, setErrMsg] = useState(null);
-  const { name, share, type, address1, address2, image, summary, detail } =
-    form;
+  const {
+    name,
+    share,
+    type,
+    address1,
+    address2,
+    image,
+    image1,
+    image2,
+    tel,
+    summary,
+    report,
+  } = form;
 
   useEffect(() => {
     setTypeDefaultData(typeInfo[type]); // 타입 설정시 타입별 기본 데이터 가져오기
@@ -118,8 +132,11 @@ const CreateLoc = ({ size, onClick }) => {
       address1: '',
       address2: '',
       image: '',
+      image1: '',
+      image2: '',
+      tel: '',
       summary: '',
-      detail: '',
+      report: '',
     });
     setModalIsOpen(false);
   };
@@ -131,14 +148,14 @@ const CreateLoc = ({ size, onClick }) => {
       address1: e.address_name,
     });
     setCoords({
-      lat: e.y,
-      lng: e.x,
+      latitude: e.y,
+      longitude: e.x,
     });
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     // typeInfo의 타입에 따라 데이터들 모두 store에 전송해서 api요청
-    let res = createMemberLoc(form, coords, typeInfo[type]);
+    let res = await createMemberLoc(form, coords, typeInfo[type]);
     console.log(res);
     if (res === 'success') {
       // 다시 초기화, typeDefaultData 사용, typeInfo 덮어쓰기
@@ -200,10 +217,26 @@ const CreateLoc = ({ size, onClick }) => {
             essen={true}
           />
           <DivInput
-            title="이미지"
+            title="기본 이미지"
             onChange={onChange}
             val={image}
             id="image"
+            placeholder="이미지 업로드해주세요"
+            essen={false}
+          />
+          <DivInput
+            title="추가 이미지1"
+            onChange={onChange}
+            val={image1}
+            id="image1"
+            placeholder="이미지 업로드해주세요"
+            essen={false}
+          />
+          <DivInput
+            title="추가 이미지2"
+            onChange={onChange}
+            val={image2}
+            id="image2"
             placeholder="이미지 업로드해주세요"
             essen={false}
           />
@@ -218,11 +251,19 @@ const CreateLoc = ({ size, onClick }) => {
           <DivInput
             title="자세한 설명"
             onChange={onChange}
-            val={detail}
-            id="detail"
+            val={report}
+            id="report"
             placeholder="여행지에 대한 자세한 설명을 작성해주세요."
             essen={false}
-            detail
+            report
+          />
+          <DivInput
+            title="전화번호"
+            onChange={onChange}
+            val={tel}
+            id="tel"
+            placeholder="전화번호를 입력해주세요"
+            essen={false}
           />
           <Div>
             <Label>
@@ -252,6 +293,7 @@ const CreateLoc = ({ size, onClick }) => {
                   if (typeof inputSample === 'boolean')
                     return (
                       <DivRadioInput
+                        key={i}
                         title={title}
                         onChange={(el) =>
                           onChangeTypeInfo(type, e, el.target.value)

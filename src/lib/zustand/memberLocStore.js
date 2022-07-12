@@ -1,5 +1,6 @@
 import axios from 'axios';
 import create from 'zustand';
+import * as locationAPI from 'lib/api/location';
 
 export const memLocStore = create((set, get) => ({
   // 0530 member Location 생성 store
@@ -8,8 +9,7 @@ export const memLocStore = create((set, get) => ({
   memberLocations: [],
 
   // memLoc 생성 함수
-  createMemberLoc: (form, coords, typeData) => {
-    console.log(form);
+  createMemberLoc: async (form, coords, typeData) => {
     // 이름, 주소, 좌표, 공유여부, 간단한 설명, 카테고리
     let obj = {};
     if (typeData) {
@@ -19,7 +19,7 @@ export const memLocStore = create((set, get) => ({
         return obj;
       });
     }
-    const { name, share, type, address1, address2, image, summary, detail } =
+    const { name, share, type, address1, address2, image, summary, report } =
       form;
     if (name === '') return ['fail', '여행지 이름을 입력해주세요.'];
     else if (address1 === '') return ['fail', '여행지 주소를 선택해주세요.'];
@@ -29,39 +29,44 @@ export const memLocStore = create((set, get) => ({
       return ['fail', '여행지에 대한 간단한 설명을 작성해주세요.'];
     else if (type === '') return ['fail', '여행지 카테고리를 선택해주세요.'];
     console.log('pass');
-    const { lat, lng } = coords;
+    let tmpType = type.toUpperCase();
+    const { latitude, longitude } = coords;
     let isShare = false;
     if (share === 'true') isShare = true;
     let loc = {
-      location: {
-        name,
-        type,
-        coords: {
-          lat,
-          lng,
-        },
-        address1,
-        address2,
-        image,
-        information: {
-          summary,
-          detail,
-        },
-        isMember: true,
-      },
-      member_location: {
-        memberId: 1,
+      memberLocation: {
+        memberId: 1, // 프론트에서 멤버아이디를 알 수 있나..?
         isPublic: isShare,
       },
-      [type]: obj,
+      typeLocation: obj,
+      information: {
+        summary,
+        report,
+      },
+      location: {
+        address1,
+        address2,
+        coords: {
+          latitude,
+          longitude,
+        },
+        image,
+        name,
+        isMember: true,
+        areaCode: 1, // ?
+        type: {
+          type, // ? 대소문자
+        },
+      },
     };
     set({
       memberLocations: [...get().memberLocations, loc],
     });
-    // axios.post('http://localhost:4000/memberLocations', {
+    const res = await locationAPI.createMemberLocation(loc);
+    // axios.post('/locations/member', {
     //   data: loc,
     // });
-    console.log(get().memberLocations);
+    // console.log(get().memberLocations);
     return 'success';
     // post, data: loc
   },
@@ -100,7 +105,7 @@ export const memLocStore = create((set, get) => ({
 
   // 타입별 다른 정보 입력 기본 폼
   typeInfo: {
-    Attractions: {
+    Attraction: {
       parking: ['주차 가능여부', false],
       restDate: ['휴무일', 'ex. 월, 화 휴무'], // null
       useTime: ['이용 시간', 'ex. 09:00 ~ 22:00'], // 09:00 ~ 22:00 (매표마감 21:20)

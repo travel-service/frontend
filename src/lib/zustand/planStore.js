@@ -46,6 +46,14 @@ export const useStore = create(
             travelDay: [],
             status: false,
           },
+          selCateLoc: {
+            selAttraction: [],
+            selCulture: [],
+            selFestival: [],
+            selLeports: [],
+            selLodge: [],
+            selRestaurant: [],
+          },
         }));
       },
       Concepts: [
@@ -110,7 +118,7 @@ export const useStore = create(
       selCateLoc: {
         // 객체가 담기는 배열을 담는 객체
         // 담은 location => 분류
-        selAttractions: [],
+        selAttraction: [],
         selCulture: [],
         selFestival: [],
         selLeports: [],
@@ -119,7 +127,7 @@ export const useStore = create(
       },
 
       category: {
-        1: { eng: 'Attractions', kor: '관광지' },
+        1: { eng: 'Attraction', kor: '관광지' },
         2: { eng: 'Culture', kor: '문화시설' },
         3: { eng: 'Festival', kor: '축제' },
         4: { eng: 'Leports', kor: '레포츠' },
@@ -131,11 +139,11 @@ export const useStore = create(
       onAdd: (loc, type) => {
         switch (type) {
           case '1':
-            //  set(state => ({ selAttractions: [...state.selAttractions, loc] }));
+            //  set(state => ({ selAttraction: [...state.selAttraction, loc] }));
             set((state) => ({
               selCateLoc: {
                 ...state.selCateLoc,
-                selAttractions: [...state.selCateLoc.selAttractions, loc],
+                selAttraction: [...state.selCateLoc.selAttraction, loc],
               },
             }));
             break;
@@ -192,11 +200,11 @@ export const useStore = create(
       remove: (locId, type) => {
         switch (type) {
           case '1':
-            // set(state => ({ selAttractions: state.selAttractions.filter(loc => loc.id !== locId)}));
+            // set(state => ({ selAttraction: state.selAttraction.filter(loc => loc.id !== locId)}));
             set((state) => ({
               selCateLoc: {
                 ...state.selCateLoc,
-                selAttractions: state.selCateLoc.selAttractions.filter(
+                selAttraction: state.selCateLoc.selAttraction.filter(
                   (loc) => loc.id !== locId,
                 ),
               },
@@ -288,12 +296,13 @@ export const useStore = create(
       // GET day
       getPlanDays: async (id) => {
         const res = await planAPI.getPlanDay(id);
-        console.log(res);
+        console.log(res.dayForm);
         console.log(get().userPlan);
         if (!res) {
           console.log('get day 실패');
           return;
         }
+        // console.log(res.dayForm.length);
         let n = res.dayForm.length;
         if (n > 0) {
           let tempDayArr = [];
@@ -371,7 +380,7 @@ export const planStore = create((set, get) => ({
 export const sysLocStore = create((set) => ({
   sysCateLoc: {
     // 전체 location => 분류
-    Attractions: [],
+    Attraction: [],
     Culture: [],
     Festival: [],
     Leports: [],
@@ -413,7 +422,7 @@ export const sysLocStore = create((set) => ({
     }
     set({
       sysCateLoc: {
-        Attractions: att,
+        Attraction: att,
         Culture: cul,
         Festival: fes,
         Leports: lepo,

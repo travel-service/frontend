@@ -87,8 +87,17 @@ const SelLocBasket = ({
   const [type, setType] = useState(category[list[0]].eng);
   const [typeId, setTypeId] = useState(list[0]);
   const [selectArea, setSelectArea] = useState(false);
+  const [firstType, setFirstType] = useState(null);
 
   useEffect(() => {
+    let tmp = Object.keys(selCateLoc);
+    let n = tmp.length;
+    for (let i = 0; i < n; i++) {}
+  }, [selCateLoc]);
+
+  useEffect(() => {
+    console.log(typeId);
+
     for (let key in selCateLoc) {
       if (selCateLoc[key].length > 0) setSelectArea(true);
     }
@@ -98,6 +107,8 @@ const SelLocBasket = ({
     setType(category[idx].eng);
     setTypeId(idx);
   };
+
+  console.log(firstType);
 
   return (
     <Container isOpen={isOpen}>

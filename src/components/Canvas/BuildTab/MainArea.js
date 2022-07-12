@@ -89,6 +89,7 @@ const MainArea = ({
   const onDragEnd = (result) => {
     const { destination, source } = result;
     console.log(result);
+    console.log(category);
     if (!destination) return;
     if (
       destination.droppableId === source.droppableId &&
@@ -97,6 +98,7 @@ const MainArea = ({
       return;
     const startDropId = source.droppableId;
     const endDropId = destination.droppableId;
+    console.log(startDropId, endDropId);
     // 출발 selectedLocation, 도착 day
     if (
       category[startDropId] !== undefined &&

@@ -46,7 +46,7 @@ const DivInput = ({
   id,
   placeholder,
   essen,
-  detail,
+  report,
   sub,
 }) => {
   return (
@@ -65,7 +65,7 @@ const DivInput = ({
           sub
         />
       )}
-      {!sub && !detail && (
+      {!sub && !report && (
         <Input
           id={id}
           name={id}
@@ -74,7 +74,7 @@ const DivInput = ({
           placeholder={placeholder}
         />
       )}
-      {detail && (
+      {report && (
         <Textarea
           id={id}
           name={id}

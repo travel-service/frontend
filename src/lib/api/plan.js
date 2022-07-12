@@ -9,7 +9,7 @@ const headerToken = (response) => {
 // 여행 설정 페이지, 여행 생성
 export const createPlan = async (userPlan) => {
   try {
-    const response = await axios.post('/api/members/plan', {
+    const response = await axios.post('/members/plan', {
       planForm: userPlan,
     });
     headerToken(response);

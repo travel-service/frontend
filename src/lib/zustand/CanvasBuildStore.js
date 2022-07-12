@@ -64,6 +64,7 @@ export const buildStore = create((set, get) => ({
   // dnd, day에서 day로 이동될 때(같은 day, 서로 다른 day 공용)
   dayLocChange: (toDayId, toLocIdx, frDayId, frLocIdx) => {
     const storeTravelDay = useStore.getState().userTravelDay;
+    console.log(storeTravelDay);
     const startDayLocArr =
       storeTravelDay.travelDay[Number(frDayId[frDayId.length - 1])];
     const endDayLocArr =
