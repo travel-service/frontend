@@ -1,64 +1,81 @@
 import React from 'react';
 import styled from 'styled-components';
-import LocationList from './LocationList';
-import SelectedLocationList from './SelectedLocationList';
-import { useStore } from '../../../lib/zustand/planStore';
+import LocationList from './LocationList'
+import TypeFilter from './TypeFilter';
+import { filterStore } from 'lib/filterStore';
+import Map from 'containers/Canvas/MapContainer'
 
 const ContentsArea = styled.div`
-  padding: 3rem;
-  background-color: black;
-`;
+  overflow: auto;
+  background-color: skyblue;
+`
 
 const WhiteBox = styled.div`
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.025);
-  padding: 2rem;
-  width: 500px;
-  height: 500px;
-  margin-bottom: 20px;
+  padding: 2em;
+  margin: 2em;
   background: white;
   border-radius: 8px;
+  width: 90%;
 `;
 
-const BlueBox = styled.div`
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.025);
-  padding: 2rem;
-  width: 700px;
-  height: 200px;
-  background: skyblue;
-  border-radius: 8px;
-`;
+const BlockListArea = styled.div`
+  width: 50%;
+  float: left;
+  background-color: #E0FFDB;
+`
 
-const SelectArea = ({ location, selLocs }) => {
-  const { Attractions, Restaurant, Lodge } = location;
-  // const { selAttractions, selRestaurant, selLodge } = selLocs
+const MapArea = styled.div`
+  width: 50%;
+  float: left;
+  background-color: brown;
+`
 
-  // const { selLodge, selAttractions, selRestaurant } = useStore();
-  const { selCateLoc } = useStore();
-  const { selLodge, selAttractions, selRestaurant } = selCateLoc;
+const SelectArea = ({ location, selLocs, coords }) => {
+
+  const { Attractions, Culture, Festival, Leports, Lodge, Restaurant } = location
+
+  const { CoordsList } = coords
+
+  const { selAttractions } = selLocs
+
+  const { attIsCheck, culIsCheck, fesIsCheck, lepIsCheck, lodIsCheck, resIsCheck, selectedOnly } = filterStore();
+
+  var noneCheck = !attIsCheck && !culIsCheck && !fesIsCheck && !lepIsCheck && !lodIsCheck && !resIsCheck;
 
   return (
     <ContentsArea>
-      <WhiteBox>
-        <div>관광지 블록</div>
-        <LocationList locations={Attractions} />
-      </WhiteBox>
-      <WhiteBox>
-        <div>음식점 블록</div>
-        <LocationList locations={Restaurant} />
-      </WhiteBox>
-      <WhiteBox>
-        <div>숙소 블록</div>
-        <LocationList locations={Lodge} />
-      </WhiteBox>
-      <BlueBox>
-        <SelectedLocationList selectedLocations={selAttractions} />
-      </BlueBox>
-      <BlueBox>
-        <SelectedLocationList selectedLocations={selLodge} />
-      </BlueBox>
-      <BlueBox>
-        <SelectedLocationList selectedLocations={selRestaurant} />
-      </BlueBox>
+      <TypeFilter />
+
+      <BlockListArea>
+        <WhiteBox>
+          <div>
+            { ((attIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Attractions}/>}
+          </div>
+          <div>
+            { ((culIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Culture}/>}
+          </div>
+          <div>
+            { ((fesIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Festival}/>}
+          </div>
+          <div>
+            { ((lepIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Leports}/>}
+          </div>
+          <div>
+            { ((lodIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Lodge}/>}
+          </div>
+          <div>
+            { ((resIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Restaurant}/>}
+          </div>
+          <div>
+            { (selectedOnly === true) && <LocationList locations = {selAttractions}/>}
+          </div>
+
+        </WhiteBox>
+      </BlockListArea>
+      <MapArea>
+        <Map coords={CoordsList}></Map>
+      </MapArea>
     </ContentsArea>
   );
 };

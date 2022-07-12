@@ -16,12 +16,12 @@ const BButton = styled.button`
 `;
 
 const Block = styled.li`
-  display: flex;
   list-style: none;
-  margin-bottom: 11px;
+  margin: 15px;
   background-color: ${palette.gray[0]};
   box-shadow: 3px 3px 3px 3px ${palette.gray[5]};
-  padding: 5px;
+  padding: 2%;
+  width: 33%;
 `;
 
 const BlockDiv = styled.div`
@@ -30,11 +30,16 @@ const BlockDiv = styled.div`
 `;
 
 const Img = styled.img`
-  width: 5vw;
-  height: 3.2vw;
+  width: 95%;
+  height: 90%;
 `;
 
-function Location({ location }) {
+const Blocks = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`
+
+function Location ({location}) {
   const [modalOpen, setModalOpen] = useState(false);
 
   const OpenModal = () => {
@@ -47,40 +52,32 @@ function Location({ location }) {
 
   const { selCateLoc, onAdd, remove } = useStore();
 
+  console.log(location.isSelect);
   return (
     <Block>
-      <Img src={location.image} alt="img" />
-      <BlockDiv onClick={OpenModal}>
-        {location.name}
-        <br />
-        {location.address}
-        <br />
-        {location.tel}
-      </BlockDiv>
-      <BButton
+      <div onClick={OpenModal}>
+        <Img src={location.image} alt="img" />
+        <BlockDiv>
+          {location.name}
+          <br />
+          {location.address}
+        </BlockDiv>
+      </div>
+      <BButton 
         onClick={() => {
-          console.log(location);
           if (location.isSelect === false) {
-            onAdd(location, location.type);
-            location.isSelect = true;
-          } else {
-            remove(location.id, location.type);
-            location.isSelect = false;
+            onAdd(location, location.type.type)
+            location.isSelect = true
           }
-        }}
-      >
-        {location.isSelect ? '취소' : '선택'}
-      </BButton>
-      <BButton
-        onClick={() => {
-          console.log(selCateLoc);
-        }}
-      >
-        test
-      </BButton>
+          else {
+            remove(location.id, location.type.type);
+            location.isSelect = false
+          }
+          //console.log(location)
+        } 
+      }>{location.isSelect ? '취소' : '선택'}</BButton>
       <Modal open={modalOpen} close={closeModal} header={location.name}>
-        {location.info}
-        <BlockInfo type={location.type} id={location.id} />
+        <BlockInfo type={location.type.type} id={location.id}/>
       </Modal>
     </Block>
   );
@@ -88,11 +85,11 @@ function Location({ location }) {
 
 function LocationList({ locations }) {
   return (
-    <div>
-      {locations.map((location) => (
+    <Blocks>
+      {locations.map(location => (
         <Location location={location} key={location.id} />
       ))}
-    </div>
+    </Blocks>
   );
 }
 

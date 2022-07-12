@@ -1,24 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import SelectArea from 'components/Canvas/BlockSelect/SelectArea';
-import SelectedArea from 'components/Canvas/BlockSelect/SelectedArea';
-import axios from 'axios';
-import { sysLocStore, useStore } from '../../lib/zustand/planStore';
+import {sysLocStore, useStore} from '../../lib/store';
 
 const Block = () => {
-  // const [globalLocations, setGlobalLocations] = useState(null);
 
-  const { sysCateLoc, getSysLoc } = sysLocStore();
+  const { sysCateLoc, sysCateLocCoords, getSysLoc, getSysLocCoords } = sysLocStore();
   const { selCateLoc } = useStore();
 
   useEffect(() => {
     getSysLoc();
-    // console.log(sysCateLoc);
-    // console.log(selCateLoc);
+    getSysLocCoords();
+    console.log(sysCateLoc);
+    console.log(selCateLoc);
+    console.log(sysCateLocCoords);
   }, []);
 
   return (
     <>
-      {sysCateLoc && <SelectArea location={sysCateLoc} selLocs={selCateLoc} />}
+      {sysCateLoc && <SelectArea location={sysCateLoc} selLocs={selCateLoc} coords={sysCateLocCoords} />}
     </>
   );
 };
