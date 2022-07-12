@@ -33,11 +33,11 @@ const MapArea = styled.div`
 
 const SelectArea = ({ location, selLocs, coords }) => {
 
-  const { Attractions, Culture, Festival, Leports, Lodge, Restaurant } = location
+  const { Attraction, Culture, Festival, Leports, Lodge, Restaurant } = location
 
   const { CoordsList } = coords
 
-  const { selAttractions } = selLocs
+  const { selAttraction } = selLocs
 
   const { attIsCheck, culIsCheck, fesIsCheck, lepIsCheck, lodIsCheck, resIsCheck, selectedOnly } = filterStore();
 
@@ -50,7 +50,7 @@ const SelectArea = ({ location, selLocs, coords }) => {
       <BlockListArea>
         <WhiteBox>
           <div>
-            { ((attIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Attractions}/>}
+            { ((attIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Attraction}/>}
           </div>
           <div>
             { ((culIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Culture}/>}
@@ -68,7 +68,7 @@ const SelectArea = ({ location, selLocs, coords }) => {
             { ((resIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Restaurant}/>}
           </div>
           <div>
-            { (selectedOnly === true) && <LocationList locations = {selAttractions}/>}
+            { (selectedOnly === true) && <LocationList locations = {selAttraction}/>}
           </div>
 
         </WhiteBox>

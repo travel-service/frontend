@@ -98,6 +98,7 @@ const SelLocBasket = ({ isOpen, category, selCateLoc }) => {
               ref={provided.innerRef}
               // {...provided.droppableProps}
               isDraggingOver={snapshot.isDraggingOver}
+              //length={selCateLoc[`sel${type}`].length}
             >
               {selCateLoc[`sel${type}`].length === 0 && (
                 <>로케이션을 담아오세요</>

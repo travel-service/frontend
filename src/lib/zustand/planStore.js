@@ -79,12 +79,21 @@ export const useStore = create((set, get) => ({
   selCateLoc: {
     // 객체가 담기는 배열을 담는 객체
     // 담은 location => 분류
-    selAttractions: [],
+    selAttraction: [],
     selCulture: [],
     selFestival: [],
     selLeports: [],
     selLodge: [],
     selRestaurant: [],
+  },
+
+  category: {
+    1: { eng: 'Attraction', kor: '관광지' },
+    2: { eng: 'Culture', kor: '문화시설' },
+    3: { eng: 'Festival', kor: '축제' },
+    4: { eng: 'Leports', kor: '레포츠' },
+    5: { eng: 'Lodge', kor: '숙박 시설' },
+    6: { eng: 'Restaurant', kor: '음식점' },
   },
 
   //selCateLoc배열에 해당 블록을 추가하는 함수
@@ -95,7 +104,7 @@ export const useStore = create((set, get) => ({
       case 0:
          set(state => ({ selCateLoc: {
           ...state.selCateLoc,
-          selAttractions: [...state.selCateLoc.selAttractions, loc]
+          selAttraction: [...state.selCateLoc.selAttraction, loc]
          }}));
          set(state => ({ }));
         break;
@@ -139,27 +148,21 @@ export const useStore = create((set, get) => ({
   remove: (locId, type) => {
     switch (type) {
       case 0:
-        // set(state => ({ selAttractions: state.selAttractions.filter(loc => loc.id !== locId)}));
-        set(state => ({ selCateLoc: {...state.selCateLoc, selAttractions: state.selCateLoc.selAttractions.filter(loc => loc.id !== locId)}}));
+        set(state => ({ selCateLoc: {...state.selCateLoc, selAttraction: state.selCateLoc.selAttraction.filter(loc => loc.id !== locId)}}));
         break;
       case 1:
-        // set(state => ({ selCulture: state.selCulture.filter(loc => loc.id !== locId)}));
         set(state => ({ selCateLoc: {...state.selCateLoc, selCulture: state.selCateLoc.selCulture.filter(loc => loc.id !== locId)}}));
         break;
       case 2:
-        // set(state => ({ selFestival: state.selFestival.filter(loc => loc.id !== locId)}));
         set(state => ({ selCateLoc: {...state.selCateLoc, selFestival: state.selCateLoc.selFestival.filter(loc => loc.id !== locId)}}));
         break;
       case 3:
-        // set(state => ({ selLeports: state.selLeports.filter(loc => loc.id !== locId)}));
         set(state => ({ selCateLoc: {...state.selCateLoc, selLeports: state.selCateLoc.selLeports.filter(loc => loc.id !== locId)}}));
         break;
       case 4:
-        // set(state => ({ selLodge: state.selLodge.filter(loc => loc.id !== locId)}));
         set(state => ({ selCateLoc: {...state.selCateLoc, selLodge: state.selCateLoc.selLodge.filter(loc => loc.id !== locId)}}));
         break;
       case 5:
-        // set(state => ({ selRestaurant: state.selRestaurant.filter(loc => loc.id !== locId)}));
         set(state => ({ selCateLoc: {...state.selCateLoc, selRestaurant: state.selCateLoc.selRestaurant.filter(loc => loc.id !== locId)}}));
         break;
       default:
@@ -254,7 +257,7 @@ export const planStore = create((set, get) => ({
 export const sysLocStore = create((set, get) => ({
   sysCateLoc: {
     // 전체 location => 분류
-    Attractions: [],
+    Attraction: [],
     Culture: [],
     Festival: [],
     Leports: [],
@@ -301,7 +304,7 @@ export const sysLocStore = create((set, get) => ({
       }
       set({
         sysCateLoc: {
-          Attractions: att,
+          Attraction: att,
           Culture: cul,
           Festival: fes,
           Leports: lepo,
