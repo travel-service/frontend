@@ -36,6 +36,26 @@ const Container = styled.div`
     width: 90vw;
     /* height: 40vh; */
   }
+
+  .inputBtn {
+    height: 45px;
+    background: #ffffff;
+    border: 1px solid #010101;
+    border-radius: 5px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    cursor: pointer;
+    :hover {
+      background: black;
+      color: white;
+      transition: 0.2s all linear;
+    }
+    :active {
+      transform: translateY(5px);
+    }
+  }
 `;
 
 const Label = styled.label`
@@ -48,7 +68,7 @@ const RightDiv = styled.div`
 `;
 
 const Select = styled.select`
-  width: 100%;
+  /* width: 100%; */
   /* margin-right: 10px; */
 `;
 
@@ -98,7 +118,7 @@ const Radio = styled.div`
   cursor: pointer;
 `;
 
-const CheckSpan = styled.div`
+const CheckDiv = styled.div`
   width: 9px;
   height: 9px;
   ${(props) =>
@@ -110,12 +130,28 @@ const CheckSpan = styled.div`
   border-radius: 100%;
 `;
 
+const MoreInfo = styled.div`
+  display: flex;
+  margin-bottom: 5px;
+
+  ${Select} {
+    width: 110px;
+    height: 45px;
+    margin-right: 10px;
+    margin-top: 5px;
+  }
+
+  input {
+    flex: 1;
+  }
+`;
+
 const CreateLoc = ({ size, onClick }) => {
   const { category } = useStore();
   const { createMemberLoc, typeInfo, onChangeTypeInfo, resetTypeInfo } =
     memLocStore();
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [check, setCheck] = useState(1);
+  const [check, setCheck] = useState('1'); // default Attraction : 1
   const [coords, setCoords] = useState({
     latitude: null,
     longitude: null,
@@ -131,10 +167,11 @@ const CreateLoc = ({ size, onClick }) => {
     tel: '',
     summary: '',
     report: '',
-    type: '',
+    type: '', // default Attraction
   });
   const [typeDefaultData, setTypeDefaultData] = useState({});
   const [errMsg, setErrMsg] = useState(null);
+  // const [detail, setDetail] = useState('');
   const {
     name,
     share,
@@ -149,9 +186,22 @@ const CreateLoc = ({ size, onClick }) => {
     report,
   } = form;
 
+  const [detail, setDetail] = useState([
+    {
+      key: 'etc',
+      title: '항목',
+      placeHolder: null,
+      input: '',
+    },
+  ]);
+
   useEffect(() => {
-    setTypeDefaultData(typeInfo[type]); // 타입 설정시 타입별 기본 데이터 가져오기
-  }, [type]);
+    if (check === 'etc') {
+      setTypeDefaultData({});
+      return;
+    }
+    setTypeDefaultData(typeInfo[category[check].eng]); // 타입 설정시 타입별 기본 데이터 가져오기
+  }, [check]);
 
   const onChange = (e) => {
     const nextForm = {
@@ -160,6 +210,23 @@ const CreateLoc = ({ size, onClick }) => {
     };
     setForm(nextForm);
   };
+
+  const onChangeDetail = (e, index) => {
+    if (e.target.value === '항목') return;
+    let obj = {
+      key: e.target.value,
+      title: typeDefaultData[e.target.value][0],
+      placeHolder: typeDefaultData[e.target.value][1],
+      input: '',
+    };
+    let tmp = detail.slice();
+    tmp.splice(index, 1, obj);
+    setDetail(tmp);
+  };
+
+  useEffect(() => {
+    console.log('detail:', detail); // 삭제예정
+  }, [detail]);
 
   const openModal = () => {
     setModalIsOpen(true);
@@ -181,7 +248,7 @@ const CreateLoc = ({ size, onClick }) => {
       report: '',
     });
     setModalIsOpen(false);
-    setCheck(1);
+    setCheck('1');
   };
 
   const onSelect = (e) => {
@@ -212,6 +279,32 @@ const CreateLoc = ({ size, onClick }) => {
 
   const onClickType = (n) => {
     setCheck(n);
+    setDetail([
+      {
+        key: 'etc',
+        title: '항목',
+        placeHolder: null,
+        input: '',
+      },
+    ]);
+  };
+
+  const onClickCnt = () => {
+    setDetail([
+      ...detail,
+      {
+        key: 'etc',
+        title: '항목',
+        placeHolder: null,
+        input: '',
+      },
+    ]);
+  };
+
+  const onClickDel = (index) => {
+    let tmp = detail.slice();
+    tmp.splice(index, 1);
+    setDetail(tmp);
   };
 
   return (
@@ -236,25 +329,85 @@ const CreateLoc = ({ size, onClick }) => {
       >
         <Container className="memberLoc">
           <TypeGrid>
-            {Object.keys(category).map((key, index) => (
+            {Object.keys(category).map((typeNum, index) => (
               <TypeRadio key={index}>
-                <Radio onClick={() => onClickType(index + 1)}>
-                  <CheckSpan checked={index + 1 === check}></CheckSpan>
+                <Radio onClick={() => onClickType(typeNum)}>
+                  <CheckDiv checked={typeNum === check}></CheckDiv>
                 </Radio>
-                <label>{category[key].kor}</label>
+                <label>{category[typeNum].kor}</label>
               </TypeRadio>
             ))}
             <TypeRadio>
-              <Radio onClick={() => onClickType(8)}>
-                <CheckSpan checked={8 === check}></CheckSpan>
+              <Radio onClick={() => onClickType('etc')}>
+                <CheckDiv checked={'etc' === check}></CheckDiv>
               </Radio>
               <label>기타</label>
             </TypeRadio>
           </TypeGrid>
           <InputComponent placeholder="블록명을 입력해주세요" />
           <InputComponent placeholder="블록 주소" />
-          <InputComponent />
-          {check !== 8 && console.log(typeInfo[category[check].eng])}
+          {Object.keys(typeDefaultData).length > 0 &&
+            detail.map((obj, i) => (
+              <MoreInfo key={i}>
+                <Select
+                  onChange={(e) => onChangeDetail(e, i)}
+                  // value={detail[e].title}
+                  value={detail[i]}
+                >
+                  <Option value="항목">{obj.title}</Option>
+                  {Object.keys(typeDefaultData).map((key, i) => (
+                    <Option value={key} key={i}>
+                      {typeDefaultData[key][0]}
+                    </Option>
+                  ))}
+                </Select>
+                {/* 0715 작업중 */}
+                {obj.title !== '항목' && obj.placeHolder === false && (
+                  <>
+                    가능
+                    <input type="radio" />
+                    불가능
+                    <input type="radio" />
+                  </>
+                )}
+                {obj.title !== '항목' && obj.placeHolder !== false && (
+                  <InputComponent
+                    onChangeDetail={onChangeDetail}
+                    placeholder={obj.placeHolder}
+                  />
+                )}
+                <button onClick={() => onClickDel(i)}>취소</button>
+              </MoreInfo>
+            ))}
+          <input
+            className="inputBtn"
+            type="button"
+            onClick={onClickCnt}
+            value="항목추가 +"
+          />
+          {/* {Object.keys(typeDefaultData).map((e, i) => {
+            let title = typeDefaultData[e][0];
+            let inputSample = typeDefaultData[e][1];
+            if (typeof inputSample === 'boolean')
+              return (
+                <DivRadioInput
+                  key={i}
+                  title={title}
+                  onChange={(el) => onChangeTypeInfo(type, e, el.target.value)}
+                  id={e}
+                />
+              );
+            else
+              return (
+                <DivInput
+                  title={title}
+                  onChange={(el) => onChangeTypeInfo(type, e, el.target.value)}
+                  placeholder={inputSample}
+                  id={e}
+                  sub
+                />
+              );
+          })} */}
           {/* 타입 선택시 디테일 항목 받아오기 0714 */}
 
           {/* <Select name="type" onChange={onChange} value={type}>
@@ -408,3 +561,6 @@ const CreateLoc = ({ size, onClick }) => {
 };
 
 export default CreateLoc;
+
+//https://japing.tistory.com/entry/React-Select-Option%EC%9D%98-Value-%EC%86%8D%EC%84%B1%EC%97%90-Object%EB%A5%BC-%EC%96%B4%EB%96%BB%EA%B2%8C-%EB%8B%A4%EB%A3%B0-%EC%88%98-%EC%9E%88%EC%9D%84%EA%B9%8C
+// select => option 객체 직렬화, stringify

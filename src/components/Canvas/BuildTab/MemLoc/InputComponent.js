@@ -47,12 +47,13 @@ const InputComponent = ({
   onChange,
   val,
   id,
+  onChangeDetail,
   placeholder,
   essen, // 필수항목인지 ?
   report,
   sub,
 }) => {
-  return <Input placeholder={placeholder} />;
+  return <Input onChange={onChangeDetail} placeholder={placeholder} />;
 };
 
 export default InputComponent;

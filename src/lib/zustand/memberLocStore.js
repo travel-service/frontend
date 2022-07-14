@@ -107,12 +107,12 @@ export const memLocStore = create((set, get) => ({
   typeInfo: {
     Attraction: {
       parking: ['주차 가능여부', false],
-      restDate: ['휴무일', 'ex. 월, 화 휴무'], // null
+      restDate: ['휴무일', 'ex. 월 화 휴무'], // null
       useTime: ['이용 시간', 'ex. 09:00 ~ 22:00'], // 09:00 ~ 22:00 (매표마감 21:20)
     },
     Culture: {
       parking: ['주차 가능여부', false],
-      restDate: ['휴무일', 'ex. 월, 화 휴무'],
+      restDate: ['휴무일', 'ex. 월 화 휴무'],
       fee: ['가격', '10,000원'],
       useTime: ['이용 시간', 'ex. 09:00 ~ 22:00'],
       spendTime: ['소요시간', 'ex. 2시간'],
@@ -128,14 +128,14 @@ export const memLocStore = create((set, get) => ({
       placeInfo: ['장소 정보?', '탈춤 공원 무대'],
       playTime: ['행사 시간', '30분'],
       program: ['프로그램', '하회별신굿탈놀이'],
-      fee: ['이용 가격', '무료'],
+      fee: ['이용 가격', '무료 or 10000원'],
     },
     Leports: {
       parking: ['주차 가능여부', false],
       openPeriod: ['개장 시기', ''],
       reservation: ['예약', '예약 링크?'],
-      restDate: ['휴무일', 'ex. 월, 화 휴무'],
-      fee: ['이용 가격', '무료'],
+      restDate: ['휴무일', 'ex. 월 화 휴무'],
+      fee: ['이용 가격', '무료 or 10000원'],
       useTime: ['이용 시간', 'ex. 09:00 ~ 22:00'],
     },
     Lodge: {
@@ -151,7 +151,7 @@ export const memLocStore = create((set, get) => ({
       openTime: ['오픈 시간', 'ex. 09:00 ~ 22:00'],
       packing: ['포장 가능여부', false],
       parking: ['주차 가능여부', false],
-      restDate: ['휴무일', 'ex. 월, 화 휴무'],
+      restDate: ['휴무일', 'ex. 월 화 휴무'],
       menu: ['메뉴', '김밥: 3000원, 우동: 4000원, ...'],
     },
   },
