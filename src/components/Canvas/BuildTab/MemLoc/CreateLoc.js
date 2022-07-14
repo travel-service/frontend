@@ -1,7 +1,7 @@
 // 자체 로케이션 추가 버튼
 import React, { useEffect, useState } from 'react';
 import { MdOutlineLibraryAdd } from 'react-icons/md';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import ReactTooltip from 'react-tooltip';
 import ModalModule from 'components/common/modal/ModalModule';
 import { useStore } from 'lib/zustand/planStore';
@@ -9,6 +9,7 @@ import { memLocStore } from 'lib/zustand/memberLocStore';
 import DivInput from './DivInput';
 import DivAddr from './DivAddr';
 import DivRadioInput from './DivRadioInput';
+import InputComponent from './InputComponent';
 
 const CreateLocBtn = styled(MdOutlineLibraryAdd)`
   cursor: pointer;
@@ -69,11 +70,52 @@ const Error = styled.div`
   margin-top: 10px;
 `;
 
+const TypeGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-top: 10px;
+`;
+
+const TypeRadio = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  label {
+    font-size: 13px;
+    font-weight: 400;
+  }
+`;
+
+const Radio = styled.div`
+  width: 25px;
+  height: 25px;
+  border: 1px solid #e5e7e8;
+  border-radius: 5px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+`;
+
+const CheckSpan = styled.div`
+  width: 9px;
+  height: 9px;
+  ${(props) =>
+    props.checked &&
+    css`
+      background: #f75d5d;
+    `}
+
+  border-radius: 100%;
+`;
+
 const CreateLoc = ({ size, onClick }) => {
   const { category } = useStore();
   const { createMemberLoc, typeInfo, onChangeTypeInfo, resetTypeInfo } =
     memLocStore();
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [check, setCheck] = useState(1);
   const [coords, setCoords] = useState({
     latitude: null,
     longitude: null,
@@ -139,6 +181,7 @@ const CreateLoc = ({ size, onClick }) => {
       report: '',
     });
     setModalIsOpen(false);
+    setCheck(1);
   };
 
   const onSelect = (e) => {
@@ -167,6 +210,10 @@ const CreateLoc = ({ size, onClick }) => {
     }
   };
 
+  const onClickType = (n) => {
+    setCheck(n);
+  };
+
   return (
     <>
       <CreateLocBtn
@@ -183,12 +230,43 @@ const CreateLoc = ({ size, onClick }) => {
         openModal={openModal}
         closeModal={closeModal}
         title="자체 블록"
-        map="memberLoc"
+        // map="memberLoc"
         onSelect={onSelect}
         onSubmit={onSubmit}
       >
         <Container className="memberLoc">
-          <DivInput
+          <TypeGrid>
+            {Object.keys(category).map((key, index) => (
+              <TypeRadio key={index}>
+                <Radio onClick={() => onClickType(index + 1)}>
+                  <CheckSpan checked={index + 1 === check}></CheckSpan>
+                </Radio>
+                <label>{category[key].kor}</label>
+              </TypeRadio>
+            ))}
+            <TypeRadio>
+              <Radio onClick={() => onClickType(8)}>
+                <CheckSpan checked={8 === check}></CheckSpan>
+              </Radio>
+              <label>기타</label>
+            </TypeRadio>
+          </TypeGrid>
+          <InputComponent placeholder="블록명을 입력해주세요" />
+          <InputComponent placeholder="블록 주소" />
+          <InputComponent />
+          {check !== 8 && console.log(typeInfo[category[check].eng])}
+          {/* 타입 선택시 디테일 항목 받아오기 0714 */}
+
+          {/* <Select name="type" onChange={onChange} value={type}>
+            <Option value="">선택</Option>
+            {Object.keys(category).map((key, index) => (
+              <Option value={category[key].eng} key={index}>
+                {category[key].kor}
+              </Option>
+            ))}
+            <Option value="기타">기타</Option>
+          </Select> */}
+          {/* <DivInput
             title="여행지 이름"
             onChange={onChange}
             val={name}
@@ -264,8 +342,8 @@ const CreateLoc = ({ size, onClick }) => {
             id="tel"
             placeholder="전화번호를 입력해주세요"
             essen={false}
-          />
-          <Div>
+          /> */}
+          {/* <Div>
             <Label>
               <EssenSpan>*</EssenSpan>카테고리 설정
             </Label>
@@ -280,8 +358,8 @@ const CreateLoc = ({ size, onClick }) => {
                 <Option value="기타">기타</Option>
               </Select>
             </RightDiv>
-          </Div>
-          {typeDefaultData && (
+          </Div> */}
+          {/* {typeDefaultData && (
             <DivDetail>
               <hr />
               <H4>카테고리별 세부정보 설정</H4>
@@ -316,7 +394,7 @@ const CreateLoc = ({ size, onClick }) => {
                 })}
               </Ul>
             </DivDetail>
-          )}
+          )} */}
           {errMsg && (
             <div>
               {/* <hr /> */}

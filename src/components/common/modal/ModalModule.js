@@ -31,6 +31,10 @@ const Section = styled.div`
   display: flex;
   flex-direction: column;
 
+  main {
+    padding: 5px 16px;
+  }
+
   @media screen and (max-width: 767px) {
     width: 100%;
     overflow: auto;
