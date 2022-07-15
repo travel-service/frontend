@@ -1,9 +1,9 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import OpenColor from 'open-color';
+import { MdSearch } from 'react-icons/md';
 
 const Input = styled.input`
-  width: 100%;
   ::placeholder {
     font-weight: 400;
   }
@@ -18,27 +18,35 @@ const RadioInput = styled.div`
 
 const Container = styled.div`
   flex: 1;
+  display: flex;
+  width: 100%;
+  margin: 5px 0px;
+  background-color: #ededef;
+  border-radius: 5px;
+  align-items: center;
+
   ${Input}, ${RadioInput} {
-    border-radius: 5px;
+    /* width: 90%; */
+    flex: 1;
     border: none;
     background-color: #ededef;
     height: 45px;
-    margin: 5px 0px;
     font-size: 15px;
     text-indent: 15px;
     font-weight: 700;
+    border-radius: 5px;
+    :focus {
+      outline: none;
+    }
   }
 `;
 
-const Textarea = styled.textarea`
-  width: 65%;
-  ${(props) =>
-    !props.sub &&
-    props.value !== '' &&
-    css`
-      border: 2.5px ${OpenColor.teal[4]} solid;
-      border-radius: 5px;
-    `}
+const SearchBtn = styled(MdSearch)`
+  :hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+  margin-right: 10px;
 `;
 
 const InputComponent = ({
@@ -48,6 +56,9 @@ const InputComponent = ({
   name,
   value,
   type,
+  map,
+  onClickAddress,
+  search,
 }) => {
   return (
     <Container>
@@ -76,12 +87,25 @@ const InputComponent = ({
           </div>
         </RadioInput>
       )}
-      {type === 'text' && (
+      {type === 'text' && map && (
+        <>
+          <Input
+            onChange={onChange}
+            placeholder={placeholder}
+            name={name}
+            value={value}
+            disabled
+          />
+          <SearchBtn size="20px" onClick={onClickAddress} />
+        </>
+      )}
+      {type === 'text' && !map && (
         <Input
           onChange={onChange}
           placeholder={placeholder}
           name={name}
           value={value}
+          type="text"
         />
       )}
     </Container>

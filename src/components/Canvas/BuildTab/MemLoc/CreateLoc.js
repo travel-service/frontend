@@ -31,7 +31,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   /* align-items: center; */
-  width: 500px;
+  width: 40vw;
   @media screen and (max-width: 767px) {
     width: 90vw;
     /* height: 40vh; */
@@ -172,6 +172,7 @@ const CreateLoc = ({ size, onClick }) => {
       title: 'address1',
       placeHolder: '여행지 주소를 검색해주세요.',
       input: '',
+      map: true,
     },
     {
       key: 'summary',
@@ -202,6 +203,7 @@ const CreateLoc = ({ size, onClick }) => {
       input: '',
     },
   ]);
+  const [mapSearch, setMapSearch] = useState(false);
 
   useEffect(() => {
     if (check === 'etc') {
@@ -265,6 +267,7 @@ const CreateLoc = ({ size, onClick }) => {
       latitude: null,
       longitude: null,
     });
+    setMapSearch(false);
   };
 
   const onChange = (e, flag, index) => {
@@ -322,14 +325,21 @@ const CreateLoc = ({ size, onClick }) => {
   };
 
   const onSelect = (e) => {
-    setMainForm({
-      ...mainForm,
-      name: e.place_name,
-      address1: e.address_name,
-    });
+    console.log(e);
+    const { place_name, address_name, x, y } = e;
+    let [nameObj] = mainForm.slice(0, 1);
+    let [addressObj] = mainForm.slice(1, 2);
+    let rest = mainForm.slice(2);
+    console.log(nameObj, addressObj);
+    // if (place_name.length) {
+    // }
+    nameObj.input = place_name;
+
+    addressObj.input = address_name;
+    setMainForm([nameObj, addressObj, ...rest]);
     setCoords({
-      latitude: e.y,
-      longitude: e.x,
+      latitude: y,
+      longitude: x,
     });
   };
 
@@ -348,8 +358,14 @@ const CreateLoc = ({ size, onClick }) => {
   };
 
   const onClickType = (n) => {
-    setCheck(n);
-    initForm();
+    if (
+      window.confirm(
+        '카테고리 변경시 작성한 내용이 모두 사라져요! 괜찮으신가요?',
+      )
+    ) {
+      setCheck(n);
+      initForm();
+    }
   };
 
   const onClickCnt = () => {
@@ -370,6 +386,10 @@ const CreateLoc = ({ size, onClick }) => {
     setDetail(tmp);
   };
 
+  const onClickAddress = () => {
+    setMapSearch(!mapSearch);
+  };
+
   return (
     <>
       <CreateLocBtn
@@ -386,9 +406,10 @@ const CreateLoc = ({ size, onClick }) => {
         openModal={openModal}
         closeModal={closeModal}
         title="자체 블록"
-        // map="memberLoc"
+        map={mapSearch ? 'memberLoc' : ''}
         onSelect={onSelect}
         onSubmit={onSubmit}
+        onClickAddress={onClickAddress}
       >
         <Container className="memberLoc">
           {/* 카테고리 grid */}
@@ -430,6 +451,9 @@ const CreateLoc = ({ size, onClick }) => {
                   name={obj.key}
                   placeholder={obj.placeHolder}
                   type="text"
+                  map={obj.map}
+                  onClickAddress={onClickAddress}
+                  search={mapSearch}
                 />
               );
             }

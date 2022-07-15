@@ -54,7 +54,7 @@ const Section = styled.div`
 `;
 
 const Section2 = styled.div`
-  width: 65vw;
+  width: 50vw;
   margin-right: 20px;
   border-radius: 0.3rem;
   background-color: #fff;
@@ -93,6 +93,7 @@ const ModalModule = ({
   fromLocName,
   toLocName,
   onSelect,
+  onClickAddress,
 }) => {
   return (
     <StyledModal
@@ -116,7 +117,7 @@ const ModalModule = ({
             <Div>
               <Header>
                 <div>kakao 지도</div>
-                <Close size="20" onClick={closeModal} tooltip={false} />
+                <Close size="20" onClick={onClickAddress} tooltip={false} />
               </Header>
               <MapContainer onSelect={onSelect} />
             </Div>
@@ -132,9 +133,9 @@ const ModalModule = ({
               <MapMove fromLocName={fromLocName} toLocName={toLocName} />
             </>
           )}
-          <Btn>
+          {/* <Btn>
             <button onClick={onSubmit}>닫기</button>
-          </Btn>
+          </Btn> */}
         </Section2>
       )}
     </StyledModal>
