@@ -33,6 +33,8 @@ const Section = styled.div`
 
   main {
     padding: 5px 16px;
+    max-height: 80vh;
+    overflow: auto;
   }
 
   @media screen and (max-width: 767px) {

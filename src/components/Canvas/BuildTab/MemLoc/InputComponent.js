@@ -2,32 +2,31 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import OpenColor from 'open-color';
 
-const Div = styled.div`
-  display: flex;
-  margin-bottom: 10px;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const Label = styled.label`
-  width: 35%;
-`;
-
-const EssenSpan = styled.span`
-  color: red;
-`;
-
 const Input = styled.input`
-  height: 45px;
-  border-radius: 5px;
-  border: none;
-  background-color: #ededef;
-  font-size: 15px;
-  text-indent: 15px;
-  font-weight: 700;
-  margin: 5px 0px;
+  width: 100%;
   ::placeholder {
     font-weight: 400;
+  }
+`;
+
+const RadioInput = styled.div`
+  padding-right: 15px;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const Container = styled.div`
+  flex: 1;
+  ${Input}, ${RadioInput} {
+    border-radius: 5px;
+    border: none;
+    background-color: #ededef;
+    height: 45px;
+    margin: 5px 0px;
+    font-size: 15px;
+    text-indent: 15px;
+    font-weight: 700;
   }
 `;
 
@@ -45,15 +44,48 @@ const Textarea = styled.textarea`
 const InputComponent = ({
   title,
   onChange,
-  val,
-  id,
-  onChangeDetail,
   placeholder,
-  essen, // 필수항목인지 ?
-  report,
-  sub,
+  name,
+  value,
+  type,
 }) => {
-  return <Input onChange={onChangeDetail} placeholder={placeholder} />;
+  return (
+    <Container>
+      {type === 'radio' && (
+        <RadioInput>
+          <label>{title}</label>
+          <div>
+            가능
+            <input
+              onChange={onChange}
+              checked={value === 'true'}
+              name={name}
+              value={true}
+              type="radio"
+            />
+          </div>
+          <div>
+            불가능
+            <input
+              type="radio"
+              checked={value === 'false'}
+              name={name}
+              onChange={onChange}
+              value={false}
+            />
+          </div>
+        </RadioInput>
+      )}
+      {type === 'text' && (
+        <Input
+          onChange={onChange}
+          placeholder={placeholder}
+          name={name}
+          value={value}
+        />
+      )}
+    </Container>
+  );
 };
 
 export default InputComponent;

@@ -31,7 +31,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   /* align-items: center; */
-  width: 30vw;
+  width: 500px;
   @media screen and (max-width: 767px) {
     width: 90vw;
     /* height: 40vh; */
@@ -132,6 +132,8 @@ const CheckDiv = styled.div`
 
 const MoreInfo = styled.div`
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 5px;
 
   ${Select} {
@@ -141,8 +143,10 @@ const MoreInfo = styled.div`
     margin-top: 5px;
   }
 
-  input {
-    flex: 1;
+  button {
+    width: 50px;
+    height: 40px;
+    margin-left: 10px;
   }
 `;
 
@@ -156,36 +160,40 @@ const CreateLoc = ({ size, onClick }) => {
     latitude: null,
     longitude: null,
   });
-  const [form, setForm] = useState({
-    name: '',
-    address1: '',
-    address2: '',
-    share: null,
-    image: '',
-    image1: '',
-    image2: '',
-    tel: '',
-    summary: '',
-    report: '',
-    type: '', // default Attraction
+  const [mainForm, setMainForm] = useState([
+    {
+      key: 'name',
+      title: 'name',
+      placeHolder: '블록명을 입력해주세요.',
+      input: '',
+    },
+    {
+      key: 'address1',
+      title: 'address1',
+      placeHolder: '여행지 주소를 검색해주세요.',
+      input: '',
+    },
+    {
+      key: 'summary',
+      title: 'summary',
+      placeHolder: '여행지의 짧은 설명을 작성해주세요',
+      input: '',
+    },
+    {
+      key: 'share',
+      title: '공유 가능 여부',
+      placeHolder: null,
+      input: '',
+    },
+  ]);
+  const [subForm, setSubForm] = useState({
+    address2: ['여행지 세부 주소', 'ex. 418-2호'],
+    image: ['기본 이미지', '링크'],
+    image1: ['추가 이미지 1', '링크'],
+    image2: ['추가 이미지 2', '링크'],
+    report: ['자세한 설명', '좋니더'],
   });
-  const [typeDefaultData, setTypeDefaultData] = useState({});
   const [errMsg, setErrMsg] = useState(null);
-  // const [detail, setDetail] = useState('');
-  const {
-    name,
-    share,
-    type,
-    address1,
-    address2,
-    image,
-    image1,
-    image2,
-    tel,
-    summary,
-    report,
-  } = form;
-
   const [detail, setDetail] = useState([
     {
       key: 'etc',
@@ -197,28 +205,102 @@ const CreateLoc = ({ size, onClick }) => {
 
   useEffect(() => {
     if (check === 'etc') {
-      setTypeDefaultData({});
       return;
     }
-    setTypeDefaultData(typeInfo[category[check].eng]); // 타입 설정시 타입별 기본 데이터 가져오기
+    const tmp = typeInfo[category[check].eng];
+    setSubForm({
+      ...subForm,
+      ...tmp,
+    });
   }, [check]);
 
-  const onChange = (e) => {
-    const nextForm = {
-      ...form,
-      [e.target.name]: e.target.value,
-    };
-    setForm(nextForm);
+  const initForm = () => {
+    setErrMsg(null);
+    setMainForm([
+      {
+        key: 'name',
+        title: 'name',
+        placeHolder: '블록명을 입력해주세요.',
+        input: '',
+      },
+      {
+        key: 'address1',
+        title: 'address1',
+        placeHolder: '여행지 주소를 검색해주세요.',
+        input: '',
+        map: true,
+        // 0715 작업중
+        // 돋보기 추가, map오픈, 좌표, 이름 입력받기
+        // 전송 데이터 정리
+      },
+      {
+        key: 'summary',
+        title: 'summary',
+        placeHolder: '여행지의 짧은 설명을 작성해주세요',
+        input: '',
+      },
+      {
+        key: 'share',
+        title: '공유 가능 여부',
+        placeHolder: null,
+        input: '',
+      },
+    ]);
+    setSubForm({
+      address2: ['여행지 세부 주소', 'ex. 418-2호'],
+      image: ['기본 이미지', '링크'],
+      image1: ['추가 이미지 1', '링크'],
+      image2: ['추가 이미지 2', '링크'],
+      report: ['자세한 설명', '좋니더'],
+    });
+    setDetail([
+      {
+        key: 'etc',
+        title: '항목',
+        placeHolder: null,
+        input: '',
+      },
+    ]);
+    setCoords({
+      latitude: null,
+      longitude: null,
+    });
   };
 
-  const onChangeDetail = (e, index) => {
-    if (e.target.value === '항목') return;
-    let obj = {
-      key: e.target.value,
-      title: typeDefaultData[e.target.value][0],
-      placeHolder: typeDefaultData[e.target.value][1],
-      input: '',
-    };
+  const onChange = (e, flag, index) => {
+    let obj = {};
+    if (flag === 'main') {
+      obj = {
+        ...mainForm[index],
+        input: e.target.value,
+      };
+      let tmp = mainForm.slice();
+      tmp.splice(index, 1, obj);
+      setMainForm(tmp);
+      return;
+    } else if (e.target.value === '항목') return;
+    if (flag === 'input') {
+      obj = {
+        key: e.target.name,
+        title: subForm[e.target.name][0],
+        placeHolder: subForm[e.target.name][1],
+        input: e.target.value,
+      };
+    } else if (flag === 'select') {
+      for (let el of detail) {
+        if (el.key === e.target.value) {
+          setErrMsg('이미 설정된 항목입니다.');
+          return;
+        }
+      }
+      setErrMsg(null);
+      obj = {
+        key: e.target.value,
+        title: subForm[e.target.value][0],
+        placeHolder: subForm[e.target.value][1],
+        input: '',
+      };
+    }
     let tmp = detail.slice();
     tmp.splice(index, 1, obj);
     setDetail(tmp);
@@ -226,34 +308,22 @@ const CreateLoc = ({ size, onClick }) => {
 
   useEffect(() => {
     console.log('detail:', detail); // 삭제예정
-  }, [detail]);
+    console.log('main:', mainForm); // 삭제예정
+  }, [detail, mainForm]);
 
   const openModal = () => {
     setModalIsOpen(true);
   };
 
   const closeModal = () => {
-    setErrMsg(null);
-    setForm({
-      name: '',
-      share: null,
-      type: '',
-      address1: '',
-      address2: '',
-      image: '',
-      image1: '',
-      image2: '',
-      tel: '',
-      summary: '',
-      report: '',
-    });
-    setModalIsOpen(false);
+    initForm();
     setCheck('1');
+    setModalIsOpen(false);
   };
 
   const onSelect = (e) => {
-    setForm({
-      ...form,
+    setMainForm({
+      ...mainForm,
       name: e.place_name,
       address1: e.address_name,
     });
@@ -265,28 +335,21 @@ const CreateLoc = ({ size, onClick }) => {
 
   const onSubmit = async () => {
     // typeInfo의 타입에 따라 데이터들 모두 store에 전송해서 api요청
-    let res = await createMemberLoc(form, coords, typeInfo[type]);
-    console.log(res);
-    if (res === 'success') {
-      // 다시 초기화, typeDefaultData 사용, typeInfo 덮어쓰기
-      resetTypeInfo(type, typeDefaultData);
-      closeModal();
-      alert('여행지가 생성되었습니다!');
-    } else {
-      setErrMsg(res[1]);
-    }
+    // let res = await createMemberLoc(form, coords, typeInfo[type]);
+    // console.log(res);
+    // if (res === 'success') {
+    //   // 다시 초기화, typeDefaultData 사용, typeInfo 덮어쓰기
+    //   resetTypeInfo(type, typeDefaultData);
+    // closeModal();
+    //   alert('여행지가 생성되었습니다!');
+    // } else {
+    //   setErrMsg(res[1]);
+    // }
   };
 
   const onClickType = (n) => {
     setCheck(n);
-    setDetail([
-      {
-        key: 'etc',
-        title: '항목',
-        placeHolder: null,
-        input: '',
-      },
-    ]);
+    initForm();
   };
 
   const onClickCnt = () => {
@@ -328,6 +391,7 @@ const CreateLoc = ({ size, onClick }) => {
         onSubmit={onSubmit}
       >
         <Container className="memberLoc">
+          {/* 카테고리 grid */}
           <TypeGrid>
             {Object.keys(category).map((typeNum, index) => (
               <TypeRadio key={index}>
@@ -344,210 +408,78 @@ const CreateLoc = ({ size, onClick }) => {
               <label>기타</label>
             </TypeRadio>
           </TypeGrid>
-          <InputComponent placeholder="블록명을 입력해주세요" />
-          <InputComponent placeholder="블록 주소" />
-          {Object.keys(typeDefaultData).length > 0 &&
-            detail.map((obj, i) => (
-              <MoreInfo key={i}>
-                <Select
-                  onChange={(e) => onChangeDetail(e, i)}
-                  // value={detail[e].title}
-                  value={detail[i]}
-                >
-                  <Option value="항목">{obj.title}</Option>
-                  {Object.keys(typeDefaultData).map((key, i) => (
-                    <Option value={key} key={i}>
-                      {typeDefaultData[key][0]}
-                    </Option>
-                  ))}
-                </Select>
-                {/* 0715 작업중 */}
-                {obj.title !== '항목' && obj.placeHolder === false && (
-                  <>
-                    가능
-                    <input type="radio" />
-                    불가능
-                    <input type="radio" />
-                  </>
-                )}
-                {obj.title !== '항목' && obj.placeHolder !== false && (
-                  <InputComponent
-                    onChangeDetail={onChangeDetail}
-                    placeholder={obj.placeHolder}
-                  />
-                )}
-                <button onClick={() => onClickDel(i)}>취소</button>
-              </MoreInfo>
-            ))}
+          {/* 필수 입력 폼 */}
+          {mainForm.map((obj, i) => {
+            if (obj.placeHolder === null) {
+              return (
+                <InputComponent
+                  key={i}
+                  title={obj.title}
+                  onChange={(e) => onChange(e, 'main', i)}
+                  name={obj.key}
+                  value={obj.input}
+                  type="radio"
+                />
+              );
+            } else {
+              return (
+                <InputComponent
+                  key={i}
+                  value={obj.input}
+                  onChange={(e) => onChange(e, 'main', i)}
+                  name={obj.key}
+                  placeholder={obj.placeHolder}
+                  type="text"
+                />
+              );
+            }
+          })}
+          {/* 세부 항목 입력 폼 */}
+          {detail.map((obj, i) => (
+            <MoreInfo key={i}>
+              <Select
+                onChange={(e) => onChange(e, 'select', i)}
+                value={detail[i]}
+              >
+                <Option value="항목">{obj.title}</Option>
+                {Object.keys(subForm).map((key, i) => (
+                  <Option value={key} key={i}>
+                    {subForm[key][0]}
+                  </Option>
+                ))}
+              </Select>
+              {obj.title !== '항목' && obj.placeHolder === false && (
+                <InputComponent
+                  onChange={(e) => onChange(e, 'input', i)}
+                  key={i}
+                  type="radio"
+                  name={obj.key}
+                  value={obj.input}
+                  // flag="input"
+                />
+              )}
+              {obj.title !== '항목' && obj.placeHolder !== false && (
+                <InputComponent
+                  onChange={(e) => onChange(e, 'input', i)}
+                  placeholder={obj.placeHolder}
+                  name={obj.key}
+                  index={i}
+                  value={obj.input}
+                  type="text"
+                  // detail={true}
+                />
+              )}
+              <button onClick={() => onClickDel(i)}>취소</button>
+            </MoreInfo>
+          ))}
+          {/* 항목 추가 버튼 */}
           <input
             className="inputBtn"
             type="button"
             onClick={onClickCnt}
             value="항목추가 +"
           />
-          {/* {Object.keys(typeDefaultData).map((e, i) => {
-            let title = typeDefaultData[e][0];
-            let inputSample = typeDefaultData[e][1];
-            if (typeof inputSample === 'boolean')
-              return (
-                <DivRadioInput
-                  key={i}
-                  title={title}
-                  onChange={(el) => onChangeTypeInfo(type, e, el.target.value)}
-                  id={e}
-                />
-              );
-            else
-              return (
-                <DivInput
-                  title={title}
-                  onChange={(el) => onChangeTypeInfo(type, e, el.target.value)}
-                  placeholder={inputSample}
-                  id={e}
-                  sub
-                />
-              );
-          })} */}
-          {/* 타입 선택시 디테일 항목 받아오기 0714 */}
-
-          {/* <Select name="type" onChange={onChange} value={type}>
-            <Option value="">선택</Option>
-            {Object.keys(category).map((key, index) => (
-              <Option value={category[key].eng} key={index}>
-                {category[key].kor}
-              </Option>
-            ))}
-            <Option value="기타">기타</Option>
-          </Select> */}
-          {/* <DivInput
-            title="여행지 이름"
-            onChange={onChange}
-            val={name}
-            id="name"
-            placeholder="여행지 이름을 입력해주세요."
-            essen={true}
-          />
-          <DivAddr
-            title="여행지 주소"
-            id="address1"
-            val={address1}
-            essen={true}
-          />
-          <DivInput
-            title="여행지 세부 주소"
-            onChange={onChange}
-            val={address2}
-            id="address2"
-            placeholder="여행지 세부주소를 입력해주세요"
-            essen={false}
-          />
-          <DivRadioInput
-            title="공유 가능 여부"
-            onChange={onChange}
-            id="share"
-            essen={true}
-          />
-          <DivInput
-            title="기본 이미지"
-            onChange={onChange}
-            val={image}
-            id="image"
-            placeholder="이미지 업로드해주세요"
-            essen={false}
-          />
-          <DivInput
-            title="추가 이미지1"
-            onChange={onChange}
-            val={image1}
-            id="image1"
-            placeholder="이미지 업로드해주세요"
-            essen={false}
-          />
-          <DivInput
-            title="추가 이미지2"
-            onChange={onChange}
-            val={image2}
-            id="image2"
-            placeholder="이미지 업로드해주세요"
-            essen={false}
-          />
-          <DivInput
-            title="간단한 설명"
-            onChange={onChange}
-            val={summary}
-            id="summary"
-            placeholder="여행지에 대한 간단한 설명을 작성해주세요"
-            essen={true}
-          />
-          <DivInput
-            title="자세한 설명"
-            onChange={onChange}
-            val={report}
-            id="report"
-            placeholder="여행지에 대한 자세한 설명을 작성해주세요."
-            essen={false}
-            report
-          />
-          <DivInput
-            title="전화번호"
-            onChange={onChange}
-            val={tel}
-            id="tel"
-            placeholder="전화번호를 입력해주세요"
-            essen={false}
-          /> */}
-          {/* <Div>
-            <Label>
-              <EssenSpan>*</EssenSpan>카테고리 설정
-            </Label>
-            <RightDiv>
-              <Select name="type" onChange={onChange} value={type}>
-                <Option value="">선택</Option>
-                {Object.keys(category).map((key, index) => (
-                  <Option value={category[key].eng} key={index}>
-                    {category[key].kor}
-                  </Option>
-                ))}
-                <Option value="기타">기타</Option>
-              </Select>
-            </RightDiv>
-          </Div> */}
-          {/* {typeDefaultData && (
-            <DivDetail>
-              <hr />
-              <H4>카테고리별 세부정보 설정</H4>
-              <hr />
-              <Ul>
-                {Object.keys(typeDefaultData).map((e, i) => {
-                  let title = typeDefaultData[e][0];
-                  let inputSample = typeDefaultData[e][1];
-                  if (typeof inputSample === 'boolean')
-                    return (
-                      <DivRadioInput
-                        key={i}
-                        title={title}
-                        onChange={(el) =>
-                          onChangeTypeInfo(type, e, el.target.value)
-                        }
-                        id={e}
-                      />
-                    );
-                  else
-                    return (
-                      <DivInput
-                        title={title}
-                        onChange={(el) =>
-                          onChangeTypeInfo(type, e, el.target.value)
-                        }
-                        placeholder={inputSample}
-                        id={e}
-                        sub
-                      />
-                    );
-                })}
-              </Ul>
-            </DivDetail>
-          )} */}
+          {/* 에러 메세지란 */}
           {errMsg && (
             <div>
               {/* <hr /> */}
