@@ -40,13 +40,11 @@ const Datediv = styled.div`
 export const DateSetting = ({ userPlan, setDepart, setPeriods }) => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  //const [minDate, setMinDate] = useState(new Date());
 
   useEffect(() => {
     //depart가 있으면
     if (!isNaN(Date.parse(userPlan.depart))) {
       setStartDate(new Date(userPlan.depart));
-      //setMinDate(new Date(userPlan.depart));
       if (userPlan.periods === 1) {
         setEndDate(new Date(userPlan.depart));
       } else {
@@ -99,7 +97,7 @@ export const DateSetting = ({ userPlan, setDepart, setPeriods }) => {
             selectsStart
             startDate={startDate}
             endDate={endDate}
-            //minDate={minDate}
+            minDate={addDays(endDate, -30)}
           />
         </span>
         <span>도착일 </span>
