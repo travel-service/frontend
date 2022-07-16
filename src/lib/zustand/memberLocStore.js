@@ -9,39 +9,37 @@ export const memLocStore = create((set, get) => ({
   memberLocations: [],
 
   // memLoc 생성 함수
-  createMemberLoc: async (form, coords, typeData) => {
+  createMemberLoc: async (main, coords, sub, typeObj, type) => {
     // 이름, 주소, 좌표, 공유여부, 간단한 설명, 카테고리
-    let obj = {};
-    if (typeData) {
-      Object.keys(typeData).map((e) => {
-        obj[e] = ''; // 디폴트값 설정
-        if (typeData[e].length > 2) obj[e] = typeData[e][2];
-        return obj;
-      });
-    }
-    const { name, share, type, address1, address2, image, summary, report } =
-      form;
-    if (name === '') return ['fail', '여행지 이름을 입력해주세요.'];
-    else if (address1 === '') return ['fail', '여행지 주소를 선택해주세요.'];
-    else if (share === null) return ['fail', '공유 가능 여부를 선택해주세요.'];
-    else if (summary === '')
-      // 여기 인식을 못함
-      return ['fail', '여행지에 대한 간단한 설명을 작성해주세요.'];
-    else if (type === '') return ['fail', '여행지 카테고리를 선택해주세요.'];
-    console.log('pass');
-    let tmpType = type.toUpperCase();
+    // let obj = {};
+    // if(s)
+    // if (typeData) {
+    //   Object.keys(typeData).map((e) => {
+    //     obj[e] = ''; // 디폴트값 설정
+    //     if (typeData[e].length > 2) obj[e] = typeData[e][2];
+    //     return obj;
+    //   });
+    // }
+    const { name, share, address1, summary } = main;
     const { latitude, longitude } = coords;
+    const { report, address2, image, image1, image2, tel } = sub;
+
+    if (name === undefined) return ['fail', '여행지 이름을 입력해주세요.'];
+    else if (address1 === undefined)
+      return ['fail', '여행지 주소를 선택해주세요.'];
+    else if (share === undefined)
+      return ['fail', '공유 가능 여부를 선택해주세요.'];
+    else if (summary === undefined)
+      return ['fail', '여행지에 대한 간단한 설명을 작성해주세요.'];
+    //   // 여기 인식을 못함
+    console.log('pass');
     let isShare = false;
     if (share === 'true') isShare = true;
+    let tmpType = type.toUpperCase();
     let loc = {
       memberLocation: {
         memberId: 1, // 프론트에서 멤버아이디를 알 수 있나..?
         isPublic: isShare,
-      },
-      typeLocation: obj,
-      information: {
-        summary,
-        report,
       },
       location: {
         address1,
@@ -55,20 +53,29 @@ export const memLocStore = create((set, get) => ({
         isMember: true,
         areaCode: 1, // ?
         type: {
-          type, // ? 대소문자
+          type: tmpType, // ? 대소문자
         },
       },
+      typeLocation: typeObj,
+      information: {
+        image1,
+        image2,
+        report,
+        summary,
+        tel,
+      },
     };
-    set({
-      memberLocations: [...get().memberLocations, loc],
-    });
-    const res = await locationAPI.createMemberLocation(loc);
-    // axios.post('/locations/member', {
-    //   data: loc,
+    console.log(loc);
+
+    // set({
+    //   memberLocations: [...get().memberLocations, loc],
     // });
-    // console.log(get().memberLocations);
-    return 'success';
-    // post, data: loc
+    const res = await locationAPI.createMemberLocation(loc);
+    console.log(res);
+    if (!res) return ['', '원인 모를 에러!!'];
+    else {
+      return 'success';
+    }
   },
 
   // memLoc 생성 시 필드값 input에서 수정시에 typeInfo에 데이터 직접 수정 함수

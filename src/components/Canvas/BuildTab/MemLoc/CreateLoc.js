@@ -6,24 +6,10 @@ import ReactTooltip from 'react-tooltip';
 import ModalModule from 'components/common/modal/ModalModule';
 import { useStore } from 'lib/zustand/planStore';
 import { memLocStore } from 'lib/zustand/memberLocStore';
-import DivInput from './DivInput';
-import DivAddr from './DivAddr';
-import DivRadioInput from './DivRadioInput';
 import InputComponent from './InputComponent';
 
 const CreateLocBtn = styled(MdOutlineLibraryAdd)`
   cursor: pointer;
-`;
-
-const EssenSpan = styled.span`
-  color: red;
-`;
-
-const Div = styled.div`
-  display: flex;
-  margin-bottom: 10px;
-  justify-content: space-between;
-  align-items: center;
 `;
 
 const Container = styled.div`
@@ -58,15 +44,6 @@ const Container = styled.div`
   }
 `;
 
-const Label = styled.label`
-  width: 35%;
-`;
-
-const RightDiv = styled.div`
-  /* margin-left: 10px; */
-  width: 65%;
-`;
-
 const Select = styled.select`
   /* width: 100%; */
   /* margin-right: 10px; */
@@ -74,14 +51,6 @@ const Select = styled.select`
 
 const Option = styled.option`
   width: 100%;
-`;
-
-const DivDetail = styled.div``;
-
-const Ul = styled.span``;
-
-const H4 = styled.h5`
-  text-align: center;
 `;
 
 const Error = styled.div`
@@ -150,6 +119,15 @@ const MoreInfo = styled.div`
   }
 `;
 
+const commonSubData = [
+  'address2',
+  'image',
+  'image1',
+  'image2',
+  'report',
+  'tel',
+];
+
 const CreateLoc = ({ size, onClick }) => {
   const { category } = useStore();
   const { createMemberLoc, typeInfo, onChangeTypeInfo, resetTypeInfo } =
@@ -193,6 +171,7 @@ const CreateLoc = ({ size, onClick }) => {
     image1: ['추가 이미지 1', '링크'],
     image2: ['추가 이미지 2', '링크'],
     report: ['자세한 설명', '좋니더'],
+    tel: ['전화번호', '010-0000-1111'],
   });
   const [errMsg, setErrMsg] = useState(null);
   const [detail, setDetail] = useState([
@@ -254,6 +233,7 @@ const CreateLoc = ({ size, onClick }) => {
       image1: ['추가 이미지 1', '링크'],
       image2: ['추가 이미지 2', '링크'],
       report: ['자세한 설명', '좋니더'],
+      tel: ['전화번호', '010-0000-1111'],
     });
     setDetail([
       {
@@ -345,16 +325,46 @@ const CreateLoc = ({ size, onClick }) => {
 
   const onSubmit = async () => {
     // typeInfo의 타입에 따라 데이터들 모두 store에 전송해서 api요청
+    let mainObj = {};
+    let typeObj = {};
+    let subObj = {};
+
+    detail.forEach((e) => {
+      if (e.input.length)
+        if (commonSubData.includes(e.key)) {
+          subObj[e.key] = e.input;
+        } else {
+          typeObj[e.key] = e.input;
+        }
+    });
+    commonSubData.forEach((e) => {
+      if (!subObj[e]) subObj[e] = '';
+    });
+
+    mainForm.forEach((e) => {
+      if (e.input.length) mainObj[e.key] = e.input;
+    });
+
+    let res = await createMemberLoc(
+      mainObj,
+      coords,
+      subObj,
+      typeObj,
+      category[check].eng,
+    );
+
+    // console.log(tmp, mainForm);
+
     // let res = await createMemberLoc(form, coords, typeInfo[type]);
     // console.log(res);
-    // if (res === 'success') {
-    //   // 다시 초기화, typeDefaultData 사용, typeInfo 덮어쓰기
-    //   resetTypeInfo(type, typeDefaultData);
-    // closeModal();
-    //   alert('여행지가 생성되었습니다!');
-    // } else {
-    //   setErrMsg(res[1]);
-    // }
+    if (res === 'success') {
+      // 다시 초기화, typeDefaultData 사용, typeInfo 덮어쓰기
+      // resetTypeInfo(type, typeDefaultData);
+      // closeModal();
+      alert('여행지가 생성되었습니다!');
+    } else {
+      setErrMsg(res[1]);
+    }
   };
 
   const onClickType = (n) => {

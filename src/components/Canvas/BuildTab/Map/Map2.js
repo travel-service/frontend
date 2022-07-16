@@ -42,6 +42,9 @@ const Ul = styled.ul`
   z-index: 1;
   font-size: 12px;
   border-radius: 10px;
+  @media screen and (max-width: 767px) {
+    width: 45%;
+  }
 `;
 
 const MapContainer = ({
@@ -67,7 +70,6 @@ const MapContainer = ({
     map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
     map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
     setKakaoMap(map);
-    console.log('create map');
   }, [container]);
 
   useEffect(() => {

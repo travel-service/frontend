@@ -9,8 +9,8 @@ const Container = styled.div`
 `;
 
 const MapContainer = ({ onSelect }) => {
-  const [inputText, setInputText] = useState('한경대학교');
-  const [place, setPlace] = useState('한경대학교');
+  const [inputText, setInputText] = useState('한국관광공사');
+  const [place, setPlace] = useState('한국관광공사');
   const [forMarkerPositions, setForMarkerPositions] = useState([]);
   const [searchPlaces, setSearchPlaces] = useState([]);
 

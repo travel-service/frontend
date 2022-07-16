@@ -33,23 +33,21 @@ const Section = styled.div`
 
   main {
     padding: 5px 16px;
-    max-height: 80vh;
+    max-height: 55vh;
     overflow: auto;
   }
 
   @media screen and (max-width: 767px) {
-    width: 100%;
     overflow: auto;
 
     main {
       flex: 1;
-      display: flex;
+      /* display: flex; */
       justify-content: center;
-      align-items: center;
     }
 
-    margin-top: 30px;
-    margin-bottom: 30px;
+    margin-top: 15px;
+    margin-bottom: 15px;
   }
 `;
 
@@ -62,8 +60,9 @@ const Section2 = styled.div`
   overflow: hidden;
 
   @media screen and (max-width: 767px) {
+    margin: 15px 0px 15px 15px;
     width: 100%;
-    margin: 0;
+    /* margin: 0; */
     display: flex;
     flex-direction: column;
   }

@@ -4,10 +4,14 @@ import axios from 'axios';
 export const createMemberLocation = async (location) => {
   try {
     const response = await axios.post('/locations/member', {
-      location,
+      location: location,
     });
-    console.log('멤버 로케이션 생성: ', response);
-    return response;
+    if (response.status !== 201) {
+      return 0;
+    } else {
+      console.log('멤버 로케이션 생성: ', response);
+      return response;
+    }
   } catch (err) {
     console.log(err);
     return 0;
