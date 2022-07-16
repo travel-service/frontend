@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import PlanLayout from 'components/Canvas/common/PlanLayout';
 import Button from 'components/common/Button';
-import { dirStore } from 'lib/dirStore';
 
-// 디렉토리 클릭 시 플랜목록 div만 갈아끼워지게 하려고 만든 컴포넌트,, 고민 중
 //리스트 전체
 const PlanListContainer = styled.div`
   //display: flex;
@@ -15,22 +13,12 @@ const PlanListContainer = styled.div`
 const PlansContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  //justify-content: space-between;
-  //align-items: center;
-  /*display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  grid-gap: 25px;
-  align-items: center;
-  justify-items: center;
-  z-index: 0;*/
 `;
 //상단
 const TitleContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  //background: yellow;
   padding: 5px 20px 5px 10px;
   margin-bottom: 20px;
 `;
@@ -39,9 +27,6 @@ const ItemsDiv = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  //margin-bottom: 20px;
-  //margin-top: 20px;
 `;
 //아이콘 들어갈 자리
 const IconDiv = styled.div`
@@ -81,11 +66,14 @@ const ComboDiv = styled.select`
   height: 30px;
 `;
 
-const PlanList = () => {
+const PlanList = ({
+  mainPlans,
+  trashPlans,
+  userPlans,
+  currentDirId,
+  userDirs,
+}) => {
   const [isClicked, setIsClicked] = useState(false);
-  const [sortTmp, setSortTmp] = useState([]);
-  const { mainPlans, trashPlans, userPlans, currentDirId, userDirs } =
-    dirStore();
   const [isShow, setIsShow] = useState(false);
   const [plansList, setPL] = useState([]); // 플랜 컴포넌트 공통
   const [searchT, setSearchT] = useState('');
@@ -117,12 +105,11 @@ const PlanList = () => {
         return p.name.toLowerCase().includes(searchT);
       }),
     );
-    //console.log(resPlans);
   };
 
   const SortPlans = (e) => {
     if (e.target.value === 'name') {
-      setSortTmp(
+      setRP(
         plansList.sort((a, b) => {
           let n = a.name.toLowerCase();
           let m = b.name.toLowerCase();
@@ -131,7 +118,7 @@ const PlanList = () => {
       );
     }
     if (e.target.value === 'date') {
-      setSortTmp(
+      setRP(
         plansList.sort((a, b) => {
           let n = a.createdDate.toLowerCase();
           let m = b.createdDate.toLowerCase();
@@ -139,7 +126,7 @@ const PlanList = () => {
         }),
       );
     }
-    setSortTmp([]);
+    setRP([]);
   };
 
   return (
@@ -152,14 +139,18 @@ const PlanList = () => {
               <>
                 <IconDiv>All</IconDiv>
                 <TextDiv op="title">모든 여행</TextDiv>
-                <PlanCountContainer>{mainPlans.planCount}</PlanCountContainer>
+                <PlanCountContainer>
+                  {mainPlans.mainDirectory ? mainPlans.mainDirectory.length : 0}
+                </PlanCountContainer>
               </>
             ) : currentDirId === 't' ? (
               <>
                 <IconDiv>Trash</IconDiv>
                 <TextDiv op="title">휴지통</TextDiv>
                 <PlanCountContainer>
-                  {trashPlans.trashPlanCount}
+                  {trashPlans.trashDirectory
+                    ? trashPlans.trashDirectory.length
+                    : 0}
                 </PlanCountContainer>
               </>
             ) : (
@@ -172,7 +163,9 @@ const PlanList = () => {
                     }).directoryName
                   }
                 </TextDiv>
-                <PlanCountContainer>{userPlans.length}</PlanCountContainer>
+                <PlanCountContainer>
+                  {userPlans ? userPlans.length : 0}
+                </PlanCountContainer>
               </>
             )
           }
@@ -223,9 +216,11 @@ const PlanList = () => {
                 return (
                   <PlanLayout
                     key={item.planId}
-                    planName={item.name}
-                    planPeriods={item.periods}
-                    planDate={item.createdDate}
+                    planId={item.planId}
+                    name={item.name}
+                    periods={item.periods}
+                    createdDate={item.createdDate}
+                    userDirs={userDirs}
                   />
                 );
               })
@@ -234,46 +229,14 @@ const PlanList = () => {
               return (
                 <PlanLayout
                   key={item.planId}
-                  planName={item.name}
-                  planPeriods={item.periods}
-                  planDate={item.createdDate}
+                  planId={item.planId}
+                  name={item.name}
+                  periods={item.periods}
+                  createdDate={item.createdDate}
+                  userDirs={userDirs}
                 />
               );
             })}
-        {/*currentDirId === 'm' && mainPlans.mainDirectory
-          ? mainPlans.mainDirectory.map((item) => {
-              return (
-                <PlanLayout
-                  key={item.planId}
-                  planName={item.name}
-                  planPeriods={item.periods}
-                  planDate={item.createdDate}
-                />
-              );
-            })
-          : currentDirId === 't' && trashPlans.trashDirectory
-          ? trashPlans.trashDirectory.map((item) => {
-              return (
-                <PlanLayout
-                  key={item.planId}
-                  planName={item.name}
-                  planPeriods={item.periods}
-                  planDate={item.createdDate}
-                />
-              );
-            })
-          : typeof currentDirId === 'number' && userPlans
-          ? userPlans.map((item) => {
-              return (
-                <PlanLayout
-                  key={item.planId}
-                  planName={item.name}
-                  planPeriods={item.periods}
-                  planDate={item.createdDate}
-                />
-              );
-            })
-          : null*/}
       </PlansContainer>
     </PlanListContainer>
   );

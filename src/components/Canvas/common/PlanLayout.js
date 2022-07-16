@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { dirStore } from 'lib/dirStore';
+import { Link } from 'react-router-dom';
+//import { dirStore } from 'lib/zustand/dirStore';
 //import ModalModule from 'components/common/modal/ModalModule';
 //import MoreSettings from '../DirectoryPage/MoreSettings';
 
@@ -47,7 +48,7 @@ const ThumbnailContainer = styled.div`
     background: lightgray;
   }
 `;
-const LinkButton = styled.button`
+const LinkButton = styled(Link)`
   text-align: center;
   font-size: 15px;
   border: 1px solid black;
@@ -113,13 +114,11 @@ const MoveLi = styled.li`
   cursor: pointer;
 `;
 
-const PlanLayout = ({ planName, planId, planPeriods, planDate }) => {
+const PlanLayout = ({ planId, name, periods, createdDate, userDirs }) => {
   const [clickMore, setClickMore] = useState(false);
   const [isShow, setIsShow] = useState(false);
   const [isOver, setIsOver] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-
-  const { userDirs } = dirStore();
 
   const onClickMore = () => {
     setClickMore(false);
@@ -139,8 +138,8 @@ const PlanLayout = ({ planName, planId, planPeriods, planDate }) => {
   return (
     <PlanContainer>
       <PlanTitleDiv>
-        <PlanNameDiv>{planName}</PlanNameDiv>
-        <PeriodsDiv>{planPeriods}일</PeriodsDiv>
+        <PlanNameDiv>{name}</PlanNameDiv>
+        <PeriodsDiv>{periods}일</PeriodsDiv>
       </PlanTitleDiv>
       <ThumbnailContainer // 마우스 올리면 컴포넌트 나오게
         onMouseEnter={() => {
@@ -157,6 +156,7 @@ const PlanLayout = ({ planName, planId, planPeriods, planDate }) => {
           <>
             {/*isChecked && <input type="checkbox" /> /*체크 기능*/}
             <LinkButton
+              to={process.env.PUBLIC_URL + '/canvas/share'}
               onClick={() => {
                 onClickView('v');
               }}
@@ -164,8 +164,10 @@ const PlanLayout = ({ planName, planId, planPeriods, planDate }) => {
               완성된 여행 보기
             </LinkButton>
             <LinkButton
+              to={process.env.PUBLIC_URL + '/canvas/setting'}
+              state={{ planId: planId }}
               onClick={() => {
-                onClickView('f');
+                console.log('수정하기');
               }}
             >
               수정하기
@@ -174,7 +176,7 @@ const PlanLayout = ({ planName, planId, planPeriods, planDate }) => {
         )}
       </ThumbnailContainer>
       <PlanTitleDiv>
-        <DateDiv>{planDate.substr(0, 10).replace(/-/g, '.')}</DateDiv>
+        <DateDiv>{createdDate.substr(0, 11).replace(/-|T/g, '.')}</DateDiv>
         <MoreDiv>
           <MoreButton
             onClick={() => {

@@ -5,6 +5,7 @@ import PlanName from 'components/Canvas/common/PlanName';
 import React, { useEffect } from 'react';
 import { useStore } from 'lib/zustand/planStore';
 import styled from 'styled-components';
+import { useLocation } from 'react-router-dom';
 
 const StyledDiv = styled.div`
   @media only screen and (min-width: 800px) {
@@ -12,12 +13,31 @@ const StyledDiv = styled.div`
   }
 `;
 const TravelSettingForm = () => {
-  // 여행 계획 이어서 버튼 누르면
-  const { id, userPlan, userPlanConcept, Concepts } = useStore();
-  const { setDepart, setPeriods, setConcept, setThumbnail, setName } =
-    useStore();
+  const { id, userPlan, conceptForm, Concepts } = useStore();
+  const {
+    setId,
+    setDepart,
+    setPeriods,
+    setConcept,
+    setThumbnail,
+    setName,
+    getPlan,
+  } = useStore();
+
+  const location = useLocation();
 
   useEffect(() => {
+    if (location.state) {
+      setId(location.state.planId);
+      //console.log('planId: ', location.state.planId);
+    } else {
+      setId(null);
+    }
+  }, []);
+
+  //리팩토링할 때 store 내 initial 함수로 바꾸기
+  useEffect(() => {
+    console.log('id: ', id);
     // depart, periods, name, concept, thumbnail 초기화
     if (id === null) {
       setDepart(new Date());
@@ -25,9 +45,12 @@ const TravelSettingForm = () => {
       setName('');
       setConcept([]);
       setThumbnail('');
+    } else {
+      getPlan(id);
+      console.log('uP:', userPlan);
+      console.log('컨셉:', conceptForm.concept);
     }
-    console.log('초기화');
-  }, [id, setDepart, setPeriods, setName, setConcept, setThumbnail]);
+  }, [id, getPlan]);
 
   return (
     <div>
@@ -39,7 +62,7 @@ const TravelSettingForm = () => {
       />
       <StyledDiv>
         <ConceptSetting
-          userPlanConcept={userPlanConcept}
+          conceptForm={conceptForm}
           Concepts={Concepts}
           setConcept={setConcept}
         />

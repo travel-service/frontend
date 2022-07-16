@@ -37,12 +37,12 @@ const ElementDiv = styled.li`
   width: 20%;
 `;
 
-export const ConceptSetting = ({ userPlanConcept, Concepts, setConcept }) => {
+export const ConceptSetting = ({ conceptForm, Concepts, setConcept }) => {
   const onClickConcept = (checked, word) => {
     if (checked) {
-      setConcept([...userPlanConcept.concept, word]);
+      setConcept([...conceptForm.concept, word]);
     } else {
-      setConcept(userPlanConcept.concept.filter((el) => el !== word));
+      setConcept(conceptForm.concept.filter((el) => el !== word));
     }
   };
 
@@ -70,7 +70,10 @@ export const ConceptSetting = ({ userPlanConcept, Concepts, setConcept }) => {
                   onClickConcept(e.target.checked, `${item.eword}`);
                 }}
                 checked={
-                  userPlanConcept.concept.includes(item.eword) ? true : false
+                  conceptForm.concept &&
+                  conceptForm.concept.includes(item.eword)
+                    ? true
+                    : false
                 }
               />{' '}
               {item.name}

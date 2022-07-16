@@ -31,12 +31,12 @@ const siteMap = ['setting', 'select', 'build', 'share'];
 
 const CanvasButtons = () => {
   const location = useLocation();
-  const { postPlan } = useStore();
+  const { userPlan, postPlan } = useStore();
   const urlName = location.pathname.replace(/\/trablock\/canvas\//g, '');
   const idx = siteMap.indexOf(urlName);
 
   const onClickNext = (idx) => {
-    postPlan(idx);
+    userPlan.name === '' ? alert('여행 이름을 입력해주세요.') : postPlan(idx);
   };
   const onClickPrev = () => {
     console.log('prev');
@@ -59,8 +59,10 @@ const CanvasButtons = () => {
         <ButtonDiv className="next">
           <Link
             to={
-              process.env.PUBLIC_URL +
-              `/canvas/${idx === 3 ? siteMap[3] : siteMap[idx + 1]}`
+              userPlan.name === ''
+                ? process.env.PUBLIC_URL + `/canvas/${siteMap[0]}`
+                : process.env.PUBLIC_URL +
+                  `/canvas/${idx === 3 ? siteMap[3] : siteMap[idx + 1]}`
             }
           >
             {idx !== 3 && (

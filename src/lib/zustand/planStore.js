@@ -13,8 +13,7 @@ export const useStore = create((set, get) => ({
     planStatus: 'MAIN',
     thumbnail: '', // FormData, 이름
   },
-  userPlanConcept: {
-    // conceptForm
+  conceptForm: {
     concept: [],
   },
   Concepts: [
@@ -49,11 +48,11 @@ export const useStore = create((set, get) => ({
   },
   setConcept: (input) => {
     set((state) => ({
-      userPlanConcept: { ...state.userPlanConcept, concept: input },
+      conceptForm: { ...state.conceptForm, concept: input },
     }));
     if (input === []) {
       set({
-        userPlanConcept: { concept: input },
+        conceptForm: { concept: input },
       });
     }
   },
@@ -260,8 +259,8 @@ export const useStore = create((set, get) => ({
   getPlan: async (id) => {
     const res = await planAPI.getPlan(id);
     const con = await planAPI.getConcpet(id);
-    set({ userPlan: res.planForm });
-    set({ userPlanConcept: con.conceptForm });
+    set({ userPlan: { ...res.planForm[0] } }); // 수정할 수 있는지?
+    set({ conceptForm: { concept: con.conceptForm } });
     // set({ userTravelDay: response.data.dayForm });
   },
 
@@ -270,29 +269,23 @@ export const useStore = create((set, get) => ({
   postPlan: async (type) => {
     // 매개변수 id는 userPlan id
     const userPlan = get().userPlan;
-    const userPlanConcept = get().userPlanConcept;
+    const conceptForm = get().conceptForm;
     // const userTravelDay = get().userTravelDay;
     const id = get().id;
     if (type === 0 && !id) {
       // plan 생성
       const res = await planAPI.createPlan(userPlan);
-      //const con = await planAPI.createConcpet(id, userPlanConcept);
+      //const con = await planAPI.createConcpet(id, conceptForm);
       if (res > 0) {
         // 정상적 id 반환
         set({ id: res });
-        const con = await planAPI.createConcpet(id, userPlanConcept);
-        //set({userPlanConcept: con}); //0705 고민중
       } else {
         // postPlan 에러
       }
     } else if (type === 0 && id > 0) {
       // plan 수정
-      const res = await planAPI.putPlan(id, userPlan);
-      const con = await planAPI.putConcept(id, userPlanConcept);
-      if (res > 0 && con > 0) {
-        set({ userPlan: res });
-        set({ userPlanConcept: con });
-      }
+      const res0 = await planAPI.putPlan(id, userPlan);
+      const con0 = await planAPI.createConcpet(id, conceptForm);
     } else if (type === 1) {
       // selectedLocation 생성 및 수정
     } else if (type === 2) {
@@ -303,7 +296,7 @@ export const useStore = create((set, get) => ({
     //   const response = await axios.post(`http://localhost:8080/members/plan`, {
     //     /*...userPlan,*/
     //     planForm: userPlan,
-    //     conceptForm: userPlanConcept,
+    //     conceptForm: conceptForm,
     //     dayForm: userTravelDay,
     //   });
     //   console.log(response);
@@ -315,7 +308,7 @@ export const useStore = create((set, get) => ({
     //     `http://localhost:4000/travelPlans/${id}`,
     //     {
     //       planForm: userPlan,
-    //       conceptForm: userPlanConcept,
+    //       conceptForm: conceptForm,
     //       dayForm: userTravelDay,
     //     },
     //   );

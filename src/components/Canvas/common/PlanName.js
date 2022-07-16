@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import Pencil from 'lib/Icons/Pencil';
+import { useStore } from 'lib/zustand/planStore';
 
 const NamingDiv = styled.div`
   display: flex;
@@ -43,6 +44,14 @@ const PencilButton = styled.button`
 const PlanName = ({ userPlan, setName }) => {
   const [isDisabled, setIsDisabled] = useState(true); // input 활성화
   const [isChecked, setIsChecked] = useState(true); // 펜, 저장 버튼 변경
+  const [nameText, setNameText] = useState('');
+  const { id, postPlan } = useStore();
+
+  useEffect(() => {
+    if (userPlan.name && id) {
+      return setNameText(userPlan.name);
+    }
+  }, [userPlan.name]);
 
   const onClickPencil = () => {
     setIsDisabled(!isDisabled);
@@ -52,19 +61,21 @@ const PlanName = ({ userPlan, setName }) => {
   const onClickSave = () => {
     setIsChecked(!isChecked);
     setIsDisabled(!isDisabled);
+    setName(nameText);
+    nameText !== '' && postPlan(0); // 플랜 생성
   };
 
   const Naming = (e) => {
-    setName(e.target.value);
+    setNameText(e.target.value);
   };
 
   return (
     <NamingDiv>
       <StyledInput
         type="text"
-        placeholder={'여행 이름 설정하기'}
+        placeholder={'새 여행 보관함'}
         disabled={isDisabled}
-        value={userPlan.name}
+        value={nameText}
         onChange={Naming}
       />
       <PencilButton

@@ -22,26 +22,13 @@ export const createPlan = async (userPlan) => {
 };
 
 // 여행 생성 시 컨셉 설정
-export const createConcpet = async (id, userPlanConcept) => {
+export const createConcpet = async (id, conceptForm) => {
   try {
     const response = await axios.post(`/members/plan/${id}/concept`, {
-      conceptForm: userPlanConcept,
+      conceptForm: conceptForm,
     });
     headerToken(response);
     console.log(`여행컨셉설정: `, response);
-    return response.data;
-  } catch (err) {
-    console.log(err);
-    return 0;
-  }
-};
-
-// 여행보관함 받아오기(모든 플랜 조회)
-export const getAllPlans = async () => {
-  try {
-    const response = await axios.get('/members/plan');
-    headerToken(response);
-    console.log('여행보관함: ', response);
     return response.data;
   } catch (err) {
     console.log(err);
@@ -68,6 +55,7 @@ export const getConcpet = async (id) => {
     const response = await axios.get(`/members/plan/${id}/concept`);
     headerToken(response);
     console.log(`${id} 컨셉: `, response);
+    console.log('컨셉 data:', response.data.conceptForm);
     return response.data;
   } catch (err) {
     console.log(err);
@@ -78,8 +66,11 @@ export const getConcpet = async (id) => {
 // 여행 설정 페이지 수정
 export const putPlan = async (id, userPlan) => {
   try {
-    const response = await axios.put(`/members/plan/${id}`, {
-      planForm: userPlan,
+    const response = await axios.put(`/api/members/plan/${id}`, {
+      depart: userPlan.depart,
+      name: userPlan.name,
+      periods: userPlan.periods,
+      thumbnail: userPlan.thumbnail,
     });
     headerToken(response);
     console.log(`${id} 수정: `, response);
@@ -91,10 +82,10 @@ export const putPlan = async (id, userPlan) => {
 };
 
 // 여행 설정 페이지 컨셉 수정
-export const putConcept = async (id, userPlanConcept) => {
+export const putConcept = async (id, conceptForm) => {
   try {
     const response = await axios.put(`/members/plan/${id}/concept`, {
-      conceptForm: userPlanConcept,
+      conceptForm: conceptForm,
     });
     headerToken(response);
     console.log(`${id} 수정: `, response);

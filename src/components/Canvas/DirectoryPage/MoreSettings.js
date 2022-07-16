@@ -1,4 +1,4 @@
-import { dirStore } from 'lib/dirStore';
+import { dirStore } from 'lib/zustand/dirStore';
 import React from 'react';
 import styled from 'styled-components';
 
