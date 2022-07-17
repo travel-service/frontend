@@ -37,7 +37,6 @@ const TravelSettingForm = () => {
 
   //리팩토링할 때 store 내 initial 함수로 바꾸기
   useEffect(() => {
-    console.log('id: ', id);
     // depart, periods, name, concept, thumbnail 초기화
     if (id === null) {
       setDepart(new Date());

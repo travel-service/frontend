@@ -10,7 +10,7 @@ export const useStore = create((set, get) => ({
     destination: '',
     name: '',
     periods: 1,
-    planStatus: 'MAIN',
+    //planStatus: 'MAIN',
     thumbnail: '', // FormData, 이름
   },
   conceptForm: {
@@ -72,7 +72,9 @@ export const useStore = create((set, get) => ({
   setThumbnail: (input) => {
     set((state) => ({ userPlan: { ...state.userPlan, thumbnail: input } }));
   },
-
+  setStatus: (input) => {
+    set((state) => ({ userPlan: { ...state.userPlan, planStatus: input } }));
+  },
   // 압축 로직, [{}, {}...] => [id, id...]
   zipSelLoc: (item) => {
     // item는 객체 배열, id값으로만 된 배열 생성후 userPlan.dbSelLoc에 덮어쓰기
@@ -259,7 +261,7 @@ export const useStore = create((set, get) => ({
   getPlan: async (id) => {
     const res = await planAPI.getPlan(id);
     const con = await planAPI.getConcpet(id);
-    set({ userPlan: { ...res.planForm[0] } }); // 수정할 수 있는지?
+    set({ userPlan: { ...res.planForm } });
     set({ conceptForm: { concept: con.conceptForm } });
     // set({ userTravelDay: response.data.dayForm });
   },
@@ -275,7 +277,6 @@ export const useStore = create((set, get) => ({
     if (type === 0 && !id) {
       // plan 생성
       const res = await planAPI.createPlan(userPlan);
-      //const con = await planAPI.createConcpet(id, conceptForm);
       if (res > 0) {
         // 정상적 id 반환
         set({ id: res });
@@ -284,8 +285,12 @@ export const useStore = create((set, get) => ({
       }
     } else if (type === 0 && id > 0) {
       // plan 수정
-      const res0 = await planAPI.putPlan(id, userPlan);
-      const con0 = await planAPI.createConcpet(id, conceptForm);
+      delete userPlan.planId;
+      if (!userPlan.thumbnail) {
+        userPlan.thumbnail = '';
+      }
+      await planAPI.putPlan(id, userPlan);
+      await planAPI.postConcept(id, conceptForm);
     } else if (type === 1) {
       // selectedLocation 생성 및 수정
     } else if (type === 2) {
