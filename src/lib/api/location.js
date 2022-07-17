@@ -4,7 +4,10 @@ import axios from 'axios';
 export const createMemberLocation = async (location) => {
   try {
     const response = await axios.post('/locations/member', {
-      location: location,
+      memberLocation: location.memberLocation,
+      information: location.information,
+      typeLocation: location.typeLocation,
+      location: location.location,
     });
     if (response.status !== 201) {
       return 0;
