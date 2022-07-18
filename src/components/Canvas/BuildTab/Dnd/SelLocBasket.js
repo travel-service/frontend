@@ -96,8 +96,6 @@ const SelLocBasket = ({
   }, [selCateLoc]);
 
   useEffect(() => {
-    console.log(typeId);
-
     for (let key in selCateLoc) {
       if (selCateLoc[key].length > 0) setSelectArea(true);
     }
@@ -107,8 +105,6 @@ const SelLocBasket = ({
     setType(category[idx].eng);
     setTypeId(idx);
   };
-
-  console.log(firstType);
 
   return (
     <Container isOpen={isOpen}>

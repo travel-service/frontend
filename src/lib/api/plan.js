@@ -51,8 +51,11 @@ export const getPlan = async (id) => {
 export const postPlanDay = async (dayForm, id) => {
   try {
     const response = await axios.post(`/members/plan/${id}/day`, {
-      dayForm,
+      dayForm: {
+        travelDay: dayForm.travelDay,
+      },
     });
+    console.log(dayForm);
     headerToken(response);
     console.log('여행 캔버스 : ', response);
     return response.data;

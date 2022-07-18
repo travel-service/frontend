@@ -59,8 +59,7 @@ const SelectedLocations = ({ selectedLocation }) => {
       </BlockDiv>
       <BButton
         onClick={() => {
-          console.log(selectedLocation.locationId);
-          remove(selectedLocation.locationId, selectedLocation.type);
+          remove(selectedLocation.locationId, selectedLocation.type.type);
         }}
       >
         취소

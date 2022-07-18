@@ -33,6 +33,7 @@ export const signup = async ({
 
 export const userCheck = async () => {
   const response = await axios.get('/auth/info');
+  // const response = await axios.get('/auth/status'); 0718 Member 브랜치 머지 후 사용예정
   console.log(response);
   return response;
 };
@@ -45,6 +46,7 @@ export const refresh = async () => {
 // 로그아웃
 export const logout = async () => {
   const response = await axios.delete('/api/user/logout');
+  // const response = await axios.delete('/members/logout'); 0718 Member 브랜치 머지 후 사용예정
   window.location.reload(); // 페이지 새로고침, access 휘발
   return response;
 };

@@ -1,5 +1,16 @@
 import axios from 'axios';
 
+// 여행지 블록 형태 받아오기
+export const getLocationBlock = async () => {
+  try {
+    const response = await axios.get('/locations/block');
+    return response;
+  } catch (err) {
+    console.log(err);
+    return 0;
+  }
+};
+
 // 여행 설정 페이지, 여행 생성
 export const createMemberLocation = async (location) => {
   try {

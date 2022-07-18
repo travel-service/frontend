@@ -29,15 +29,23 @@ const BlueBox = styled.div`
 `;
 
 const SelectArea = ({ location, selLocs }) => {
-  const { Attraction, Restaurant, Lodge } = location;
+  // const { Attraction, Culture, Festival, Leports, Restaurant, Lodge } =
+  //   location;
   // const { selAttraction, selRestaurant, selLodge } = selLocs
 
   // const { selLodge, selAttraction, selRestaurant } = useStore();
-  const { selCateLoc } = useStore();
-  const { selLodge, selAttraction, selRestaurant } = selCateLoc;
+  const { selCateLoc, tmpCategory } = useStore();
+  // const {
+  //   selLodge,
+  //   selAttraction,
+  //   selRestaurant,
+  //   selCulture,
+  //   selFestival,
+  //   selLeports,
+  // } = selCateLoc;
   return (
     <ContentsArea>
-      <WhiteBox>
+      {/* <WhiteBox>
         <div>관광지 블록</div>
         <LocationList locations={Attraction} />
       </WhiteBox>
@@ -57,7 +65,19 @@ const SelectArea = ({ location, selLocs }) => {
       </BlueBox>
       <BlueBox>
         <SelectedLocationList selectedLocations={selRestaurant} />
-      </BlueBox>
+      </BlueBox> */}
+      {/* 찬우 수정 0718 */}
+      {Object.keys(location).map((loc, idx) => (
+        <WhiteBox key={idx}>
+          <div>{tmpCategory[loc]} 블록</div>
+          <LocationList locations={location[loc]} />
+        </WhiteBox>
+      ))}
+      {Object.keys(selCateLoc).map((selLoc, idx) => (
+        <BlueBox key={idx}>
+          <SelectedLocationList selectedLocations={selCateLoc[selLoc]} />
+        </BlueBox>
+      ))}
     </ContentsArea>
   );
 };

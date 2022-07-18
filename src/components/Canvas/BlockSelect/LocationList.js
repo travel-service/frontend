@@ -59,12 +59,11 @@ function Location({ location }) {
       </BlockDiv>
       <BButton
         onClick={() => {
-          console.log(location);
-          if (location.isSelect === false) {
-            onAdd(location, location.type);
+          if (location.isSelect === false || location.isSelect === undefined) {
+            onAdd(location, location.type.type);
             location.isSelect = true;
           } else {
-            remove(location.locationId, location.type);
+            remove(location.id, location.type.type);
             location.isSelect = false;
           }
         }}
@@ -80,7 +79,7 @@ function Location({ location }) {
       </BButton>
       <Modal open={modalOpen} close={closeModal} header={location.name}>
         {location.info}
-        <BlockInfo type={location.type} id={location.locationId} />
+        <BlockInfo type={location.type.type} id={location.locationId} />
       </Modal>
     </Block>
   );
@@ -89,9 +88,10 @@ function Location({ location }) {
 function LocationList({ locations }) {
   return (
     <div>
-      {locations.map((location) => (
-        <Location location={location} key={location.locationId} />
-      ))}
+      {locations &&
+        locations.map((location) => (
+          <Location location={location} key={location.locationId} />
+        ))}
     </div>
   );
 }
