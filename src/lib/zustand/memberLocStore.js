@@ -35,7 +35,6 @@ export const memLocStore = create((set, get) => ({
     console.log('pass');
     let isShare = false;
     if (share === 'true') isShare = true;
-    let tmpType = type.toUpperCase();
     let loc = {
       memberLocation: {
         memberId: 1, // 프론트에서 멤버아이디를 알 수 있나..?
@@ -53,7 +52,7 @@ export const memLocStore = create((set, get) => ({
         isMember: true,
         areaCode: 1, // ?
         type: {
-          type: tmpType, // ? 대소문자
+          type,
         },
       },
       typeLocation: typeObj,
@@ -65,13 +64,8 @@ export const memLocStore = create((set, get) => ({
         tel,
       },
     };
-    console.log(loc);
-
-    // set({
-    //   memberLocations: [...get().memberLocations, loc],
-    // });
     const res = await locationAPI.createMemberLocation(loc);
-    console.log(res);
+    // console.log(res.data); // 생성된 location id
     if (!res) return ['', '원인 모를 에러!!'];
     else {
       return 'success';
@@ -82,7 +76,6 @@ export const memLocStore = create((set, get) => ({
   onChangeTypeInfo: (type, key, val) => {
     if (val === 'true') val = true;
     else if (val === 'false') val = false;
-    console.log(type, key, val);
     set((state) => ({
       typeInfo: {
         ...state.typeInfo,
@@ -96,12 +89,10 @@ export const memLocStore = create((set, get) => ({
         },
       },
     }));
-    console.log(get().typeInfo);
   },
 
   // typeInfo 데이터 초기화
   resetTypeInfo: (type, initData) => {
-    console.log(type, initData);
     set((state) => ({
       typeInfo: {
         ...state.typeInfo,

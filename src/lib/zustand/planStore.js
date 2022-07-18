@@ -332,17 +332,28 @@ export const useStore = create(
           console.log('get day 실패');
           return;
         }
-        // console.log(res.dayForm.length);
         let n = res.dayForm.length;
         if (n > 0) {
-          let tempDayArr = [];
-          for (let i = 0; i < n; i++) {
-            const idx = res.dayForm[i].days - 1;
-            if (!tempDayArr[idx]) {
-              // undefined
-              tempDayArr[idx] = [res.dayForm[i]];
-            } else {
-              tempDayArr[idx].push(res.dayForm[i]);
+          // day get 하고, locId를 selLoc에서 id를 찾아넣는다.(name과 image를 로딩하기 위한)
+          let tempDayArr = Array.from(
+            { length: get().userPlan.periods },
+            () => [],
+          );
+          let tmpSelCateLoc = get().selCateLoc;
+          for (let i = 0; i < res.dayForm.length; i++) {
+            let tmp = res.dayForm[i];
+            for (let key in tmpSelCateLoc) {
+              let flag = 0;
+              for (let j = 0; j < tmpSelCateLoc[key].length; j++) {
+                if (tmpSelCateLoc[key][j].locationId === tmp.locationId) {
+                  let idx = tmp.days - 1;
+                  tmp.name = tmpSelCateLoc[key][j].name;
+                  tmp.image = tmpSelCateLoc[key][j].image;
+                  tempDayArr[idx].push(tmp);
+                  break;
+                }
+              }
+              if (flag) break;
             }
           }
           set({

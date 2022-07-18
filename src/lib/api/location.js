@@ -11,7 +11,7 @@ export const getLocationBlock = async () => {
   }
 };
 
-// 여행 설정 페이지, 여행 생성
+// 멤버 로케이션 생성
 export const createMemberLocation = async (location) => {
   try {
     const response = await axios.post('/locations/member', {
@@ -24,6 +24,22 @@ export const createMemberLocation = async (location) => {
       return 0;
     } else {
       console.log('멤버 로케이션 생성: ', response);
+      return response;
+    }
+  } catch (err) {
+    console.log(err);
+    return 0;
+  }
+};
+
+// 멤버 로케이션 조회 0718 추가
+export const getMemberLocation = async () => {
+  try {
+    const response = await axios.get('/locations/members');
+    if (response.status !== 200) {
+      return 0;
+    } else {
+      console.log('멤버 로케이션 조회: ', response);
       return response;
     }
   } catch (err) {

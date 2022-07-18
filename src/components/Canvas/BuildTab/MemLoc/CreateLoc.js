@@ -289,11 +289,6 @@ const CreateLoc = ({ size, onClick }) => {
     setDetail(tmp);
   };
 
-  useEffect(() => {
-    console.log('detail:', detail); // 삭제예정
-    console.log('main:', mainForm); // 삭제예정
-  }, [detail, mainForm]);
-
   const openModal = () => {
     setModalIsOpen(true);
   };
