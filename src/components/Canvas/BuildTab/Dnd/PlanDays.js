@@ -5,7 +5,6 @@ import DayHeader from 'components/Canvas/BuildTab/LocDetail/DayHeader';
 import { Droppable } from 'react-beautiful-dnd';
 import MoveDataDiv from '../LocDetail/MoveDataDiv';
 import Location from 'components/Canvas/BuildTab/LocDetail/Location';
-import CreateLoc from 'components/Canvas/BuildTab/MemLoc/CreateLoc';
 
 const Days = styled.div`
   display: flex;
@@ -123,8 +122,6 @@ const Div = styled.div`
     `}
 `;
 
-const Buttons = styled.div``;
-
 const PlanDays = ({
   dayLocDel,
   setViewTime,
@@ -208,9 +205,6 @@ const PlanDays = ({
           </>
         ))}
       </Days>
-      <Buttons>
-        <CreateLoc size="30" />
-      </Buttons>
       {mobile && (
         <CarouselBtns>
           <CarBtn onClick={() => onClickBtn('p')}>이전</CarBtn>

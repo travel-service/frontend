@@ -8,6 +8,12 @@ export const memLocStore = create(
       // memberLocation
       memberLocations: [],
 
+      initializeMemberForm: () => {
+        set(() => ({
+          memberLocations: [],
+        }));
+      },
+
       // memLoc 생성 함수
       createMemberLoc: async (main, coords, sub, typeObj, type) => {
         const { name, share, address1, summary } = main;

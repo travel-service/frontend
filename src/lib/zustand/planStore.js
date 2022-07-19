@@ -125,7 +125,7 @@ export const useStore = create(
         Culture: '문화시설',
         Festival: '축제',
         Leports: '레포츠',
-        Lodge: '숙박 시설',
+        Lodge: '숙박시설',
         Restaurant: '음식점',
       },
 

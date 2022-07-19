@@ -1,17 +1,13 @@
 // 자체 로케이션 추가 버튼
 import React, { useEffect, useState } from 'react';
-import { MdOutlineLibraryAdd } from 'react-icons/md';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import ReactTooltip from 'react-tooltip';
 import ModalModule from 'components/common/modal/ModalModule';
 import { useStore } from 'lib/zustand/planStore';
 import { memLocStore } from 'lib/zustand/memberLocStore';
 import InputComponent from './InputComponent';
 import CustomRadio from 'lib/custom/CustomRadio';
-
-const CreateLocBtn = styled(MdOutlineLibraryAdd)`
-  cursor: pointer;
-`;
+import BlackCustomBtn from 'components/Canvas/common/BlackCustomBtn';
 
 const Container = styled.div`
   /* padding-left: 50px; */
@@ -22,26 +18,6 @@ const Container = styled.div`
   @media screen and (max-width: 767px) {
     width: 90vw;
     /* height: 40vh; */
-  }
-
-  .inputBtn {
-    height: 45px;
-    background: #ffffff;
-    border: 1px solid #010101;
-    border-radius: 5px;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 13px;
-    line-height: 16px;
-    cursor: pointer;
-    :hover {
-      background: black;
-      color: white;
-      transition: 0.2s all linear;
-    }
-    :active {
-      transform: translateY(5px);
-    }
   }
 `;
 
@@ -335,11 +311,12 @@ const CreateLoc = ({ size, onClick }) => {
 
   return (
     <>
-      <CreateLocBtn
+      <BlackCustomBtn
         size={size}
         onClick={openModal}
         data-tip
         data-for="createLoc"
+        value="자체 블록 생성 +"
       />
       <ReactTooltip id="createLoc" place="left" type="info" effect="solid">
         <div>자체 로케이션을 생성할 수 있습니다.</div>
@@ -428,12 +405,7 @@ const CreateLoc = ({ size, onClick }) => {
             </MoreInfo>
           ))}
           {/* 항목 추가 버튼 */}
-          <input
-            className="inputBtn"
-            type="button"
-            onClick={onClickCnt}
-            value="항목추가 +"
-          />
+          <BlackCustomBtn onClick={onClickCnt} value="항목추가 +" />
           {/* 에러 메세지란 */}
           {errMsg && (
             <div>

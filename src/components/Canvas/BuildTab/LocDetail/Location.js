@@ -22,7 +22,8 @@ const List = styled.li`
   white-space: normal;
   line-height: 1.5;
   user-select: none;
-  width: 250px;
+  width: 100%;
+
   margin-bottom: 10px;
   box-shadow: 3px 3px 3px 3px ${palette.gray[5]};
   border-radius: 4px;
