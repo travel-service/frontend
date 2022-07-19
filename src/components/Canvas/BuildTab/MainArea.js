@@ -2,12 +2,7 @@ import React, { useState, useEffect } from 'react'; // useEffect
 import { DragDropContext } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import SelLocBasket from './Dnd/SelLocBasket';
-import PlanDays from './Dnd/PlanDays';
-import {
-  MdOutlineArrowForwardIos,
-  MdOutlineArrowBackIos,
-} from 'react-icons/md';
-import { Mobile, Tablet, Pc } from 'lib/custom/responsive';
+import { Mobile, Pc } from 'lib/custom/responsive';
 import WebDayArea from './Others/WebDayArea';
 import MobileDayArea from './Others/MobileDayArea';
 
@@ -40,29 +35,6 @@ const Container = styled.div`
   }
 `;
 
-const ToggleArea = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const Toggle = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgb(0, 0, 0);
-  opacity: 0.5;
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  :hover {
-    cursor: pointer;
-    opacity: 1;
-    transform: scale(1.15);
-    transition: 0.3s;
-  }
-`;
-
 const MainArea = ({
   category,
   pushLocToDay,
@@ -73,6 +45,7 @@ const MainArea = ({
   userTravelDay,
   setTimeData,
   splitTime,
+  memberLocations,
 }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [selectArea, setSelectArea] = useState(-1);
@@ -96,11 +69,11 @@ const MainArea = ({
       return;
     const startDropId = source.droppableId;
     const endDropId = destination.droppableId;
+    let regex = /day/i; // endDropId에는 day가 들어감
+    let start = regex.test(startDropId); // true or false, true면 day, false면 Basket
+    let end = regex.test(endDropId);
     // 출발 selectedLocation, 도착 day
-    if (
-      category[startDropId] !== undefined &&
-      category[endDropId] === undefined
-    )
+    if (!start && end)
       pushLocToDay(
         destination.droppableId,
         destination.index,
@@ -108,10 +81,7 @@ const MainArea = ({
         source.index,
       );
     // 출발 day, 도착 day
-    else if (
-      category[startDropId] === undefined &&
-      category[endDropId] === undefined
-    ) {
+    else if (start && end) {
       dayLocChange(
         destination.droppableId,
         destination.index,
@@ -146,6 +116,7 @@ const MainArea = ({
               isOpen={isOpen}
               category={category}
               selCateLoc={selCateLoc}
+              memberLocations={memberLocations}
             />
           )}
           {selectArea === 1 && (

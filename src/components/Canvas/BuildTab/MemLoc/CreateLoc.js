@@ -7,6 +7,7 @@ import ModalModule from 'components/common/modal/ModalModule';
 import { useStore } from 'lib/zustand/planStore';
 import { memLocStore } from 'lib/zustand/memberLocStore';
 import InputComponent from './InputComponent';
+import CustomRadio from 'lib/custom/CustomRadio';
 
 const CreateLocBtn = styled(MdOutlineLibraryAdd)`
   cursor: pointer;
@@ -59,46 +60,6 @@ const Error = styled.div`
   margin-top: 10px;
 `;
 
-const TypeGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  margin-top: 10px;
-`;
-
-const TypeRadio = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-  label {
-    font-size: 13px;
-    font-weight: 400;
-  }
-`;
-
-const Radio = styled.div`
-  width: 25px;
-  height: 25px;
-  border: 1px solid #e5e7e8;
-  border-radius: 5px;
-  margin-right: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-`;
-
-const CheckDiv = styled.div`
-  width: 9px;
-  height: 9px;
-  ${(props) =>
-    props.checked &&
-    css`
-      background: #f75d5d;
-    `}
-
-  border-radius: 100%;
-`;
-
 const MoreInfo = styled.div`
   display: flex;
   justify-content: space-between;
@@ -130,10 +91,9 @@ const commonSubData = [
 
 const CreateLoc = ({ size, onClick }) => {
   const { category } = useStore();
-  const { createMemberLoc, typeInfo, onChangeTypeInfo, resetTypeInfo } =
-    memLocStore();
+  const { createMemberLoc, typeInfo } = memLocStore();
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [check, setCheck] = useState('1'); // default Attraction : 1
+  const [check, setCheck] = useState('Attraction'); // default Attraction : 1
   const [coords, setCoords] = useState({
     latitude: null,
     longitude: null,
@@ -188,7 +148,7 @@ const CreateLoc = ({ size, onClick }) => {
     if (check === 'etc') {
       return;
     }
-    const tmp = typeInfo[category[check].eng];
+    const tmp = typeInfo[check];
     setSubForm({
       ...subForm,
       ...tmp,
@@ -210,9 +170,6 @@ const CreateLoc = ({ size, onClick }) => {
         placeHolder: '여행지 주소를 검색해주세요.',
         input: '',
         map: true,
-        // 0715 작업중
-        // 돋보기 추가, map오픈, 좌표, 이름 입력받기
-        // 전송 데이터 정리
       },
       {
         key: 'summary',
@@ -300,16 +257,11 @@ const CreateLoc = ({ size, onClick }) => {
   };
 
   const onSelect = (e) => {
-    console.log(e);
     const { place_name, address_name, x, y } = e;
     let [nameObj] = mainForm.slice(0, 1);
     let [addressObj] = mainForm.slice(1, 2);
     let rest = mainForm.slice(2);
-    console.log(nameObj, addressObj);
-    // if (place_name.length) {
-    // }
     nameObj.input = place_name;
-
     addressObj.input = address_name;
     setMainForm([nameObj, addressObj, ...rest]);
     setCoords({
@@ -319,7 +271,6 @@ const CreateLoc = ({ size, onClick }) => {
   };
 
   const onSubmit = async () => {
-    // typeInfo의 타입에 따라 데이터들 모두 store에 전송해서 api요청
     let mainObj = {};
     let typeObj = {};
     let subObj = {};
@@ -340,25 +291,12 @@ const CreateLoc = ({ size, onClick }) => {
       if (e.input.length) mainObj[e.key] = e.input;
     });
 
-    let res = await createMemberLoc(
-      mainObj,
-      coords,
-      subObj,
-      typeObj,
-      category[check].eng,
-    );
-
-    // console.log(tmp, mainForm);
-
-    // let res = await createMemberLoc(form, coords, typeInfo[type]);
-    // console.log(res);
+    let res = await createMemberLoc(mainObj, coords, subObj, typeObj, check);
     if (res === 'success') {
-      // 다시 초기화, typeDefaultData 사용, typeInfo 덮어쓰기
-      // resetTypeInfo(type, typeDefaultData);
-      // closeModal();
       alert('여행지가 생성되었습니다!');
+      closeModal();
     } else {
-      setErrMsg(res[1]);
+      setErrMsg(res);
     }
   };
 
@@ -417,23 +355,13 @@ const CreateLoc = ({ size, onClick }) => {
         onClickAddress={onClickAddress}
       >
         <Container className="memberLoc">
-          {/* 카테고리 grid */}
-          <TypeGrid>
-            {Object.keys(category).map((typeNum, index) => (
-              <TypeRadio key={index}>
-                <Radio onClick={() => onClickType(typeNum)}>
-                  <CheckDiv checked={typeNum === check}></CheckDiv>
-                </Radio>
-                <label>{category[typeNum].kor}</label>
-              </TypeRadio>
-            ))}
-            <TypeRadio>
-              <Radio onClick={() => onClickType('etc')}>
-                <CheckDiv checked={'etc' === check}></CheckDiv>
-              </Radio>
-              <label>기타</label>
-            </TypeRadio>
-          </TypeGrid>
+          {/* 카테고리 grid, customRadio 컴포넌트 사용 */}
+          <CustomRadio
+            dataObj={category}
+            onClick={onClickType}
+            check={check}
+            flag="canvas"
+          />
           {/* 필수 입력 폼 */}
           {mainForm.map((obj, i) => {
             if (obj.placeHolder === null) {
@@ -484,7 +412,6 @@ const CreateLoc = ({ size, onClick }) => {
                   type="radio"
                   name={obj.key}
                   value={obj.input}
-                  // flag="input"
                 />
               )}
               {obj.title !== '항목' && obj.placeHolder !== false && (
@@ -495,7 +422,6 @@ const CreateLoc = ({ size, onClick }) => {
                   index={i}
                   value={obj.input}
                   type="text"
-                  // detail={true}
                 />
               )}
               <button onClick={() => onClickDel(i)}>취소</button>
@@ -522,6 +448,3 @@ const CreateLoc = ({ size, onClick }) => {
 };
 
 export default CreateLoc;
-
-//https://japing.tistory.com/entry/React-Select-Option%EC%9D%98-Value-%EC%86%8D%EC%84%B1%EC%97%90-Object%EB%A5%BC-%EC%96%B4%EB%96%BB%EA%B2%8C-%EB%8B%A4%EB%A3%B0-%EC%88%98-%EC%9E%88%EC%9D%84%EA%B9%8C
-// select => option 객체 직렬화, stringify

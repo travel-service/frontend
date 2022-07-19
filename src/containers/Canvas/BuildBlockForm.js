@@ -4,6 +4,7 @@ import MainArea from 'components/Canvas/BuildTab/MainArea';
 import palette from 'lib/styles/palette';
 import { useStore } from 'lib/zustand/planStore';
 import { buildStore } from 'lib/zustand/CanvasBuildStore';
+import { memLocStore } from 'lib/zustand/memberLocStore';
 
 const Container = styled.div`
   display: flex;
@@ -17,6 +18,7 @@ const Container = styled.div`
 `;
 
 const BuildBlockForm = ({ idx }) => {
+  const { memberLocations } = memLocStore();
   const { category, selCateLoc, userTravelDay, getPlanDays, postPlan, id } =
     useStore();
   const {
@@ -49,6 +51,7 @@ const BuildBlockForm = ({ idx }) => {
         userTravelDay={userTravelDay}
         setTimeData={setTimeData}
         splitTime={splitTime}
+        memberLocations={memberLocations}
       />
     </Container>
   );

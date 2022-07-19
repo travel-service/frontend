@@ -8,17 +8,24 @@ const Block = () => {
   // const [globalLocations, setGlobalLocations] = useState(null);
 
   const { sysCateLoc, getSysLoc } = sysLocStore();
-  const { selCateLoc } = useStore();
+  const { selCateLoc, category } = useStore();
 
   useEffect(() => {
     getSysLoc();
+    console.log(category);
     // console.log(sysCateLoc);
     // console.log(selCateLoc);
   }, []);
 
   return (
     <>
-      {sysCateLoc && <SelectArea location={sysCateLoc} selLocs={selCateLoc} />}
+      {sysCateLoc && (
+        <SelectArea
+          location={sysCateLoc}
+          selLocs={selCateLoc}
+          category={category}
+        />
+      )}
     </>
   );
 };

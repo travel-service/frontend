@@ -1,29 +1,12 @@
-import axios from 'axios';
 import create from 'zustand';
 import * as planAPI from 'lib/api/plan';
 import * as locationAPI from 'lib/api/location';
 import { persist } from 'zustand/middleware';
+import { memLocStore } from './memberLocStore';
 
 export const useStore = create(
   persist(
     (set, get) => ({
-      // id: null,
-      // userPlan: {
-      //   // planForm
-      //   depart: '',
-      //   destination: '',
-      //   name: '',
-      //   periods: 1,
-      //   planStatus: 'MAIN',
-      //   thumbnail: '', // FormData, 이름
-      // },
-      // userPlanConcept: {
-      //   concept: [],
-      // },
-      // userTravelDay: {
-      //   travelDay: [],
-      //   status: false,
-      // },
       id: null,
       userPlan: {},
       userPlanConcept: {},
@@ -48,12 +31,12 @@ export const useStore = create(
             status: false,
           },
           selCateLoc: {
-            selAttraction: [],
-            selCulture: [],
-            selFestival: [],
-            selLeports: [],
-            selLodge: [],
-            selRestaurant: [],
+            Attraction: [],
+            Culture: [],
+            Festival: [],
+            Leports: [],
+            Lodge: [],
+            Restaurant: [],
           },
         }));
       },
@@ -119,24 +102,25 @@ export const useStore = create(
       selCateLoc: {
         // 객체가 담기는 배열을 담는 객체
         // 담은 location => 분류
-        selAttraction: [],
-        selCulture: [],
-        selFestival: [],
-        selLeports: [],
-        selLodge: [],
-        selRestaurant: [],
+        Attraction: [],
+        Culture: [],
+        Festival: [],
+        Leports: [],
+        Lodge: [],
+        Restaurant: [],
       },
+
+      // 0719 찬우 수정 category
+      // category: {
+      //   1: { eng: 'Attraction', kor: '관광지' },
+      //   2: { eng: 'Culture', kor: '문화시설' },
+      //   3: { eng: 'Festival', kor: '축제' },
+      //   4: { eng: 'Leports', kor: '레포츠' },
+      //   5: { eng: 'Lodge', kor: '숙박 시설' },
+      //   6: { eng: 'Restaurant', kor: '음식점' },
+      // },
 
       category: {
-        1: { eng: 'Attraction', kor: '관광지' },
-        2: { eng: 'Culture', kor: '문화시설' },
-        3: { eng: 'Festival', kor: '축제' },
-        4: { eng: 'Leports', kor: '레포츠' },
-        5: { eng: 'Lodge', kor: '숙박 시설' },
-        6: { eng: 'Restaurant', kor: '음식점' },
-      },
-
-      tmpCategory: {
         Attraction: '관광지',
         Culture: '문화시설',
         Festival: '축제',
@@ -148,14 +132,12 @@ export const useStore = create(
       //onAdd: (loc, type) => set(state => ({ selLoc: [...state.selLoc, loc] })),
       onAdd: (loc, type) => {
         // 0718 찬우 수정
-        let selType = `sel${type}`; // ex. selAttraction
         set((state) => ({
           selCateLoc: {
             ...state.selCateLoc,
-            [selType]: [...state.selCateLoc[selType], loc],
+            [type]: [...state.selCateLoc[type], loc],
           },
         }));
-        console.log(get().selCateLoc);
         // switch (type) {
         //   case '1':
         //     //  set(state => ({ selAttraction: [...state.selAttraction, loc] }));
@@ -218,17 +200,15 @@ export const useStore = create(
       //remove: (locId) => set(state => ({ selLoc: state.selLoc.filter(loc => loc.id !== locId)})),
       remove: (locId, type) => {
         console.log(locId, type);
-        let selType = `sel${type}`;
-        let tmpSelTypeArr = get().selCateLoc[selType].filter((obj) => {
+        let tmpSelTypeArr = get().selCateLoc[type].filter((obj) => {
           return obj.locationId !== locId;
         });
         set((state) => ({
           selCateLoc: {
             ...state.selCateLoc,
-            [selType]: tmpSelTypeArr,
+            [type]: tmpSelTypeArr,
           },
         }));
-        console.log(get().selCateLoc);
 
         // switch (type) {
         //   case '1':
@@ -339,7 +319,10 @@ export const useStore = create(
             { length: get().userPlan.periods },
             () => [],
           );
-          let tmpSelCateLoc = get().selCateLoc;
+          let tmpSelCateLoc = {
+            ...get().selCateLoc,
+            member: memLocStore.getState().memberLocations,
+          };
           for (let i = 0; i < res.dayForm.length; i++) {
             let tmp = res.dayForm[i];
             for (let key in tmpSelCateLoc) {
