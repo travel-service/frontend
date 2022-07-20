@@ -10,25 +10,22 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 330px;
+  min-width: 330px;
   height: 100%;
   background-color: #ffffff;
   border-radius: 0px 10px 10px 0px;
   transition: 0.2s all linear;
   padding: 20px;
 
-  .test {
-    color: pink;
-  }
-
   ${(props) =>
     !props.isOpen &&
     css`
       width: 0px;
       height: 0px;
+      padding: 0px;
     `}
   @media screen and (max-width: 767px) {
     width: 100%;
-
     display: block;
     transition: none;
   }
@@ -42,6 +39,7 @@ const Title = styled.div`
 `;
 
 const Basket = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;

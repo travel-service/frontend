@@ -96,10 +96,7 @@ const CanvasButtons = () => {
             <ButtonDiv className="prev">
               <Link to={process.env.PUBLIC_URL + `/canvas/${siteMap[idx - 1]}`}>
                 {idx !== 0 && (
-                  <StyledButton onClick={onClickPrev}>
-                    {' '}
-                    &lt; 이전으로
-                  </StyledButton>
+                  <StyledButton onClick={onClickPrev}> &lt; 이전</StyledButton>
                 )}
               </Link>
             </ButtonDiv>
@@ -116,14 +113,13 @@ const CanvasButtons = () => {
                       onClickNext(0);
                     }}
                   >
-                    다음으로 &gt;
+                    다음 &gt;
                   </StyledButton>
                 )}
               </Link>
             </ButtonDiv>
-            <ButtonDiv className="exit">
+            {/* <ButtonDiv className="exit">
               <Link to="/trablock">
-                {/*trablock*/}
                 <StyledButton
                   onClick={() => {
                     onClickExit();
@@ -132,7 +128,7 @@ const CanvasButtons = () => {
                   저장하고 나가기
                 </StyledButton>
               </Link>
-            </ButtonDiv>
+            </ButtonDiv> */}
           </ButtonDiv>
         </AllbuttonsDiv>
       </Pc>
@@ -145,7 +141,7 @@ const CanvasButtons = () => {
               to={process.env.PUBLIC_URL + `/canvas/${siteMap[idx - 1]}`}
             >
               <MdArrowBackIosNew className="icon" />
-              이전으로
+              이전
             </Btn>
           )}
           {idx !== 2 && (
@@ -153,16 +149,16 @@ const CanvasButtons = () => {
               className="btn"
               to={process.env.PUBLIC_URL + `/canvas/${siteMap[idx + 1]}`}
             >
-              다음으로 <MdArrowForwardIos className="icon" />
+              다음 <MdArrowForwardIos className="icon" />
             </Btn>
           )}
-          <div className="btn">
+          {/* <div className="btn">
             {' '}
             <MdOutlineSave className="icon" /> 저장하기
           </div>
           <Btn className="btn" to={process.env.PUBLIC_URL + `/`}>
             <MdExitToApp className="icon" /> 저장하고 나가기
-          </Btn>
+          </Btn> */}
         </MobileBtn>
       </Mobile>
     </>

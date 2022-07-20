@@ -5,9 +5,21 @@ import SelLocBasket from './Dnd/SelLocBasket';
 import { Mobile, Pc } from 'lib/custom/responsive';
 import WebDayArea from './Others/WebDayArea';
 import MobileDayArea from './Others/MobileDayArea';
+import CanvasButtons from '../common/CanvasButtons';
+
+const Container = styled.div`
+  display: flex;
+  width: 100%;
+  padding-right: 30px;
+  /* height: 100%; */
+  overflow: auto;
+  @media screen and (max-width: 767px) {
+    /* display: block; */
+    flex-direction: column;
+  }
+`;
 
 const Div = styled.div`
-  /* width: 150px; */
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -26,13 +38,23 @@ const FontDiv = styled.div`
   color: #e64980;
 `;
 
-const Container = styled.div`
+const Canvas = styled.main`
+  flex: 1;
+  /* height: 600px; */
+  height: 100%;
   display: flex;
-  width: 100%;
-  @media screen and (max-width: 767px) {
-    /* display: block; */
-    flex-direction: column;
-  }
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 10px;
+  margin-left: 20px;
+  padding: 25px;
+`;
+
+const Header = styled.header`
+  margin-top: 8px;
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 30px;
 `;
 
 const MainArea = ({
@@ -97,7 +119,7 @@ const MainArea = ({
 
   return (
     <>
-      <DragDropContext onDragEnd={onDragEnd}>
+      <DragDropContext style={{ overflow: 'auto' }} onDragEnd={onDragEnd}>
         <Container>
           {selectArea === 100 && (
             <Div>
@@ -119,32 +141,36 @@ const MainArea = ({
               memberLocations={memberLocations}
             />
           )}
-          {selectArea === 1 && (
-            <React.Fragment>
-              <Pc>
-                <WebDayArea
-                  onClickToggle={onClickToggle}
-                  isOpen={isOpen}
-                  dayLocDel={dayLocDel}
-                  setViewTime={setViewTime}
-                  userTravelDay={userTravelDay}
-                  setTimeData={setTimeData}
-                  splitTime={splitTime}
-                />
-              </Pc>
-              <Mobile>
-                <MobileDayArea
-                  onClickToggle={onClickToggle}
-                  isOpen={isOpen}
-                  dayLocDel={dayLocDel}
-                  setViewTime={setViewTime}
-                  userTravelDay={userTravelDay}
-                  setTimeData={setTimeData}
-                  splitTime={splitTime}
-                />
-              </Mobile>
-            </React.Fragment>
-          )}
+          <Canvas>
+            <Header>여행 캔버스</Header>
+            {selectArea === 1 && (
+              <React.Fragment>
+                <Pc>
+                  <WebDayArea
+                    onClickToggle={onClickToggle}
+                    isOpen={isOpen}
+                    dayLocDel={dayLocDel}
+                    setViewTime={setViewTime}
+                    userTravelDay={userTravelDay}
+                    setTimeData={setTimeData}
+                    splitTime={splitTime}
+                  />
+                </Pc>
+                <Mobile>
+                  <MobileDayArea
+                    onClickToggle={onClickToggle}
+                    isOpen={isOpen}
+                    dayLocDel={dayLocDel}
+                    setViewTime={setViewTime}
+                    userTravelDay={userTravelDay}
+                    setTimeData={setTimeData}
+                    splitTime={splitTime}
+                  />
+                </Mobile>
+              </React.Fragment>
+            )}
+            <CanvasButtons />
+          </Canvas>
         </Container>
       </DragDropContext>
     </>

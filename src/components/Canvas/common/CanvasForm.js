@@ -6,7 +6,10 @@ import Block from 'containers/Canvas/Block';
 import { useState } from 'react';
 
 const CanvasDiv = styled.div`
-  height: 70vh;
+  flex: 1;
+  display: flex;
+  padding-bottom: 35px;
+  height: 100%;
   @media screen and (max-width: 767px) {
     flex: 1;
     display: flex;
@@ -25,8 +28,7 @@ const CanvasForm = ({ type }) => {
 
   return (
     <CanvasDiv>
-      {/* <H1>{text}</H1> */}
-      {/* <PlanName /> 어디에 넣을지.. */}
+      {/* 프로세스 바 */}
       {type === 'setting' && <TravelSettingForm />}
       {type === 'select' && <Block />}
       {idx === 2 && <BuildBlockForm idx={idx} />}

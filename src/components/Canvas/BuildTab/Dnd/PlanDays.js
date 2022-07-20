@@ -6,24 +6,20 @@ import { Droppable } from 'react-beautiful-dnd';
 import MoveDataDiv from '../LocDetail/MoveDataDiv';
 import Location from 'components/Canvas/BuildTab/LocDetail/Location';
 
-const Days = styled.div`
-  display: flex;
-  flex: 1;
-  overflow: auto;
-  white-space: nowrap;
-  @media screen and (max-width: 767px) {
-    width: 95vw;
-  }
-`;
-
 const Container = styled.div`
-  flex: 1;
+  flex-grow: 0;
+  height: 700px;
+  width: 100%;
+  overflow: auto;
   display: flex;
+  flex-direction: column;
+  background: #e5e7e8;
+  border-radius: 10px;
+  padding: 20px;
 
   ${(props) =>
     props.mobile &&
     css`
-      flex-direction: column;
       align-items: center;
       ${Day} {
         width: 90vw;
@@ -32,18 +28,39 @@ const Container = styled.div`
     `}
 `;
 
+const Days = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+
+  height: 100%;
+  /* justify-content: center; */
+  /* flex: 1; */
+  /* overflow: auto; */
+  white-space: nowrap;
+  @media screen and (max-width: 767px) {
+    width: 95vw;
+  }
+`;
+
 const Day = styled.div`
-  margin: 8px;
-  border-radius: 15px;
+  margin: 10px;
+  border: 1px solid #e5e7e8;
+  border-radius: 10px;
   background: white;
-  max-height: 60vh;
-  flex: 1;
-  ${(props) =>
+  /* max-height: 60vh; */
+  min-height: 300px;
+  max-height: 500px;
+  min-width: 325px;
+  max-width: 325px;
+  /* overflow: auto; */
+  padding: 20px;
+  /* flex: 1; */
+  /* ${(props) =>
     !props.mobile &&
     css`
       min-width: 270px;
       max-width: 270px;
-    `}
+    `} */
 
   ${(props) =>
     props.mobile &&
@@ -81,8 +98,9 @@ const InitForm = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${oc.teal[6]};
-  height: 40px;
+  border: 1px solid #000000;
+  border-radius: 60px;
+  height: 45px;
   width: 100%;
   padding: 8px;
 `;
@@ -94,9 +112,10 @@ const EmptyBlock = styled.div`
 `;
 
 const LocationsList = styled('div')`
-  flex-grow: 1;
-  min-height: 100px;
+  min-height: 180px;
+  max-height: 420px;
 
+  overflow: auto;
   transition: background-color ease 0.2s;
   background-color: ${(props) => (props.isDraggingOver ? 'green' : 'white')};
   ${(props) =>
@@ -108,13 +127,21 @@ const LocationsList = styled('div')`
     display: flex;
     flex-direction: column;
   }
+  ${(props) =>
+    props.empty &&
+    css`
+      border: 1px dashed #e5e7e8;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+    `}
 `;
 
 const Div = styled.div`
   ${(props) =>
     props.idx === 0 &&
     css`
-      background-color: ${oc.teal[6]};
+      /* background-color: ${oc.teal[6]}; */
       padding-bottom: 1px;
       > li {
         box-shadow: 0px 0px 0px 0px;
@@ -153,7 +180,7 @@ const PlanDays = ({
           // 각 day
           <>
             <Day key={index} idx={index} dayIdx={dayIdx} mobile={mobile}>
-              <DayHeader index={index} />
+              <DayHeader index={index} firLoc={day[0]} />
               {/* day 영역 */}
               <Droppable droppableId={`day${index}`}>
                 {(provided, snapshot) => (
@@ -161,6 +188,7 @@ const PlanDays = ({
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                     isDraggingOver={snapshot.isDraggingOver}
+                    empty={day[0] === undefined}
                   >
                     {/* day에 location 존재하지 않을 때 */}
                     {day[0] === undefined && (

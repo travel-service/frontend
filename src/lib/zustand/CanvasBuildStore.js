@@ -30,21 +30,25 @@ export const buildStore = create((set, get) => ({
     let loc = {}; // 필요한 정보만 담을 예정
     if (frCateId === 'member') {
       // memberLocation 이라면
-      const { locationId, address1, name } = cloneDeep(memLocations[frLocIdx]);
+      const { locationId, address1, name, image } = cloneDeep(
+        memLocations[frLocIdx],
+      );
       loc = {
         locationId,
         address1,
         name,
+        image,
       };
     } else {
       // 그 외 카테고리
-      const { locationId, address1, name } = cloneDeep(
+      const { locationId, address1, name, image } = cloneDeep(
         selLoc[frCateId][frLocIdx],
       );
       loc = {
         locationId,
         address1,
         name,
+        image,
       };
     }
     const days = storeTravelDay.travelDay;

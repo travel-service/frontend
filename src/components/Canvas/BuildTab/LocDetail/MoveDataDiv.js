@@ -12,17 +12,22 @@ import {
 } from 'react-icons/md';
 
 const Container = styled.div`
-  position: relative;
+  /* position: relative; */
   /* overflow: visible; */
   /* z-index: 1; */
+  background: #f6f6f8;
+  border-radius: 60px;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const Div = styled.div`
-  position: absolute;
-  left: 90%;
-  top: -20px;
+  /* position: absolute; */
+  /* left: 90%; */
+  /* top: -20px; */
   @media screen and (max-width: 767px) {
-    left: 65%;
+    /* left: 65%; */
   }
 
   :after {
@@ -192,34 +197,26 @@ const MoveDataDiv = ({
   return (
     <Container>
       {locMovingInfo['movingTime'] === undefined && (
-        <Div
-        // onMouseOver={() => setIsHovering(true)}
-        // onMouseOut={() => setIsHovering(false)}
-        // isHover={isHovering}
-        >
-          <Span>
-            <PencilIcon onClick={openModal} />
-          </Span>
-        </Div>
+        <Span>
+          <PencilIcon onClick={openModal} />
+        </Span>
       )}
       {locMovingInfo['movingTime'] !== undefined && (
-        <Div>
-          <Span>
-            <BubbleDiv>
-              <BubbleDiv margin>
-                {renderSwitch(locVehicle)}
-                {locMovingInfo['movingTime'] && (
-                  <TimeDiv>{setViewTime(locMovingInfo['movingTime'])}</TimeDiv>
-                )}
-                <PencilIcon
-                  // isHover={isHovering}
-                  onClick={openModal}
-                  size="20px"
-                />
-              </BubbleDiv>
+        <Span>
+          <BubbleDiv>
+            <BubbleDiv margin>
+              {renderSwitch(locVehicle)}
+              {locMovingInfo['movingTime'] && (
+                <TimeDiv>{setViewTime(locMovingInfo['movingTime'])}</TimeDiv>
+              )}
+              <PencilIcon
+                // isHover={isHovering}
+                onClick={openModal}
+                size="20px"
+              />
             </BubbleDiv>
-          </Span>
-        </Div>
+          </BubbleDiv>
+        </Span>
       )}
       <ModalModule
         modalIsOpen={modalIsOpen}

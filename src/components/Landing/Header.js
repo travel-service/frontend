@@ -9,7 +9,6 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 20px 7%;
-  background-color: #ffd0c0;
   @media screen and (max-width: 767px) {
     display: block;
   }

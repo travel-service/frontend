@@ -1,7 +1,7 @@
 // 시간 추가, 변경 버튼
 import React, { useState } from 'react';
-import { MdMoreTime } from 'react-icons/md';
-import styled from 'styled-components';
+import { MdMoreTime, MdNoEncryption } from 'react-icons/md';
+import styled, { css } from 'styled-components';
 import ModalModule from 'components/common/modal/ModalModule';
 // import TimeInput from 'components/Canvas/common/TimeInput';
 import ReactTooltip from 'react-tooltip';
@@ -10,6 +10,12 @@ import { buildStore } from 'lib/zustand/CanvasBuildStore';
 const TimeBtn = styled(MdMoreTime)`
   cursor: pointer;
   /* margin-left: 7px; */
+  ${(props) =>
+    props.disabled &&
+    css`
+      pointer-events: none;
+      opacity: 0.5;
+    `}
 `;
 
 const Container = styled.div`
@@ -29,7 +35,7 @@ const Input = styled.input`
   font-size: 20px;
 `;
 
-const Time = ({ title, day, index }) => {
+const Time = ({ title, day, index, flag }) => {
   const { setTimeData } = buildStore();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [stayTime, setStayTime] = useState({
@@ -95,7 +101,13 @@ const Time = ({ title, day, index }) => {
   const { hour, min } = stayTime;
   return (
     <>
-      <TimeBtn size="18" onClick={openModal} data-tip data-for="time" />
+      <TimeBtn
+        disabled={flag}
+        size="18"
+        onClick={openModal}
+        data-tip
+        data-for="time"
+      />
       <ReactTooltip id="time" place="right" type="info" effect="solid">
         <div>여행계획에 필요한 시간을 설정해주세요.</div>
       </ReactTooltip>
@@ -108,9 +120,9 @@ const Time = ({ title, day, index }) => {
         day={day}
       >
         <Container>
-          {title === '출발시각' && (
+          {title === '출발시간' && (
             <Div>
-              출발시각
+              출발시간
               <Input
                 type="time"
                 value={startTime}
