@@ -14,7 +14,12 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   /* align-items: center; */
-  width: 40vw;
+  width: 450px;
+
+  @media (max-width: 1024px) {
+    width: 300px;
+  }
+
   @media screen and (max-width: 767px) {
     width: 90vw;
     /* height: 40vh; */
@@ -36,17 +41,24 @@ const Error = styled.div`
   margin-top: 10px;
 `;
 
+const MainForm = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 5px;
+`;
+
 const MoreInfo = styled.div`
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 5px;
+  margin-bottom: 7px;
 
   ${Select} {
     width: 110px;
     height: 45px;
     margin-right: 10px;
-    margin-top: 5px;
+    /* margin-top: 5px; */
   }
 
   button {
@@ -69,7 +81,7 @@ const CreateLoc = ({ size, onClick }) => {
   const { category } = useStore();
   const { createMemberLoc, typeInfo } = memLocStore();
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [check, setCheck] = useState('Attraction'); // default Attraction : 1
+  const [check, setCheck] = useState(null); // default Attraction : 1
   const [coords, setCoords] = useState({
     latitude: null,
     longitude: null,
@@ -121,9 +133,6 @@ const CreateLoc = ({ size, onClick }) => {
   const [mapSearch, setMapSearch] = useState(false);
 
   useEffect(() => {
-    if (check === 'etc') {
-      return;
-    }
     const tmp = typeInfo[check];
     setSubForm({
       ...subForm,
@@ -165,7 +174,7 @@ const CreateLoc = ({ size, onClick }) => {
       image: ['기본 이미지', '링크'],
       image1: ['추가 이미지 1', '링크'],
       image2: ['추가 이미지 2', '링크'],
-      report: ['자세한 설명', '좋니더'],
+      report: ['자세한 설명', '자세한 설명'],
       tel: ['전화번호', '010-0000-1111'],
     });
     setDetail([
@@ -223,12 +232,13 @@ const CreateLoc = ({ size, onClick }) => {
   };
 
   const openModal = () => {
+    initForm();
+    setCheck('Attraction');
     setModalIsOpen(true);
   };
 
   const closeModal = () => {
-    initForm();
-    setCheck('1');
+    setCheck(null);
     setModalIsOpen(false);
   };
 
@@ -340,34 +350,36 @@ const CreateLoc = ({ size, onClick }) => {
             flag="canvas"
           />
           {/* 필수 입력 폼 */}
-          {mainForm.map((obj, i) => {
-            if (obj.placeHolder === null) {
-              return (
-                <InputComponent
-                  key={i}
-                  title={obj.title}
-                  onChange={(e) => onChange(e, 'main', i)}
-                  name={obj.key}
-                  value={obj.input}
-                  type="radio"
-                />
-              );
-            } else {
-              return (
-                <InputComponent
-                  key={i}
-                  value={obj.input}
-                  onChange={(e) => onChange(e, 'main', i)}
-                  name={obj.key}
-                  placeholder={obj.placeHolder}
-                  type="text"
-                  map={obj.map}
-                  onClickAddress={onClickAddress}
-                  search={mapSearch}
-                />
-              );
-            }
-          })}
+          <MainForm>
+            {mainForm.map((obj, i) => {
+              if (obj.placeHolder === null) {
+                return (
+                  <InputComponent
+                    key={i}
+                    title={obj.title}
+                    onChange={(e) => onChange(e, 'main', i)}
+                    name={obj.key}
+                    value={obj.input}
+                    type="radio"
+                  />
+                );
+              } else {
+                return (
+                  <InputComponent
+                    key={i}
+                    value={obj.input}
+                    onChange={(e) => onChange(e, 'main', i)}
+                    name={obj.key}
+                    placeholder={obj.placeHolder}
+                    type="text"
+                    map={obj.map}
+                    onClickAddress={onClickAddress}
+                    search={mapSearch}
+                  />
+                );
+              }
+            })}
+          </MainForm>
           {/* 세부 항목 입력 폼 */}
           {detail.map((obj, i) => (
             <MoreInfo key={i}>
@@ -389,6 +401,8 @@ const CreateLoc = ({ size, onClick }) => {
                   type="radio"
                   name={obj.key}
                   value={obj.input}
+                  detail={true}
+                  onClickDel={onClickDel}
                 />
               )}
               {obj.title !== '항목' && obj.placeHolder !== false && (
@@ -399,9 +413,11 @@ const CreateLoc = ({ size, onClick }) => {
                   index={i}
                   value={obj.input}
                   type="text"
+                  detail={true}
+                  onClickDel={onClickDel}
                 />
               )}
-              <button onClick={() => onClickDel(i)}>취소</button>
+              {/* <button onClick={() => onClickDel(i)}>취소</button> */}
             </MoreInfo>
           ))}
           {/* 항목 추가 버튼 */}

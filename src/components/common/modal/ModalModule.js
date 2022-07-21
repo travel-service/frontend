@@ -5,6 +5,7 @@ import Close from 'lib/Icons/Close';
 import 'lib/styles/Modal.css';
 import MapContainer from 'components/Canvas/BuildTab/Map/MapContainer';
 import MapMove from 'components/Canvas/BuildTab/Map/MapMove';
+import BlackCustomBtn from 'components/Canvas/common/BlackCustomBtn';
 
 const StyledModal = styled(Modal)`
   @media screen and (max-width: 767px) {
@@ -17,21 +18,24 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 10px;
-  background-color: #f1f1f1;
-  font-weight: 700;
+  padding: 15px;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 18px;
 `;
 
 const Section = styled.div`
   margin: 0 auto;
   border-radius: 0.3rem;
   background-color: #fff;
+  border-radius: 10px;
   animation: modal-show 0.3s;
   overflow: hidden;
   display: flex;
   flex-direction: column;
 
   main {
+    border: none;
     padding: 5px 16px;
     max-height: 55vh;
     overflow: auto;
@@ -107,7 +111,7 @@ const ModalModule = ({
         </Header>
         <main>{children}</main>
         <Btn>
-          <button onClick={onSubmit}>확인</button>
+          <BlackCustomBtn onClick={onSubmit} value="완료" color="black" />
         </Btn>
       </Section>
       {map && (

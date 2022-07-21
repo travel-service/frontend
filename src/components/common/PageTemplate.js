@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const Container = styled.div`
   height: 100%;
   min-height: 100vh;
-  background-color: #f6f6f8;
+  background-color: rgb(255, 208, 192);
   display: flex;
   flex-direction: column;
 `;

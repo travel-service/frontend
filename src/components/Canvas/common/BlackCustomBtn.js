@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const Button = styled.input`
   width: 100%;
@@ -20,10 +20,16 @@ const Button = styled.input`
   :active {
     transform: translateY(5px);
   }
+  ${(props) =>
+    props.color &&
+    css`
+      background-color: black;
+      color: white;
+    `}
 `;
 
-const BlackCustomBtn = ({ onClick, value }) => {
-  return <Button type="button" onClick={onClick} value={value} />;
+const BlackCustomBtn = ({ onClick, value, color }) => {
+  return <Button type="button" onClick={onClick} value={value} color={color} />;
 };
 
 export default BlackCustomBtn;

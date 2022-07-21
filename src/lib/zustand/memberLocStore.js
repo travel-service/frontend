@@ -20,15 +20,12 @@ export const memLocStore = create(
         const { latitude, longitude } = coords;
         const { report, address2, image, image1, image2, tel } = sub;
 
-        if (name === undefined) return ['fail', '여행지 이름을 입력해주세요.'];
-        else if (address1 === undefined)
-          return ['fail', '여행지 주소를 선택해주세요.'];
-        else if (share === undefined)
-          return ['fail', '공유 가능 여부를 선택해주세요.'];
+        if (name === undefined) return '여행지 이름을 입력해주세요.';
+        else if (address1 === undefined) return '여행지 주소를 선택해주세요.';
+        else if (share === undefined) return '공유 가능 여부를 선택해주세요.';
         else if (summary === undefined)
-          return ['fail', '여행지에 대한 간단한 설명을 작성해주세요.'];
+          return '여행지에 대한 간단한 설명을 작성해주세요.';
         //   // 여기 인식을 못함
-        console.log('pass');
         let isShare = false;
         if (share === 'true') isShare = true;
         let loc = {

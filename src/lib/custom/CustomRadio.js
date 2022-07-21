@@ -4,13 +4,13 @@ import styled, { css } from 'styled-components';
 const TypeGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  margin-top: 15px;
+  /* margin-top: 15px; */
 `;
 
 const TypeRadio = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   label {
     font-size: 13px;
     font-weight: 400;
@@ -58,14 +58,17 @@ const CustomRadio = ({ dataObj, onClick, check, flag }) => {
         </TypeRadio>
       ))}
       {/* 특정 페이지에서 추가, canvas 페이지 */}
-      {flag === 'canvas' && (
+
+      {/* 백엔드에 기타가 없기때문이 일단 주석 0721 */}
+      {/* {flag === 'canvas' && (
         <TypeRadio>
           <Radio onClick={() => onClick('etc')}>
             <CheckDiv checked={'etc' === check}></CheckDiv>
           </Radio>
           <label>기타</label>
         </TypeRadio>
-      )}
+      )} */}
+
       {flag === 'member' && (
         <TypeRadio>
           <Radio onClick={() => onClick('member')}>
