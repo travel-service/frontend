@@ -41,6 +41,13 @@ const PencilIcon = styled(MdOutlineMode)`
   margin-left: 7px;
 `;
 
+const vehicleList = {
+  car: '자동차',
+  bus: '버스',
+  bike: '자전거',
+  walk: '도보',
+};
+
 const MoveDataDiv = ({
   day,
   index,
@@ -125,12 +132,6 @@ const MoveDataDiv = ({
   };
 
   const closeModal = () => {
-    console.log('test', modalIsOpen);
-    setModalIsOpen(false);
-  };
-
-  const closeTest = () => {
-    console.log('test', modalIsOpen);
     setModalIsOpen(false);
   };
 
@@ -145,12 +146,12 @@ const MoveDataDiv = ({
   };
 
   return (
-    <Container onClick={openModal}>
+    <Container>
       {locMovingInfo['movingTime'] !== undefined && (
-        <Contents>
+        <Contents onClick={openModal}>
           {locMovingInfo['movingTime'] && (
             <>
-              {locVehicle && locVehicle + '로 이동, '}
+              {locVehicle && vehicleList[locVehicle] + '로 이동, '}
               {setViewTime(locMovingInfo['movingTime'])}
             </>
           )}
@@ -165,7 +166,6 @@ const MoveDataDiv = ({
         map="moveLoc"
         fromLocName={fromLoc.name}
         toLocName={ToLoc.name}
-        closeTest={closeTest}
       >
         <FlexBox>
           <MoveSettingChild
@@ -173,6 +173,7 @@ const MoveDataDiv = ({
             time={time}
             checkedVehicleHandler={checkedVehicleHandler}
             checkVehicle={checkVehicle}
+            vehicleList={vehicleList}
           />
           <MapMove fromLocName={fromLoc.name} toLocName={ToLoc.name} />
         </FlexBox>

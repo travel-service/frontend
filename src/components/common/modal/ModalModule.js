@@ -102,10 +102,7 @@ const ModalModule = ({
   toLocName,
   onSelect,
   onClickAddress,
-  closeTest,
 }) => {
-  console.log('Test', closeModal);
-
   return (
     <StyledModal
       className={modalIsOpen ? 'openModal modal' : 'modal'}
@@ -121,7 +118,6 @@ const ModalModule = ({
         <Btn>
           <BlackCustomBtn onClick={onSubmit} value="완료" color="black" />
         </Btn>
-        <button onClick={closeTest}>test</button>
       </Section>
       {/* {map && ( */}
       {map === 'memberLoc' && (

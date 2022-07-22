@@ -26,18 +26,12 @@ const TimeInput = styled.input`
   margin-right: 13px;
 `;
 
-const vehicleList = {
-  car: '자동차',
-  bus: '버스',
-  bike: '자전거',
-  walk: '도보',
-};
-
 const MoveSettingChild = ({
   onChange,
   time,
   checkedVehicleHandler,
   checkVehicle,
+  vehicleList,
 }) => {
   const { hour, min } = time;
 
