@@ -29,14 +29,15 @@ const List = styled.li`
   border-radius: 10px;
 
   margin-bottom: 10px;
+  margin: 10px 0px;
   background: ${(props) =>
     props.isDragging ? 'rgba(133, 207, 194, 1);' : 'white'};
   ${(props) =>
     props.day !== undefined &&
     css`
-      margin: auto;
+      /* margin: auto; */
       margin-bottom: 10px;
-      width: 85%;
+      width: 100%;
       @media screen and (max-width: 767px) {
         width: 60%;
         margin: 0px 0px 10px 20px;

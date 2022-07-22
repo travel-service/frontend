@@ -1,21 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Pc, Mobile } from 'lib/custom/responsive';
+import { PcTablet, TabletMobile } from 'lib/custom/responsive';
 
 const Container = styled.div`
   position: relative;
   flex: 1;
   width: 100%;
-  padding-bottom: 80vh;
-  @media screen and (max-width: 767px) {
-    padding-bottom: 50vh;
-  }
 `;
 
 const Iframe = styled.iframe`
-  position: absolute;
+  /* position: absolute; */
   width: 100%;
-  height: 100%;
+  height: 75vh;
+  @media screen and (max-width: 1023px) {
+    height: 50vh;
+  }
 `;
 
 // let from = '만장굴';
@@ -24,18 +23,18 @@ const Iframe = styled.iframe`
 const MapMove = ({ fromLocName, toLocName }) => {
   return (
     <Container>
-      <Pc>
+      <PcTablet>
         <Iframe
           title="kakaoMap"
           src={`https://map.kakao.com/?sName=${fromLocName}&eName=${toLocName}`}
         />
-      </Pc>
-      <Mobile>
+      </PcTablet>
+      <TabletMobile>
         <Iframe
           title="kakaoMap"
           src={`https://m.map.kakao.com/actions/routeView?`}
         />
-      </Mobile>
+      </TabletMobile>
     </Container>
   );
 };

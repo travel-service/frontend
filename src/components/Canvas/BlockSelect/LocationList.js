@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import palette from '../../../lib/styles/palette';
-import Modal from '../../modal/modal';
+// import Modal from '../../modal/modal2';
+import Modal from 'react-modal';
 import { useStore } from '../../../lib/zustand/planStore';
 import BlockInfo from '../BlockInfo/BlockInfo';
 
@@ -77,7 +78,7 @@ function Location({ location }) {
       >
         test
       </BButton>
-      <Modal open={modalOpen} close={closeModal} header={location.name}>
+      <Modal isOpen={modalOpen} close={closeModal} header={location.name}>
         {location.info}
         <BlockInfo type={location.type.type} id={location.locationId} />
       </Modal>

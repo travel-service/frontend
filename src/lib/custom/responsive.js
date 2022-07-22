@@ -21,3 +21,17 @@ export const Pc = ({ children }) => {
   });
   return <>{isPc && children}</>;
 };
+
+export const PcTablet = ({ children }) => {
+  const isPc = useMediaQuery({
+    query: '(min-width:1023px)',
+  });
+  return <>{isPc && children}</>;
+};
+
+export const TabletMobile = ({ children }) => {
+  const isPc = useMediaQuery({
+    query: '(max-width:1023px)',
+  });
+  return <>{isPc && children}</>;
+};
