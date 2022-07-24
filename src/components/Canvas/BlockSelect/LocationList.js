@@ -52,7 +52,6 @@ function Location ({location}) {
 
   const { selCateLoc, onAdd, remove } = useStore();
 
-  console.log(location.isSelect);
   return (
     <Block>
       <div onClick={OpenModal}>
