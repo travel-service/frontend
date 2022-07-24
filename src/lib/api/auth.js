@@ -32,7 +32,8 @@ export const signup = async ({
   });
 
 export const userCheck = async () => {
-  const response = await axios.get('/auth/info');
+  console.log('Test');
+  const response = await axios.get('/auth/status');
   // const response = await axios.get('/auth/status'); 0718 Member 브랜치 머지 후 사용예정
   console.log(response);
   return response;

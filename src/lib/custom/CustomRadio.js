@@ -11,6 +11,7 @@ const TypeRadio = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 15px;
+  margin-right: 15px;
   label {
     font-size: 13px;
     font-weight: 400;

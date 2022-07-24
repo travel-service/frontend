@@ -15,7 +15,9 @@ const Container = styled.div`
   overflow: auto;
   @media screen and (max-width: 767px) {
     /* display: block; */
+    padding-right: 0;
     flex-direction: column;
+    height: 100%;
   }
 `;
 
@@ -48,6 +50,9 @@ const Canvas = styled.main`
   border-radius: 10px;
   margin-left: 20px;
   padding: 25px;
+  @media screen and (max-width: 767px) {
+    margin-left: 0;
+  }
 `;
 
 const Header = styled.header`

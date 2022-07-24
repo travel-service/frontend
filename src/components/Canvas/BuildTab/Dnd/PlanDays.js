@@ -20,7 +20,9 @@ const Container = styled.div`
   ${(props) =>
     props.mobile &&
     css`
+      justify-content: center;
       align-items: center;
+      height: 100%;
       ${Day} {
         width: 90vw;
         flex-shrink: 0;
@@ -33,12 +35,20 @@ const Days = styled.div`
   flex-wrap: wrap;
 
   height: 100%;
-  /* justify-content: center; */
+  justify-content: space-between;
+
+  // 0724
+  /* ::after {
+    content: '';
+    flex: auto;
+  } */
+
   /* flex: 1; */
   /* overflow: auto; */
   white-space: nowrap;
   @media screen and (max-width: 767px) {
-    width: 95vw;
+    width: 100%;
+    justify-content: center;
   }
 `;
 
@@ -55,12 +65,11 @@ const Day = styled.div`
   /* overflow: auto; */
   padding: 20px;
   /* flex: 1; */
-  /* ${(props) =>
+  ${(props) =>
     !props.mobile &&
     css`
-      min-width: 270px;
-      max-width: 270px;
-    `} */
+      width: 100%;
+    `}
 
   ${(props) =>
     props.mobile &&

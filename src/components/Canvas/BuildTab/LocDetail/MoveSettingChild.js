@@ -5,18 +5,29 @@ import CustomRadio from 'lib/custom/CustomRadio';
 const Container = styled.div`
   padding: 20px;
   justify-content: space-between;
-  align-items: center;
-  width: 290px;
+  /* align-items: center; */
+  width: 310px;
+  @media screen and (max-width: 1023px) {
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+  }
 `;
 
 const VehicleDiv = styled.div``;
 
 const Time = styled.div`
-  width: 100%;
+  /* width: 100%; */
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 16px;
 `;
 
 const TimeInputs = styled.div`
   display: flex;
+  margin-top: 10px;
   margin-bottom: 10px;
 `;
 
@@ -24,6 +35,8 @@ const TimeInput = styled.input`
   height: 45px;
   width: 40%;
   margin-right: 13px;
+  border: 1px solid #e5e7e8;
+  border-radius: 5px;
 `;
 
 const MoveSettingChild = ({
@@ -45,7 +58,7 @@ const MoveSettingChild = ({
         />
       </VehicleDiv>
       <Time>
-        {/* <div>이동 시간</div> */}
+        <div>이동 시간</div>
         <TimeInputs>
           <TimeInput
             type="number"

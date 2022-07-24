@@ -38,10 +38,6 @@ const List = styled.li`
       /* margin: auto; */
       margin-bottom: 10px;
       width: 100%;
-      @media screen and (max-width: 767px) {
-        width: 60%;
-        margin: 0px 0px 10px 20px;
-      }
     `}
 
   ${(props) =>

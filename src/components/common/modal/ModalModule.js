@@ -63,6 +63,7 @@ const Main = styled.main`
 const Section2 = styled.div`
   width: 50vw;
   margin-right: 20px;
+  margin-left: 10px;
   border-radius: 0.3rem;
   background-color: #fff;
   animation: modal-show 0.3s;
