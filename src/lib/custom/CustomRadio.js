@@ -10,8 +10,8 @@ const TypeGrid = styled.div`
 const TypeRadio = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 15px;
-  margin-right: 15px;
+  margin-bottom: 12px;
+  margin-right: 8px;
   label {
     font-size: 13px;
     font-weight: 400;

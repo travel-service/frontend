@@ -78,7 +78,7 @@ const DayHeader = ({ index, firLoc }) => {
       <Div>
         <Time
           flag={firLoc === undefined}
-          title="출발시간"
+          title="출발 시간 설정"
           index={0}
           day={index}
         />

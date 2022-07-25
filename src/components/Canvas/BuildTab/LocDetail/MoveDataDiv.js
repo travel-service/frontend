@@ -78,9 +78,7 @@ const MoveDataDiv = ({
   }, [locMovingInfo, splitTime]);
 
   const checkedVehicleHandler = (type) => {
-    console.log('짠:', checkVehicle);
     if (checkVehicle === type) {
-      console.log('여기');
       setCheckVehicle(null);
     } else {
       setCheckVehicle(type);
@@ -161,7 +159,7 @@ const MoveDataDiv = ({
       <ModalModule
         modalIsOpen={modalIsOpen}
         closeModal={closeModal}
-        title="이동 수단 / 시간"
+        title="이동 수단 / 시간 설정"
         onSubmit={onSubmit}
         map="moveLoc"
         fromLocName={fromLoc.name}

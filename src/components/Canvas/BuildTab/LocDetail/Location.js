@@ -4,18 +4,27 @@ import palette from 'lib/styles/palette';
 import { Draggable } from 'react-beautiful-dnd';
 import Time from 'lib/Icons/Time';
 import Close from 'lib/Icons/Close';
+import { MdAccessTime } from 'react-icons/md';
 
 const DEFAULT_IMAGE =
   'https://www.mortonsonthemove.com/wp-content/uploads/2022/07/norway-adventures-nighttime-road-trip-2022-02-01-23-42-53-utc-768x462.jpg';
 
-const Span = styled.span`
-  font-weight: normal;
-  font-size: 12px;
+const TimeSpan = styled.span`
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  margin: 0 5px;
 `;
 
 const LocTime = styled.div`
   font-weight: normal;
   font-size: 12px;
+`;
+
+const Img = styled.img`
+  /* height: 50px;
+  width: 50px; */
+  border-radius: 10px;
 `;
 
 const List = styled.li`
@@ -37,13 +46,22 @@ const List = styled.li`
     css`
       /* margin: auto; */
       margin-bottom: 10px;
+      height: 120px;
       width: 100%;
+      ${Img} {
+        height: 75px;
+        width: 75px;
+      }
     `}
 
   ${(props) =>
     props.day === undefined &&
     css`
       height: 90px;
+      ${Img} {
+        height: 50px;
+        width: 50px;
+      }
       @media screen and (max-width: 767px) {
       }
     `}
@@ -57,12 +75,6 @@ const Clone = styled(List)`
 
 const ImgDiv = styled.div``;
 
-const Img = styled.img`
-  height: 50px;
-  width: 50px;
-  border-radius: 10px;
-`;
-
 const ListDiv = styled.div`
   flex: 1;
   display: flex;
@@ -73,9 +85,14 @@ const ListDiv = styled.div`
 
 const LocName = styled.div`
   font-weight: 500;
-  font-size: 11px;
-  line-height: 13px;
+  font-size: 13px;
+  line-height: 16px;
   margin-bottom: 5px;
+  ${(props) =>
+    props.day !== undefined &&
+    css`
+      margin-bottom: 10px;
+    `}
 `;
 
 const LocAddress = styled.div`
@@ -98,6 +115,12 @@ const Btn = styled.div`
     `}
 `;
 
+const Clock = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+`;
+
 const Location = ({
   location,
   index,
@@ -107,6 +130,7 @@ const Location = ({
   setViewTime,
   lastIdx,
   type,
+  nextLocation,
 }) => {
   const { movingData } = location;
 
@@ -141,54 +165,33 @@ const Location = ({
               </ImgDiv>
               <ListDiv>
                 <div>
-                  <LocName>
-                    {location.name}
-                    {day > -1 &&
-                      index !== 0 &&
-                      movingData['arriveTime'] !== '' && (
-                        <Span>({movingData['arriveTime']} 도착)</Span>
-                      )}
-                  </LocName>
-                  <LocAddress>{location.address1}</LocAddress>
-                  {day > -1 ? (
-                    <LocTime>
-                      {index === 0 ? (
+                  {index !== 0 && day > -1 && (
+                    <Clock>
+                      {day > -1 && (
                         <>
-                          {movingData['startTime']
-                            ? `${setViewTime(
-                                movingData['startTime'],
-                                'start',
-                              )} 출발`
-                            : `출발지의 출발시간을 입력해주세용`}
-                        </>
-                      ) : (
-                        <>
-                          {index < lastIdx ? (
-                            <>
-                              {movingData['stayTime']
-                                ? `${setViewTime(
-                                    movingData['stayTime'],
-                                    'stay',
-                                  )} 체류 (${movingData['startTime']} 출발)` // 0422 출발시간도 보여줄까?
-                                : '체류시간과 이동수단 및 시간을 입력해주세용'}
-                            </>
-                          ) : (
-                            ''
-                          )}
+                          {movingData.stayTime && <MdAccessTime size="12px" />}
+                          <TimeSpan>
+                            {!movingData.startTime &&
+                              movingData.stayTime &&
+                              `${movingData.stayTime} 체류`}
+                            {movingData.startTime &&
+                              `${movingData.arriveTime}~${movingData.startTime}`}
+                          </TimeSpan>
                         </>
                       )}
-                    </LocTime>
-                  ) : (
-                    ''
+                      <Time
+                        type="pen"
+                        title="체류 시간 설정"
+                        index={index}
+                        day={day}
+                      />
+                    </Clock>
                   )}
+                  <LocName day={day}>{location.name}</LocName>
+                  <LocAddress>{location.address1}</LocAddress>
                 </div>
                 <Btn day={day}>
                   <Close size="18" onClick={onClick} tooltip={true} />
-                  <Time
-                    title={index === 0 ? '출발시간' : '체류시간'}
-                    index={index}
-                    day={day}
-                  />
                 </Btn>
               </ListDiv>
             </List>

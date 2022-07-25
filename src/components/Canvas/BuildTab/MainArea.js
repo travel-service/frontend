@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react'; // useEffect
 import { DragDropContext } from 'react-beautiful-dnd';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import SelLocBasket from './Dnd/SelLocBasket';
-import { Mobile, Pc } from 'lib/custom/responsive';
-import WebDayArea from './Others/WebDayArea';
-import MobileDayArea from './Others/MobileDayArea';
 import CanvasButtons from '../common/CanvasButtons';
+import { MdOutlineClose, MdOutlineFolderOpen } from 'react-icons/md';
+import PlanDays from './Dnd/PlanDays';
 
 const Container = styled.div`
   display: flex;
   width: 100%;
   padding-right: 30px;
   /* height: 100%; */
+  height: 85vh;
+
   overflow: auto;
   @media screen and (max-width: 767px) {
     /* display: block; */
@@ -52,14 +53,63 @@ const Canvas = styled.main`
   padding: 25px;
   @media screen and (max-width: 767px) {
     margin-left: 0;
+    padding: 20px;
   }
 `;
 
 const Header = styled.header`
-  margin-top: 8px;
+  /* margin-top: 8px; */
   font-weight: 700;
   font-size: 25px;
   line-height: 30px;
+  margin-bottom: 15px;
+
+  @media screen and (max-width: 767px) {
+    margin-top: 0px;
+    font-weight: 600;
+    font-size: 15px;
+  }
+`;
+
+const ToggleArea = styled.div`
+  position: absolute;
+`;
+
+const Toggle = styled.div`
+  display: flex;
+  position: relative;
+  left: -55px;
+  top: 30vh;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.15);
+  ${(props) => props.isOpen && css``}
+  :hover {
+    cursor: pointer;
+    opacity: 1;
+    transform: scale(1.15);
+    transition: 0.3s;
+  }
+  @media screen and (max-width: 767px) {
+    left: 50vw;
+    top: 0px;
+    width: 40px;
+    height: 40px;
+    margin-left: -50px;
+    margin-top: -50px;
+  }
+`;
+
+const ExitSvg = styled(MdOutlineClose)`
+  color: white;
+`;
+
+const FolderSvg = styled(MdOutlineFolderOpen)`
+  color: white;
 `;
 
 const MainArea = ({
@@ -148,31 +198,20 @@ const MainArea = ({
           )}
           <Canvas>
             <Header>여행 캔버스</Header>
+            <ToggleArea>
+              <Toggle onClick={onClickToggle} isOpen={isOpen}>
+                {isOpen && <ExitSvg size="30" />}
+                {!isOpen && <FolderSvg size="30" />}
+              </Toggle>
+            </ToggleArea>
             {selectArea === 1 && (
-              <React.Fragment>
-                <Pc>
-                  <WebDayArea
-                    onClickToggle={onClickToggle}
-                    isOpen={isOpen}
-                    dayLocDel={dayLocDel}
-                    setViewTime={setViewTime}
-                    userTravelDay={userTravelDay}
-                    setTimeData={setTimeData}
-                    splitTime={splitTime}
-                  />
-                </Pc>
-                <Mobile>
-                  <MobileDayArea
-                    onClickToggle={onClickToggle}
-                    isOpen={isOpen}
-                    dayLocDel={dayLocDel}
-                    setViewTime={setViewTime}
-                    userTravelDay={userTravelDay}
-                    setTimeData={setTimeData}
-                    splitTime={splitTime}
-                  />
-                </Mobile>
-              </React.Fragment>
+              <PlanDays
+                dayLocDel={dayLocDel}
+                setViewTime={setViewTime}
+                userTravelDay={userTravelDay}
+                setTimeData={setTimeData}
+                splitTime={splitTime}
+              />
             )}
             <CanvasButtons />
           </Canvas>

@@ -152,6 +152,12 @@ export const buildStore = create((set, get) => ({
         nowLoc['startTime'] = time;
       } else {
         let { hour, min } = time;
+        if (hour !== '00' && hour / 10 < 1) hour = `0${hour}`;
+        if (min !== '00' && min / 10 < 1) min = `0${min}`;
+        if (hour === '0' && min === '0') {
+          nowLoc['stayTime'] = '';
+          nowLoc['startTime'] = '';
+        }
         if (hour === '' && min === '') {
           nowLoc['stayTime'] = '';
           nowLoc['startTime'] = '';

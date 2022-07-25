@@ -5,10 +5,11 @@ import DayHeader from 'components/Canvas/BuildTab/LocDetail/DayHeader';
 import { Droppable } from 'react-beautiful-dnd';
 import MoveDataDiv from '../LocDetail/MoveDataDiv';
 import Location from 'components/Canvas/BuildTab/LocDetail/Location';
+import { Mobile } from 'lib/custom/responsive';
 
 const Container = styled.div`
   flex-grow: 0;
-  height: 700px;
+  height: 85%;
   width: 100%;
   overflow: auto;
   display: flex;
@@ -17,17 +18,11 @@ const Container = styled.div`
   border-radius: 10px;
   padding: 20px;
 
-  ${(props) =>
-    props.mobile &&
-    css`
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-      ${Day} {
-        width: 90vw;
-        flex-shrink: 0;
-      }
-    `}
+  @media screen and (max-width: 767px) {
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
 `;
 
 const Days = styled.div`
@@ -65,22 +60,19 @@ const Day = styled.div`
   /* overflow: auto; */
   padding: 20px;
   /* flex: 1; */
-  ${(props) =>
-    !props.mobile &&
-    css`
-      width: 100%;
-    `}
+  width: 100%;
 
-  ${(props) =>
-    props.mobile &&
-    css`
-      display: none
-        ${(props) =>
-          props.idx === props.dayIdx &&
-          css`
-            display: block;
-          `};
-    `}
+  @media screen and (max-width: 767px) {
+    min-width: 70vw;
+    max-width: 70vw;
+    flex-shrink: 0;
+    display: none
+      ${(props) =>
+        props.idx === props.dayIdx &&
+        css`
+          display: block;
+        `};
+  }
 `;
 
 const CarouselBtns = styled.div`
@@ -143,6 +135,7 @@ const LocationsList = styled('div')`
       border-radius: 10px;
       display: flex;
       align-items: center;
+      justify-content: center;
     `}
 `;
 
@@ -220,6 +213,7 @@ const PlanDays = ({
                             dayLocDel={dayLocDel}
                             setViewTime={setViewTime}
                             lastIdx={day.length - 1}
+                            nextLocation={day[idx + 1]}
                           />
                           {day[idx + 1] !== undefined && (
                             <MoveDataDiv
@@ -242,12 +236,12 @@ const PlanDays = ({
           </>
         ))}
       </Days>
-      {mobile && (
+      <Mobile>
         <CarouselBtns>
           <CarBtn onClick={() => onClickBtn('p')}>이전</CarBtn>
           <CarBtn onClick={() => onClickBtn('n')}>이후</CarBtn>
         </CarouselBtns>
-      )}
+      </Mobile>
     </Container>
   );
 };

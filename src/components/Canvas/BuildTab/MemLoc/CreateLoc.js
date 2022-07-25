@@ -335,7 +335,7 @@ const CreateLoc = ({ size, onClick }) => {
         modalIsOpen={modalIsOpen}
         openModal={openModal}
         closeModal={closeModal}
-        title="자체 블록"
+        title="자체 블록 생성"
         map={mapSearch ? 'memberLoc' : ''}
         onSelect={onSelect}
         onSubmit={onSubmit}

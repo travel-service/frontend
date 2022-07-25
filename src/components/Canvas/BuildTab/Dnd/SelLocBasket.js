@@ -13,20 +13,31 @@ const Container = styled.div`
   height: 100%;
   background-color: #ffffff;
   border-radius: 0px 10px 10px 0px;
-  transition: 0.2s all linear;
+  transition: 0.3s all linear;
   padding: 20px;
 
   ${(props) =>
     !props.isOpen &&
     css`
       width: 0px;
-      height: 0px;
+      /* height: 0px; */
       padding: 0px;
+      border: none;
     `}
+
   @media screen and (max-width: 767px) {
     width: 100%;
     display: block;
-    transition: none;
+    /* transition: none; */
+    border: 1px #e5e7e8 solid;
+    border-radius: 10px 10px 10px 10px;
+    margin-bottom: 8px;
+    ${(props) =>
+      !props.isOpen &&
+      css`
+        border: 0px;
+        height: 0px;
+      `}
   }
 `;
 
@@ -35,6 +46,7 @@ const Title = styled.div`
   /* font-style: normal; */
   font-weight: 600;
   font-size: 15px;
+  margin-bottom: 15px;
 `;
 
 const Basket = styled.div`

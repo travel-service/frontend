@@ -112,7 +112,7 @@ const ModalModule = ({
     >
       <Section>
         <Header>
-          <div>{title} 설정</div>
+          <div>{title}</div>
           <Close size="20" onClick={closeModal} tooltip={false} />
         </Header>
         <Main map={map}>{children}</Main>

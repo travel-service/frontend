@@ -1,11 +1,19 @@
 // 시간 추가, 변경 버튼
-import React, { useState } from 'react';
-import { MdMoreTime, MdNoEncryption } from 'react-icons/md';
+import React, { useEffect, useState } from 'react';
+import {
+  MdMoreTime,
+  MdNoEncryption,
+  MdOutlineModeEditOutline,
+} from 'react-icons/md';
 import styled, { css } from 'styled-components';
 import ModalModule from 'components/common/modal/ModalModule';
 // import TimeInput from 'components/Canvas/common/TimeInput';
 import ReactTooltip from 'react-tooltip';
 import { buildStore } from 'lib/zustand/CanvasBuildStore';
+
+const TimePen = styled(MdOutlineModeEditOutline)`
+  cursor: pointer;
+`;
 
 const TimeBtn = styled(MdMoreTime)`
   cursor: pointer;
@@ -35,7 +43,7 @@ const Input = styled.input`
   font-size: 20px;
 `;
 
-const Time = ({ title, day, index, flag }) => {
+const Time = ({ title, day, index, flag, type }) => {
   const { setTimeData } = buildStore();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [stayTime, setStayTime] = useState({
@@ -43,6 +51,7 @@ const Time = ({ title, day, index, flag }) => {
     min: '',
   });
   const [startTime, setStartTime] = useState('00:00');
+  const { hour, min } = stayTime;
 
   const openModal = () => {
     setModalIsOpen(true);
@@ -98,16 +107,20 @@ const Time = ({ title, day, index, flag }) => {
     closeModal();
   };
 
-  const { hour, min } = stayTime;
   return (
     <>
-      <TimeBtn
-        disabled={flag}
-        size="18"
-        onClick={openModal}
-        data-tip
-        data-for="time"
-      />
+      {type === 'pen' && (
+        <TimePen size="15px" onClick={openModal} data-tip data-for="time" />
+      )}
+      {type !== 'pen' && (
+        <TimeBtn
+          disabled={flag}
+          size="18"
+          onClick={openModal}
+          data-tip
+          data-for="time"
+        />
+      )}
       <ReactTooltip id="time" place="right" type="info" effect="solid">
         <div>여행계획에 필요한 시간을 설정해주세요.</div>
       </ReactTooltip>
@@ -120,9 +133,8 @@ const Time = ({ title, day, index, flag }) => {
         day={day}
       >
         <Container>
-          {title === '출발시간' && (
+          {title === '출발 시간 설정' && (
             <Div>
-              출발시간
               <Input
                 type="time"
                 value={startTime}
@@ -130,10 +142,9 @@ const Time = ({ title, day, index, flag }) => {
               />
             </Div>
           )}
-          {title === '체류시간' && (
+          {title === '체류 시간 설정' && (
             <>
               <Div>
-                체류시간
                 <Input
                   type="number"
                   onChange={onChangeStayTime}
