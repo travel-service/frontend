@@ -9,29 +9,20 @@ import {
   MdArrowForwardIos,
   MdOutlineSave,
   MdExitToApp,
+  MdOutlineArrowBackIos,
+  MdOutlineArrowForwardIos,
 } from 'react-icons/md';
 
-const AllbuttonsDiv = styled.div`
-  height: 50px;
-  top: 80%;
+const Buttons = styled.div`
+  margin-top: 25px;
+  display: flex;
+  justify-content: space-between;
 `;
 
-const ButtonDiv = styled.div`
-  text-align: right;
-  position: relative;
-  top: 15%;
-  .next {
-    float: left;
-    margin-left: 70%;
-  }
-  .exit {
-    float: right;
-    margin-right: 7%;
-  }
-  .prev {
-    float: left;
-    margin-left: 5%;
-  }
+const ButtonLink = styled(Link)`
+  text-decoration: none;
+  display: flex;
+  align-items: center;
 `;
 
 const MobileBtn = styled.div`
@@ -90,77 +81,32 @@ const CanvasButtons = () => {
 
   return (
     <>
-      <Pc>
-        <AllbuttonsDiv>
-          <ButtonDiv>
-            <ButtonDiv className="prev">
-              <Link to={process.env.PUBLIC_URL + `/canvas/${siteMap[idx - 1]}`}>
-                {idx !== 0 && (
-                  <StyledButton onClick={onClickPrev}> &lt; 이전</StyledButton>
-                )}
-              </Link>
-            </ButtonDiv>
-            <ButtonDiv className="next">
-              <Link
-                to={
-                  process.env.PUBLIC_URL +
-                  `/canvas/${idx === 3 ? siteMap[3] : siteMap[idx + 1]}`
-                }
-              >
-                {idx !== 3 && (
-                  <StyledButton
-                    onClick={() => {
-                      onClickNext(0);
-                    }}
-                  >
-                    다음 &gt;
-                  </StyledButton>
-                )}
-              </Link>
-            </ButtonDiv>
-            {/* <ButtonDiv className="exit">
-              <Link to="/trablock">
-                <StyledButton
-                  onClick={() => {
-                    onClickExit();
-                  }}
-                >
-                  저장하고 나가기
-                </StyledButton>
-              </Link>
-            </ButtonDiv> */}
-          </ButtonDiv>
-        </AllbuttonsDiv>
-      </Pc>
-      <Mobile>
-        <MobileBtn>
-          {/* 0707 버튼 수정 */}
+      <Buttons>
+        <ButtonLink to={process.env.PUBLIC_URL + `/canvas/${siteMap[idx - 1]}`}>
           {idx !== 0 && (
-            <Btn
-              className="btn"
-              to={process.env.PUBLIC_URL + `/canvas/${siteMap[idx - 1]}`}
-            >
-              <MdArrowBackIosNew className="icon" />
-              이전
-            </Btn>
+            <StyledButton backColor="white" onClick={onClickPrev}>
+              <MdOutlineArrowBackIos /> 이전
+            </StyledButton>
           )}
+        </ButtonLink>
+        <ButtonLink
+          to={
+            process.env.PUBLIC_URL +
+            `/canvas/${idx === 3 ? siteMap[3] : siteMap[idx + 1]}`
+          }
+        >
           {idx !== 2 && (
-            <Btn
-              className="btn"
-              to={process.env.PUBLIC_URL + `/canvas/${siteMap[idx + 1]}`}
+            <StyledButton
+              backColor="black"
+              onClick={() => {
+                onClickNext(0);
+              }}
             >
-              다음 <MdArrowForwardIos className="icon" />
-            </Btn>
+              다음 <MdOutlineArrowForwardIos />
+            </StyledButton>
           )}
-          {/* <div className="btn">
-            {' '}
-            <MdOutlineSave className="icon" /> 저장하기
-          </div>
-          <Btn className="btn" to={process.env.PUBLIC_URL + `/`}>
-            <MdExitToApp className="icon" /> 저장하고 나가기
-          </Btn> */}
-        </MobileBtn>
-      </Mobile>
+        </ButtonLink>
+      </Buttons>
     </>
   );
 };

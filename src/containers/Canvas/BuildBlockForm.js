@@ -17,9 +17,7 @@ const BuildBlockForm = ({ idx }) => {
     splitTime,
   } = buildStore();
 
-  // 앞부분 api 설정이 되면 작성 예정(0518)
   useEffect(() => {
-    // get api
     getPlanDays(id);
     return () => {
       postPlan(idx);

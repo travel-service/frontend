@@ -6,17 +6,18 @@ import { Droppable } from 'react-beautiful-dnd';
 import MoveDataDiv from '../LocDetail/MoveDataDiv';
 import Location from 'components/Canvas/BuildTab/LocDetail/Location';
 import { Mobile } from 'lib/custom/responsive';
+import { MdOutlineClose, MdOutlineFolderOpen } from 'react-icons/md';
 
 const Container = styled.div`
-  flex-grow: 0;
-  height: 85%;
-  width: 100%;
-  overflow: auto;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  overflow: auto;
+  flex-grow: 0;
   background: #e5e7e8;
   border-radius: 10px;
   padding: 20px;
+  height: 100%;
 
   @media screen and (max-width: 767px) {
     justify-content: center;
@@ -52,14 +53,11 @@ const Day = styled.div`
   border: 1px solid #e5e7e8;
   border-radius: 10px;
   background: white;
-  /* max-height: 60vh; */
   min-height: 300px;
   max-height: 500px;
   min-width: 325px;
   max-width: 325px;
-  /* overflow: auto; */
   padding: 20px;
-  /* flex: 1; */
   width: 100%;
 
   @media screen and (max-width: 767px) {
@@ -143,7 +141,6 @@ const Div = styled.div`
   ${(props) =>
     props.idx === 0 &&
     css`
-      /* background-color: ${oc.teal[6]}; */
       padding-bottom: 1px;
       > li {
         box-shadow: 0px 0px 0px 0px;
@@ -151,14 +148,90 @@ const Div = styled.div`
     `}
 `;
 
-const PlanDays = ({
-  dayLocDel,
-  setViewTime,
-  userTravelDay,
-  setTimeData,
-  splitTime,
-  mobile,
-}) => {
+const ToggleArea = styled.div`
+  position: absolute;
+
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    height: 100%;
+    display: flex;
+  }
+`;
+
+const Toggle = styled.div`
+  display: flex;
+  position: relative;
+  top: 20vh;
+  left: -70px;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.15);
+  ${(props) => props.isOpen && css``}
+  :hover {
+    cursor: pointer;
+    opacity: 1;
+    transition: 0.3s;
+    background-color: white;
+  }
+  @media screen and (max-width: 767px) {
+    top: 170px;
+    width: 40px;
+    height: 40px;
+    left: 50%;
+    transform: translate(-50%);
+    transition: transform;
+  }
+`;
+
+const ExitSvg = styled(MdOutlineClose)`
+  color: white;
+  :hover {
+    color: black;
+  }
+`;
+
+const FolderSvg = styled(MdOutlineFolderOpen)`
+  color: white;
+  :hover {
+    color: black;
+  }
+`;
+
+const ErrorImg = styled.div`
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const FaceIcon = styled.img`
+  height: 200px;
+  width: 200px;
+  margin-bottom: 30px;
+`;
+
+const FontDiv = styled.div`
+  font-size: 17px;
+  font-weight: bold;
+  color: #e64980;
+`;
+
+const PlanDays = ({ data }) => {
+  const {
+    dayLocDel,
+    setViewTime,
+    userTravelDay,
+    setTimeData,
+    splitTime,
+    mobile,
+    isOpen,
+    onClickToggle,
+  } = data;
+
   const { travelDay } = userTravelDay;
   const [dayIdx, setDayIdx] = useState(0);
 
@@ -177,7 +250,26 @@ const PlanDays = ({
 
   return (
     <Container mobile={mobile}>
+      <ToggleArea>
+        <Toggle onClick={onClickToggle} isOpen={isOpen}>
+          {isOpen && <ExitSvg size="30" />}
+          {!isOpen && <FolderSvg size="30" />}
+        </Toggle>
+      </ToggleArea>
       <Days>
+        {!travelDay.length && (
+          <ErrorImg>
+            <h2>여행을 언제 가는거죠?</h2>
+            <FaceIcon
+              src={process.env.PUBLIC_URL + '/images/face1.png'}
+              alt=""
+            />
+            <FontDiv>😥여행일자를 제대로 받아오지 못했어요.😥</FontDiv>
+            <FontDiv>
+              😛여행 설정 단계로 돌아가 여행일자를 다시 선택해주세요!!😛
+            </FontDiv>
+          </ErrorImg>
+        )}
         {travelDay.map((day, index) => (
           // 각 day
           <>

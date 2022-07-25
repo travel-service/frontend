@@ -3,14 +3,13 @@ import Location from '../LocDetail/Location';
 import styled, { css } from 'styled-components';
 import { Droppable } from 'react-beautiful-dnd';
 import CustomRadio from 'lib/custom/CustomRadio';
-import BlackCustomBtn from 'components/Canvas/common/BlackCustomBtn';
 import CreateLoc from '../MemLoc/CreateLoc';
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 330px;
-  height: 100%;
+  min-width: 330px;
+  /* height: 100%; */
   background-color: #ffffff;
   border-radius: 0px 10px 10px 0px;
   transition: 0.3s all linear;
@@ -19,19 +18,22 @@ const Container = styled.div`
   ${(props) =>
     !props.isOpen &&
     css`
+      min-width: 0px;
       width: 0px;
-      /* height: 0px; */
       padding: 0px;
       border: none;
     `}
 
   @media screen and (max-width: 767px) {
-    width: 100%;
+    /* width: 100%; */
     display: block;
     /* transition: none; */
     border: 1px #e5e7e8 solid;
     border-radius: 10px 10px 10px 10px;
     margin-bottom: 8px;
+    margin-left: 20px;
+    margin-right: 20px;
+
     ${(props) =>
       !props.isOpen &&
       css`
@@ -74,7 +76,8 @@ const Div = styled.div`
   margin-bottom: 10px;
 `;
 
-const SelLocBasket = ({ isOpen, category, selCateLoc, memberLocations }) => {
+const SelLocBasket = ({ data }) => {
+  const { isOpen, category, selCateLoc, memberLocations } = data;
   const [type, setType] = useState('Attraction');
   const [selCateLocAddMember, setSelCateLocAddMember] = useState({
     ...selCateLoc,

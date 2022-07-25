@@ -1,12 +1,11 @@
 import React from 'react';
-import CanvasTemplate from 'components/Canvas/common/CanvasTemplate';
-import CanvasForm from 'components/Canvas/common/CanvasForm';
 import PageTemplate from 'components/common/PageTemplate';
+import BuildBlockForm from 'containers/Canvas/BuildBlockForm';
 
 const BuildBlockPage = () => {
   return (
     <PageTemplate>
-      <CanvasForm type="build" />
+      <BuildBlockForm idx={2} />
     </PageTemplate>
   );
 };

@@ -8,13 +8,13 @@ const Container = styled.div`
   background-color: rgb(255, 208, 192);
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
 const PageTemplate = ({ children }) => {
   return (
     <Container>
       <HeaderContainer />
-      {/* 프로세스 바 */}
       {children}
     </Container>
   );

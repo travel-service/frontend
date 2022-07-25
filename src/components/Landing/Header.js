@@ -5,6 +5,7 @@ import { MdMenu } from 'react-icons/md';
 import Logo from './Logo';
 
 const Container = styled.div`
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
