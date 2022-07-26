@@ -12,12 +12,12 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  overflow: auto;
   flex-grow: 0;
   background: #e5e7e8;
   border-radius: 10px;
   padding: 20px;
   height: 100%;
+  overflow: auto;
 
   @media screen and (max-width: 767px) {
     justify-content: center;
@@ -27,22 +27,27 @@ const Container = styled.div`
 `;
 
 const Days = styled.div`
-  display: flex;
+  /* display: flex;
   flex-wrap: wrap;
-
   height: 100%;
-  justify-content: space-between;
+  justify-content: space-around; */
+
+  //0726 grid로 교체
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 325px);
+  justify-content: space-around;
+  grid-gap: 20px;
 
   // 0724
   /* ::after {
     content: '';
     flex: auto;
   } */
-
   /* flex: 1; */
   /* overflow: auto; */
-  white-space: nowrap;
   @media screen and (max-width: 767px) {
+    display: flex;
+    height: 100%;
     width: 100%;
     justify-content: center;
   }
@@ -151,10 +156,24 @@ const Div = styled.div`
 const ToggleArea = styled.div`
   position: absolute;
 
+  svg {
+    color: white;
+  }
+
   @media screen and (max-width: 767px) {
-    width: 100%;
-    height: 100%;
     display: flex;
+  }
+
+  :hover {
+    cursor: pointer;
+    div {
+      opacity: 1;
+      transition: 0.3s;
+      background-color: white;
+      svg {
+        color: black;
+      }
+    }
   }
 `;
 
@@ -170,15 +189,8 @@ const Toggle = styled.div`
   height: 60px;
   border-radius: 50%;
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.15);
-  ${(props) => props.isOpen && css``}
-  :hover {
-    cursor: pointer;
-    opacity: 1;
-    transition: 0.3s;
-    background-color: white;
-  }
   @media screen and (max-width: 767px) {
-    top: 170px;
+    top: -280px;
     width: 40px;
     height: 40px;
     left: 50%;
@@ -187,19 +199,9 @@ const Toggle = styled.div`
   }
 `;
 
-const ExitSvg = styled(MdOutlineClose)`
-  color: white;
-  :hover {
-    color: black;
-  }
-`;
+const ExitSvg = styled(MdOutlineClose)``;
 
-const FolderSvg = styled(MdOutlineFolderOpen)`
-  color: white;
-  :hover {
-    color: black;
-  }
-`;
+const FolderSvg = styled(MdOutlineFolderOpen)``;
 
 const ErrorImg = styled.div`
   margin: auto;

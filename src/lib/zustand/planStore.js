@@ -374,11 +374,12 @@ export const useStore = create(
           if (!userTravelDay.status) {
             // day가 없는 상태 => 생성 필요 post
             console.log('새로운 dayForm 생성');
-            planAPI.postPlanDay(userTravelDay, id);
+            const res = await planAPI.postPlanDay(userTravelDay, id);
           } else {
             // day가 있는 상태 => 수정 필요 put
             console.log('dayForm 수정');
-            planAPI.updatePlanDay(userTravelDay, id);
+            const res = await planAPI.updatePlanDay(userTravelDay, id);
+            console.log(res);
           }
         }
       },
@@ -415,7 +416,6 @@ export const sysLocStore = create((set, get) => ({
   getSysLoc: async () => {
     const response = await locationAPI.getLocationBlock();
     // const obj = Object.values(response.data);
-    console.log(response.data);
     if (response.status === 200) {
       const { Attraction, Culture, Festival, Leports, Lodge, Restaurant } =
         response.data;

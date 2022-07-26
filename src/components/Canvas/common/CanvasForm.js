@@ -68,7 +68,8 @@ const Title = styled.div`
 
 const Contents = styled.div`
   flex: 1;
-  max-height: 60vh; // 수정 가능
+  max-height: 80vh; // 수정 가능
+  overflow: auto;
 `;
 
 const siteMap = {

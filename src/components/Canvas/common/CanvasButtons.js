@@ -70,9 +70,11 @@ const CanvasButtons = () => {
     // idx === 0 ? onClickSettingNextButton() : console.log('next');
     postPlan(idx);
   };
+
   const onClickPrev = () => {
     console.log('prev');
   };
+
   const onClickExit = () => {
     // postPlan(1);
     postPlan(idx);

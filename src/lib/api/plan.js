@@ -55,10 +55,9 @@ export const postPlanDay = async (dayForm, id) => {
         travelDay: dayForm.travelDay,
       },
     });
-    console.log(dayForm);
-    // headerToken(response);
-    console.log('여행 캔버스 : ', response);
-    return response.data;
+
+    console.log('여행 캔버스 생성: ', response);
+    return response;
   } catch (err) {
     console.log(err);
     return 0;
