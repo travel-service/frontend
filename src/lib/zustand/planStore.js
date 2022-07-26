@@ -277,9 +277,9 @@ export const useStore = create((set, get) => ({
     if (type === 0 && !id) {
       // plan 생성
       const res = await planAPI.createPlan(userPlan);
-      if (res > 0) {
+      if (res.planId) {
         // 정상적 id 반환
-        set({ id: res });
+        set({ id: res.planId });
       } else {
         // postPlan 에러
       }

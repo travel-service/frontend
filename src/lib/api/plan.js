@@ -9,10 +9,10 @@ const headerToken = (response) => {
 // 여행 설정 페이지, 여행 생성
 export const createPlan = async (userPlan) => {
   try {
-    const response = await axios.post('/api/members/plan', {
+    const response = await axios.post('/members/plan', {
       planForm: userPlan,
     });
-    headerToken(response);
+    //headerToken(response);
     console.log('여행설정: ', response);
     return response.data;
   } catch (err) {
@@ -27,7 +27,7 @@ export const createConcpet = async (id, conceptForm) => {
     const response = await axios.post(`/members/plan/${id}/concept`, {
       conceptForm: conceptForm,
     });
-    headerToken(response);
+    //headerToken(response);
     console.log(`여행컨셉설정: `, response);
     return response.data;
   } catch (err) {
@@ -36,11 +36,12 @@ export const createConcpet = async (id, conceptForm) => {
   }
 };
 
-// 여행 수정(여행보관함에서)
+// 여행 받아오기(여행보관함에서)
 export const getPlan = async (id) => {
   try {
     const response = await axios.get(`/members/plan/${id}`);
-    headerToken(response);
+    console.log(response);
+    //headerToken(response);
     console.log(`${id} 여행: `, response);
     return response.data;
   } catch (err) {
@@ -49,11 +50,11 @@ export const getPlan = async (id) => {
   }
 };
 
-// 여행 수정 시 컨셉 받아오기
+// 컨셉 받아오기
 export const getConcpet = async (id) => {
   try {
     const response = await axios.get(`/members/plan/${id}/concept`);
-    headerToken(response);
+    //headerToken(response);
     console.log(`${id} 컨셉: `, response);
     return response.data;
   } catch (err) {
@@ -62,11 +63,11 @@ export const getConcpet = async (id) => {
   }
 };
 
-// 여행 설정 페이지 수정
+// 여행 설정 수정
 export const putPlan = async (id, userPlan) => {
   try {
     const response = await axios.post(`/members/plan/${id}`, userPlan);
-    headerToken(response);
+    //headerToken(response);
     console.log(`${id} 플랜수정: `, response);
     return response.data;
   } catch (err) {
@@ -81,7 +82,7 @@ export const postConcept = async (id, conceptForm) => {
     const response = await axios.post(`/members/plan/${id}/concept`, {
       conceptForm: conceptForm,
     });
-    headerToken(response);
+    //headerToken(response);
     console.log(`${id} 컨셉수정: `, response);
     return response.data;
   } catch (err) {
