@@ -91,7 +91,7 @@ const MapContainer = ({
       let markerList = positions.map((position) => {
         return new kakao.maps.Marker({ map: kakaoMap, position: position });
       });
-      markerList.map((marker, i) => {
+      markerList.forEach((marker, i) => {
         kakao.maps.event.addListener(marker, 'mouseover', () => {
           displayInfoWindow(nameList[i], i);
         });
@@ -160,6 +160,7 @@ const MapContainer = ({
       setSearchPlaces([]);
       setInputText('');
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [kakaoMap, forMarkerPositions]);
 
   const displayInfoWindow = (name, i) => {

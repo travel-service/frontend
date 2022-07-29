@@ -138,6 +138,7 @@ const CreateLoc = ({ size, onClick }) => {
       ...subForm,
       ...tmp,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [check]);
 
   const initForm = () => {

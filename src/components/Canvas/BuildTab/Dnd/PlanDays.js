@@ -37,6 +37,13 @@ const Days = styled.div`
   grid-template-columns: repeat(auto-fill, 325px);
   justify-content: space-around;
   grid-gap: 20px;
+  ${(props) =>
+    !props.len &&
+    css`
+      height: 100%;
+      display: flex;
+      align-items: center;
+    `}
 
   // 0724
   /* ::after {
@@ -258,7 +265,7 @@ const PlanDays = ({ data }) => {
           {!isOpen && <FolderSvg size="30" />}
         </Toggle>
       </ToggleArea>
-      <Days>
+      <Days len={travelDay.length}>
         {!travelDay.length && (
           <ErrorImg>
             <h2>여행을 언제 가는거죠?</h2>

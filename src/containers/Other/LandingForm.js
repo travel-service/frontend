@@ -10,6 +10,7 @@ const LandingForm = () => {
   useEffect(() => {
     initializePlanForm();
     initializeMemberForm();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <LandingMainContents />;

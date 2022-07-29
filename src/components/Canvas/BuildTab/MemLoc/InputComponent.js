@@ -1,6 +1,5 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
-import OpenColor from 'open-color';
+import styled from 'styled-components';
 import { MdSearch } from 'react-icons/md';
 import Close from 'lib/Icons/Close';
 

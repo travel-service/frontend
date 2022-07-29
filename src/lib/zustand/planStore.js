@@ -332,6 +332,7 @@ export const useStore = create(
                   let idx = tmp.days - 1;
                   tmp.name = tmpSelCateLoc[key][j].name;
                   tmp.image = tmpSelCateLoc[key][j].image;
+                  tmp.address1 = tmpSelCateLoc[key][j].address1;
                   tempDayArr[idx].push(tmp);
                   break;
                 }

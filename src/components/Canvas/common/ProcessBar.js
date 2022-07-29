@@ -125,28 +125,24 @@ const ProcessBar = ({ type, siteMap }) => {
 
   // 0726 작성 중 수정 필요
   const save = async () => {
-    let res = await postPlan(Object.keys(siteMap).indexOf(type));
+    await postPlan(Object.keys(siteMap).indexOf(type));
   };
 
-  const saveLeave = () => {
-    save();
-    // 성공시 리다이렉트
-  };
+  // const saveLeave = () => {
+  //   save();
+  //   // 성공시 리다이렉트
+  // };
 
   return (
     <Container>
       <Process>
         {Object.keys(siteMap).map((e, i) => (
-          <>
-            <Sequence
-              key={i}
-              index={i}
-              now={Object.keys(siteMap).indexOf(type)}
-            >
+          <React.Fragment key={e}>
+            <Sequence index={i} now={Object.keys(siteMap).indexOf(type)}>
               {siteMap[e]}
               <Arrow index={i} now={Object.keys(siteMap).indexOf(type)}></Arrow>
             </Sequence>
-          </>
+          </React.Fragment>
         ))}
       </Process>
       <Buttons>
@@ -156,7 +152,7 @@ const ProcessBar = ({ type, siteMap }) => {
           value={
             <>
               <MdOutlineSave size="20px" style={{ marginRight: '10px' }} />
-              <>저장하기</>
+              <div>저장하기</div>
             </>
           }
           type="button"
@@ -168,11 +164,8 @@ const ProcessBar = ({ type, siteMap }) => {
               <>저장하고 나가기</>
             </>
           }
-          color={true}
+          color="true"
           type="button"
-          style={{
-            color: 'red',
-          }}
         />
       </Buttons>
     </Container>

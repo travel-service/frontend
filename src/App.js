@@ -10,6 +10,7 @@ import SearchPage from 'pages/OtherPages/SearchPage';
 import { useScroll } from 'lib/custom/useScroll';
 import { createGlobalStyle, css } from 'styled-components';
 import Modal from 'react-modal';
+import ProtectedRoute from 'lib/router/ProtectedRoute';
 
 const GlobalStyle = createGlobalStyle`
   body::-webkit-scrollbar {
@@ -27,14 +28,17 @@ function App() {
 
   return (
     <>
-      {/* 배포 url */}
       {useRoutes([
         { path: process.env.PUBLIC_URL + '/', element: <LandingPage /> },
         { path: process.env.PUBLIC_URL + '/signup', element: <SignUpPage /> },
         { path: process.env.PUBLIC_URL + '/login', element: <LoginPage /> },
         {
           path: process.env.PUBLIC_URL + '/canvas/*',
-          element: <CanvasMainPage />,
+          element: (
+            <ProtectedRoute>
+              <CanvasMainPage />
+            </ProtectedRoute>
+          ),
         },
         {
           path: process.env.PUBLIC_URL + '/notice/*',

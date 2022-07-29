@@ -39,6 +39,16 @@ const buttonStyle = css`
       background-color: black;
       color: white;
     `}
+
+    ${(props) =>
+    props.fullWidth &&
+    css`
+      background-color: #f16b6c;
+      color: white;
+      width: 100%;
+      font-size: 16px;
+      font-weight: 700;
+    `}
 `;
 
 const StyledButton = styled.button`

@@ -7,13 +7,12 @@ let refresh = false; // 무한 루프 방지
 axios.interceptors.response.use(
   (resp) => resp,
   async (error) => {
-    console.log('error:', error.response.data.code);
     if (!refresh) {
       if (
         error.response.data.code === 'EX' ||
-        error.response.data.code === 'MEMBER-EX'
+        error.response.data.code === 'MEMBER-EX' ||
+        error.response.data.message === 'AccessToken 이 없습니다.'
       ) {
-        console.log('tse');
         // unauthenticated
         refresh = true;
         const response = await authAPI.refresh(); // new AccessToken

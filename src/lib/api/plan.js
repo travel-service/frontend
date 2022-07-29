@@ -1,19 +1,11 @@
 import axios from 'axios';
 
-// token 반환 다시 설정(모든 plan 요청 후)
-// const headerToken = (response) => {
-//   axios.defaults.headers.common['authorization'] =
-//     response.headers.authorization;
-// };
-
 // 여행 설정 페이지, 여행 생성
 export const createPlan = async (userPlan) => {
   try {
     const response = await axios.post('/members/plan', {
       planForm: userPlan,
     });
-    // headerToken(response);
-    console.log('여행설정: ', response);
     return response.data;
   } catch (err) {
     console.log(err);
@@ -25,8 +17,6 @@ export const createPlan = async (userPlan) => {
 export const getAllPlans = async () => {
   try {
     const response = await axios.get('/members/plan');
-    // headerToken(response);
-    console.log('여행보관함: ', response);
     return response.data;
   } catch (err) {
     console.log(err);
@@ -38,8 +28,6 @@ export const getAllPlans = async () => {
 export const getPlan = async (id) => {
   try {
     const response = await axios.get(`/members/plan/${id}`);
-    // headerToken(response);
-    console.log(`${id} 여행: `, response);
     return response.data;
   } catch (err) {
     console.log(err);
@@ -55,8 +43,6 @@ export const postPlanDay = async (dayForm, id) => {
         travelDay: dayForm.travelDay,
       },
     });
-
-    console.log('여행 캔버스 생성: ', response);
     return response;
   } catch (err) {
     console.log(err);
@@ -70,8 +56,6 @@ export const updatePlanDay = async (dayForm, id) => {
     const response = await axios.put(`/members/plan/${id}/day`, {
       dayForm,
     });
-    // headerToken(response);
-    console.log('여행 캔버스 수정 : ', response);
     return response.data;
   } catch (err) {
     console.log(err);
@@ -83,8 +67,6 @@ export const updatePlanDay = async (dayForm, id) => {
 export const getPlanDay = async (id) => {
   try {
     const response = await axios.get(`/members/plan/${id}/day`);
-    // headerToken(response);
-    console.log(`get ${id} 여행 캔버스: `, response);
     return response.data;
   } catch (err) {
     console.log(err);

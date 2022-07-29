@@ -14,6 +14,21 @@ export const memLocStore = create(
         }));
       },
 
+      // get MemberLocations
+      getMemberLocations: async () => {
+        const res = await locationAPI.getMemberLocation();
+        if (!res) return;
+        let memLoc = [];
+        Object.keys(res.data.blockLocations).forEach((type, i) => {
+          res.data.blockLocations[type].forEach((loc) => {
+            memLoc.push(loc);
+          });
+        });
+        set(() => ({
+          memberLocations: memLoc,
+        }));
+      },
+
       // memLoc 생성 함수
       createMemberLoc: async (main, coords, sub, typeObj, type) => {
         const { name, share, address1, summary } = main;

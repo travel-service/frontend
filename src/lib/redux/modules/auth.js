@@ -1,5 +1,8 @@
 import { createAction, handleActions } from 'redux-actions';
-import { takeLatest, call } from 'redux-saga/effects';
+import {
+  takeLatest,
+  // call
+} from 'redux-saga/effects';
 import produce from 'immer';
 import createRequestSaga, {
   createRequestActionTypes,

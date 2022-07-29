@@ -4,7 +4,6 @@ import styled, { css } from 'styled-components';
 import Close from 'lib/Icons/Close';
 import 'lib/styles/Modal.css';
 import MapContainer from 'components/Canvas/BuildTab/Map/MapContainer';
-import MapMove from 'components/Canvas/BuildTab/Map/MapMove';
 import BlackCustomBtn from 'components/Canvas/common/BlackCustomBtn';
 
 const StyledModal = styled(Modal)`
@@ -120,7 +119,6 @@ const ModalModule = ({
           <BlackCustomBtn onClick={onSubmit} value="완료" color="black" />
         </Btn>
       </Section>
-      {/* {map && ( */}
       {map === 'memberLoc' && (
         <Section2>
           <Div>
@@ -132,18 +130,6 @@ const ModalModule = ({
           </Div>
         </Section2>
       )}
-      {/* {map === 'moveLoc' && (
-            <>
-              <div>
-                kakao 지도 {fromLocName} -&gt; {toLocName}
-              </div>
-              <MapMove fromLocName={fromLocName} toLocName={toLocName} />
-            </>
-          )} */}
-      {/* <Btn>
-            <button onClick={onSubmit}>닫기</button>
-          </Btn> */}
-      {/* )} */}
     </StyledModal>
   );
 };

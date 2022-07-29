@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { MdOutlineMode } from 'react-icons/md';
 import 'lib/styles/Modal.css';
 import ModalModule from 'components/common/modal/ModalModule';

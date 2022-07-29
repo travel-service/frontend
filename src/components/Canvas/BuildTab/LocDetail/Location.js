@@ -16,11 +16,6 @@ const TimeSpan = styled.span`
   margin: 0 5px;
 `;
 
-const LocTime = styled.div`
-  font-weight: normal;
-  font-size: 12px;
-`;
-
 const Img = styled.img`
   /* height: 50px;
   width: 50px; */

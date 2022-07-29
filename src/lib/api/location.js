@@ -35,11 +35,10 @@ export const createMemberLocation = async (location) => {
 // 멤버 로케이션 조회 0718 추가
 export const getMemberLocation = async () => {
   try {
-    const response = await axios.get('/locations/members');
+    const response = await axios.get('/locations/member');
     if (response.status !== 200) {
       return 0;
     } else {
-      console.log('멤버 로케이션 조회: ', response);
       return response;
     }
   } catch (err) {

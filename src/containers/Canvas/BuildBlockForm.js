@@ -5,7 +5,7 @@ import { buildStore } from 'lib/zustand/CanvasBuildStore';
 import { memLocStore } from 'lib/zustand/memberLocStore';
 
 const BuildBlockForm = ({ idx }) => {
-  const { memberLocations } = memLocStore();
+  const { memberLocations, getMemberLocations } = memLocStore();
   const { category, selCateLoc, userTravelDay, getPlanDays, postPlan, id } =
     useStore();
   const {
@@ -19,9 +19,11 @@ const BuildBlockForm = ({ idx }) => {
 
   useEffect(() => {
     getPlanDays(id);
+    getMemberLocations();
     return () => {
       postPlan(idx);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

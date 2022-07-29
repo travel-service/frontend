@@ -3,12 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import StyledButton from 'components/common/Button';
 import { useStore } from 'lib/zustand/planStore';
-import { Pc, Mobile } from 'lib/custom/responsive';
 import {
-  MdArrowBackIosNew,
-  MdArrowForwardIos,
-  MdOutlineSave,
-  MdExitToApp,
   MdOutlineArrowBackIos,
   MdOutlineArrowForwardIos,
 } from 'react-icons/md';
@@ -23,34 +18,6 @@ const ButtonLink = styled(Link)`
   text-decoration: none;
   display: flex;
   align-items: center;
-`;
-
-const MobileBtn = styled.div`
-  display: flex;
-  height: 80px;
-  justify-content: space-around;
-  /* flex-grow: 1 1 1 1; */
-  .btn {
-    flex: 1;
-    text-decoration: none;
-    color: black;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    font-size: 15px;
-    font-weight: 600;
-    border: 1px black solid;
-    :hover {
-      background-color: white;
-    }
-    .icon {
-      /* size: 2rem; */
-    }
-  }
-`;
-
-const Btn = styled(Link)`
-  border: 1px solid black;
 `;
 
 const siteMap = ['setting', 'select', 'build', 'share'];
@@ -75,11 +42,11 @@ const CanvasButtons = () => {
     console.log('prev');
   };
 
-  const onClickExit = () => {
-    // postPlan(1);
-    postPlan(idx);
-    console.log('저장하고 나가기');
-  };
+  // const onClickExit = () => {
+  //   // postPlan(1);
+  //   postPlan(idx);
+  //   console.log('저장하고 나가기');
+  // };
 
   return (
     <>

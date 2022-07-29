@@ -1,10 +1,6 @@
 // 시간 추가, 변경 버튼
-import React, { useEffect, useState } from 'react';
-import {
-  MdMoreTime,
-  MdNoEncryption,
-  MdOutlineModeEditOutline,
-} from 'react-icons/md';
+import React, { useState } from 'react';
+import { MdMoreTime, MdOutlineModeEditOutline } from 'react-icons/md';
 import styled, { css } from 'styled-components';
 import ModalModule from 'components/common/modal/ModalModule';
 // import TimeInput from 'components/Canvas/common/TimeInput';
