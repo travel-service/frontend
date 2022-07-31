@@ -1,37 +1,47 @@
 import React from 'react';
 import styled from 'styled-components';
-import LocationList from './LocationList';
-import SelectedLocationList from './SelectedLocationList';
-import { useStore } from '../../../lib/zustand/planStore';
+import LocationList from './LocationList'
+import TypeFilter from './TypeFilter';
+import { filterStore } from 'lib/filterStore';
+import Map from 'containers/Canvas/MapContainer'
 
 const ContentsArea = styled.div`
-  padding: 3rem;
-  background-color: black;
-`;
+  overflow: auto;
+  background-color: skyblue;
+`
 
 const WhiteBox = styled.div`
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.025);
-  padding: 2rem;
-  width: 500px;
-  height: 500px;
-  margin-bottom: 20px;
+  padding: 2em;
+  margin: 2em;
   background: white;
   border-radius: 8px;
+  width: 90%;
 `;
 
-const BlueBox = styled.div`
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.025);
-  padding: 2rem;
-  width: 700px;
-  height: 200px;
-  background: skyblue;
-  border-radius: 8px;
-`;
+const BlockListArea = styled.div`
+  width: 50%;
+  float: left;
+  background-color: #E0FFDB;
+`
 
-const SelectArea = ({ location, selLocs, category }) => {
-  // const { Attraction, Culture, Festival, Leports, Restaurant, Lodge } =
-  //   location;
-  // const { selAttraction, selRestaurant, selLodge } = selLocs
+const MapArea = styled.div`
+  width: 50%;
+  float: left;
+  background-color: brown;
+`
+
+const SelectArea = ({ location, selLocs, coords }) => {
+
+  const { Attraction, Culture, Festival, Leports, Lodge, Restaurant } = location
+
+  const { CoordsList } = coords
+
+  const { selAttraction } = selLocs
+
+  const { attIsCheck, culIsCheck, fesIsCheck, lepIsCheck, lodIsCheck, resIsCheck, selectedOnly } = filterStore();
+
+  var noneCheck = !attIsCheck && !culIsCheck && !fesIsCheck && !lepIsCheck && !lodIsCheck && !resIsCheck;
 
   // const { selLodge, selAttraction, selRestaurant } = useStore();
   // const {
@@ -44,39 +54,37 @@ const SelectArea = ({ location, selLocs, category }) => {
   // } = selCateLoc;
   return (
     <ContentsArea>
-      {/* <WhiteBox>
-        <div>관광지 블록</div>
-        <LocationList locations={Attraction} />
-      </WhiteBox>
-      <WhiteBox>
-        <div>음식점 블록</div>
-        <LocationList locations={Restaurant} />
-      </WhiteBox>
-      <WhiteBox>
-        <div>숙소 블록</div>
-        <LocationList locations={Lodge} />
-      </WhiteBox>
-      <BlueBox>
-        <SelectedLocationList selectedLocations={selAttraction} />
-      </BlueBox>
-      <BlueBox>
-        <SelectedLocationList selectedLocations={selLodge} />
-      </BlueBox>
-      <BlueBox>
-        <SelectedLocationList selectedLocations={selRestaurant} />
-      </BlueBox> */}
-      {/* 찬우 수정 0718 */}
-      {Object.keys(location).map((loc, idx) => (
-        <WhiteBox key={idx}>
-          <div>{category[loc]} 블록</div>
-          <LocationList locations={location[loc]} />
+      <TypeFilter />
+
+      <BlockListArea>
+        <WhiteBox>
+          <div>
+            { ((attIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Attraction}/>}
+          </div>
+          <div>
+            { ((culIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Culture}/>}
+          </div>
+          <div>
+            { ((fesIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Festival}/>}
+          </div>
+          <div>
+            { ((lepIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Leports}/>}
+          </div>
+          <div>
+            { ((lodIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Lodge}/>}
+          </div>
+          <div>
+            { ((resIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Restaurant}/>}
+          </div>
+          <div>
+            { (selectedOnly === true) && <LocationList locations = {selAttraction}/>}
+          </div>
+
         </WhiteBox>
-      ))}
-      {Object.keys(selLocs).map((selLoc, idx) => (
-        <BlueBox key={idx}>
-          <SelectedLocationList selectedLocations={selLocs[selLoc]} />
-        </BlueBox>
-      ))}
+      </BlockListArea>
+      <MapArea>
+        <Map coords={CoordsList}></Map>
+      </MapArea>
     </ContentsArea>
   );
 };
