@@ -7,6 +7,7 @@ import NoticeMainPage from 'pages/NoticePages/NoticeMainPage';
 import NotFoundPage from 'pages/OtherPages/NotFoundPage';
 import LandingPage from 'pages/OtherPages/LandingPage';
 import SearchPage from 'pages/OtherPages/SearchPage';
+import MyMainPage from 'pages/MyPages/MyMainPage';
 import { useScroll } from 'lib/custom/useScroll';
 import { createGlobalStyle, css } from 'styled-components';
 import Modal from 'react-modal';
@@ -43,6 +44,10 @@ function App() {
         {
           path: process.env.PUBLIC_URL + '/notice/*',
           element: <NoticeMainPage />,
+        },
+        {
+          path: process.env.PUBLIC_URL + '/mypage/*',
+          element: <MyMainPage />,
         },
         {
           path: process.env.PUBLIC_URL + '/search',

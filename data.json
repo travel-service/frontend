@@ -111,10 +111,18 @@
         "thumbnail": []
       },
       "conceptForm": {
-        "concept": ["Love", "Family", "Alone"]
+        "concept": [
+          "Love",
+          "Family",
+          "Alone"
+        ]
       },
       "selectedLocationForm": {
-        "selectedLocation": [5, 6, 7]
+        "selectedLocation": [
+          5,
+          6,
+          7
+        ]
       },
       "dayForm": {
         "travelDay": [[], [], []]
@@ -288,6 +296,367 @@
       "body": "16. HTML 내용입니다."
     }
   ],
+  "locations_v2": {
+    "Attraction": [
+      {
+        "id": 1,
+        "name": "휴애리자연생활공원",
+        "address1": "제주특별자치도 서귀포시 남원읍 신례동로 256",
+        "address2": "null",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/47/2615547_image2_1.bmp",
+        "type": {
+          "attraction": true,
+          "member": false,
+          "lodge": false,
+          "leports": false,
+          "restaurant": false,
+          "festival": false,
+          "culture": false,
+          "type": 0
+        }
+      },
+      {
+        "id": 2,
+        "name": "섭지코지",
+        "address1": "제주특별자치도 서귀포시 성산읍 섭지코지로 107",
+        "address2": "null",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/80/2513480_image2_1.jpg",
+        "type": {
+          "attraction": true,
+          "member": false,
+          "lodge": false,
+          "leports": false,
+          "restaurant": false,
+          "festival": false,
+          "culture": false,
+          "type": 0
+        }
+      },
+      {
+        "id": 3,
+        "name": "천지연폭포 (제주도 국가지질공원)",
+        "address1": "제주특별자치도 서귀포시 천지동",
+        "address2": "null",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/96/2612496_image2_1.jpg",
+        "type": {
+          "attraction": true,
+          "member": false,
+          "lodge": false,
+          "leports": false,
+          "restaurant": false,
+          "festival": false,
+          "culture": false,
+          "type": 0
+        }
+      },
+      {
+        "id": 4,
+        "name": "성산일출봉 [유네스코 세계자연유산]",
+        "address1": "제주특별자치도 서귀포시 성산읍 일출로 284-12",
+        "address2": "null",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/00/2613500_image2_1.jpg",
+        "type": {
+          "attraction": true,
+          "member": false,
+          "lodge": false,
+          "leports": false,
+          "restaurant": false,
+          "festival": false,
+          "culture": false,
+          "type": 0
+        }
+      }
+    ],
+    "Restaurant": [
+      {
+        "id": 19,
+        "name": "삼성혈해물탕",
+        "address1": "제주특별자치도 제주시 선덕로5길 20",
+        "address2": "null",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/45/656845_image2_1.jpg",
+        "type": {
+          "restaurant": true,
+          "member": false,
+          "lodge": false,
+          "leports": false,
+          "attraction": false,
+          "festival": false,
+          "culture": false,
+          "type": 5
+        }
+      }
+    ],
+    "Leports": [
+      {
+        "id": 17,
+        "name": "제주도 스쿠터 여행사 한라하이킹",
+        "address1": "제주특별자치도 제주시 용두암길 50-1",
+        "address2": "(용담이동)",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/91/2394691_image2_1.jpg",
+        "type": {
+          "leports": true,
+          "member": false,
+          "lodge": false,
+          "restaurant": false,
+          "attraction": false,
+          "festival": false,
+          "culture": false,
+          "type": 3
+        }
+      },
+      {
+        "id": 20,
+        "name": "라마다프라자제주호텔 스포츠센터(실내.외 수영장)",
+        "address1": "제주특별자치도 제주시 탑동로 66",
+        "address2": "(삼도이동)",
+        "image": "null",
+        "type": {
+          "leports": true,
+          "member": false,
+          "lodge": false,
+          "restaurant": false,
+          "attraction": false,
+          "festival": false,
+          "culture": false,
+          "type": 3
+        }
+      },
+      {
+        "id": 24,
+        "name": "우도",
+        "address1": "제주특별자치도 제주시 우도면 우도로 153",
+        "address2": "null",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/95/2364395_image2_1.jpg",
+        "type": {
+          "leports": true,
+          "member": false,
+          "lodge": false,
+          "restaurant": false,
+          "attraction": false,
+          "festival": false,
+          "culture": false,
+          "type": 3
+        }
+      }
+    ],
+    "Festival": [
+      {
+        "id": 8,
+        "name": "제주 유채꽃축제",
+        "address1": "제주특별자치도 서귀포시 녹산로 381-17",
+        "address2": "null",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/89/2539389_image2_1.JPG",
+        "type": {
+          "festival": true,
+          "member": false,
+          "lodge": false,
+          "leports": false,
+          "restaurant": false,
+          "attraction": false,
+          "culture": false,
+          "type": 2
+        }
+      },
+      {
+        "id": 10,
+        "name": "[문화관광축제] 제주들불축제",
+        "address1": "제주 제주시 애월읍 봉성리 산59-8",
+        "address2": "null",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/27/2689727_image2_1.png",
+        "type": {
+          "festival": true,
+          "member": false,
+          "lodge": false,
+          "leports": false,
+          "restaurant": false,
+          "attraction": false,
+          "culture": false,
+          "type": 2
+        }
+      },
+      {
+        "id": 11,
+        "name": "제주 허브동산 \"별빛놀이\" 2021",
+        "address1": "제주특별자치도 서귀포시 표선면 돈오름로 170",
+        "address2": "null",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/21/2582021_image2_1.jpg",
+        "type": {
+          "festival": true,
+          "member": false,
+          "lodge": false,
+          "leports": false,
+          "restaurant": false,
+          "attraction": false,
+          "culture": false,
+          "type": 2
+        }
+      }
+    ],
+    "Lodge": [
+      {
+        "id": 25,
+        "name": "도라지식당",
+        "address1": "제주특별자치도 제주시 연삼로 128",
+        "address2": "null",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/01/1934501_image2_1.jpg",
+        "type": {
+          "lodge": true,
+          "member": false,
+          "leports": false,
+          "restaurant": false,
+          "attraction": false,
+          "festival": false,
+          "culture": false,
+          "type": 4
+        }
+      },
+      {
+        "id": 36,
+        "name": "성산해오름식당",
+        "address1": "제주특별자치도 서귀포시 성산읍 일출로 260",
+        "address2": "null",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/15/1937215_image2_1.jpg",
+        "type": {
+          "lodge": true,
+          "member": false,
+          "leports": false,
+          "restaurant": false,
+          "attraction": false,
+          "festival": false,
+          "culture": false,
+          "type": 4
+        }
+      },
+      {
+        "id": 38,
+        "name": "네거리식당",
+        "address1": "제주특별자치도 서귀포시 서문로29번길 20",
+        "address2": "null",
+        "image": "null",
+        "type": {
+          "lodge": true,
+          "member": false,
+          "leports": false,
+          "restaurant": false,
+          "attraction": false,
+          "festival": false,
+          "culture": false,
+          "type": 4
+        }
+      }
+    ],
+    "Culture": [
+      {
+        "id": 14,
+        "name": "제주민속촌",
+        "address1": "제주특별자치도 서귀포시 표선면 민속해안로 631-34",
+        "address2": "null",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/78/2659578_image2_1.bmp",
+        "type": {
+          "culture": true,
+          "member": false,
+          "lodge": false,
+          "leports": false,
+          "restaurant": false,
+          "attraction": false,
+          "festival": false,
+          "type": 1
+        }
+      },
+      {
+        "id": 15,
+        "name": "김영갑 갤러리(두모악)",
+        "address1": "제주특별자치도 서귀포시 성산읍 삼달로 137",
+        "address2": "null",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/79/1619979_image2_1.jpg",
+        "type": {
+          "culture": true,
+          "member": false,
+          "lodge": false,
+          "leports": false,
+          "restaurant": false,
+          "attraction": false,
+          "festival": false,
+          "type": 1
+        }
+      },
+      {
+        "id": 16,
+        "name": "하멜상선전시관",
+        "address1": "제주특별자치도 서귀포시 안덕면 사계남로216번길 24-30",
+        "address2": "(안덕면)",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/03/1620203_image2_1.jpg",
+        "type": {
+          "culture": true,
+          "member": false,
+          "lodge": false,
+          "leports": false,
+          "restaurant": false,
+          "attraction": false,
+          "festival": false,
+          "type": 1
+        }
+      }
+    ]
+  },
+  "locations_mark": {
+    "Attraction": [
+      {
+        "id": 1,
+        "name": "휴애리자연생활공원",
+        "coords": {
+          "latitude": "33.3085",
+          "longitude": "126.634"
+        },
+        "type": {
+          "attraction": true,
+          "festival": false,
+          "culture": false,
+          "leports": false,
+          "lodge": false,
+          "restaurant": false,
+          "member": false,
+          "type": 0
+        }
+      },
+      {
+        "id": 2,
+        "name": "섭지코지",
+        "coords": {
+          "latitude": "33.4302",
+          "longitude": "126.928"
+        },
+        "type": {
+          "attraction": true,
+          "festival": false,
+          "culture": false,
+          "leports": false,
+          "lodge": false,
+          "restaurant": false,
+          "member": false,
+          "type": 1
+        }
+      },
+      {
+        "id": 3,
+        "name": "천지연폭포 (제주도 국가지질공원)",
+        "coords": {
+          "latitude": "33.2445",
+          "longitude": "126.559"
+        },
+        "type": {
+          "attraction": true,
+          "festival": false,
+          "culture": false,
+          "leports": false,
+          "lodge": false,
+          "restaurant": false,
+          "member": false,
+          "type": 0
+        }
+      }
+    ]
+  },
   "locations": {
     "1": {
       "locationId": 1,
@@ -420,17 +789,33 @@
     },
     {
       "id": "3",
-      "name": "성산일출봉",
-      "address1": "",
-      "address2": "",
-      "image1": "",
-      "image2": "",
-      "tel": "",
-      "summary": "",
-      "report": "",
-      "parking": "",
-      "restDate": "",
-      "useTime": ""
+      "ATTRACTION": {
+        "id": 3,
+        "locationId": 3,
+        "parking": true,
+        "restDate": "null",
+        "useTime": "09:00 ~ 22:00 (매표마감 21:20)"
+      },
+      "location": {
+        "id": 3,
+        "name": "천지연폭포 (제주도 국가지질공원)",
+        "address1": "제주특별자치도 서귀포시 천지동",
+        "address2": "null",
+        "image": "http://tong.visitkorea.or.kr/cms/resource/96/2612496_image2_1.jpg",
+        "tel": null,
+        "summary": null,
+        "report": null,
+        "type": {
+          "attraction": true,
+          "festival": false,
+          "culture": false,
+          "leports": false,
+          "lodge": false,
+          "restaurant": false,
+          "member": false,
+          "type": 0
+        }
+      }
     }
   ],
   "restaurantInfo": [

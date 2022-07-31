@@ -209,7 +209,7 @@ export const useStore = create(
             [type]: tmpSelTypeArr,
           },
         }));
-
+        
         // switch (type) {
         //   case '1':
         //     // set(state => ({ selAttraction: state.selAttraction.filter(loc => loc.id !== locId)}));
@@ -410,62 +410,83 @@ export const sysLocStore = create((set, get) => ({
     Lodge: [],
     Restaurant: [],
   },
+  sysCateLocCoords: {
+    CoordsList: [],
+  },
+  flag: false,
 
   getSysLoc: async () => {
-    const response = await locationAPI.getLocationBlock();
-    // const obj = Object.values(response.data);
-    if (response.status === 200) {
-      const { Attraction, Culture, Festival, Leports, Lodge, Restaurant } =
-        response.data;
+    if (get().flag === false) {
+      const response = await axios.get('http://localhost:4000/locations_v2');
+      let att = [];
+      let cul = [];
+      let fes = [];
+      let lepo = [];
+      let lod = [];
+      let rest = [];
+      for (let x of response.data["Attraction"]) {
+        x.isSelect = false;
+        att.push(x);
+      }
+      for (let x of response.data["Culture"]) {
+        x.isSelect = false;
+        cul.push(x);
+      }
+      for (let x of response.data["Festival"]) {
+        x.isSelect = false;
+        fes.push(x);
+      }
+      for (let x of response.data["Leports"]) {
+        x.isSelect = false;
+        lepo.push(x);
+      }
+      for (let x of response.data["Lodge"]) {
+        x.isSelect = false;
+        lod.push(x);
+      }
+      for (let x of response.data["Restaurant"]) {
+        x.isSelect = false;
+        rest.push(x);
+      }
       set({
         sysCateLoc: {
-          Attraction,
-          Culture,
-          Festival,
-          Leports,
-          Lodge,
-          Restaurant,
+          Attraction: att,
+          Culture: cul,
+          Festival: fes,
+          Leports: lepo,
+          Lodge: lod,
+          Restaurant: rest,
         },
       });
+      set({flag: true})
     }
-    //   let att = [];
-    //   let cul = [];
-    //   let fes = [];
-    //   let lepo = [];
-    //   let lod = [];
-    //   let rest = [];
-    //   for (let x of obj) {
-    //     switch (x.type) {
-    //       case '1':
-    //         att.push(x);
-    //         break;
-    //       case '2':
-    //         cul.push(x);
-    //         break;
-    //       case '3':
-    //         fes.push(x);
-    //         break;
-    //       case '4':
-    //         lepo.push(x);
-    //         break;
-    //       case '5':
-    //         lod.push(x);
-    //         break;
-    //       case '6':
-    //         rest.push(x);
-    //         break;
-    //       default:
-    //     }
-    //   }
-    //   set({
-    //     sysCateLoc: {
-    //       Attraction: att,
-    //       Culture: cul,
-    //       Festival: fes,
-    //       Leports: lepo,
-    //       Lodge: lod,
-    //       Restaurant: rest,
-    //     },
-    //   });
+  },
+
+  getSysLocCoords: async () => {
+    const response = await axios.get('http://localhost:4000/locations_mark');
+    let att = [];
+    // let cul = [];
+    // let fes = [];
+    // let lepo = [];
+    // let lod = [];
+    // let rest = [];
+    for (let x of response.data["Attraction"]) {
+      x.isSelect = false;
+      att.push(x);
+    }
+    // for (let x of response.data["Festival"]) {
+    //   x.isSelect = false;
+    //   fes.push(x);
+    // }
+    set({
+      sysCateLocCoords: {
+        CoordsList: att,
+        // Culture: cul,
+        // Festival: fes,
+        // Leports: lepo,
+        // Lodge: lod,
+        // Restaurant: rest,
+      },
+    });
   },
 }));
