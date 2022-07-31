@@ -4,13 +4,14 @@ import styled, { css } from 'styled-components';
 import { Droppable } from 'react-beautiful-dnd';
 import CustomRadio from 'lib/custom/CustomRadio';
 import CreateLoc from '../MemLoc/CreateLoc';
+import palette from 'lib/styles/palette';
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   min-width: 330px;
   /* height: 100%; */
-  background-color: #ffffff;
+  background-color: white;
   border-radius: 0px 10px 10px 0px;
   transition: 0.3s all linear;
   padding: 20px;
@@ -28,7 +29,7 @@ const Container = styled.div`
     /* width: 100%; */
     display: block;
     /* transition: none; */
-    border: 1px #e5e7e8 solid;
+    border: 1px ${palette.back2} solid;
     border-radius: 10px 10px 10px 10px;
     margin-bottom: 8px;
     margin-left: 20px;
@@ -58,7 +59,7 @@ const Basket = styled.div`
   align-items: center;
   overflow: auto;
   margin-bottom: auto;
-  background-color: #e5e7e8;
+  background-color: ${palette.back2};
   border-radius: 10px;
   padding: 20px;
 

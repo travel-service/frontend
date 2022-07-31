@@ -7,13 +7,14 @@ import MoveDataDiv from '../LocDetail/MoveDataDiv';
 import Location from 'components/Canvas/BuildTab/LocDetail/Location';
 import { Mobile } from 'lib/custom/responsive';
 import { MdOutlineClose, MdOutlineFolderOpen } from 'react-icons/md';
+import palette from 'lib/styles/palette';
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
   flex-grow: 0;
-  background: #e5e7e8;
+  background: ${palette.back2};
   border-radius: 10px;
   padding: 20px;
   height: 100%;
@@ -62,7 +63,7 @@ const Days = styled.div`
 
 const Day = styled.div`
   margin: 10px;
-  border: 1px solid #e5e7e8;
+  border: 1px solid ${palette.back2};
   border-radius: 10px;
   background: white;
   min-height: 300px;
@@ -76,12 +77,12 @@ const Day = styled.div`
     min-width: 70vw;
     max-width: 70vw;
     flex-shrink: 0;
-    display: none
-      ${(props) =>
-        props.idx === props.dayIdx &&
-        css`
-          display: block;
-        `};
+    display: none;
+    ${(props) =>
+      props.idx === props.dayIdx &&
+      css`
+        display: block;
+      `};
   }
 `;
 
@@ -98,7 +99,7 @@ const CarBtn = styled.button`
   border: none;
   :hover {
     cursor: pointer;
-    background-color: ${oc.teal[6]};
+    background-color: black;
     color: white;
     transform: scale(1.1);
     transition: all 0.1s linear;
@@ -109,7 +110,7 @@ const InitForm = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #000000;
+  border: 1px solid black;
   border-radius: 60px;
   height: 45px;
   width: 100%;
@@ -128,7 +129,6 @@ const LocationsList = styled('div')`
 
   overflow: auto;
   transition: background-color ease 0.2s;
-  background-color: ${(props) => (props.isDraggingOver ? 'green' : 'white')};
   ${(props) =>
     props.isDraggingOver &&
     css`

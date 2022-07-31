@@ -29,13 +29,12 @@ const List = styled.li`
   /* user-select: none; */
   width: 100%;
   padding: 15px;
-  border: 1px solid #e5e7e8;
+  border: 1px solid ${palette.back2};
   border-radius: 10px;
 
   margin-bottom: 10px;
   margin: 10px 0px;
-  background: ${(props) =>
-    props.isDragging ? 'rgba(133, 207, 194, 1);' : 'white'};
+  background: ${(props) => (props.isDragging ? palette.landing : 'white')};
   ${(props) =>
     props.day !== undefined &&
     css`

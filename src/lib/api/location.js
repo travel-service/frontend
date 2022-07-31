@@ -3,7 +3,7 @@ import axios from 'axios';
 // 여행지 블록 형태 받아오기
 export const getLocationBlock = async () => {
   try {
-    const response = await axios.get('/locations/block');
+    const response = await axios.get('/locations/blocks');
     return response;
   } catch (err) {
     console.log(err);
@@ -14,7 +14,7 @@ export const getLocationBlock = async () => {
 // 멤버 로케이션 생성
 export const createMemberLocation = async (location) => {
   try {
-    const response = await axios.post('/locations/member', {
+    const response = await axios.post('/locations/members', {
       memberLocation: location.memberLocation,
       information: location.information,
       typeLocation: location.typeLocation,
@@ -35,7 +35,7 @@ export const createMemberLocation = async (location) => {
 // 멤버 로케이션 조회 0718 추가
 export const getMemberLocation = async () => {
   try {
-    const response = await axios.get('/locations/member');
+    const response = await axios.get('/locations/members');
     if (response.status !== 200) {
       return 0;
     } else {

@@ -10,7 +10,7 @@ import SelLocBasket from '../BuildTab/Dnd/SelLocBasket';
 const Container = styled.div`
   flex: 1;
   height: 100%;
-  min-height: 85vh; //?
+  min-height: 85vh; // 이렇게 하면 될지?
   display: flex;
   flex-direction: column;
   padding-bottom: 35px;
@@ -41,7 +41,7 @@ const Main = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: #ffffff;
+  background: white;
   border-radius: 10px;
   margin-left: 30px;
   margin-right: 30px;
@@ -84,10 +84,12 @@ const CanvasForm = ({ type, data }) => {
     <Container>
       {/* 프로세스 바 */}
       <ProcessBar type={type} siteMap={siteMap} />
+
       {/* 캔버스 */}
       <Canvas>
         {/* 사이드 메뉴 */}
         {type === 'build' && <SelLocBasket idx={2} data={data} />}
+
         {/* 메인 컨텐츠 */}
         <Main>
           <Title>{siteMap[type]}</Title>

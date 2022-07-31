@@ -1,3 +1,4 @@
+import palette from 'lib/styles/palette';
 import React from 'react';
 import styled, { css } from 'styled-components';
 
@@ -21,7 +22,7 @@ const TypeRadio = styled.div`
 const Radio = styled.div`
   width: 25px;
   height: 25px;
-  border: 1px solid #e5e7e8;
+  border: 1px solid ${palette.back2};
   border-radius: 5px;
   margin-right: 10px;
   display: flex;
@@ -36,7 +37,7 @@ const CheckDiv = styled.div`
   ${(props) =>
     props.checked &&
     css`
-      background: #f75d5d;
+      background: ${palette.red1};
     `}
 
   border-radius: 100%;

@@ -3,12 +3,14 @@ import styled, { css } from 'styled-components';
 import BlackCustomBtn from './BlackCustomBtn';
 import { MdExitToApp, MdOutlineSave } from 'react-icons/md';
 import { useStore } from 'lib/zustand/planStore';
+import { useNavigate } from 'react-router-dom';
+import palette from 'lib/styles/palette';
 
 const Container = styled.div`
   border: 1px blue solid;
   margin: 0 30px 25px 30px;
-  background: #f6f6f8;
-  border: 1px solid #ddddde;
+  background: ${palette.back1};
+  border: 1px solid ${palette.border1};
   border-radius: 10px;
   height: 85px;
   display: flex;
@@ -37,7 +39,7 @@ const Sequence = styled.div`
   height: 40px;
   width: 155px;
   border-radius: 5px 0px 0px 5px;
-  border: 1px solid #ddddde;
+  border: 1px solid ${palette.border1};
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -45,7 +47,7 @@ const Sequence = styled.div`
   font-size: 15px;
   line-height: 18px;
   padding-left: 35px;
-  background-color: #e5e7e8;
+  background-color: ${palette.back2};
   color: black;
   ${(props) =>
     props.index !== '0' &&
@@ -55,14 +57,14 @@ const Sequence = styled.div`
   ${(props) =>
     props.index < props.now &&
     css`
-      background-color: #e14040;
+      background-color: ${palette.red2};
       color: white;
       border: none;
     `}
     ${(props) =>
     props.index === props.now &&
     css`
-      background-color: #f75d5d;
+      background-color: ${palette.red1};
       color: white;
       border: none;
     `};
@@ -91,21 +93,21 @@ const Arrow = styled.div`
   height: 0;
   border-top: 20px solid transparent;
   border-bottom: 20px solid transparent;
-  border-left: 20px solid #e5e7e8;
+  border-left: 20px solid ${palette.back2};
   ${(props) =>
     props.index < props.now &&
     css`
-      border-left: 20px solid #e14040;
+      border-left: 20px solid ${palette.red2};
       color: white;
     `}
   ${(props) =>
     props.index === props.now &&
     css`
-      border-left: 20px solid #f75d5d;
+      border-left: 20px solid ${palette.red1};
       color: white;
       @media screen and (max-width: 767px) {
         right: -10px;
-        border-left: 10px solid #f75d5d;
+        border-left: 10px solid ${palette.red1};
       }
     `};
 
@@ -122,16 +124,19 @@ const Buttons = styled.div`
 
 const ProcessBar = ({ type, siteMap }) => {
   const { postPlan } = useStore();
+  const navigate = useNavigate();
 
   // 0726 작성 중 수정 필요
   const save = async () => {
     await postPlan(Object.keys(siteMap).indexOf(type));
   };
 
-  // const saveLeave = () => {
-  //   save();
-  //   // 성공시 리다이렉트
-  // };
+  const saveLeave = () => {
+    save();
+    // 성공했다는 return 을 받으면 리다이렉트
+    // alert('저장 성공');
+    // navigate(process.env.PUBLIC_URL + '/');
+  };
 
   return (
     <Container>
@@ -158,6 +163,7 @@ const ProcessBar = ({ type, siteMap }) => {
           type="button"
         />
         <BlackCustomBtn
+          onClick={saveLeave}
           value={
             <>
               <MdExitToApp size="20px" style={{ marginRight: '10px' }} />

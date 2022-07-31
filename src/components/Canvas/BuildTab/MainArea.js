@@ -76,7 +76,6 @@ const MainArea = ({
           {/* 캔버스 폼 컴포넌트 재사용 */}
           <CanvasForm
             type="build"
-            title="여행 캔버스"
             data={{
               dayLocDel,
               setViewTime,

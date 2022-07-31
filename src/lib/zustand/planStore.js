@@ -350,14 +350,13 @@ export const useStore = create(
       },
 
       // POST plan (다음으로, 저장하기)
-      // create plan, post, 반환 id, id 설정 완료
-      postPlan: async (type) => {
-        // 매개변수 type는 userPlan id
+      postPlan: async (idx) => {
         const userPlan = get().userPlan;
         // const userPlanConcept = get().userPlanConcept;
         const userTravelDay = get().userTravelDay;
         const id = get().id;
-        if (type === 0 && !id) {
+
+        if (idx === 0 && !id) {
           // plan 생성
           const res = await planAPI.createPlan(userPlan);
           if (res > 0) {
@@ -366,21 +365,19 @@ export const useStore = create(
           } else {
             // postPlan 에러
           }
-        } else if (type === 0 && id > 0) {
+        } else if (idx === 0 && id > 0) {
           // plan 수정
-        } else if (type === 1) {
+        } else if (idx === 1) {
           // selectedLocation 생성 및 수정
-        } else if (type === 2) {
+        } else if (idx === 2) {
           // day 생성 및 수정
           if (!userTravelDay.status) {
             // day가 없는 상태 => 생성 필요 post
-            console.log('새로운 dayForm 생성');
-            const res = await planAPI.postPlanDay(userTravelDay, id);
+            await planAPI.postPlanDay(userTravelDay, id);
+            //  성공시 "200 리턴"(통일 필요)
           } else {
             // day가 있는 상태 => 수정 필요 put
-            console.log('dayForm 수정');
-            const res = await planAPI.updatePlanDay(userTravelDay, id);
-            console.log(res);
+            await planAPI.updatePlanDay(userTravelDay, id);
           }
         }
       },

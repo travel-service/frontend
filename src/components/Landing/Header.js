@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { MdMenu } from 'react-icons/md';
 import Logo from './Logo';
+import palette from 'lib/styles/palette';
 
 const Container = styled.div`
   width: 100%;
@@ -79,7 +80,7 @@ const Profile = styled.div`
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  background-color: rgba(133, 207, 194, 0.8);
+  background-color: ${palette.landingThumbnail};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -119,7 +120,6 @@ const Header = ({ userState, onLogout }) => {
               {/* 썸네일 이미지로 변환 필요 */}
             </Div>
             <Div>
-              {/* <MenuEl to={process.env.PUBLIC_URL + '/login'}>로그아웃</MenuEl> */}
               <MenuEl to={process.env.PUBLIC_URL} onClick={onLogout}>
                 로그아웃
               </MenuEl>
