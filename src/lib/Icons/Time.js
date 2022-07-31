@@ -7,19 +7,22 @@ import ModalModule from 'components/common/modal/ModalModule';
 import ReactTooltip from 'react-tooltip';
 import { buildStore } from 'lib/zustand/CanvasBuildStore';
 
-const TimePen = styled(MdOutlineModeEditOutline)`
+const TimeStyle = css`
   cursor: pointer;
-`;
-
-const TimeBtn = styled(MdMoreTime)`
-  cursor: pointer;
-  /* margin-left: 7px; */
   ${(props) =>
     props.disabled &&
     css`
       pointer-events: none;
       opacity: 0.5;
     `}
+`;
+
+const TimePen = styled(MdOutlineModeEditOutline)`
+  ${TimeStyle}
+`;
+
+const TimeBtn = styled(MdMoreTime)`
+  ${TimeStyle}
 `;
 
 const Container = styled.div`
@@ -39,7 +42,7 @@ const Input = styled.input`
   font-size: 20px;
 `;
 
-const Time = ({ title, day, index, flag, type }) => {
+const Time = ({ title, day, index, flag, type, check }) => {
   const { setTimeData } = buildStore();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [stayTime, setStayTime] = useState({
@@ -106,7 +109,13 @@ const Time = ({ title, day, index, flag, type }) => {
   return (
     <>
       {type === 'pen' && (
-        <TimePen size="15px" onClick={openModal} data-tip data-for="time" />
+        <TimePen
+          disabled={check}
+          size="15px"
+          onClick={openModal}
+          data-tip
+          data-for="time"
+        />
       )}
       {type !== 'pen' && (
         <TimeBtn

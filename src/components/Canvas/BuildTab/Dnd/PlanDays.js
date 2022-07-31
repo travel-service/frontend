@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import oc from 'open-color';
-import DayHeader from 'components/Canvas/BuildTab/LocDetail/DayHeader';
-import { Droppable } from 'react-beautiful-dnd';
-import MoveDataDiv from '../LocDetail/MoveDataDiv';
-import Location from 'components/Canvas/BuildTab/LocDetail/Location';
 import { Mobile } from 'lib/custom/responsive';
 import { MdOutlineClose, MdOutlineFolderOpen } from 'react-icons/md';
 import palette from 'lib/styles/palette';
+import Days from 'components/Canvas/BuildTab/Dnd/Days';
 
 const Container = styled.div`
   display: flex;
@@ -25,65 +21,12 @@ const Container = styled.div`
     align-items: center;
     height: 100%;
   }
-`;
 
-const Days = styled.div`
-  /* display: flex;
-  flex-wrap: wrap;
-  height: 100%;
-  justify-content: space-around; */
-
-  //0726 grid로 교체
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 325px);
-  justify-content: space-around;
-  grid-gap: 20px;
   ${(props) =>
-    !props.len &&
+    props.check &&
     css`
-      height: 100%;
-      display: flex;
-      align-items: center;
+      max-height: 55vh;
     `}
-
-  // 0724
-  /* ::after {
-    content: '';
-    flex: auto;
-  } */
-  /* flex: 1; */
-  /* overflow: auto; */
-  @media screen and (max-width: 767px) {
-    display: flex;
-    height: 100%;
-    width: 100%;
-    justify-content: center;
-  }
-`;
-
-const Day = styled.div`
-  margin: 10px;
-  border: 1px solid ${palette.back2};
-  border-radius: 10px;
-  background: white;
-  min-height: 300px;
-  max-height: 500px;
-  min-width: 325px;
-  max-width: 325px;
-  padding: 20px;
-  width: 100%;
-
-  @media screen and (max-width: 767px) {
-    min-width: 70vw;
-    max-width: 70vw;
-    flex-shrink: 0;
-    display: none;
-    ${(props) =>
-      props.idx === props.dayIdx &&
-      css`
-        display: block;
-      `};
-  }
 `;
 
 const CarouselBtns = styled.div`
@@ -104,60 +47,6 @@ const CarBtn = styled.button`
     transform: scale(1.1);
     transition: all 0.1s linear;
   }
-`;
-
-const InitForm = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid black;
-  border-radius: 60px;
-  height: 45px;
-  width: 100%;
-  padding: 8px;
-`;
-
-const EmptyBlock = styled.div`
-  background-color: white;
-  font-size: 10px;
-  padding: 7px;
-`;
-
-const LocationsList = styled('div')`
-  min-height: 180px;
-  max-height: 420px;
-
-  overflow: auto;
-  transition: background-color ease 0.2s;
-  ${(props) =>
-    props.isDraggingOver &&
-    css`
-      background-color: ${oc.indigo[2]};
-    `}
-  @media screen and (max-width: 767px) {
-    display: flex;
-    flex-direction: column;
-  }
-  ${(props) =>
-    props.empty &&
-    css`
-      border: 1px dashed #e5e7e8;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    `}
-`;
-
-const Div = styled.div`
-  ${(props) =>
-    props.idx === 0 &&
-    css`
-      padding-bottom: 1px;
-      > li {
-        box-shadow: 0px 0px 0px 0px;
-      }
-    `}
 `;
 
 const ToggleArea = styled.div`
@@ -210,38 +99,18 @@ const ExitSvg = styled(MdOutlineClose)``;
 
 const FolderSvg = styled(MdOutlineFolderOpen)``;
 
-const ErrorImg = styled.div`
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const FaceIcon = styled.img`
-  height: 200px;
-  width: 200px;
-  margin-bottom: 30px;
-`;
-
-const FontDiv = styled.div`
-  font-size: 17px;
-  font-weight: bold;
-  color: #e64980;
-`;
-
 const PlanDays = ({ data }) => {
   const {
     dayLocDel,
     setViewTime,
-    userTravelDay,
+    travelDay,
     setTimeData,
     splitTime,
     mobile,
     isOpen,
     onClickToggle,
+    check,
   } = data;
-
-  const { travelDay } = userTravelDay;
   const [dayIdx, setDayIdx] = useState(0);
 
   const onClickBtn = (di) => {
@@ -258,85 +127,25 @@ const PlanDays = ({ data }) => {
   };
 
   return (
-    <Container mobile={mobile}>
-      <ToggleArea>
-        <Toggle onClick={onClickToggle} isOpen={isOpen}>
-          {isOpen && <ExitSvg size="30" />}
-          {!isOpen && <FolderSvg size="30" />}
-        </Toggle>
-      </ToggleArea>
-      <Days len={travelDay.length}>
-        {!travelDay.length && (
-          <ErrorImg>
-            <h2>여행을 언제 가는거죠?</h2>
-            <FaceIcon
-              src={process.env.PUBLIC_URL + '/images/face1.png'}
-              alt=""
-            />
-            <FontDiv>😥여행일자를 제대로 받아오지 못했어요.😥</FontDiv>
-            <FontDiv>
-              😛여행 설정 단계로 돌아가 여행일자를 다시 선택해주세요!!😛
-            </FontDiv>
-          </ErrorImg>
-        )}
-        {travelDay.map((day, index) => (
-          // 각 day
-          <>
-            <Day key={index} idx={index} dayIdx={dayIdx} mobile={mobile}>
-              <DayHeader index={index} firLoc={day[0]} />
-              {/* day 영역 */}
-              <Droppable droppableId={`day${index}`}>
-                {(provided, snapshot) => (
-                  <LocationsList
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                    isDraggingOver={snapshot.isDraggingOver}
-                    empty={day[0] === undefined}
-                  >
-                    {/* day에 location 존재하지 않을 때 */}
-                    {day[0] === undefined && (
-                      <InitForm>
-                        <EmptyBlock>
-                          블록 혹은 자체 생성한 블록을 넣어주세요.
-                        </EmptyBlock>
-                      </InitForm>
-                    )}
-                    {/* location map */}
-                    {day.map((loc, idx) => {
-                      return (
-                        <Div key={idx} idx={idx}>
-                          <Location
-                            key={idx}
-                            location={loc}
-                            id={loc.copyLocationId}
-                            index={idx}
-                            day={index} // ?
-                            dayLocDel={dayLocDel}
-                            setViewTime={setViewTime}
-                            lastIdx={day.length - 1}
-                            nextLocation={day[idx + 1]}
-                          />
-                          {day[idx + 1] !== undefined && (
-                            <MoveDataDiv
-                              day={index}
-                              index={idx}
-                              userTravelDay={userTravelDay}
-                              setTimeData={setTimeData}
-                              setViewTime={setViewTime}
-                              splitTime={splitTime}
-                            />
-                          )}
-                        </Div>
-                      );
-                    })}
-                    {provided.placeholder}
-                  </LocationsList>
-                )}
-              </Droppable>
-            </Day>
-          </>
-        ))}
-      </Days>
+    <Container check={check} mobile={mobile}>
+      {!check && (
+        <ToggleArea>
+          <Toggle onClick={onClickToggle} isOpen={isOpen}>
+            {isOpen && <ExitSvg size="30" />}
+            {!isOpen && <FolderSvg size="30" />}
+          </Toggle>
+        </ToggleArea>
+      )}
+      <Days
+        travelDay={travelDay}
+        mobile={mobile}
+        dayIdx={dayIdx}
+        dayLocDel={dayLocDel}
+        setViewTime={setViewTime}
+        setTimeData={setTimeData}
+        splitTime={splitTime}
+        check={check}
+      />
       <Mobile>
         <CarouselBtns>
           <CarBtn onClick={() => onClickBtn('p')}>이전</CarBtn>

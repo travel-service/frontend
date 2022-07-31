@@ -6,10 +6,12 @@ import TravelSettingForm from 'containers/Canvas/TravelSettingForm';
 import PlanDays from '../BuildTab/Dnd/PlanDays';
 import CanvasButtons from './CanvasButtons';
 import SelLocBasket from '../BuildTab/Dnd/SelLocBasket';
+import TravelCheckForm from 'containers/Canvas/TravelCheckForm';
 
 const Container = styled.div`
   flex: 1;
   height: 100%;
+  width: 100%;
   min-height: 85vh; // 이렇게 하면 될지?
   display: flex;
   flex-direction: column;
@@ -96,9 +98,10 @@ const CanvasForm = ({ type, data }) => {
           <Contents>
             {type === 'setting' && <TravelSettingForm />}
             {type === 'select' && <Block />}
-            {type === 'build' && <PlanDays idx={2} data={data} />}
+            {type === 'build' && <PlanDays data={data} />}
+            {type === 'check' && <TravelCheckForm />}
           </Contents>
-          <CanvasButtons />
+          <CanvasButtons siteMap={siteMap} />
         </Main>
       </Canvas>
     </Container>

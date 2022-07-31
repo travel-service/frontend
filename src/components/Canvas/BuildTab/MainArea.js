@@ -26,7 +26,7 @@ const MainArea = ({
   selCateLoc,
   dayLocDel,
   setViewTime,
-  userTravelDay,
+  travelDay,
   setTimeData,
   splitTime,
   memberLocations,
@@ -79,7 +79,7 @@ const MainArea = ({
             data={{
               dayLocDel,
               setViewTime,
-              userTravelDay,
+              travelDay,
               setTimeData,
               splitTime,
               isOpen,

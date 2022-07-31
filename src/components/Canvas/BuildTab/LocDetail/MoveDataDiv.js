@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { MdOutlineMode } from 'react-icons/md';
 import 'lib/styles/Modal.css';
 import ModalModule from 'components/common/modal/ModalModule';
@@ -9,9 +9,6 @@ import MapMove from 'components/Canvas/BuildTab/Map/MapMove';
 const Container = styled.div`
   background: #f6f6f8;
   border-radius: 60px;
-  :hover {
-    cursor: pointer;
-  }
 `;
 
 const Contents = styled.div`
@@ -23,15 +20,22 @@ const Contents = styled.div`
   font-size: 13px;
   line-height: 16px;
 
+  cursor: pointer;
+
+  ${(props) =>
+    props.disabled &&
+    css`
+      pointer-events: none;
+      opacity: 0.5;
+    `}
+
   @media screen and (max-width: 767px) {
-    /* left: 65%; */
   }
 `;
 
 const FlexBox = styled.div`
   display: flex;
   width: 100%;
-  /* width: 800px; */
   @media screen and (max-width: 1023px) {
     flex-direction: column-reverse;
   }
@@ -51,13 +55,14 @@ const vehicleList = {
 const MoveDataDiv = ({
   day,
   index,
-  userTravelDay,
+  travelDay,
   setTimeData,
   setViewTime,
   splitTime,
+  check,
 }) => {
-  const fromLoc = userTravelDay.travelDay[day][index];
-  const ToLoc = userTravelDay.travelDay[day][index + 1];
+  const fromLoc = travelDay[day][index];
+  const ToLoc = travelDay[day][index + 1];
   const locMovingInfo = fromLoc.movingData;
   const locVehicle = locMovingInfo.vehicle;
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -146,14 +151,14 @@ const MoveDataDiv = ({
   return (
     <Container>
       {locMovingInfo['movingTime'] !== undefined && (
-        <Contents onClick={openModal}>
+        <Contents disabled={check} onClick={openModal}>
           {locMovingInfo['movingTime'] && (
             <>
               {locVehicle && vehicleList[locVehicle] + '로 이동, '}
               {setViewTime(locMovingInfo['movingTime'])}
             </>
           )}
-          <PencilIcon onClick={openModal} size="20px" />
+          <PencilIcon size="20px" />
         </Contents>
       )}
       <ModalModule
