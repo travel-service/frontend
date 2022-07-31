@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 //import { dirStore } from 'lib/zustand/dirStore';
@@ -7,37 +7,72 @@ import { Link } from 'react-router-dom';
 
 // 플랜 레이아웃(이름, 기간, 날짜, 썸네일(호버 시 정보), 이동/복사/담기 버튼)
 const PlanContainer = styled.div`
-  background: white;
+  width: 246px;
+  height: 252px;
+  background: #ffffff;
+  border: 1px solid #e5e7e8;
+  border-radius: 10px;
+  font-family: 'Pretendard';
+  font-style: normal;
+  padding: 15px;
+
+  /*background: white;
   //display: flex;
   margin: 10px;
   padding: 10px;
   border: 2px solid lightgray;
-  //width: 300px;
-  //height: 250px;
   width: 350px;
-  height: 270px;
-`;
-const PlanTitleDiv = styled.div`
-  display: flex;
-  justify-content: space-between;
+  height: 270px;*/
 `;
 const PlanNameDiv = styled.div`
   display: flex;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: #000000;
   align-items: center;
-  font-size: 1.2rem;
-  height: 30px;
-  width: 80%;
+  margin-top: 14px;
+  //font-size: 1.2rem;
+  //height: 30px;
+  //width: 80%;
 `;
 const PeriodsDiv = styled.div`
-  text-align: center;
+  //position: absolute;
+  background: #000000;
+  opacity: 0.69;
+  font-weight: 800;
+  font-size: 10px;
+  line-height: 12px;
+  color: #ffffff;
+  padding: 10px 20px 10px 20px;
+  border-radius: 20px;
+  right: 15px;
+  top: 15px;
+
+  /*text-align: center;
   font-size: 12px;
   border: 1px solid black;
   border-radius: 5px;
   padding: 5px;
-  width: 20%;
+  width: 20%;*/
 `;
 const ThumbnailContainer = styled.div`
-  border: 1px solid gray;
+  //position: absolute;
+  width: 216px;
+  height: 150px;
+  border-radius: 10px;
+  background: #ffffff;
+
+  display: flex;
+  gap: 11px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.7);
+  }
+  /*border: 1px solid gray;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -46,79 +81,137 @@ const ThumbnailContainer = styled.div`
   margin: 10px 10px 7px 10px;
   &:hover {
     background: lightgray;
-  }
+  }*/
 `;
 const LinkButton = styled(Link)`
   text-align: center;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: #ffffff;
   font-size: 15px;
-  border: 1px solid black;
+  text-decoration: none;
+
+  border: 1px solid #ffffff;
   border-radius: 5px;
-  padding: 5px;
-  background: white;
+  padding: 10px;
+
+  //background: white;
   width: 70%;
   cursor: pointer;
-  margin-bottom: 5%;
+  //margin-bottom: 5%;
   //margin: 0% 15% 5% 15%;
 `;
 const DateDiv = styled.div`
-  margin-left: 10px;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  color: #7e7e7e;
+  margin-top: 10px;
+  /*margin-left: 10px;
   margin-right: 10px;
-  width: 40%;
+  width: 40%;*/
+`;
+const PlanTitleDiv = styled.div`
+  //position: absolute;
+  display: flex;
+  justify-content: right;
 `;
 const MoreDiv = styled.div`
   // 설정(점세개) div
   text-align: right;
-  //background: red;
-  //width: 20%;
-  z-index: 100;
+  position: absolute;
+  //display: flex;
 `;
 const MoreButton = styled.button`
   // 설정 버튼
   /*display: flex;
   width: 10px;*/
-  margin-right: 10px;
   border: none;
-  font-weight: bold;
   background: none;
   cursor: pointer;
 `;
 const PlanControlUl = styled.ul`
-  //display: block;
-  //position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
   list-style: none;
-  padding: 5px;
-  margin: 0px;
-  background: gray;
+  padding: 10px;
+  background: #e5e7e8;
+  border-radius: 10px;
+  margin: 0;
+  //background: gray;
   //border: 0.1px solid silver;
 `;
 const PlanControlLi = styled.li`
   //display: block;
-  //position: relative;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: #000000;
   decoration: none;
-  background: white;
-  padding: 5px 15px 5px 15px;
-  border: 0.1px solid silver;
+  padding: 10px 20px 10px 20px;
+  background: #ffffff;
+  border-radius: 5px;
   cursor: pointer;
-  margin: 5px;
+  &:hover {
+    background: #000000;
+    color: #ffffff;
+  }
+`;
+const SubUl = styled.ul`
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  gap: 5px;
+  list-style: none;
+  padding: 10px;
+  background: #e5e7e8;
+  border-radius: 10px;
+  margin: 0;
+  right: -90px;
+  top: 23px;
 `;
 const MoveLi = styled.li`
-  //position: relative;
-  width: 150px;
-  //margin-left: 85px;
-  //margin-top: -40px;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: #000000;
+  text-align: center;
+
+  decoration: none;
+  padding: 10px 20px 10px 20px;
+  background: #ffffff;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    background: #000000;
+    color: #ffffff;
+  }
+
+  /*position: absolute;
   list-style: none;
   background: white;
   text-align: center;
   padding: 5px 15px 5px 15px;
   border: 0.1px solid silver;
-  cursor: pointer;
+  cursor: pointer;*/
 `;
 
-const PlanLayout = ({ planId, name, periods, createdDate, userDirs }) => {
-  const [clickMore, setClickMore] = useState(false);
-  const [isShow, setIsShow] = useState(false);
-  const [isOver, setIsOver] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
+const PlanLayout = ({
+  planId,
+  name,
+  periods,
+  createdDate,
+  userDirs,
+  checkedPlans,
+  setCheckedPlans,
+  //controlPlans,
+  //setCancel,
+}) => {
+  const [clickMore, setClickMore] = useState(false); // 담기클릭
+  const [isShow, setIsShow] = useState(false); // 점세개 클릭
+  const [isOver, setIsOver] = useState(false); // 마우스오버 버튼
 
   const onClickMore = () => {
     setClickMore(false);
@@ -134,13 +227,16 @@ const PlanLayout = ({ planId, name, periods, createdDate, userDirs }) => {
   const onClickView = (w) => {
     w === 'v' ? console.log('link to view') : console.log('link to canvas');
   };
+  const onClickCheck = (checked, i) => {
+    if (checked) {
+      setCheckedPlans([...checkedPlans, i]);
+    } else {
+      setCheckedPlans(checkedPlans.filter((e) => e !== i));
+    }
+  };
 
   return (
     <PlanContainer>
-      <PlanTitleDiv>
-        <PlanNameDiv>{name}</PlanNameDiv>
-        <PeriodsDiv>{periods}일</PeriodsDiv>
-      </PlanTitleDiv>
       <ThumbnailContainer // 마우스 올리면 컴포넌트 나오게
         onMouseEnter={() => {
           onMO();
@@ -148,13 +244,10 @@ const PlanLayout = ({ planId, name, periods, createdDate, userDirs }) => {
         onMouseLeave={() => {
           onMO();
         }}
-        onClick={() => {
-          setIsChecked(!isChecked);
-        }}
       >
+        <PeriodsDiv>{periods}일</PeriodsDiv>
         {isOver && (
           <>
-            {/*isChecked && <input type="checkbox" /> /*체크 기능*/}
             <LinkButton
               to={process.env.PUBLIC_URL + '/canvas/share'}
               onClick={() => {
@@ -175,15 +268,29 @@ const PlanLayout = ({ planId, name, periods, createdDate, userDirs }) => {
           </>
         )}
       </ThumbnailContainer>
+      <PlanNameDiv>
+        <input
+          type="checkbox"
+          onChange={(e) => {
+            onClickCheck(e.target.checked, planId);
+          }}
+          checked={checkedPlans && checkedPlans.includes(planId) ? true : false}
+        />
+        {name}
+      </PlanNameDiv>
+      <DateDiv>{createdDate.substr(0, 11).replace(/-|T/g, '.')}</DateDiv>
       <PlanTitleDiv>
-        <DateDiv>{createdDate.substr(0, 11).replace(/-|T/g, '.')}</DateDiv>
-        <MoreDiv>
+        <MoreDiv
+          onClick={() => {
+            onClickCheck();
+          }}
+        >
           <MoreButton
             onClick={() => {
               onClickMore();
             }}
           >
-            :
+            <img src={process.env.PUBLIC_URL + '/images/more_ico.png'} />
           </MoreButton>
           {isShow && (
             <PlanControlUl>
@@ -208,15 +315,28 @@ const PlanLayout = ({ planId, name, periods, createdDate, userDirs }) => {
               >
                 담기
               </PlanControlLi>
+              {isShow &&
+                clickMore &&
+                userDirs.mainUserDirectory.map((item) => {
+                  return (
+                    <SubUl key={item.userDirectoryId}>
+                      <MoveLi>{item.directoryName}</MoveLi>
+                    </SubUl>
+                  );
+                })}
             </PlanControlUl>
           )}
-          {isShow &&
+          {/*isShow &&
             clickMore &&
             userDirs.mainUserDirectory.map((item) => {
               return (
-                <MoveLi key={item.userDirectoryId}>{item.directoryName}</MoveLi>
+                <SubUl>
+                  <MoveLi key={item.userDirectoryId}>
+                    {item.directoryName}
+                  </MoveLi>
+                </SubUl>
               );
-            })}
+            })*/}
         </MoreDiv>
       </PlanTitleDiv>
     </PlanContainer>
