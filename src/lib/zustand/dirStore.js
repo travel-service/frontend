@@ -14,10 +14,6 @@ export const dirStore = create(
     trashPlans: [], // 휴지통 내 플랜들
     checkedPlans: [], // 선택된 플랜 id
     createUserDir: '', // 생성할 디렉터리 이름
-    /*createUserDir: {
-      name: '',
-      id: -1,
-    },*/
     changeDirName: '', // 변경할 디렉터리 이름
     deleteUserDir: {
       dirId: [], //삭제할 디렉터리 id, 다중체크
@@ -95,14 +91,8 @@ export const dirStore = create(
     },
     // 디렉토리 목록
     getUserDirs: async () => {
-      //const setUserDirs=get().setUserDirs();
       const res = await dirAPI.getUserDirs();
       set({ userDirs: res });
-      //setUserDirs();
-    },
-    // 해당 userDir 내 플랜들
-    getUserPlans: async (userDirId) => {
-      console.log('userPlans: ', userDirId);
     },
     // trashdir 내 플랜들
     getTrashPlans: async () => {
@@ -117,25 +107,15 @@ export const dirStore = create(
     },
     // 플랜 복원
     postRevert: async () => {
-      const controlPlans = get().controlPlans;
-      const response = await axios.post(
-        `http://localhost:4000/trash-directory/revert`,
-        {
-          planId: controlPlans.revertPlanId,
-        },
-      );
-      console.log('복원: ', response);
+      const checkedPlans = get().checkedPlans;
+      await dirAPI.postRevert(checkedPlans);
+      set({ checkedPlans: [] });
     },
     // 플랜 영구 삭제, 수정 필요
-    postDelete: async () => {
-      const controlPlans = get().controlPlans;
-      const response = await axios.post(
-        `http://localhost:4000/trash-directory/delete`,
-        {
-          planId: controlPlans.deletePlanId,
-        },
-      );
-      console.log('영구삭제: ', response);
+    deletePlan: async () => {
+      const checkedPlans = get().checkedPlans;
+      await dirAPI.deletePlan(checkedPlans);
+      set({ checkedPlans: [] });
     },
     // userdir 생성, 수정 필요
     postCreateDir: async () => {
@@ -147,22 +127,15 @@ export const dirStore = create(
       const currentDirId = get().currentDirId;
       const idArr = new Array();
       idArr[0] = currentDirId;
-      //console.log({ id: idArr });
       const res = await dirAPI.deleteDir(idArr);
       set({ currentDirId: 'm' });
       console.log('udir 삭제: ', res);
     },
     // 담기
-    postMovePlans: async () => {
-      const movePlans = get().movePlans;
-      const response = await axios.post(
-        `http://localhost:4000/move/user-directory`,
-        {
-          userDirectoryId: movePlans.dirId,
-          planId: movePlans.planId,
-        },
-      );
-      console.log('moveplan: ', response);
+    postMovePlans: async (dirId) => {
+      const checkedPlans = get().checkedPlans;
+      await dirAPI.movePlan(checkedPlans, dirId);
+      set({ checkedPlans: [] });
     },
     // userDir 이름 변경
     postChangeDirName: async () => {

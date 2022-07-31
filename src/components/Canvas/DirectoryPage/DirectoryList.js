@@ -40,6 +40,7 @@ const ButtonsDiv = styled.div`
   justify-content: space-between;
   align-items: center;
   ${(props) => (props.title ? 'margin-top: 20px;' : '')};
+  ${(props) => (props.change ? 'justify-content: left;' : '')};
 `;
 // text
 const DirTextDiv = styled.div`
@@ -129,7 +130,7 @@ const PlanCountContainer = styled.div`
 const CreateInput = styled.input`
   //border: 1px solid #000000;
   border-radius: 5px;
-  width: ${(props) => (props.c ? '80%' : '60%')};
+  width: ${(props) => (props.c ? '80%' : '70%')};
   font-family: 'Pretendard';
   font-style: normal;
   font-weight: 500;
@@ -186,6 +187,7 @@ const DirectoryList = ({
   mainPlans,
   trashPlans,
   userDirs,
+  userPlans,
   currentDirId,
   createUserDir,
   changeDirName,
@@ -193,7 +195,6 @@ const DirectoryList = ({
   setCreateUserDir,
   setDirName,
   setUserDirs,
-  getUserPlans,
   postCreateDir,
   postChangeDirName,
   postDeleteDir,
@@ -204,7 +205,7 @@ const DirectoryList = ({
   const outRef = useRef(null);
 
   useEffect(() => {
-    typeof currentDirId === 'number' && getUserPlans(currentDirId);
+    typeof currentDirId === 'number' && console.log(currentDirId);
   }, [currentDirId]);
 
   useEffect(() => {
@@ -219,12 +220,12 @@ const DirectoryList = ({
     if (createUserDir !== '' && createDir) {
       postCreateDir();
       window.location.reload();
-    } else if (chName) {
+    } else if (changeDirName !== '' && chName) {
       postChangeDirName();
       //window.location.reload();
     } else {
-      setCreateDir(!createDir);
-      setChName(!chName);
+      setCreateDir(false);
+      setChName(false);
     }
   };
 
@@ -271,27 +272,6 @@ const DirectoryList = ({
                 src={process.env.PUBLIC_URL + '/images/add_new_folder_ico.png'}
               />
             </IconDiv>
-            {/*삭제, 수정 버튼 아예 안보이게?
-            <IconDiv
-              dis={typeof currentDirId === 'string' ? true : false}
-              disabled={typeof currentDirId === 'string' ? true : false}
-              onClick={() => {
-                if (chName) {
-                  console.log('이름 변경 post');
-                  postChangeDirName();
-                } else {
-                  setDirName(
-                    userDirs &&
-                      userDirs.mainUserDirectory.find(
-                        (i) => i.userDirectoryId === currentDirId,
-                      ).directoryName,
-                  );
-                }
-                setChName(!chName);
-              }}
-            >
-              {chName ? '저장' : '수정'}
-            </IconDiv>*/}
           </ButtonsDiv>
         </ButtonsDiv>
         <div>
@@ -325,7 +305,7 @@ const DirectoryList = ({
                     setCurrentDir(item.userDirectoryId);
                   }}
                 >
-                  <ButtonsDiv>
+                  <ButtonsDiv change="true">
                     <BaseIconDiv>
                       <img
                         src={process.env.PUBLIC_URL + '/images/folder_ico.png'}
@@ -336,19 +316,22 @@ const DirectoryList = ({
                       <CreateInput
                         value={changeDirName}
                         onChange={(e) => {
-                          onChangeDirName(e.target.value);
+                          onChangeDirName(e.target.value, !chName);
+                        }}
+                        onBlur={() => {
+                          onBlurDir();
                         }}
                       />
-                    ) : //</ButtonsDiv>
-                    changeDirName === '' ? (
-                      item.directoryName
                     ) : (
-                      changeDirName
+                      item.directoryName
                     )}
                   </ButtonsDiv>
                   <ButtonsDiv>
                     <PlanCountContainer>
-                      {userDirs.planCount[index]}
+                      {
+                        userPlans ? userPlans.length : 0
+                        /*userDirs.planCount ? userDirs.planCount[index] : 0*/
+                      }
                     </PlanCountContainer>
                     <MoreDiv
                       onClick={() => {
@@ -361,10 +344,8 @@ const DirectoryList = ({
                       {moreBtn && currentDirId === item.userDirectoryId && (
                         <DirPopUpContainer ref={outRef}>
                           <DirPopUp
-                            /*onBlur={() => {
-                              onBlurDir();
-                            }}*/
                             onClick={() => {
+                              setChName(!chName);
                               currentDirId === item.userDirectoryId &&
                                 setDirName(
                                   userDirs.mainUserDirectory &&
@@ -392,7 +373,7 @@ const DirectoryList = ({
                 </DirContainer>
               );
             })}
-          {createDir && (
+          {createDir && !chName && (
             <DirContainer
               new
               onBlur={() => {

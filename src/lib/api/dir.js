@@ -88,8 +88,32 @@ export const postTrash = async (checkedPlans) => {
 };
 
 // 플랜 복구
+export const postRevert = async (checkedPlans) => {
+  try {
+    const response = await axios.post(`/directories/main`, {
+      planId: checkedPlans,
+    });
+    //headerToken(response);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    return 0;
+  }
+};
 
 // 플랜 영구 삭제
+export const deletePlan = async (checkedPlans) => {
+  try {
+    const response = await axios.delete(`/directories/plans`, {
+      data: { planId: checkedPlans },
+    });
+    //headerToken(response);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    return 0;
+  }
+};
 
 // 여행보관함 삭제
 export const deleteDir = async (id) => {
@@ -107,3 +131,16 @@ export const deleteDir = async (id) => {
 };
 
 // 플랜 이동
+export const movePlan = async (checkedPlans, checkedDirId) => {
+  try {
+    const response = await axios.post(`/directories/directory/plans`, {
+      userDirectoryId: checkedDirId,
+      planId: checkedPlans,
+    });
+    //headerToken(response);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    return 0;
+  }
+};
