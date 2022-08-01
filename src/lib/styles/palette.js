@@ -23,6 +23,13 @@ const palette = {
     '#0c8599',
     '#0b7285',
   ],
+  landing: '#ffd0c0',
+  landingThumbnail: '#85cfc2cc',
+  back1: '#f6f6f8',
+  back2: '#e5e7e8',
+  border1: '#ddddde',
+  red1: '#f75d5d',
+  red2: '#e14040',
 };
 
 export default palette;

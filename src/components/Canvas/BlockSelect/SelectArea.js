@@ -43,6 +43,15 @@ const SelectArea = ({ location, selLocs, coords }) => {
 
   var noneCheck = !attIsCheck && !culIsCheck && !fesIsCheck && !lepIsCheck && !lodIsCheck && !resIsCheck;
 
+  // const { selLodge, selAttraction, selRestaurant } = useStore();
+  // const {
+  //   selLodge,
+  //   selAttraction,
+  //   selRestaurant,
+  //   selCulture,
+  //   selFestival,
+  //   selLeports,
+  // } = selCateLoc;
   return (
     <ContentsArea>
       <TypeFilter />

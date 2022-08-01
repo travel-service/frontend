@@ -4,70 +4,70 @@ import palette from 'lib/styles/palette';
 import { Draggable } from 'react-beautiful-dnd';
 import Time from 'lib/Icons/Time';
 import Close from 'lib/Icons/Close';
-import oc from 'open-color';
+import { MdAccessTime } from 'react-icons/md';
 
-const Container = styled.div`
-  white-space: normal;
-  display: flex;
-  line-height: 1.5;
-  user-select: none;
-  width: 220px;
-  margin: auto;
-  margin-bottom: 10px;
-  box-shadow: 3px 3px 3px 3px ${palette.gray[5]};
-  border-radius: 4px;
-  background: ${(props) => (props.isDragging ? 'lightgreen' : 'white')};
+const DEFAULT_IMAGE =
+  'https://www.mortonsonthemove.com/wp-content/uploads/2022/07/norway-adventures-nighttime-road-trip-2022-02-01-23-42-53-utc-768x462.jpg';
+
+const TimeSpan = styled.span`
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  margin: 0 5px;
 `;
 
-const Span = styled.span`
-  font-weight: normal;
-  font-size: 12px;
-`;
-
-const Div = styled.div`
-  ${(props) =>
-    props.index === 0 &&
-    props.day > -1 &&
-    css`
-      > div {
-        margin-bottom: 0px;
-        box-shadow: 0px 0px 0px 0px ${palette.gray[5]};
-      }
-      background-color: ${oc.teal[6]};
-      padding-bottom: 10px;
-    `}
-`;
-
-const LocTime = styled.div`
-  font-weight: normal;
-  font-size: 12px;
-  /* height: 300px; */
-  /* background-color: blue; */
-`;
-
-const Clone = styled(Container)`
-  /* color: red; */
-  ~ div {
-    transform: none !important;
-  }
+const Img = styled.img`
+  /* height: 50px;
+  width: 50px; */
+  border-radius: 10px;
 `;
 
 const List = styled.li`
   display: flex;
   list-style: none;
+  white-space: normal;
+  /* user-select: none; */
   width: 100%;
-  padding: 5px;
+  padding: 15px;
+  border: 1px solid ${palette.back2};
+  border-radius: 10px;
+
+  margin-bottom: 10px;
+  margin: 10px 0px;
+  background: ${(props) => (props.isDragging ? palette.landing : 'white')};
+  ${(props) =>
+    props.day !== undefined &&
+    css`
+      /* margin: auto; */
+      margin-bottom: 10px;
+      height: 120px;
+      width: 100%;
+      ${Img} {
+        height: 75px;
+        width: 75px;
+      }
+    `}
+
+  ${(props) =>
+    props.day === undefined &&
+    css`
+      height: 90px;
+      ${Img} {
+        height: 50px;
+        width: 50px;
+      }
+      @media screen and (max-width: 767px) {
+      }
+    `}
 `;
 
-const ImgDiv = styled.div`
-  display: flex;
-  align-items: center;
+const Clone = styled(List)`
+  ~ li {
+    transform: none !important;
+  }
 `;
 
-const Img = styled.img`
-  height: 30px;
-  width: 50px;
-`;
+const ImgDiv = styled.div``;
 
 const ListDiv = styled.div`
   flex: 1;
@@ -75,6 +75,25 @@ const ListDiv = styled.div`
   justify-content: space-between;
   margin-left: 10px;
   font-weight: bold;
+`;
+
+const LocName = styled.div`
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+  margin-bottom: 5px;
+  ${(props) =>
+    props.day !== undefined &&
+    css`
+      margin-bottom: 10px;
+    `}
+`;
+
+const LocAddress = styled.div`
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #7e7e7e;
 `;
 
 const Btn = styled.div`
@@ -90,6 +109,12 @@ const Btn = styled.div`
     `}
 `;
 
+const Clock = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+`;
+
 const Location = ({
   location,
   index,
@@ -98,6 +123,8 @@ const Location = ({
   dayLocDel,
   setViewTime,
   lastIdx,
+  type,
+  nextLocation,
 }) => {
   const { movingData } = location;
 
@@ -105,12 +132,16 @@ const Location = ({
     dayLocDel(day, index); // 함수수정,
   };
 
+  const handleImgError = (e) => {
+    e.target.src = DEFAULT_IMAGE;
+  };
+
   return (
-    <>
-      <Draggable draggableId={String(id)} index={index} key={id}>
-        {(provided, snapshot) => (
-          <Div index={index} day={day}>
-            <Container
+    <Draggable draggableId={String(id)} index={index} key={id}>
+      {(provided, snapshot) => {
+        return (
+          <React.Fragment>
+            <List
               ref={provided.innerRef}
               {...provided.dragHandleProps}
               {...provided.draggableProps}
@@ -119,78 +150,66 @@ const Location = ({
               index={index}
               day={day}
             >
-              <List>
+              <ImgDiv>
+                <Img
+                  src={location.image}
+                  alt="locationImg"
+                  onError={(e) => handleImgError(e)}
+                />
+              </ImgDiv>
+              <ListDiv>
+                <div>
+                  {index !== 0 && day > -1 && (
+                    <Clock>
+                      {day > -1 && (
+                        <>
+                          {movingData.stayTime && <MdAccessTime size="12px" />}
+                          <TimeSpan>
+                            {!movingData.startTime &&
+                              movingData.stayTime &&
+                              `${movingData.stayTime} 체류`}
+                            {movingData.startTime &&
+                              `${movingData.arriveTime}~${movingData.startTime}`}
+                          </TimeSpan>
+                        </>
+                      )}
+                      <Time
+                        type="pen"
+                        title="체류 시간 설정"
+                        index={index}
+                        day={day}
+                      />
+                    </Clock>
+                  )}
+                  <LocName day={day}>{location.name}</LocName>
+                  <LocAddress>{location.address1}</LocAddress>
+                </div>
+                <Btn day={day}>
+                  <Close size="18" onClick={onClick} tooltip={true} />
+                </Btn>
+              </ListDiv>
+            </List>
+            {snapshot.isDragging && day === undefined && (
+              <Clone>
                 <ImgDiv>
-                  <Img src={location.image} alt="img" />
+                  <Img
+                    src={location.image}
+                    alt="img"
+                    onError={handleImgError}
+                  />
                 </ImgDiv>
                 <ListDiv>
                   <div>
-                    <div>
-                      {location.name}
-                      {day > -1 &&
-                        index !== 0 &&
-                        movingData['arriveTime'] !== '' && (
-                          <Span>({movingData['arriveTime']} 도착)</Span>
-                        )}
-                    </div>
-                    {day > -1 ? (
-                      <LocTime>
-                        {index === 0 ? (
-                          <>
-                            {movingData['startTime']
-                              ? `${setViewTime(
-                                  movingData['startTime'],
-                                  'start',
-                                )} 출발`
-                              : `출발지의 출발시각을 입력해주세용`}
-                          </>
-                        ) : (
-                          <>
-                            {index < lastIdx ? (
-                              <>
-                                {movingData['stayTime']
-                                  ? `${setViewTime(
-                                      movingData['stayTime'],
-                                      'stay',
-                                    )} 체류 (${movingData['startTime']} 출발)` // 0422 출발시간도 보여줄까?
-                                  : '체류시간과 이동수단 및 시간을 입력해주세용'}
-                              </>
-                            ) : (
-                              ''
-                            )}
-                          </>
-                        )}
-                      </LocTime>
-                    ) : (
-                      ''
-                    )}
+                    <LocName>{location.name}</LocName>
+                    <LocAddress>{location.address1}</LocAddress>
                   </div>
-                  <Btn day={day}>
-                    <Close size="18" onClick={onClick} tooltip={true} />
-                    <Time
-                      title={index === 0 ? '출발시각' : '체류시간'}
-                      index={index}
-                      day={day}
-                    />
-                  </Btn>
                 </ListDiv>
-              </List>
-            </Container>
-            {/* {console.log(day)} */}
-            {snapshot.isDragging && day === undefined && (
-              <Clone>
-                <List>
-                  <ImgDiv>
-                    <Img src={location.image} alt="img" />
-                  </ImgDiv>
-                  <ListDiv>{location.name}</ListDiv>
-                </List>
               </Clone>
             )}
-          </Div>
-        )}
-      </Draggable>
-    </>
+          </React.Fragment>
+        );
+      }}
+    </Draggable>
   );
 };
 

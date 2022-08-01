@@ -258,7 +258,7 @@ const AuthForm = ({
               </>
             )}
             {error && <ErrorMessage>{error}</ErrorMessage>}
-            <ButtonWidthMarginTop cyan fullWidth>
+            <ButtonWidthMarginTop fullWidth>
               {text === '로그인' ? `${text}` : '이메일 본인인증 후 회원가입'}
             </ButtonWidthMarginTop>
           </Form>

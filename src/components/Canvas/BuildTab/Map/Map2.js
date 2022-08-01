@@ -1,17 +1,22 @@
 /*global kakao*/
-import { FifteenMp } from '@mui/icons-material';
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
   position: relative;
   width: 100%;
   height: 500px;
+  @media screen and (max-width: 767px) {
+    height: 280px;
+  }
 `;
 
 const Div = styled.div`
   width: 100%;
   height: 500px;
+  @media screen and (max-width: 767px) {
+    height: 290px;
+  }
 `;
 
 const Header = styled.div`
@@ -37,6 +42,9 @@ const Ul = styled.ul`
   z-index: 1;
   font-size: 12px;
   border-radius: 10px;
+  @media screen and (max-width: 767px) {
+    width: 45%;
+  }
 `;
 
 const MapContainer = ({
@@ -46,12 +54,9 @@ const MapContainer = ({
   setSearchPlaces,
   onSelect,
 }) => {
-  // let container = document.getElementById('myMap'); // DOM 접근
   const [kakaoMap, setKakaoMap] = useState(null);
-  const [area, setArea] = useState(null);
   const [markers, setMarkers] = useState([]);
   const container = useRef(null);
-  const [latLng, setLatLng] = useState(null);
   const [infoWin, setInfoWin] = useState(null);
 
   useEffect(() => {
@@ -65,7 +70,6 @@ const MapContainer = ({
     map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
     map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
     setKakaoMap(map);
-    console.log('create map');
   }, [container]);
 
   useEffect(() => {
@@ -87,7 +91,7 @@ const MapContainer = ({
       let markerList = positions.map((position) => {
         return new kakao.maps.Marker({ map: kakaoMap, position: position });
       });
-      markerList.map((marker, i) => {
+      markerList.forEach((marker, i) => {
         kakao.maps.event.addListener(marker, 'mouseover', () => {
           displayInfoWindow(nameList[i], i);
         });
@@ -156,6 +160,7 @@ const MapContainer = ({
       setSearchPlaces([]);
       setInputText('');
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [kakaoMap, forMarkerPositions]);
 
   const displayInfoWindow = (name, i) => {
