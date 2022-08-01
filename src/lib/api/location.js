@@ -1,9 +1,20 @@
 import axios from 'axios';
 
 // 여행지 블록 형태 받아오기
-export const getLocationBlock = async () => {
+export const getBlockLocations = async () => {
   try {
     const response = await axios.get('/locations/blocks');
+    return response;
+  } catch (err) {
+    console.log(err);
+    return 0;
+  }
+};
+
+// 여행지 마크 형태 받아오기
+export const getMarkLocations = async () => {
+  try {
+    const response = await axios.get('/locations/marks');
     return response;
   } catch (err) {
     console.log(err);

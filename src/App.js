@@ -47,7 +47,11 @@ function App() {
         },
         {
           path: process.env.PUBLIC_URL + '/mypage/*',
-          element: <MyMainPage />,
+          element: (
+            <ProtectedRoute>
+              <MyMainPage />
+            </ProtectedRoute>
+          ),
         },
         {
           path: process.env.PUBLIC_URL + '/search',
@@ -57,12 +61,6 @@ function App() {
           path: process.env.PUBLIC_URL + '*',
           element: <NotFoundPage />,
         },
-        /*{
-          path: process.env.PUBLIC_URL + '/마이페이지/',
-          element: <ProtectedRoute>
-          <페이지 />
-        </ProtectedRoute>,
-        },*/
       ])}
       <GlobalStyle isScroll={scrollY} />
     </>

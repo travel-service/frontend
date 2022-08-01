@@ -108,7 +108,7 @@ const Header = ({ userState, onLogout }) => {
         {userState ? (
           <>
             <Div>
-              <MenuEl to={process.env.PUBLIC_URL + '/my-page'}>
+              <MenuEl to={process.env.PUBLIC_URL + '/mypage/MyInfo'}>
                 {userState.nickName}
                 <Profile>
                   <Thumbnail
