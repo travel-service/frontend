@@ -350,21 +350,27 @@ export const useStore = create(
       // POST plan (다음으로, 저장하기)
       postPlan: async (idx) => {
         const userPlan = get().userPlan;
-        // const userPlanConcept = get().userPlanConcept;
+        const conceptForm = get().conceptForm;
         const userTravelDay = get().userTravelDay;
         const id = get().id;
 
         if (idx === 0 && !id) {
           // plan 생성
           const res = await planAPI.createPlan(userPlan);
-          if (res > 0) {
+          if (res.planId) {
             // 정상적 id 반환
-            set({ id: res });
+            set({ id: res.planId });
           } else {
             // postPlan 에러
           }
         } else if (idx === 0 && id > 0) {
           // plan 수정
+          delete userPlan.planId;
+          if (!userPlan.thumbnail) {
+            userPlan.thumbnail = '';
+          }
+          await planAPI.putPlan(id, userPlan);
+          await planAPI.postConcept(id, conceptForm);
         } else if (idx === 1) {
           // selectedLocation 생성 및 수정
         } else if (idx === 2) {
@@ -390,11 +396,11 @@ export const useStore = create(
 
 // 여행 보관함에서 사용
 export const planStore = create((set, get) => ({
-  plans: undefined, // 여행 보관함
-  getAllPlans: async () => {
-    const res = await planAPI.getAllPlans();
-    set({ plans: res });
-  },
+  // plans: undefined, // 여행 보관함
+  // getAllPlans: async () => {
+  //   const res = await planAPI.getAllPlans();
+  //   set({ plans: res });
+  // },
 }));
 
 // systemLocation 받아오고, 카테고리 따라서 분류
