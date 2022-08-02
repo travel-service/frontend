@@ -38,9 +38,9 @@ const Img = styled.img`
 const Blocks = styled.div`
   display: flex;
   flex-wrap: wrap;
-`
+`;
 
-function Location ({location}) {
+function Location({ location }) {
   const [modalOpen, setModalOpen] = useState(false);
 
   const OpenModal = () => {
@@ -53,7 +53,7 @@ function Location ({location}) {
 
   const { selCateLoc, onAdd, remove } = useStore();
 
-  console.log(location.isSelect);
+  // console.log(location.isSelect);
   return (
     <Block>
       <div onClick={OpenModal}>
@@ -64,32 +64,39 @@ function Location ({location}) {
           {location.address}
         </BlockDiv>
       </div>
-      <BButton 
+      <BButton
         onClick={() => {
           if (location.isSelect === false) {
-            onAdd(location, location.type.type)
-            location.isSelect = true
+            onAdd(location, location.type.type);
+            location.isSelect = true;
+          } else {
+            remove(location.locationId, location.type.type);
+            location.isSelect = false;
           }
-          else {
-            remove(location.id, location.type.type);
-            location.isSelect = false
-          }
-          //console.log(location)
-        } 
-      }>{location.isSelect ? '취소' : '선택'}</BButton>
+        }}
+      >
+        {location.isSelect ? '취소' : '선택'}
+      </BButton>
       <Modal open={modalOpen} close={closeModal} header={location.name}>
-        <BlockInfo type={location.type.type} id={location.id}/>
+        <BlockInfo type={location.type.type} id={location.id} />
       </Modal>
     </Block>
   );
 }
 
-function LocationList({ locations }) {
+function LocationList({ locations, locationsObj }) {
   return (
     <Blocks>
-      {locations.map(location => (
-        <Location location={location} key={location.id} />
-      ))}
+      {locations &&
+        locations.map((location) => (
+          <Location location={location} key={location.locationId} />
+        ))}
+      {locationsObj &&
+        Object.keys(locationsObj).map((type) =>
+          locationsObj[type].map((loc) => (
+            <Location location={loc} key={type + loc.locationId} />
+          )),
+        )}
     </Blocks>
   );
 }

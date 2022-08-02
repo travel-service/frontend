@@ -129,9 +129,7 @@ export const useStore = create(
         Restaurant: '음식점',
       },
 
-      //onAdd: (loc, type) => set(state => ({ selLoc: [...state.selLoc, loc] })),
       onAdd: (loc, type) => {
-        // 0718 찬우 수정
         set((state) => ({
           selCateLoc: {
             ...state.selCateLoc,
@@ -209,7 +207,7 @@ export const useStore = create(
             [type]: tmpSelTypeArr,
           },
         }));
-        
+
         // switch (type) {
         //   case '1':
         //     // set(state => ({ selAttraction: state.selAttraction.filter(loc => loc.id !== locId)}));
@@ -417,76 +415,118 @@ export const sysLocStore = create((set, get) => ({
 
   getSysLoc: async () => {
     if (get().flag === false) {
-      const response = await axios.get('http://localhost:4000/locations_v2');
-      let att = [];
-      let cul = [];
-      let fes = [];
-      let lepo = [];
-      let lod = [];
-      let rest = [];
-      for (let x of response.data["Attraction"]) {
-        x.isSelect = false;
-        att.push(x);
+      // const response = await axios.get('http://localhost:4000/locations_v2');
+      const response = await locationAPI.getBlockLocations();
+
+      if (response.status === 200) {
+        // 받아온 key값으로 배열 생성
+        const typesArr = Object.keys(response.data);
+
+        // 배열의 값인 type으로 sysCateLoc 상태 업데이트
+        typesArr.forEach((type) => {
+          let tmp = [];
+          for (let x of response.data[type]) {
+            x.isSelect = false;
+            tmp.push(x);
+          }
+          set((state) => ({
+            sysCateLoc: {
+              ...state.sysCateLoc,
+              [type]: tmp,
+            },
+          }));
+        });
       }
-      for (let x of response.data["Culture"]) {
-        x.isSelect = false;
-        cul.push(x);
-      }
-      for (let x of response.data["Festival"]) {
-        x.isSelect = false;
-        fes.push(x);
-      }
-      for (let x of response.data["Leports"]) {
-        x.isSelect = false;
-        lepo.push(x);
-      }
-      for (let x of response.data["Lodge"]) {
-        x.isSelect = false;
-        lod.push(x);
-      }
-      for (let x of response.data["Restaurant"]) {
-        x.isSelect = false;
-        rest.push(x);
-      }
-      set({
-        sysCateLoc: {
-          Attraction: att,
-          Culture: cul,
-          Festival: fes,
-          Leports: lepo,
-          Lodge: lod,
-          Restaurant: rest,
-        },
-      });
-      set({flag: true})
+      // let att = [];
+      // let cul = [];
+      // let fes = [];
+      // let lepo = [];
+      // let lod = [];
+      // let rest = [];
+      // for (let x of response.data['Attraction']) {
+      //   x.isSelect = false;
+      //   att.push(x);
+      // }
+      // for (let x of response.data['Culture']) {
+      //   x.isSelect = false;
+      //   cul.push(x);
+      // }
+      // for (let x of response.data['Festival']) {
+      //   x.isSelect = false;
+      //   fes.push(x);
+      // }
+      // for (let x of response.data['Leports']) {
+      //   x.isSelect = false;
+      //   lepo.push(x);
+      // }
+      // for (let x of response.data['Lodge']) {
+      //   x.isSelect = false;
+      //   lod.push(x);
+      // }
+      // for (let x of response.data['Restaurant']) {
+      //   x.isSelect = false;
+      //   rest.push(x);
+      // }
+      // set({
+      //   sysCateLoc: {
+      //     Attraction: att,
+      //     Culture: cul,
+      //     Festival: fes,
+      //     Leports: lepo,
+      //     Lodge: lod,
+      //     Restaurant: rest,
+      //   },
+      // });
+      set({ flag: true });
     }
   },
 
   getSysLocCoords: async () => {
-    const response = await axios.get('http://localhost:4000/locations_mark');
-    let att = [];
+    // const response = await axios.get('http://localhost:4000/locations_marks');
+    const response = await locationAPI.getMarkLocations();
+
+    if (response.status === 200) {
+      // 받아온 key값으로 배열 생성
+      const typesArr = Object.keys(response.data);
+
+      // 배열의 값인 type으로 sysCateLocCoords 상태 업데이트
+      typesArr.forEach((type) => {
+        let tmp = [];
+        for (let x of response.data[type]) {
+          x.isSelect = false;
+          tmp.push(x);
+        }
+        set((state) => ({
+          sysCateLocCoords: {
+            ...state.sysCateLocCoords,
+            [type]: tmp,
+          },
+        }));
+      });
+    }
+    // let att = [];
     // let cul = [];
     // let fes = [];
     // let lepo = [];
     // let lod = [];
     // let rest = [];
-    for (let x of response.data["Attraction"]) {
-      x.isSelect = false;
-      att.push(x);
-    }
+    // for (let x of response.data['Attraction']) {
+    //   x.isSelect = false;
+    //   att.push(x);
+    // }
     // for (let x of response.data["Festival"]) {
     //   x.isSelect = false;
     //   fes.push(x);
     // }
-    set({
-      sysCateLocCoords: {
-        CoordsList: att,
-        // Culture: cul,
-        // Festival: fes,
-        // Leports: lepo,
-        // Lodge: lod,
-        // Restaurant: rest,
-      },
-    });
+    // set({
+    //   sysCateLocCoords: {
+    //     CoordsList: att,
+    //     // Culture: cul,
+    //     // Festival: fes,
+    //     // Leports: lepo,
+    //     // Lodge: lod,
+    //     // Restaurant: rest,
+    //   },
+    // });
   },
 }));
