@@ -3,6 +3,7 @@ import PageTemplate from 'components/common/PageTemplate';
 import styled from 'styled-components';
 import { MdSearch } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import palette from 'lib/styles/palette';
 
 const sampleLocation = {
   Attraction: [
@@ -50,6 +51,7 @@ const sampleLocation = {
 };
 
 const Container = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -65,6 +67,7 @@ const InputContainer = styled.div`
   height: 50px;
   background-color: white;
   border-radius: 5px;
+  border: 1px solid ${palette.border1};
   box-shadow: 4px 4px 4px grey;
   padding-right: 20px;
   @media screen and (max-width: 767px) {
@@ -107,11 +110,12 @@ const Input = styled.input`
 
 const SearchDes = styled(Link)`
   text-decoration: none;
+  color: ${palette.red};
 `;
 
 const GoDirBtn = styled(Link)`
   text-decoration: none;
-  background-color: #f16b6c;
+  background-color: ${palette.red};
   width: 200px;
   height: 50px;
   color: white;
@@ -129,25 +133,30 @@ const Recommend = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  max-width: 1200px;
 `;
 
 const RecLoc = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  /* width: 100vw; */
+  grid-gap: 20px;
 `;
 
 const Location = styled.div`
   border-radius: 5px;
-  /* flex: 1 0 21%; */
   margin: 20px;
-  background-color: skyblue;
+  background-color: ${palette.back1};
+  border: 1px solid ${palette.border1};
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 300px;
+  justify-content: space-around;
+  width: 400px;
   height: 200px;
+  @media screen and (max-width: 400px) {
+    width: 300px;
+  }
 `;
 
 const Img = styled.img`

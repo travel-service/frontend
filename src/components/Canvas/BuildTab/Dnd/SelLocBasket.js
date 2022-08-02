@@ -10,11 +10,12 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   min-width: 330px;
-  /* height: 100%; */
+  max-height: 900px;
   background-color: white;
-  border-radius: 0px 10px 10px 0px;
+  border-radius: 10px;
   transition: 0.3s all linear;
   padding: 20px;
+  margin-left: 30px;
 
   ${(props) =>
     !props.isOpen &&
