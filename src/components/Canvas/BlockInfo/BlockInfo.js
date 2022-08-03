@@ -25,7 +25,7 @@ const AttractionInfo = (locationId) => {
             주소: {attInfo.location.address1}<br />
             상세주소: {attInfo.location.address2}<br />
             이미지: {attInfo.location.image}<br />
-            {/* 이미지2: {attInfo.location.image2}<br /> */}
+            이미지2: {attInfo.location.image2}<br />
             전화: {attInfo.location.tel}<br />
             설명: {attInfo.location.summary}<br />
             상세설명: {attInfo.location.report}<br />

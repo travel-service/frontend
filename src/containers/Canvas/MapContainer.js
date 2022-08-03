@@ -8,7 +8,7 @@ import Modal from 'react-modal'
 import 'lib/styles/Modal.css'
 import test from '../../lib/styles/test.css'
 import styled from 'styled-components';
-
+import BlockInfo from 'components/Canvas/BlockInfo/BlockInfo';
 
 const Div = styled.div`
   z-index: 0;
@@ -20,6 +20,7 @@ const MapContainer = ({coords}) => {
   const [kakaoMap, setKakaoMap] = useState(null);
   const container = useRef(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [info, setInfo] = useState()
 
   const openModal = () => {
     setModalIsOpen(true);
@@ -77,26 +78,32 @@ const MapContainer = ({coords}) => {
         var marker = new kakao.maps.Marker({
           map: kakaoMap,
           position: position.latlng,
-          //image: attMarker
         });
         console.log(positions[i]);
 
-        if (position.type === 0) {
-          marker.setImage(attMarker)
-        }
-        else {
-          marker.setImage(logMarker)
+        //마커 생성 함수
+        function setMarker() {
+          if (position.type === 0) {
+            marker.setImage(attMarker);
+            marker.normalImage = attMarker;
+          }
+          else {
+            marker.setImage(logMarker);
+            marker.normalImage = logMarker;
+          }
         }
 
-        var infocontent = 
-        '<div class="wrap">' + 
-        '    <div class="info">' + 
-        '        <div class="title">' + 
-        `            ${positions[i].title}` + 
-        `            <div class="close" onclick="CloseOverlay()" title="닫기"></div>` + 
-        '        </div>' + 
-        '    </div>' +    
-        '</div>';
+        //피커 생성 함수
+        function setPicker() {
+          if (position.type === 0) {
+            marker.setImage(attPicker)
+          }
+          else {
+            marker.setImage(logPicker)
+          }
+        }
+
+        setMarker();
 
         const getOverlayContent = () => {
           const content = document.createElement('div');
@@ -109,12 +116,12 @@ const MapContainer = ({coords}) => {
           titleArea.setAttribute('class', 'title');
           
           const title = document.createElement('div');
-          title.onclick = () => openModal();
+          title.onclick = () => (console.log(positions[i]), openModal());
           title.innerHTML = positions[i].title;
 
           const close = document.createElement('div');
           close.setAttribute('class', 'close');
-          close.onclick = () => customOverlay.setMap(null);
+          close.onclick = () => (customOverlay.setMap(null), setMarker());
 
           content.appendChild(info);
           info.appendChild(titleArea);
@@ -123,27 +130,19 @@ const MapContainer = ({coords}) => {
         }
 
         var customOverlay = new kakao.maps.CustomOverlay({
-          //content : `<div style="padding:10px; height:60px;">${positions[i].title}</div>`,
           content : getOverlayContent(),
           clickable : true,
           position: marker.getPosition()
         });
 
-        marker.normalImage = attMarker;
-
         kakao.maps.event.addListener(marker, 'click', function() {
-          // if (!selectedMarker || selectedMarker !== marker) {
-          //   !!selectedMarker && selectedMarker.setImage(selectedMarker.normalImage);
-          //   marker.setImage(attPicker);
-          // }
-          marker.setImage(attPicker);
-
+          if (!selectedMarker || selectedMarker !== marker) {
+            !!selectedMarker && selectedMarker.setImage(selectedMarker.normalImage);
+            setPicker();
+          }
           customOverlay.setMap(kakaoMap);
-
           selectedMarker = marker;
         });
-        
-
       }
 
       function createMarkerImg(img, size) {
@@ -154,15 +153,6 @@ const MapContainer = ({coords}) => {
 
         return markerImg;
       }
-
-      // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 없을 시 마지막 마커만 기능함
-      function makeOverListener(map, marker, infowindow) {
-        return function() {
-          console.log();
-          infowindow.open(map, marker);
-        };
-      }
-
     }
     else {
       return;
@@ -181,8 +171,9 @@ const MapContainer = ({coords}) => {
       modalIsOpen={modalIsOpen}
       openModal={openModal}
       closeModal={closeModal}
-      header="이동수단 설정"
+      header="상세정보"
       >
+        {/* <BlockInfo type={info.type} id={info.id}/> */}
       </ModalModule>
     </>
     

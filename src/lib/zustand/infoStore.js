@@ -35,9 +35,6 @@ export const infoStore = create((set) => ({
                 break;
             default:
         }
-        // const info = await axios.get(`http://localhost:4000/attractionInfo/${id}`);
-        // set({attInfo: info.data})
-        // console.log(info.data);
     },
 
     attInfo: {
