@@ -91,19 +91,22 @@ const Select = styled.select`
 `;
 
 const Footer = styled.div`
-  margin-top: 2rem;
+  margin-top: 20px;
   a {
-    color: ${palette.gray[6]};
-    text-decoration: underline;
+    color: black;
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
     &:hover {
-      color: ${palette.gray[9]};
+      color: ${palette.gray[8]};
     }
   }
 `;
 
 const Links = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
 `;
 
 const ButtonWidthMarginTop = styled(Button)`
@@ -140,7 +143,7 @@ const AuthForm = ({
       <AuthFormBlock>
         <Div>
           <H2>
-            {text}
+            {/* {text} */}
             {type === 'signup' && <SpanRed>( * 필수항목 )</SpanRed>}
           </H2>
           <Form onSubmit={onSubmit}>
