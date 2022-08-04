@@ -12,7 +12,7 @@ export const createPlan = async (userPlan) => {
     const response = await axios.post('/members/plan', {
       planForm: userPlan,
     });
-    //headerToken(response);
+
     console.log('여행설정: ', response);
     return response.data;
   } catch (err) {
@@ -27,7 +27,7 @@ export const createConcpet = async (id, conceptForm) => {
     const response = await axios.post(`/members/plan/${id}/concept`, {
       conceptForm: conceptForm,
     });
-    //headerToken(response);
+
     console.log(`여행컨셉설정: `, response);
     return response.data;
   } catch (err) {
@@ -41,7 +41,7 @@ export const getPlan = async (id) => {
   try {
     const response = await axios.get(`/members/plan/${id}`);
     console.log(response);
-    //headerToken(response);
+
     console.log(`${id} 여행: `, response);
     return response.data;
   } catch (err) {
@@ -54,7 +54,7 @@ export const getPlan = async (id) => {
 export const getConcpet = async (id) => {
   try {
     const response = await axios.get(`/members/plan/${id}/concept`);
-    //headerToken(response);
+
     console.log(`${id} 컨셉: `, response);
     return response.data;
   } catch (err) {
@@ -67,7 +67,7 @@ export const getConcpet = async (id) => {
 export const putPlan = async (id, userPlan) => {
   try {
     const response = await axios.post(`/members/plan/${id}`, userPlan);
-    //headerToken(response);
+
     console.log(`${id} 플랜수정: `, response);
     return response.data;
   } catch (err) {
@@ -82,7 +82,7 @@ export const postConcept = async (id, conceptForm) => {
     const response = await axios.post(`/members/plan/${id}/concept`, {
       conceptForm: conceptForm,
     });
-    //headerToken(response);
+
     console.log(`${id} 컨셉수정: `, response);
     return response.data;
   } catch (err) {

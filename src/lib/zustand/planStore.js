@@ -240,22 +240,6 @@ export const useStore = create((set, get) => ({
     }
   },
 
-  // 다음으로 누를 때 백으로 전송(Canvas 페이지에서)
-  // canvasPost: async () => {
-  //   let { selectedLocations } = get().userPlan;
-  //   let tmp = [];
-  //   for (let key of Object.keys(selectedLocations))
-  //     tmp = [...tmp, ...get().zipSelLoc(selectedLocations[key])];
-  //   console.log(selectedLocations);
-  //   const response = await axios.post(`http://localhost:4000/travelPlans`, {
-  //     travelDays: get().userPlan.travelDays,
-  //     selectedLocations: tmp,
-  //   });
-  //   console.log(response); // 성공하면 success
-  //   // set((state) => ({ userPlan: { ...state.userPlan } }));
-  //   // console.log(get().userPlan);
-  // },
-
   // 0704 찬우 수
   // GET userPlan
   getPlan: async (id) => {
@@ -296,40 +280,8 @@ export const useStore = create((set, get) => ({
     } else if (type === 2) {
       // day 생성 및 수정
     }
-
-    // if (id === undefined) {
-    //   const response = await axios.post(`http://localhost:8080/members/plan`, {
-    //     /*...userPlan,*/
-    //     planForm: userPlan,
-    //     conceptForm: conceptForm,
-    //     dayForm: userTravelDay,
-    //   });
-    //   console.log(response);
-    //   //set({ userPlan: response.data }); // 백에서 보내주는 데이터가 userPlan
-    // } else {
-    //   //const response = await axios.post(`/members/1/plan`, {
-    //   //test용 patch..
-    //   const response = await axios.patch(
-    //     `http://localhost:4000/travelPlans/${id}`,
-    //     {
-    //       planForm: userPlan,
-    //       conceptForm: conceptForm,
-    //       dayForm: userTravelDay,
-    //     },
-    //   );
-    //   console.log(response); // 성공하면 success
-    // }
   },
 }));
-
-// 여행 보관함에서 사용
-/*export const planStore = create((set, get) => ({
-  plans: undefined, // 여행 보관함
-  getAllPlans: async () => {
-    const res = await planAPI.getAllPlans();
-    set({ plans: res });
-  },
-}));*/
 
 // systemLocation 받아오고, 카테고리 따라서 분류
 export const sysLocStore = create((set) => ({
