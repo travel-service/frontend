@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-//import { dirStore } from 'lib/zustand/dirStore';
 //import ModalModule from 'components/common/modal/ModalModule';
-//import MoreSettings from '../DirectoryPage/MoreSettings';
 
 // 플랜 레이아웃(이름, 기간, 날짜, 썸네일(호버 시 정보), 이동/복사/담기 버튼)
 const PlanContainer = styled.div`
@@ -173,14 +171,22 @@ const PlanLayout = ({
   const [clickMore, setClickMore] = useState(false); // 담기클릭
   const [isShow, setIsShow] = useState(false); // 점세개 클릭
   const [isOver, setIsOver] = useState(false); // 마우스오버 버튼
+  const moreRef = useRef(null);
 
-  const onBlurPlans = () => {
-    onClickCheck(!isShow, planId);
-    setIsShow(false);
-    setClickMore(false);
-  };
-  const onMO = () => {
-    setIsOver(!isOver);
+  useEffect(() => {
+    document.addEventListener('mousedown', onClickPlans);
+    return () => {
+      document.removeEventListener('mousedown', onClickPlans);
+    };
+  });
+
+  const onClickPlans = (e) => {
+    if (moreRef.current && !moreRef.current.contains(e.target)) {
+      //onClickCheck(!isShow, planId);
+      setCheckedPlans([]);
+      setIsShow(false);
+      setClickMore(false);
+    }
   };
   const onClickCheck = (checked, i) => {
     if (checked) {
@@ -197,10 +203,10 @@ const PlanLayout = ({
       </PeriodsContainer>
       <ThumbnailContainer // 마우스 올리면 컴포넌트 나오게
         onMouseEnter={() => {
-          onMO();
+          setIsOver(!isOver);
         }}
         onMouseLeave={() => {
-          onMO();
+          setIsOver(!isOver);
         }}
       >
         {isOver && (
@@ -228,54 +234,21 @@ const PlanLayout = ({
         {name}
       </PlanNameDiv>
       <DateDiv>{createdDate.replace(/-/g, '.')}</DateDiv>
-      <PlanTitleDiv
-        onClick={() => {
-          setIsShow(!isShow);
-          onClickCheck(!isShow, planId);
-        }}
-      >
+      <PlanTitleDiv>
         <MoreDiv>
           <MoreButton
-            onBlur={() => {
-              onBlurPlans();
+            onClick={() => {
+              setIsShow(!isShow);
+              !checkedPlans.includes(planId)
+                ? onClickCheck(!isShow, planId)
+                : setCheckedPlans([planId]);
             }}
           >
             <img src={process.env.PUBLIC_URL + '/images/more_ico.png'} />
           </MoreButton>
-          {isShow && (
-            <PlanControlUl>
-              <PlanControlLi
-                onClick={() => {
-                  console.log('복사');
-                }}
-                onMouseOver={() => {
-                  setClickMore(false);
-                }}
-              >
-                복사
-              </PlanControlLi>
-              <PlanControlLi
-                onMouseOver={() => {
-                  setClickMore(false);
-                }}
-                onClick={() => {
-                  postTrash();
-                }}
-              >
-                삭제
-              </PlanControlLi>
-              <PlanControlLi
-                onMouseOver={() => {
-                  setClickMore(true);
-                }}
-              >
-                담기
-              </PlanControlLi>
-            </PlanControlUl>
-          )}
-          {/*currentDirId === 'm'
+          {currentDirId === 'm'
             ? isShow && (
-                <PlanControlUl>
+                <PlanControlUl ref={moreRef}>
                   <PlanControlLi
                     onClick={() => {
                       console.log('복사');
@@ -307,7 +280,7 @@ const PlanLayout = ({
               )
             : currentDirId === 't'
             ? isShow && (
-                <PlanControlUl>
+                <PlanControlUl ref={moreRef}>
                   <PlanControlLi
                     onClick={() => {
                       deletePlan();
@@ -325,7 +298,7 @@ const PlanLayout = ({
                 </PlanControlUl>
               )
             : isShow && (
-                <PlanControlUl>
+                <PlanControlUl ref={moreRef}>
                   <PlanControlLi
                     onClick={() => {
                       postTrash();
@@ -362,7 +335,7 @@ const PlanLayout = ({
               //alert('담을 보관함이 없습니다.')
               <SubUl>담을 보관함이 없습니다.</SubUl>
             )
-            )*/}
+          )}
         </MoreDiv>
       </PlanTitleDiv>
     </PlanContainer>
