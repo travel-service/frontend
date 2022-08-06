@@ -5,23 +5,20 @@ import PlanPagination from '../common/PlanPagination';
 
 //리스트 전체
 const PlanListContainer = styled.div`
-  position: absolute;
-  left: 22.92%;
-  right: 2.08%;
-  top: 8.18%;
-  bottom: 2.52%;
+  position: relative;
+  //width: 1080px;
+  width: 80%;
+  min-height: 85vh;
   padding: 25px;
 
   background: #ffffff;
   border-radius: 10px;
-
-  font-family: 'Pretendard';
-  font-style: normal;
 `;
 const PlansContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
+  display: grid;
+  justify-items: center;
+  grid-template-columns: repeat(auto-fill, minmax(246px, auto));
+  gap: 30px;
 `;
 //상단
 const TitleContainer = styled.div`
@@ -30,10 +27,11 @@ const TitleContainer = styled.div`
   justify-content: space-between;
   margin-bottom: 20px;
 `;
+// 상단 플랜 삭제/복사/담기 버튼
 const PlanBtn = styled.button`
   box-sizing: border-box;
   padding: 15px;
-  width: 85px;
+  min-width: 85px;
   height: 46px;
   display: flex;
   justify-content: space-evenly;
@@ -48,10 +46,6 @@ const PlanBtn = styled.button`
   line-height: 16px;
   color: #000000;
   margin-left: 10px;
-  /*&:hover {
-    background: #000000;
-    color: #ffffff;
-  }*/
 `;
 //정렬 용
 const ItemsDiv = styled.div`
@@ -61,8 +55,6 @@ const ItemsDiv = styled.div`
 `;
 //각 플랜 내 text
 const TitleTextDiv = styled.div`
-  font-family: 'Pretendard';
-  font-style: normal;
   font-weight: 700;
   font-size: 25px;
   line-height: 30px;
@@ -81,6 +73,13 @@ const PlanCountContainer = styled.div`
   line-height: 10px;
   color: #000000;
   margin-left: 9px;
+`;
+const AlertTextDiv = styled.div`
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+
+  color: #000000;
 `;
 // 검색창
 const SearchBar = styled.input`
@@ -123,41 +122,34 @@ const CheckTextDiv = styled.div`
   margin-right: 10px;
 `;
 // 담기 container
-const DirPopUpContainer = styled.ul`
+const PlanPopUpContainer = styled.ul`
+  display: flex;
   position: absolute;
-  width: 81px;
+  flex-direction: column;
+  text-align: left;
+  gap: 5px;
+  list-style: none;
+  padding: 10px;
   background: #e5e7e8;
   border-radius: 10px;
-  list-style: none;
-  margin: 0px;
-  padding: 10px;
-  z-index: 50;
+  min-width: 148px;
+  margin-top: 170px;
+  margin-left: 60px;
+  z-index: 1;
 `;
 // 담기 내용
-const DirPopUp = styled.li`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  ${(props) => (props.bottomBtn ? '' : 'margin-bottom: 5px;')};
-
-  width: 61px;
-  height: 34px;
-  background: #ffffff;
-  color: #000000;
-  border-radius: 5px;
-  decoration: none;
-  text-align: center;
-
-  font-family: 'Pretendard';
-  font-style: normal;
+const PlanPopUp = styled.li`
   font-weight: 400;
   font-size: 12px;
   line-height: 14px;
+  color: #000000;
+  text-align: left;
 
-  &:hover {
-    background: #000000;
-    color: #ffffff;
-  }
+  decoration: none;
+  padding: 10px 15px 10px 15px;
+  background: #ffffff;
+  border-radius: 5px;
+  cursor: pointer;
 `;
 
 const PlanList = ({
@@ -169,10 +161,10 @@ const PlanList = ({
   checkedPlans,
   setCheckedPlans,
   postTrash,
-  //controlPlans,
-  //setCancel,
+  postMovePlans,
+  postRevert,
+  deletePlan,
 }) => {
-  const [isClicked, setIsClicked] = useState(false);
   const [isShow, setIsShow] = useState(false);
   const [plansList, setPL] = useState([]); // 플랜 컴포넌트 공통
   const [searchT, setSearchT] = useState('');
@@ -180,11 +172,6 @@ const PlanList = ({
 
   const [page, setPage] = useState(2); // 현재 페이지
   const offset = (page - 1) * 12;
-
-  const onClickMove = () => {
-    setIsShow(!isShow);
-    console.log('담기');
-  };
 
   useEffect(() => {
     currentDirId === 'm'
@@ -200,6 +187,10 @@ const PlanList = ({
     //checkedPlans,
     plansList,
   ]);
+
+  const onBlur = () => {
+    setIsShow(false);
+  };
 
   const Searching = (e) => {
     setSearchT(e.toLowerCase());
@@ -232,7 +223,7 @@ const PlanList = ({
           }),
       );
     }
-    /*if (e.target.value === 'recent') {
+    if (e.target.value === 'recent') {
       setRP(
         plansList &&
           plansList.sort((a, b) => {
@@ -241,158 +232,255 @@ const PlanList = ({
             return n < m ? 1 : n === m ? 0 : -1;
           }),
       );
-    }*/
+    }
     setRP([]);
   };
 
   return (
-    <PlanListContainer>
-      <TitleContainer>
-        <ItemsDiv>
-          {
-            /*해당 디렉토리 제목, 아이콘, 갯수 변경*/
-            currentDirId === 'm' ? (
-              <>
-                <TitleTextDiv>모든 여행</TitleTextDiv>
-                <PlanCountContainer>
-                  {mainPlans.planCount ? mainPlans.planCount : 0}
-                </PlanCountContainer>
-              </>
-            ) : currentDirId === 't' ? (
-              <>
-                <TitleTextDiv>휴지통</TitleTextDiv>
-                <PlanCountContainer>
-                  {trashPlans.trashPlanCount ? trashPlans.trashPlanCount : 0}
-                </PlanCountContainer>
-              </>
-            ) : (
-              <>
-                <TitleTextDiv>
-                  {
-                    userDirs.mainUserDirectory.find((dir) => {
-                      return dir.userDirectoryId === currentDirId;
-                    }).directoryName
-                  }
-                </TitleTextDiv>
-                <PlanCountContainer>
-                  {userPlans ? userPlans.length : 0}
-                </PlanCountContainer>
-              </>
-            )
-          }
-        </ItemsDiv>
-      </TitleContainer>
-      <TitleContainer>
-        <ItemsDiv>
-          <label>
-            <input type="checkbox" />
-          </label>
-          <CheckTextDiv>전체 선택</CheckTextDiv>
-          {checkedPlans.length > 0 && (
-            <CheckTextDiv nums="true">
-              {checkedPlans.length ? checkedPlans.length : 0}개 선택 중
-            </CheckTextDiv>
-          )}
-          <ItemsDiv>
-            <PlanBtn>
-              <img src={process.env.PUBLIC_URL + '/images/copy_ico.png'} />
-              복사
-            </PlanBtn>
-            <PlanBtn
-              onClick={() => {
-                onClickMove();
-              }}
-            >
-              <img
-                src={process.env.PUBLIC_URL + '/images/add_folder_ico.png'}
-              />
-              담기
-              {isShow && (
-                <DirPopUpContainer>
-                  {
-                    (userDirs
-                      ? userDirs.mainUserDirectory.map((item) => {
-                          return (
-                            <DirPopUp key={item.userDirectoryId}>
-                              {item.directoryName}
-                            </DirPopUp>
-                          );
-                        })
-                      : alert('담을 보관함이 존재하지 않습니다.'),
-                    setIsShow(!isShow))
-                  }
-                </DirPopUpContainer>
-              )}
-            </PlanBtn>
-            <PlanBtn
-              onClick={() => {
-                setCheckedPlans([3]);
-                postTrash();
-              }}
-            >
-              <img src={process.env.PUBLIC_URL + '/images/delete_ico.png'} />
-              삭제
-            </PlanBtn>
-          </ItemsDiv>
-        </ItemsDiv>
-        <ItemsDiv>
-          <SearchBar
-            onChange={(e) => {
-              Searching(e.target.value);
-            }}
-            placeholder="여행 제목으로 검색"
-          />
-          <ComboDiv onChange={SortPlans}>
-            <option value="recent">최신 순</option>
-            <option value="date">생성일 순</option>
-            <option value="name">이름 순</option>
-          </ComboDiv>
-        </ItemsDiv>
-      </TitleContainer>
-      <PlansContainer>
-        {resPlans !== [] && searchT !== ''
-          ? resPlans && // 검색 후 정렬 적용을 위한 플랜 리스트
-            plansList
-              .filter((p) => {
-                return p.name.toLowerCase().includes(searchT);
-              })
-              .map((item) => {
-                return (
-                  <PlanLayout
-                    key={item.planId}
-                    planId={item.planId}
-                    name={item.name}
-                    periods={item.periods}
-                    createdDate={item.createdDate}
-                    userDirs={userDirs}
-                    checkedPlans={checkedPlans}
-                    setCheckedPlans={setCheckedPlans}
-                  />
-                );
-              })
-          : plansList && // 0703 조건 수정
-            /*slice(offset, offset + 12).*/
-            plansList.map((item) => {
-              return (
-                <PlanLayout
-                  key={item.planId}
-                  planId={item.planId}
-                  name={item.name}
-                  periods={item.periods}
-                  createdDate={item.createdDate}
-                  userDirs={userDirs}
-                  checkedPlans={checkedPlans}
-                  setCheckedPlans={setCheckedPlans}
+    <>
+      {mainPlans && trashPlans && userDirs && (
+        <PlanListContainer>
+          <TitleContainer>
+            <ItemsDiv>
+              {
+                /*해당 디렉토리 제목, 아이콘, 갯수 변경*/
+                currentDirId === 'm' ? (
+                  <>
+                    <TitleTextDiv>모든 여행</TitleTextDiv>
+                    <PlanCountContainer>
+                      {mainPlans.planCount}
+                    </PlanCountContainer>
+                  </>
+                ) : currentDirId === 't' ? (
+                  <>
+                    <TitleTextDiv>휴지통</TitleTextDiv>
+                    <PlanCountContainer>
+                      {trashPlans.trashPlanCount}
+                    </PlanCountContainer>
+                  </>
+                ) : (
+                  <>
+                    <TitleTextDiv>
+                      {
+                        userDirs.mainUserDirectory.find((dir) => {
+                          return dir.userDirectoryId === currentDirId;
+                        }).directoryName
+                      }
+                    </TitleTextDiv>
+                    <PlanCountContainer>
+                      {userPlans ? userPlans.length : 0}
+                    </PlanCountContainer>
+                  </>
+                )
+              }
+            </ItemsDiv>
+            {currentDirId === 't' && (
+              <AlertTextDiv>
+                휴지통으로 이동한 템플릿은 30일 이후 자동으로 영구 삭제 됩니다.
+              </AlertTextDiv>
+            )}
+          </TitleContainer>
+          <TitleContainer>
+            <ItemsDiv>
+              <label>
+                <input
+                  type="checkbox"
+                  onClick={(e) => {
+                    e.target.checked
+                      ? setCheckedPlans(
+                          plansList &&
+                            plansList.filter((i) =>
+                              i.name.toLowerCase().includes(searchT)
+                                ? i.planId
+                                : '',
+                            ),
+                        )
+                      : setCheckedPlans([]);
+                  }}
                 />
-              );
-            })}
-      </PlansContainer>
-      {/*<PlanPagination
+              </label>
+              <CheckTextDiv>전체 선택</CheckTextDiv>
+              {checkedPlans && checkedPlans.length > 0 && (
+                <CheckTextDiv nums="true">
+                  {checkedPlans.length}개 선택 중
+                </CheckTextDiv>
+              )}
+              {currentDirId === 'm' ? (
+                <ItemsDiv
+                  onBlur={() => {
+                    onBlur();
+                  }}
+                >
+                  <PlanBtn
+                    onClick={() => {
+                      console.log('복사');
+                    }}
+                  >
+                    <img
+                      src={process.env.PUBLIC_URL + '/images/copy_ico.png'}
+                    />
+                    복사
+                  </PlanBtn>
+                  <PlanBtn
+                    onClick={() => {
+                      setIsShow(true);
+                    }}
+                  >
+                    <img
+                      src={
+                        process.env.PUBLIC_URL + '/images/add_folder_ico.png'
+                      }
+                    />
+                    담기
+                    {isShow && (
+                      <PlanPopUpContainer>
+                        {userDirs
+                          ? userDirs.mainUserDirectory.map((item) => {
+                              return (
+                                <PlanPopUp
+                                  key={item.userDirectoryId}
+                                  onClick={() => {
+                                    postMovePlans(item.userDirectoryId);
+                                    setIsShow(false);
+                                  }}
+                                >
+                                  <img
+                                    src={
+                                      process.env.PUBLIC_URL +
+                                      '/images/folder_ico.png'
+                                    }
+                                  />
+                                  {' ' + item.directoryName}
+                                </PlanPopUp>
+                              );
+                            })
+                          : alert('보관함을 먼저 생성해주세요.')}
+                      </PlanPopUpContainer>
+                    )}
+                  </PlanBtn>
+                  <PlanBtn
+                    onClick={() => {
+                      postTrash();
+                    }}
+                  >
+                    <img
+                      src={process.env.PUBLIC_URL + '/images/delete_ico.png'}
+                    />
+                    삭제
+                  </PlanBtn>
+                </ItemsDiv>
+              ) : currentDirId === 't' ? (
+                <ItemsDiv>
+                  <PlanBtn
+                    onClick={() => {
+                      postRevert();
+                      console.log('복원');
+                    }}
+                  >
+                    <img
+                      src={process.env.PUBLIC_URL + '/images/restore_ico.png'}
+                    />
+                    복원
+                  </PlanBtn>
+                  <PlanBtn
+                    onClick={() => {
+                      console.log('영구 삭제');
+                      // modal 알림창 추가, 확인 누르면 delete
+                      deletePlan();
+                    }}
+                  >
+                    <img
+                      src={process.env.PUBLIC_URL + '/images/delete_ico.png'}
+                    />
+                    삭제
+                  </PlanBtn>
+                </ItemsDiv>
+              ) : (
+                <ItemsDiv>
+                  <PlanBtn
+                    onClick={() => {
+                      console.log('삭제');
+                      postTrash();
+                    }}
+                  >
+                    <img
+                      src={process.env.PUBLIC_URL + '/images/delete_ico.png'}
+                    />
+                    삭제
+                  </PlanBtn>
+                </ItemsDiv>
+              )}
+            </ItemsDiv>
+            <ItemsDiv>
+              <SearchBar
+                onChange={(e) => {
+                  Searching(e.target.value);
+                }}
+                placeholder="여행 제목으로 검색"
+              />
+              <ComboDiv onChange={SortPlans}>
+                <option value="recent">최신 순</option>
+                <option value="date">생성일 순</option>
+                <option value="name">이름 순</option>
+              </ComboDiv>
+            </ItemsDiv>
+          </TitleContainer>
+          <PlansContainer>
+            {resPlans !== [] && searchT !== ''
+              ? resPlans && // 검색 후 정렬 적용을 위한 플랜 리스트
+                plansList
+                  .filter((p) => {
+                    return p.name.toLowerCase().includes(searchT);
+                  })
+                  .map((item) => {
+                    return (
+                      <PlanLayout
+                        key={item.planId}
+                        planId={item.planId}
+                        name={item.name}
+                        periods={item.periods}
+                        createdDate={item.createdDate}
+                        userDirs={userDirs}
+                        checkedPlans={checkedPlans}
+                        setCheckedPlans={setCheckedPlans}
+                        postMovePlans={postMovePlans}
+                        postTrash={postTrash}
+                        postRevert={postRevert}
+                        currentDirId={currentDirId}
+                        deletePlan={deletePlan}
+                      />
+                    );
+                  })
+              : plansList && // 0703 조건 수정
+                /*slice(offset, offset + 12).*/
+                plansList.map((item) => {
+                  return (
+                    <PlanLayout
+                      key={item.planId}
+                      planId={item.planId}
+                      name={item.name}
+                      periods={item.periods}
+                      createdDate={item.createdDate}
+                      userDirs={userDirs}
+                      checkedPlans={checkedPlans}
+                      setCheckedPlans={setCheckedPlans}
+                      postMovePlans={postMovePlans}
+                      postTrash={postTrash}
+                      postRevert={postRevert}
+                      currentDirId={currentDirId}
+                      deletePlan={deletePlan}
+                    />
+                  );
+                })}
+          </PlansContainer>
+          {/*<PlanPagination
         total={mainPlans.planCount ? mainPlans.planCount : 1}
         page={page}
         setPage={setPage}
       />*/}
-    </PlanListContainer>
+        </PlanListContainer>
+      )}
+    </>
   );
 };
 

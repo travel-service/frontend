@@ -1,3 +1,4 @@
+import Close from 'lib/Icons/Close';
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -7,27 +8,27 @@ import styled from 'styled-components';
 //리스트 전체
 const DirListContainer = styled.div`
   box-sizing: border-box;
-  position: absolute;
-  left: 2.08%;
-  right: 78.47%;
-  top: 8.18%;
+  width: 20%;
+  //width: 280px;
   padding: 1.5%;
   background: #f6f6f8;
   border: 1px solid #ddddde;
   border-radius: 10px;
 `;
-// 새여행가기 버튼 Container
-const NewPlanButtonContainer = styled.div`
-  padding: 10px 20px 10px 20px;
-  border-radius: 20px;
+// 새여행가기 버튼
+const NewPlanButton = styled(Link)`
+  display: inline-block;
+  border-radius: 30px;
   text-align: center;
+  justify-content: center;
   background: #000000;
   cursor: pointer;
-`;
-const NewPlanButton = styled(Link)`
+  width: 100%;
+  height: 46px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+
   text-decoration: none;
-  font-family: 'Pretendard';
-  font-style: normal;
   font-weight: 700;
   font-size: 14px;
   line-height: 17px;
@@ -44,8 +45,6 @@ const ButtonsDiv = styled.div`
 `;
 // text
 const DirTextDiv = styled.div`
-  font-family: 'Pretendard';
-  font-style: normal;
   font-weight: 700;
   font-size: 14px;
   line-height: 17px;
@@ -63,22 +62,6 @@ const DirContainer = styled.div`
   ${(props) => (props.ck ? 'border: 2px solid #f87676;' : '')};
   border-radius: 10px;
   margin-top: 15px;
-
-  /*display: flex;
-  //background: white;
-  align-items: center;
-  justify-content: space-between;
-  border: 2px ${(props) => (props.new ? 'dashed' : 'solid')} lightgray;
-  ${(props) =>
-    props.ck ? 'background: lightgray;' : 'background: white; cursor: pointer'};
-  margin-bottom: 15px;
-  padding: 5px 20px 5px 10px;
-  height: 70px;
-  width: 100%;
-  font-size: 1.2rem;
-  &:hover {
-    ${(props) => (props.new ? '' : 'background: lightgray;')}
-  }*/
 `;
 // 생성 버튼
 const IconDiv = styled.div`
@@ -86,16 +69,8 @@ const IconDiv = styled.div`
   align-items: center;
   background: #eaeaea;
   border-radius: 20px;
-
+  cursor: pointer;
   padding: 10px 20px 10px 20px;
-  /*display: flex;
-  align-items: center;
-  justify-content: center;
-  background: red;
-  width: 40px;
-  height: 40px;
-  margin-right: ${(props) => (props.side ? '10px' : '')};
-  border: none;*/
 `;
 //디렉터리 아이콘 들어갈 자리
 const BaseIconDiv = styled.div`
@@ -118,8 +93,6 @@ const PlanCountContainer = styled.div`
   border-radius: 20px;
   padding: 5px 10px 5px 10px;
 
-  font-family: 'Pretendard';
-  font-style: normal;
   font-weight: 500;
   font-size: 8px;
   line-height: 10px;
@@ -128,11 +101,8 @@ const PlanCountContainer = styled.div`
 
 //디렉토리 생성 input
 const CreateInput = styled.input`
-  //border: 1px solid #000000;
   border-radius: 5px;
   width: ${(props) => (props.c ? '80%' : '70%')};
-  font-family: 'Pretendard';
-  font-style: normal;
   font-weight: 500;
   font-size: 14px;
   line-height: 17px;
@@ -143,7 +113,6 @@ const CreateInput = styled.input`
 const MoreDiv = styled.div`
   padding-left: 10px;
   padding-top: 2.5px;
-  z-index: 50;
   cursor: pointer;
 `;
 // 더보기 container
@@ -155,6 +124,7 @@ const DirPopUpContainer = styled.ul`
   list-style: none;
   margin: 0px;
   padding: 10px;
+  z-index: 1;
 `;
 // 더보기 내용
 const DirPopUp = styled.li`
@@ -171,8 +141,6 @@ const DirPopUp = styled.li`
   decoration: none;
   text-align: center;
 
-  font-family: 'Pretendard';
-  font-style: normal;
   font-weight: 400;
   font-size: 12px;
   line-height: 14px;
@@ -194,6 +162,7 @@ const DirectoryList = ({
   setCurrentDir,
   setCreateUserDir,
   setDirName,
+  setCheckedPlans,
   setUserDirs,
   postCreateDir,
   postChangeDirName,
@@ -219,14 +188,11 @@ const DirectoryList = ({
     // 디렉터리 생성 완료 시
     if (createUserDir !== '' && createDir) {
       postCreateDir();
-      window.location.reload();
     } else if (changeDirName !== '' && chName) {
       postChangeDirName();
-      //window.location.reload();
-    } else {
-      setCreateDir(false);
-      setChName(false);
     }
+    setCreateDir(false);
+    setChName(false);
   };
 
   const onChangeDirName = (e, c) => {
@@ -240,10 +206,10 @@ const DirectoryList = ({
     }
   };
 
-  const onClickDeleteDir = (id) => {
-    // 디렉터리 삭제
-    console.log('deleteDir');
-    //setDeleteUserDir(id), postDeleteDir()?
+  const onClickClose = () => {
+    setCreateDir(false);
+    setCreateUserDir('');
+    setDirName('');
   };
 
   const onClickMore = (e) => {
@@ -254,171 +220,177 @@ const DirectoryList = ({
 
   return (
     <DirListContainer>
-      <>
-        <NewPlanButtonContainer>
+      {mainPlans && userDirs && trashPlans && (
+        <>
           <NewPlanButton to={process.env.PUBLIC_URL + `/canvas/setting`}>
             새로운 여행 만들기 +
           </NewPlanButton>
-        </NewPlanButtonContainer>
-        <ButtonsDiv title="true">
-          <DirTextDiv>내 여행</DirTextDiv>
-          <ButtonsDiv>
-            <IconDiv
-              onClick={() => {
-                setCreateDir(true);
-              }}
-            >
-              <img
-                src={process.env.PUBLIC_URL + '/images/add_new_folder_ico.png'}
-              />
-            </IconDiv>
+          <ButtonsDiv title="true">
+            <DirTextDiv>내 여행</DirTextDiv>
+            <ButtonsDiv>
+              <IconDiv
+                onClick={() => {
+                  !createDir ? setCreateDir(true) : onClickClose();
+                }}
+              >
+                {!createDir ? (
+                  <img
+                    src={
+                      process.env.PUBLIC_URL + '/images/add_new_folder_ico.png'
+                    }
+                  />
+                ) : (
+                  <Close />
+                )}
+              </IconDiv>
+            </ButtonsDiv>
           </ButtonsDiv>
-        </ButtonsDiv>
-        <div>
-          {
-            <DirContainer
-              ck={currentDirId === 'm' ? true : false}
-              onClick={() => {
-                setCurrentDir('m');
-              }}
-            >
-              <ButtonsDiv>
-                <BaseIconDiv>
-                  <img
-                    src={process.env.PUBLIC_URL + '/images/folders_ico.png'}
-                  />
-                </BaseIconDiv>
-                <DirTextDiv>모든 여행</DirTextDiv>
-              </ButtonsDiv>
-              <PlanCountContainer>
-                {mainPlans.planCount ? mainPlans.planCount : 0}
-              </PlanCountContainer>
-            </DirContainer>
-          }
-          {userDirs.mainUserDirectory &&
-            userDirs.mainUserDirectory.map((item, index) => {
-              return (
-                <DirContainer
-                  key={item.userDirectoryId}
-                  ck={currentDirId === item.userDirectoryId ? true : false}
-                  onClick={() => {
-                    setCurrentDir(item.userDirectoryId);
-                  }}
-                >
-                  <ButtonsDiv change="true">
-                    <BaseIconDiv>
-                      <img
-                        src={process.env.PUBLIC_URL + '/images/folder_ico.png'}
-                      />
-                    </BaseIconDiv>
-                    {chName && currentDirId === item.userDirectoryId ? (
-                      //<ButtonsDiv>
-                      <CreateInput
-                        value={changeDirName}
-                        onChange={(e) => {
-                          onChangeDirName(e.target.value, !chName);
-                        }}
-                        onBlur={() => {
-                          onBlurDir();
-                        }}
-                      />
-                    ) : (
-                      item.directoryName
-                    )}
-                  </ButtonsDiv>
-                  <ButtonsDiv>
-                    <PlanCountContainer>
-                      {
-                        userPlans ? userPlans.length : 0
-                        /*userDirs.planCount ? userDirs.planCount[index] : 0*/
-                      }
-                    </PlanCountContainer>
-                    <MoreDiv
-                      onClick={() => {
-                        setMoreBtn(!moreBtn);
-                      }}
-                    >
-                      <img
-                        src={process.env.PUBLIC_URL + '/images/more_ico.png'}
-                      />
-                      {moreBtn && currentDirId === item.userDirectoryId && (
-                        <DirPopUpContainer ref={outRef}>
-                          <DirPopUp
-                            onClick={() => {
-                              setChName(!chName);
-                              currentDirId === item.userDirectoryId &&
-                                setDirName(
-                                  userDirs.mainUserDirectory &&
-                                    userDirs.mainUserDirectory.find(
-                                      (i) => i.userDirectoryId === currentDirId,
-                                    ).directoryName,
-                                );
-                            }}
-                          >
-                            수정
-                          </DirPopUp>
-                          <DirPopUp
-                            bottomBtn="true"
-                            onClick={() => {
-                              postDeleteDir();
-                              window.location.reload();
-                            }}
-                          >
-                            삭제
-                          </DirPopUp>
-                        </DirPopUpContainer>
+          <div>
+            {
+              <DirContainer
+                ck={currentDirId === 'm' ? true : false}
+                onClick={() => {
+                  setCurrentDir('m');
+                  setCheckedPlans([]);
+                }}
+              >
+                <ButtonsDiv>
+                  <BaseIconDiv>
+                    <img
+                      src={process.env.PUBLIC_URL + '/images/folders_ico.png'}
+                    />
+                  </BaseIconDiv>
+                  <DirTextDiv>모든 여행</DirTextDiv>
+                </ButtonsDiv>
+                <PlanCountContainer>{mainPlans.planCount}</PlanCountContainer>
+              </DirContainer>
+            }
+            {userDirs.mainUserDirectory &&
+              userDirs.mainUserDirectory.map((item, index) => {
+                return (
+                  <DirContainer
+                    key={item.userDirectoryId}
+                    ck={currentDirId === item.userDirectoryId ? true : false}
+                    onClick={() => {
+                      setCurrentDir(item.userDirectoryId);
+                      setCheckedPlans([]);
+                    }}
+                  >
+                    <ButtonsDiv change="true">
+                      <BaseIconDiv>
+                        <img
+                          src={
+                            process.env.PUBLIC_URL + '/images/folder_ico.png'
+                          }
+                        />
+                      </BaseIconDiv>
+                      {chName && currentDirId === item.userDirectoryId ? (
+                        <CreateInput
+                          value={changeDirName}
+                          onChange={(e) => {
+                            onChangeDirName(e.target.value, !chName);
+                          }}
+                          onBlur={() => {
+                            onBlurDir();
+                          }}
+                        />
+                      ) : (
+                        item.directoryName
                       )}
-                    </MoreDiv>
-                  </ButtonsDiv>
-                </DirContainer>
-              );
-            })}
-          {createDir && !chName && (
-            <DirContainer
-              new
-              onBlur={() => {
-                //제목 입력 후 다른 곳 클릭 시
-                onBlurDir(); // dir 이름 입력 있으면 post, 없으면 없어지게: input창 의존 ..
-              }}
-            >
-              <ButtonsDiv>
-                <BaseIconDiv>
-                  <img
-                    src={process.env.PUBLIC_URL + '/images/folder_ico.png'}
+                    </ButtonsDiv>
+                    <ButtonsDiv>
+                      <PlanCountContainer>
+                        {userDirs.planCount[index]}
+                      </PlanCountContainer>
+                      <MoreDiv
+                        onClick={() => {
+                          setMoreBtn(!moreBtn);
+                        }}
+                      >
+                        <img
+                          src={process.env.PUBLIC_URL + '/images/more_ico.png'}
+                        />
+                        {moreBtn && currentDirId === item.userDirectoryId && (
+                          <DirPopUpContainer ref={outRef}>
+                            <DirPopUp
+                              onClick={() => {
+                                setChName(!chName);
+                                currentDirId === item.userDirectoryId &&
+                                  setDirName(
+                                    userDirs.mainUserDirectory &&
+                                      userDirs.mainUserDirectory.find(
+                                        (i) =>
+                                          i.userDirectoryId === currentDirId,
+                                      ).directoryName,
+                                  );
+                              }}
+                            >
+                              수정
+                            </DirPopUp>
+                            <DirPopUp
+                              bottomBtn="true"
+                              onClick={() => {
+                                postDeleteDir();
+                              }}
+                            >
+                              삭제
+                            </DirPopUp>
+                          </DirPopUpContainer>
+                        )}
+                      </MoreDiv>
+                    </ButtonsDiv>
+                  </DirContainer>
+                );
+              })}
+            {createDir && !chName && (
+              <DirContainer
+                new
+                onBlur={() => {
+                  onBlurDir();
+                }}
+              >
+                <ButtonsDiv>
+                  <BaseIconDiv>
+                    <img
+                      src={process.env.PUBLIC_URL + '/images/folder_ico.png'}
+                    />
+                  </BaseIconDiv>
+                  <CreateInput
+                    c
+                    placeholder="새 여행 보관함"
+                    onChange={(e) => {
+                      onChangeDirName(e.target.value, true);
+                    }}
                   />
-                </BaseIconDiv>
-                <CreateInput
-                  c
-                  placeholder="새 여행 보관함"
-                  onChange={(e) => {
-                    onChangeDirName(e.target.value, true);
-                  }}
-                />
-              </ButtonsDiv>
-            </DirContainer>
-          )}
-          {
-            <DirContainer
-              ck={currentDirId === 't' ? true : false}
-              onClick={() => {
-                setCurrentDir('t');
-              }}
-            >
-              <ButtonsDiv>
-                <BaseIconDiv>
-                  <img src={process.env.PUBLIC_URL + '/images/trash_ico.png'} />
-                </BaseIconDiv>
-                <DirTextDiv>휴지통</DirTextDiv>
-              </ButtonsDiv>
-              <ButtonsDiv>
-                <PlanCountContainer>
-                  {trashPlans.trashPlanCount ? trashPlans.trashPlanCount : 0}
-                </PlanCountContainer>
-              </ButtonsDiv>
-            </DirContainer>
-          }
-        </div>
-      </>
+                </ButtonsDiv>
+              </DirContainer>
+            )}
+            {
+              <DirContainer
+                ck={currentDirId === 't' ? true : false}
+                onClick={() => {
+                  setCurrentDir('t');
+                  setCheckedPlans([]);
+                }}
+              >
+                <ButtonsDiv>
+                  <BaseIconDiv>
+                    <img
+                      src={process.env.PUBLIC_URL + '/images/trash_ico.png'}
+                    />
+                  </BaseIconDiv>
+                  <DirTextDiv>휴지통</DirTextDiv>
+                </ButtonsDiv>
+                <ButtonsDiv>
+                  <PlanCountContainer>
+                    {trashPlans.trashPlanCount}
+                  </PlanCountContainer>
+                </ButtonsDiv>
+              </DirContainer>
+            }
+          </div>
+        </>
+      )}
     </DirListContainer>
   );
 };

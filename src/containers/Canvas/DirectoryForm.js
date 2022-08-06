@@ -9,15 +9,16 @@ import { useSelector } from 'react-redux';
 
 //디렉토리 목록 데이터 get
 const DirContainer = styled.div`
-  /*display: flex;
-  margin-top: 2%;
-  height: 80vh;*/
-`;
-/*const PlanContainer = styled.div`
   display: flex;
-  width: 80%;
-  background: blue;
-`;*/
+  align-items: flex-start;
+  gap: 20px;
+  padding-right: 2%;
+  padding-left: 2%;
+  padding-bottom: 2%;
+
+  font-family: 'Pretendard';
+  font-style: normal;
+`;
 
 const DirectoryForm = () => {
   const { userState } = useSelector(({ user }) => ({
@@ -34,7 +35,6 @@ const DirectoryForm = () => {
     createUserDir,
     changeDirName,
     checkedPlans,
-    //controlPlans,
   } = dirStore();
   const {
     getMainPlans,
@@ -43,14 +43,16 @@ const DirectoryForm = () => {
     setCurrentDir,
     setCreateUserDir,
     setUserDirs,
-    getUserPlans,
+    setDirName,
+    setCheckedPlans,
     postCreateDir,
     postDeleteDir,
     postChangeDirName,
-    setDirName,
-    setCheckedPlans,
     postTrash,
-    //setCancel,
+    postMovePlans,
+    postRevert,
+    deletePlan,
+    //setUserPlans,
   } = dirStore();
 
   useEffect(() => {
@@ -65,7 +67,22 @@ const DirectoryForm = () => {
       getUserDirs();
       getTrashPlans();
     }
-  }, [setId, getMainPlans, getUserDirs, getTrashPlans, userState]);
+  }, [setId, getMainPlans, getTrashPlans, userState]);
+
+  /*useEffect(() => {
+    if (mainPlans.mainDirectory && userDirs.mainUserDirectory) {
+      const i = mainPlans.mainDirectory.filter((p) => {
+        userDirs.mainUserDirectory.map(
+          (i) => {
+            p.userDirectoryId.filter(
+              (c) => c.userDirectoryId === i.userDirectoryId,
+            );
+          },
+        );
+      });
+    }
+    //console.log(userPlans);
+  }, [mainPlans, userDirs]);*/
 
   return (
     <PageTemplate>
@@ -74,6 +91,7 @@ const DirectoryForm = () => {
           mainPlans={mainPlans}
           trashPlans={trashPlans}
           userDirs={userDirs}
+          userPlans={userPlans}
           currentDirId={currentDirId}
           createUserDir={createUserDir}
           changeDirName={changeDirName}
@@ -81,7 +99,7 @@ const DirectoryForm = () => {
           setCreateUserDir={setCreateUserDir}
           setDirName={setDirName}
           setUserDirs={setUserDirs}
-          getUserPlans={getUserPlans}
+          setCheckedPlans={setCheckedPlans}
           postCreateDir={postCreateDir}
           postChangeDirName={postChangeDirName}
           postDeleteDir={postDeleteDir}
@@ -95,8 +113,10 @@ const DirectoryForm = () => {
           checkedPlans={checkedPlans}
           setCheckedPlans={setCheckedPlans}
           postTrash={postTrash}
-          //controlPlans={controlPlans}
-          //setCancel={setCancel}
+          postMovePlans={postMovePlans}
+          getTrashPlans={getTrashPlans}
+          postRevert={postRevert}
+          deletePlan={deletePlan}
         />
       </DirContainer>
     </PageTemplate>

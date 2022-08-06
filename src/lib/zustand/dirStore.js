@@ -54,63 +54,80 @@ export const dirStore = create((set, get) => ({
   // 플랜 삭제
   postTrash: async () => {
     const checkedPlans = get().checkedPlans;
-    const res = await dirAPI.postTrash(checkedPlans);
 
-    if (res.httpStatus === 201) {
-      set({ checkedPlans: [] });
+    if (checkedPlans.length > 0) {
+      const res = await dirAPI.postTrash(checkedPlans);
 
-      //n개 이상의 플랜 복원 시 데이터 새로 불러오는 것이 낫다고 생각,,
-      const t = await dirAPI.getTrashPlans();
-      if (t.httpStatus === 200) {
-        set({ currentDirId: 't' });
-        set({ trashPlans: t });
+      if (res.httpStatus === 201) {
+        set({ checkedPlans: [] });
+
+        //n개 이상의 플랜 복원 시 데이터 새로 불러오는 것이 낫다고 생각,,
+        const t = await dirAPI.getTrashPlans();
+        if (t.httpStatus === 200) {
+          set({ currentDirId: 't' });
+          set({ trashPlans: t });
+        }
       }
+    } else {
+      alert('선택된 플랜이 없습니다.');
     }
   },
   // 플랜 담기
   postMovePlans: async (dirId) => {
     const checkedPlans = get().checkedPlans;
-    const res = await dirAPI.movePlan(checkedPlans, dirId);
+    if (checkedPlans.length > 0) {
+      const res = await dirAPI.movePlan(checkedPlans, dirId);
 
-    if (res.httpStatus === 201) {
-      set({ checkedPlans: [] });
-      const m = await dirAPI.getAllPlans();
-      if (m.httpStatus === 200) {
-        set({ currentDirId: dirId });
-        set({ mainPlans: m });
+      if (res.httpStatus === 201) {
+        set({ checkedPlans: [] });
+        const m = await dirAPI.getAllPlans();
+        if (m.httpStatus === 200) {
+          set({ currentDirId: dirId });
+          set({ mainPlans: m });
+        }
       }
+    } else {
+      alert('선택된 플랜이 없습니다.');
     }
   },
   // 플랜 복원
   postRevert: async () => {
     const checkedPlans = get().checkedPlans;
-    const res = await dirAPI.postRevert(checkedPlans);
+    if (checkedPlans.length > 0) {
+      const res = await dirAPI.postRevert(checkedPlans);
 
-    if (res.httpStatus === 201) {
-      set({ checkedPlans: [] });
+      if (res.httpStatus === 201) {
+        set({ checkedPlans: [] });
 
-      const t = await dirAPI.getTrashPlans();
-      const m = await dirAPI.getAllPlans();
-      if (t.httpStatus === 200 && m.httpStatus === 200) {
-        set({ currentDirId: 'm' });
-        set({ trashPlans: t });
-        set({ mainPlans: m });
+        const t = await dirAPI.getTrashPlans();
+        const m = await dirAPI.getAllPlans();
+        if (t.httpStatus === 200 && m.httpStatus === 200) {
+          set({ currentDirId: 'm' });
+          set({ trashPlans: t });
+          set({ mainPlans: m });
+        }
       }
+    } else {
+      alert('선택된 플랜이 없습니다.');
     }
   },
   // 플랜 영구 삭제
   deletePlan: async () => {
     const checkedPlans = get().checkedPlans;
-    const res = await dirAPI.deletePlan(checkedPlans);
+    if (checkedPlans.length > 0) {
+      const res = await dirAPI.deletePlan(checkedPlans);
 
-    if (res.httpStatus === 204) {
-      set({ checkedPlans: [] });
+      if (res.httpStatus === 204) {
+        set({ checkedPlans: [] });
 
-      const t = await dirAPI.getTrashPlans();
-      if (t.httpStatus === 201) {
-        set({ currentDirId: 't' });
-        set({ trashPlans: t });
+        const t = await dirAPI.getTrashPlans();
+        if (t.httpStatus === 200) {
+          set({ currentDirId: 't' });
+          set({ trashPlans: t });
+        }
       }
+    } else {
+      alert('선택된 플랜이 없습니다.');
     }
   },
   // userdir 생성
@@ -173,12 +190,15 @@ export const dirStore = create((set, get) => ({
       (e) => e.userDirectoryId === currentDirId,
     );
 
-    if (res.httpStatus === 201) {
+    userDirs.mainUserDirectory[dirInd].directoryName = changeDirName;
+    set({ currentDirId: 'm' });
+    set({ changeDirName: '' });
+    /*if (res.httpStatus === 201) {
       userDirs.mainUserDirectory[dirInd].directoryName = changeDirName;
       set({ currentDirId: 'm' });
       set({ changeDirName: '' });
     } else if (res.httpStatus === 400) {
       alert(res.message);
-    }
+    }*/
   },
 }));
