@@ -70,13 +70,13 @@ const SelectArea = ({ location, selLocs, coords }) => {
           { ((lepIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Leports} search = {search}/>}
           { ((lodIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Lodge} search = {search}/>}
           { ((resIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Restaurant} search = {search}/>}
-          { (selectedOnly === true) && <LocationList locations = {selAttraction} search = {search}/>}
-          { (selectedOnly === true) && <LocationList locations = {selCulture} search = {search}/>}
-          { (selectedOnly === true) && <LocationList locations = {selFestival} search = {search}/>}
-          { (selectedOnly === true) && <LocationList locations = {selLeports} search = {search}/>}
-          { (selectedOnly === true) && <LocationList locations = {selLodge} search = {search}/>}
-          { (selectedOnly === true) && <LocationList locations = {selRestaurant} search = {search}/>}
-        </WhiteBox>
+          { ((attIsCheck === true || noneCheck === true) && selectedOnly === true) && <LocationList locations = {selAttraction} search = {search}/>}
+          { ((culIsCheck === true || noneCheck === true) && selectedOnly === true) && <LocationList locations = {selCulture} search = {search}/>}
+          { ((fesIsCheck === true || noneCheck === true) && selectedOnly === true) && <LocationList locations = {selFestival} search = {search}/>}
+          { ((lepIsCheck === true || noneCheck === true) && selectedOnly === true) && <LocationList locations = {selLeports} search = {search}/>}
+          { ((lodIsCheck === true || noneCheck === true) && selectedOnly === true) && <LocationList locations = {selLodge} search = {search}/>}
+          { ((resIsCheck === true || noneCheck === true) && selectedOnly === true) && <LocationList locations = {selRestaurant} search = {search}/>}
+        </WhiteBox> 
       </BlockListArea>
       <MapArea>
         <Map coords={CoordsList}></Map>
