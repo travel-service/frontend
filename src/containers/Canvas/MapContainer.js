@@ -121,7 +121,7 @@ const MapContainer = ({coords}) => {
 
           const close = document.createElement('div');
           close.setAttribute('class', 'close');
-          close.onclick = () => (customOverlay.setMap(null), setMarker());
+          close.onclick = () => (customOverlay.setMap(null), setMarker(), selectedMarker = null);
 
           content.appendChild(info);
           info.appendChild(titleArea);
@@ -136,10 +136,15 @@ const MapContainer = ({coords}) => {
         });
 
         kakao.maps.event.addListener(marker, 'click', function() {
+          if ( selectedMarker !== null) {
+            console.log('test');
+            customOverlay.setMap(null);
+          }
           if (!selectedMarker || selectedMarker !== marker) {
             !!selectedMarker && selectedMarker.setImage(selectedMarker.normalImage);
             setPicker();
           }
+          console.log('test2');
           customOverlay.setMap(kakaoMap);
           selectedMarker = marker;
         });

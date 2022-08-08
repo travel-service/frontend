@@ -82,10 +82,11 @@ function Location ({location}) {
   );
 }
 
-function LocationList({ locations }) {
+function LocationList({ locations, search }) {
+  var arr = locations.filter(val => (val.name.includes(search)));
   return (
     <Blocks>
-      {locations.map(location => (
+      {arr.map(location => (
         <Location location={location} key={location.id} />
       ))}
     </Blocks>
@@ -93,3 +94,5 @@ function LocationList({ locations }) {
 }
 
 export default LocationList;
+
+

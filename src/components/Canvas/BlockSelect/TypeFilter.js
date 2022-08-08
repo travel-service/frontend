@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { filterStore } from 'lib/filterStore';
 
 const TypeSelect = styled.div`
-  padding: 0.5em ;
+  /* padding: 0.5em ; */
+  padding-top: 0.5rem;
   background-color: lemonchiffon;
   text-align: center;
   p1 {
@@ -11,7 +12,6 @@ const TypeSelect = styled.div`
     padding: 0.5em;
   }
 `
-
 
 function TypeFilter() {
 

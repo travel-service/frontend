@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import LocationList from './LocationList'
 import TypeFilter from './TypeFilter';
@@ -8,6 +8,10 @@ import Map from 'containers/Canvas/MapContainer'
 const ContentsArea = styled.div`
   overflow: auto;
   background-color: skyblue;
+`
+
+const FilterArea = styled.div`
+  background-color: lemonchiffon;
 `
 
 const WhiteBox = styled.div`
@@ -34,12 +38,13 @@ const MapArea = styled.div`
 `
 
 const SelectArea = ({ location, selLocs, coords }) => {
+  const [search, setSearch] = useState("");
 
   const { Attraction, Culture, Festival, Leports, Lodge, Restaurant } = location
 
   const { CoordsList } = coords
 
-  const { selAttraction } = selLocs
+  const { selAttraction, selCulture, selFestival, selLeports, selLodge, selRestaurant } = selLocs
 
   const { attIsCheck, culIsCheck, fesIsCheck, lepIsCheck, lodIsCheck, resIsCheck, selectedOnly } = filterStore();
 
@@ -47,16 +52,30 @@ const SelectArea = ({ location, selLocs, coords }) => {
 
   return (
     <ContentsArea>
-      <TypeFilter />
+      <FilterArea>
+        <TypeFilter />
+        <input 
+          type="texy"
+          placeholder="Search"
+          onChange={(e) => {
+            setSearch(e.target.value);
+          }}
+        />
+      </FilterArea>
       <BlockListArea>
         <WhiteBox>
-          { ((attIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Attraction}/>}
-          { ((culIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Culture}/>}
-          { ((fesIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Festival}/>}
-          { ((lepIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Leports}/>}
-          { ((lodIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Lodge}/>}
-          { ((resIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Restaurant}/>}
-          { (selectedOnly === true) && <LocationList locations = {selAttraction}/>}
+          { ((attIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Attraction} search = {search}/>}
+          { ((culIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Culture} search = {search}/>}
+          { ((fesIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Festival} search = {search}/>}
+          { ((lepIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Leports} search = {search}/>}
+          { ((lodIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Lodge} search = {search}/>}
+          { ((resIsCheck === true || noneCheck === true) && selectedOnly === false) && <LocationList locations = {Restaurant} search = {search}/>}
+          { (selectedOnly === true) && <LocationList locations = {selAttraction} search = {search}/>}
+          { (selectedOnly === true) && <LocationList locations = {selCulture} search = {search}/>}
+          { (selectedOnly === true) && <LocationList locations = {selFestival} search = {search}/>}
+          { (selectedOnly === true) && <LocationList locations = {selLeports} search = {search}/>}
+          { (selectedOnly === true) && <LocationList locations = {selLodge} search = {search}/>}
+          { (selectedOnly === true) && <LocationList locations = {selRestaurant} search = {search}/>}
         </WhiteBox>
       </BlockListArea>
       <MapArea>

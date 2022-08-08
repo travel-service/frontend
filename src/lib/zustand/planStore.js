@@ -106,7 +106,7 @@ export const useStore = create((set, get) => ({
           ...state.selCateLoc,
           selAttraction: [...state.selCateLoc.selAttraction, loc]
          }}));
-         set(state => ({ }));
+        //  set(state => ({ }));
         break;
       case 1:
         set(state => ({ selCateLoc: {
