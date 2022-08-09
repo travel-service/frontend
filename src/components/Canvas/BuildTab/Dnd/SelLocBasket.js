@@ -1,123 +1,149 @@
 import React, { useEffect, useState } from 'react';
 import Location from '../LocDetail/Location';
 import styled, { css } from 'styled-components';
-import oc from 'open-color';
 import { Droppable } from 'react-beautiful-dnd';
+import CustomRadio from 'lib/custom/CustomRadio';
+import CreateLoc from '../MemLoc/CreateLoc';
+import palette from 'lib/styles/palette';
 
 const Container = styled.div`
   display: flex;
-  flex-direction: row;
-  transition: all 0.3s;
-  margin-right: 8px;
+  flex-direction: column;
+  min-width: 330px;
+  /* height: 100%; */
+  background-color: white;
+  border-radius: 0px 10px 10px 0px;
+  transition: 0.3s all linear;
+  padding: 20px;
+
   ${(props) =>
     !props.isOpen &&
     css`
-      width: 0vw;
+      min-width: 0px;
+      width: 0px;
+      padding: 0px;
+      border: none;
     `}
+
   @media screen and (max-width: 767px) {
+    /* width: 100%; */
     display: block;
+    /* transition: none; */
+    border: 1px ${palette.back2} solid;
+    border-radius: 10px 10px 10px 10px;
+    margin-bottom: 8px;
+    margin-left: 20px;
+    margin-right: 20px;
+
+    ${(props) =>
+      !props.isOpen &&
+      css`
+        border: 0px;
+        height: 0px;
+      `}
   }
 `;
 
-const List = styled.div`
-  display: flex;
-  width: 100px;
-  flex-direction: column;
-  border: 2px solid ${oc.teal[6]};
-  justify-content: space-around;
-  @media screen and (max-width: 767px) {
-    flex-direction: row;
-    /* display: block; */
-    width: 100%;
-  }
-`;
-
-const Item = styled.div`
-  display: flex;
-  flex-grow: 1;
-  padding: 20px 0px;
-  align-items: center;
-  justify-content: center;
-  :hover {
-    cursor: pointer;
-    background: ${oc.teal[6]};
-    color: white;
-    transition: background 0.2s linear;
-  }
-  :active {
-    transform: translateY(1px);
-  }
+const Title = styled.div`
+  /* font-family: 'Pretendard'; */
+  /* font-style: normal; */
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 15px;
 `;
 
 const Basket = styled.div`
-  padding: 10px;
-  border: 2px solid ${oc.teal[6]};
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: auto;
+  margin-bottom: auto;
+  background-color: ${palette.back2};
+  border-radius: 10px;
+  padding: 20px;
+
+  @media screen and (max-width: 767px) {
+    max-height: 150px;
+    overflow: auto;
+  }
+  li[data-rbd-placeholder-context-id] {
+    display: none !important;
+  }
 `;
 
-const SelLocBasket = ({ isOpen, category, selCateLoc }) => {
-  const list = Object.keys(category);
-  const [type, setType] = useState(category[list[0]].eng);
-  const [typeId, setTypeId] = useState(list[0]);
-  const [selectArea, setSelectArea] = useState(false);
+const Div = styled.div`
+  height: 45px;
+  margin-bottom: 10px;
+`;
+
+const SelLocBasket = ({ data }) => {
+  const { isOpen, category, selCateLoc, memberLocations } = data;
+  const [type, setType] = useState('Attraction');
+  const [selCateLocAddMember, setSelCateLocAddMember] = useState({
+    ...selCateLoc,
+    member: memberLocations,
+  });
 
   useEffect(() => {
-    for (let key in selCateLoc) {
-      if (selCateLoc[key].length > 0) setSelectArea(true);
-    }
-  }, [selCateLoc]);
+    setSelCateLocAddMember({
+      // selCateLoc + memberLocation
+      ...selCateLoc,
+      member: memberLocations,
+    });
+  }, [selCateLoc, memberLocations]);
 
-  const onClick = (idx) => {
-    setType(category[idx].eng);
-    setTypeId(idx);
+  const onClick = (type) => {
+    setType(type);
   };
 
   return (
     <Container isOpen={isOpen}>
       {/* 카테고리 */}
-      {selectArea && isOpen && (
-        <List>
-          {Object.keys(selCateLoc).map((cate, idx) => {
-            if (selCateLoc[cate].length > 0)
-              return (
-                <Item key={idx} onClick={() => onClick(idx + 1)}>
-                  {category[idx + 1].kor}
-                </Item>
-              );
-          })}
-        </List>
-      )}
-      {/* 현재 카테고리 담은 블록 */}
       {isOpen && (
-        <Droppable
-          droppableId={String(typeId)}
-          isDropDisabled={true}
-          // type="location"
-        >
-          {(provided, snapshot) => (
-            <Basket
-              ref={provided.innerRef}
-              // {...provided.droppableProps}
-              isDraggingOver={snapshot.isDraggingOver}
-              //length={selCateLoc[`sel${type}`].length}
-            >
-              {selCateLoc[`sel${type}`].length === 0 && (
-                <>로케이션을 담아오세요</>
-              )}
-              {selCateLoc[`sel${type}`].length > 0 &&
-                selCateLoc[`sel${type}`].map((location, index) => {
-                  return (
-                    <Location
-                      key={location.id}
-                      location={location}
-                      index={index}
-                      id={location.id}
-                    />
-                  );
-                })}
-              {provided.placeholder}
-            </Basket>
-          )}
-        </Droppable>
+        <>
+          <Title>담은 블록 보기</Title>
+          <CustomRadio
+            dataObj={category}
+            onClick={onClick}
+            check={type}
+            flag="member"
+          />
+          <Div>
+            <CreateLoc />
+          </Div>
+          {/* 현재 카테고리 담은 블록 */}
+          <Droppable
+            droppableId={type}
+            isDropDisabled={true}
+            // type="location"
+          >
+            {(provided, snapshot) => (
+              <Basket
+                ref={provided.innerRef}
+                // {...provided.droppableProps}
+                isDraggingOver={snapshot.isDraggingOver}
+              >
+                {selCateLocAddMember[type].length === 0 && (
+                  <>로케이션을 담아오세요</>
+                )}
+                {selCateLocAddMember[type].length > 0 &&
+                  selCateLocAddMember[type].map((location, index) => {
+                    return (
+                      <Location
+                        key={location.locationId}
+                        location={location}
+                        index={index}
+                        id={location.locationId}
+                        max={selCateLocAddMember[type].length - 1}
+                      />
+                    );
+                  })}
+                {provided.placeholder}
+              </Basket>
+            )}
+          </Droppable>
+        </>
       )}
     </Container>
   );

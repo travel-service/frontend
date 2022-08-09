@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import palette from '../../../lib/styles/palette';
-import Modal from '../../modal/modal';
+// import Modal from '../../modal/modal2';
+import Modal from 'react-modal';
 import { useStore } from '../../../lib/zustand/planStore';
 import BlockInfo from '../BlockInfo/BlockInfo';
 
@@ -59,15 +60,17 @@ const SelectedLocations = ({ selectedLocation }) => {
       </BlockDiv>
       <BButton
         onClick={() => {
-          console.log(selectedLocation.id);
-          remove(selectedLocation.id, selectedLocation.type);
+          remove(selectedLocation.locationId, selectedLocation.type.type);
         }}
       >
         취소
       </BButton>
       <Modal open={modalOpen} close={closeModal} header={selectedLocation.name}>
         {selectedLocation.info}
-        <BlockInfo type={selectedLocation.type} id={selectedLocation.id} />
+        <BlockInfo
+          type={selectedLocation.type}
+          id={selectedLocation.locationId}
+        />
       </Modal>
     </Block>
   );
@@ -79,7 +82,7 @@ const SelectedLocationList = ({ selectedLocations }) => {
       {selectedLocations.map((selectedLocation) => (
         <SelectedLocations
           selectedLocation={selectedLocation}
-          key={selectedLocation.id}
+          key={selectedLocation.locationId}
         />
       ))}
     </div>

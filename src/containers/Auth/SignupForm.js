@@ -92,7 +92,7 @@ const SignupForm = () => {
   useEffect(() => {
     if (authError) {
       // 아이디가 이미 존재
-      setError(authError.response.data.message);
+      setError(authError.message);
       return;
       // }
       // 기타 이유
@@ -100,6 +100,7 @@ const SignupForm = () => {
       // return;
     }
     if (auth) {
+      console.log(auth);
       console.log('회원가입 성공');
       dispatch(tempSetAuth()); // 회원가입후 auth 제거
       alert('회원가입이 완료되었습니다!');

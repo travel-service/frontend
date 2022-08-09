@@ -1,5 +1,8 @@
 import { createAction, handleActions } from 'redux-actions';
-import { takeLatest, call } from 'redux-saga/effects';
+import {
+  takeLatest,
+  // call
+} from 'redux-saga/effects';
 import produce from 'immer';
 import createRequestSaga, {
   createRequestActionTypes,
@@ -14,7 +17,6 @@ const [SIGNUP, SIGNUP_SUCCESS, SIGNUP_FAILURE] =
   createRequestActionTypes('auth/SIGNUP'); // 회원가입
 const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] =
   createRequestActionTypes('auth/LOGIN'); // 로그인
-// const LOGOUT = 'auth/LOGOUT'; // 로그아웃
 
 // createAction(타입, 현재 상태)
 export const changeField = createAction(
@@ -42,18 +44,6 @@ export const login = createAction(LOGIN, ({ userName, password }) => ({
   password,
 }));
 export const tempSetAuth = createAction(TEMP_SET_AUTH, (auth) => auth);
-// export const logout = createAction(LOGOUT);
-
-// function* logoutSaga() {
-//   // 로그아웃시 스토리지 삭제
-//   try {
-//     yield call(authAPI.logout);
-//     localStorage.removeItem('userState');
-//     localStorage.removeItem('accessToken');
-//   } catch (e) {
-//     console.log(e);
-//   }
-// }
 
 // 사가 생성
 // yield 비동기 통신
@@ -62,7 +52,6 @@ const loginSaga = createRequestSaga(LOGIN, authAPI.login);
 export function* authSaga() {
   yield takeLatest(SIGNUP, signupSaga);
   yield takeLatest(LOGIN, loginSaga);
-  // yield takeLatest(LOGOUT, logoutSaga);
 }
 
 // 초기값
@@ -100,18 +89,28 @@ const auth = handleActions(
       authError: null, // 폼 전환 시 외원 인증 에러 초기화
     }),
     // 회원가입 성공
-    [SIGNUP_SUCCESS]: (state, { payload: auth }) => {
-      return {
-        ...state,
-        auth,
-        authError: null,
-      };
+    [SIGNUP_SUCCESS]: (state, action) => {
+      // 수정, 오류 점검 후 리팩토링 필요
+      if (action.payload.data) {
+        return {
+          ...state,
+          auth: action.payload.data,
+          authError: null,
+        };
+      } else {
+        return {
+          ...state,
+          authError: action.payload.response.data,
+        };
+      }
     },
     // 회원가입 실패
-    [SIGNUP_FAILURE]: (state, { payload: error }) => ({
-      ...state,
-      authError: error,
-    }),
+    [SIGNUP_FAILURE]: (state, { payload: error }) => {
+      return {
+        ...state,
+        authError: error,
+      };
+    },
     // 로그인 성공
     [LOGIN_SUCCESS]: (state, { payload: auth }) => {
       return {
@@ -130,20 +129,11 @@ const auth = handleActions(
     },
     // 회원가입후 auth 제거
     [TEMP_SET_AUTH]: (state, action) => {
-      console.log(action);
       return {
         ...state,
         auth: null,
       };
     },
-    // // 로그아웃
-    // [LOGOUT]: (state) => ({
-    //   ...state,
-    //   userState: null,
-    //   auth: null,
-    //   authError: null,
-    //   accessToken: null,
-    // }),
   },
   initialState,
 );

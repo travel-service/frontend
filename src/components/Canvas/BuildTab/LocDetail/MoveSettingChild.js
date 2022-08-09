@@ -1,43 +1,42 @@
 import React from 'react';
 import styled from 'styled-components';
-import {
-  MdDirectionsCar,
-  MdDirectionsBus,
-  MdDirectionsWalk,
-  MdDirectionsBike,
-} from 'react-icons/md';
+import CustomRadio from 'lib/custom/CustomRadio';
 
 const Container = styled.div`
-  display: flex;
+  padding: 20px;
   justify-content: space-between;
-  align-items: center;
-  padding: 5px 5px;
-`;
-
-const VehicleDiv = styled.div`
   /* align-items: center; */
+  width: 310px;
+  @media screen and (max-width: 1023px) {
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+  }
 `;
 
-const Vehicle = styled.div`
+const VehicleDiv = styled.div``;
+
+const Time = styled.div`
+  /* width: 100%; */
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 16px;
+`;
+
+const TimeInputs = styled.div`
   display: flex;
-  margin-left: 10px;
-  margin-bottom: 5px;
-`;
-
-const Input = styled.input`
-  margin: 0px;
-  margin-right: 5px;
-  width: 16px;
-  height: 16px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
 const TimeInput = styled.input`
-  margin-left: 10px;
-`;
-
-const Time = styled.div`
-  margin-left: 20px;
-  margin-right: 10px;
+  height: 45px;
+  width: 40%;
+  margin-right: 13px;
+  border: 1px solid #e5e7e8;
+  border-radius: 5px;
 `;
 
 const MoveSettingChild = ({
@@ -45,62 +44,41 @@ const MoveSettingChild = ({
   time,
   checkedVehicleHandler,
   checkVehicle,
+  vehicleList,
 }) => {
-  const vehicleList = ['car', 'bus', 'walk', 'bike'];
   const { hour, min } = time;
-
-  const checkOnlyOne = (target) => {
-    const vehicles = document.getElementsByName('vehicle');
-    for (let i = 0; i < vehicles.length; i++) {
-      if (vehicles[i] !== target) vehicles[i].checked = false;
-    }
-  };
 
   return (
     <Container>
       <VehicleDiv>
-        <Vehicle>
-          <MdDirectionsCar style={{ marginRight: '5px' }} />
-          <MdDirectionsBus style={{ marginRight: '5px' }} />
-          <MdDirectionsWalk style={{ marginRight: '5px' }} />
-          <MdDirectionsBike style={{ marginRight: '5px' }} />
-        </Vehicle>
-        <Vehicle>
-          {vehicleList.map((vehicle, idx) => (
-            <Input
-              name="vehicle"
-              type="checkbox"
-              key={idx}
-              value={vehicle}
-              onChange={(e) => {
-                checkOnlyOne(e.target);
-                checkedVehicleHandler(e.target.value);
-              }}
-              checked={vehicle === checkVehicle}
-            />
-          ))}
-        </Vehicle>
+        <CustomRadio
+          dataObj={vehicleList}
+          onClick={checkedVehicleHandler}
+          check={checkVehicle}
+        />
       </VehicleDiv>
       <Time>
         <div>이동 시간</div>
-        <TimeInput
-          type="number"
-          onChange={onChange}
-          placeholder="시간"
-          name="hour"
-          value={hour}
-          min="0"
-          max="23"
-        />
-        <TimeInput
-          type="number"
-          onChange={onChange}
-          placeholder="분"
-          name="min"
-          value={min}
-          min="0"
-          max="59"
-        />
+        <TimeInputs>
+          <TimeInput
+            type="number"
+            onChange={onChange}
+            placeholder="시간"
+            name="hour"
+            value={hour}
+            min="0"
+            max="23"
+          />
+          <TimeInput
+            type="number"
+            onChange={onChange}
+            placeholder="분"
+            name="min"
+            value={min}
+            min="0"
+            max="59"
+          />
+        </TimeInputs>
         <div>
           {parseInt(hour) > 0 ? `${hour}시간` : ''}
           {parseInt(min) > 0 ? ` ${min}분` : ''}

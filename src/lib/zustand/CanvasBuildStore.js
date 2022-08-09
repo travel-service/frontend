@@ -2,6 +2,7 @@ import create from 'zustand';
 import uuid from 'react-uuid';
 import { cloneDeep } from 'lodash';
 import { useStore } from './planStore';
+import { memLocStore } from './memberLocStore';
 
 // 여행 캔버스 페이지에서 사용되는 함수
 export const buildStore = create((set, get) => ({
@@ -25,9 +26,31 @@ export const buildStore = create((set, get) => ({
   pushLocToDay: (toDayId, toLocIdx, frCateId, frLocIdx) => {
     const storeTravelDay = useStore.getState().userTravelDay;
     const selLoc = useStore.getState().selCateLoc;
-    const cate = useStore.getState().category;
-    const fromCate = `sel${cate[frCateId].eng}`;
-    const loc = cloneDeep(selLoc[fromCate][frLocIdx]); // 깊은 복사
+    const memLocations = memLocStore.getState().memberLocations;
+    let loc = {}; // 필요한 정보만 담을 예정
+    if (frCateId === 'member') {
+      // memberLocation 이라면
+      const { locationId, address1, name, image } = cloneDeep(
+        memLocations[frLocIdx],
+      );
+      loc = {
+        locationId,
+        address1,
+        name,
+        image,
+      };
+    } else {
+      // 그 외 카테고리
+      const { locationId, address1, name, image } = cloneDeep(
+        selLoc[frCateId][frLocIdx],
+      );
+      loc = {
+        locationId,
+        address1,
+        name,
+        image,
+      };
+    }
     const days = storeTravelDay.travelDay;
     const dayIdx = Number(toDayId[toDayId.length - 1]);
     const dayLocArr = days[dayIdx];
@@ -129,6 +152,12 @@ export const buildStore = create((set, get) => ({
         nowLoc['startTime'] = time;
       } else {
         let { hour, min } = time;
+        if (hour !== '00' && hour / 10 < 1) hour = `0${hour}`;
+        if (min !== '00' && min / 10 < 1) min = `0${min}`;
+        if (hour === '0' && min === '0') {
+          nowLoc['stayTime'] = '';
+          nowLoc['startTime'] = '';
+        }
         if (hour === '' && min === '') {
           nowLoc['stayTime'] = '';
           nowLoc['startTime'] = '';

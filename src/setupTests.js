@@ -3,3 +3,6 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
+import '@testing-library/react';
+// render() 렌더
+// fireEvent 특정 이벤트 발생
