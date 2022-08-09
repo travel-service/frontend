@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Profile from '../img/profile2.jpg';
 import { FaRegBookmark, FaRegHeart, FaPen } from 'react-icons/fa';
 import { HiOutlineFolderOpen } from 'react-icons/hi';
+import { useStore } from 'lib/zustand/myStore';
+import { setIn } from 'immutable';
+import { AccountBalance } from '@mui/icons-material';
 
 const MyInfoBox = styled.div`
   display: flex;
@@ -53,6 +56,7 @@ const ProfileEdit = styled.button`
   border-radius: 5px;
   margin: 10px;
   padding: 5px;
+  font-weight: 600;
   /* 색상 */
   background: #fff;
   &:hover {
@@ -81,92 +85,102 @@ const Menu = styled.div`
   }
 `;
 
-const ChangeName = styled.input``;
+const ChangeInput = styled.input`
+  font-family: inherit;
+  width: 50%;
+  border: 0;
+  border-bottom: 1px solid rgba(241, 107, 108, 0.2);
+  outline: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(0, 0, 0);
+  padding: 5px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+  text-align: center;
+`;
 
-/** 데이터 받아오기 
-const GetInfo = () => {
-  let [profile, setProfile] = useState();
-  let [name, setName] = useState('모제링링');
-  let [bio, setBio] = useState('여행은 즐기는 것! 신난다!');
+const UserInfoBox = () => {
+  const [visible, setVisible] = useState(true);
+  const { getBasic, profile, setNick, setBio, postNickBio } = useStore();
 
-  /*const getData = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get('http://localhost:4000/');
-      setTest(response.data.reverse());
-    } catch (e) {
-      console.log(e);
-    }
-    setLoading(false);
-  };
-  
   useEffect(() => {
-    getData();
+    getBasic();
   }, []);
-  */
-/*
-  let test = false;
 
+  useEffect(() => {
+    console.log(profile);
+  }, [profile]);
+
+  // Test function
   const onEdit = () => {
-    test = true;
-    console.log('hum..');
-    // setBio('여행은 즐기는 것! 신난다!');
+    setVisible(!visible);
+    visible ? console.log('hum..') : console.log('처리중');
+    setNick(inputaccount.nickname);
+    setBio(inputaccount.bio);
+    postNickBio();
+  };
+
+  // input 입력값 inputaccount state값 변경되게
+  const [inputaccount, setInput] = useState({
+    nickname: profile.nickname,
+    bio: profile.bio,
+  });
+  const onChangeInput = (e) => {
+    setInput({
+      ...inputaccount,
+      [e.target.name]: e.target.value,
+    });
+    console.log(inputaccount);
   };
 
   return (
     <>
-      {test ? (
+      {visible && (
         <>
-          <MyInfoName>
-            <ChangeName type="text" />
-          </MyInfoName>
-          <MyInfoMessage>
-            <input type="text" />
-          </MyInfoMessage>
-        </>
-      ) : (
-        <>
-          <MyInfoName>{name}</MyInfoName>
-          <MyInfoMessage>{bio}</MyInfoMessage>
+          <MyInfoProfile src={profile.img}></MyInfoProfile>
+          <MyInfoName>{profile.nickname}</MyInfoName>
+          <MyInfoMessage>{profile.bio}</MyInfoMessage>
         </>
       )}
-      {/** <MyInfoProfile src={Profile}></MyInfoProfile>
-      <MyInfoName>{name}</MyInfoName>
-      <MyInfoMessage>{bio}</MyInfoMessage>}
-
-      {/** 프로필 수정 }
+      {!visible && (
+        <>
+          <MyInfoProfile src={profile.img}></MyInfoProfile>
+          <ChangeInput
+            type="text"
+            id="nickname"
+            name="nickname"
+            placeholder={profile.nickname}
+            onChange={onChangeInput}
+          ></ChangeInput>
+          <ChangeInput
+            type="text"
+            id="bio"
+            name="bio"
+            placeholder={profile.bio}
+            onChange={onChangeInput}
+          ></ChangeInput>
+        </>
+      )}
+      {/** 프로필 수정 */}
       <ProfileEdit onClick={onEdit}>
-        프로필 수정 &nbsp;
-        <FaPen />
+        {visible ? (
+          <div>
+            프로필 수정 &nbsp;
+            <FaPen />
+          </div>
+        ) : (
+          <div>완료</div>
+        )}
       </ProfileEdit>
     </>
   );
 };
-*/
 
 const MyInfo = () => {
-  // let [profile, setProfile] = useState();
-  let [name, setName] = useState('모제링링');
-  let [bio, setBio] = useState('여행은 즐기는 것! 신난다!');
-
-  // Test function
-  const onEdit = () => {
-    console.log('hum..');
-    // setBio('여행은 즐기는 것! 신난다!');
-  };
-
   return (
     <MyInfoBox>
-      <MyInfoProfile src={Profile}></MyInfoProfile>
-      <MyInfoName>{name}</MyInfoName>
-      <MyInfoMessage>{bio}</MyInfoMessage>
-      {/** 프로필 수정 */}
-      <ProfileEdit onClick={onEdit}>
-        프로필 수정 &nbsp;
-        <FaPen />
-      </ProfileEdit>
-
-      {/*<GetInfo />*/}
+      <UserInfoBox />
       <hr size="1" width="80%" />
       <Menu>
         {/** page별 url로 변경해야함 */}

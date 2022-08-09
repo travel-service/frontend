@@ -107,7 +107,7 @@ const Header = ({ userState, onLogout }) => {
         {userState ? (
           <>
             <Div>
-              <MenuEl to={process.env.PUBLIC_URL + '/my-page'}>
+              <MenuEl to={process.env.PUBLIC_URL + '/mypage/MyInfo'}>
                 {userState.nickName}
                 <Profile>
                   <Thumbnail
@@ -141,9 +141,7 @@ const Header = ({ userState, onLogout }) => {
           </>
         )}
         <Div>
-          <MenuEl to={process.env.PUBLIC_URL + '/notice/noticelist'}>
-            공지사항
-          </MenuEl>
+          <MenuEl to={process.env.PUBLIC_URL + '/notice'}>공지사항</MenuEl>
         </Div>
       </Menu>
     </Container>
