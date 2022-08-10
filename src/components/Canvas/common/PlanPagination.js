@@ -1,68 +1,72 @@
 import styled from 'styled-components';
+import Pagination from 'react-js-pagination';
 
-const Nav = styled.nav`
-  position: absolute;
-  background: yellow;
-  bottom: 2.52%;
-  width: 95%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 4px;
-  margin-right: 20px;
+const PaginationBox = styled.div`
+  .pagination {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-left: -25px;
+    bottom: 25px;
+    font-family: 'Pretendard';
+    font-style: normal;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  ul.pagination li {
+    display: inline-block;
+    margin: 0px 10px 0px 10px;
+    font-weight: 400;
+    font-size: 16px;
+  }
+
+  ul.pagination li a {
+    text-decoration: none;
+    color: #b2b5ba;
+  }
+
+  ul.pagination li.active a {
+    color: #000000;
+  }
+
+  ul.pagination li a:hover,
+  ul.pagination li a.active {
+    color: #000000;
+  }
 `;
 
-const Button = styled.button`
-  border: none;
-  border-radius: 8px;
-  padding: 8px;
-  margin: 0;
-  background: #9ba39c;
-  color: white;
-  font-size: 1rem;
-  &:hover {
-    background: #d0dbd3;
-    cursor: pointer;
-    transform: translateY(-2px);
-  }
-  &[disabled] {
-    background: lightgrey;
-    cursor: revert;
-    transform: revert;
-  }
-  &[aria-current] {
-    background: #727e75;
-    font-weight: bold;
-    cursor: revert;
-    transform: revert;
-  }
-`;
+/*
+total 전체 item 개수, 
+page 현재 페이지, 
+setPage 페이지 변경 함수, 
+itemCount 페이지당 item 개수, 
+pageRange 한번에 보여줄 페이지 개수
+*/
 
-const PlanPagination = ({ total, page, setPage }) => {
-  const numPages = Math.ceil(total / 12);
-
+const PlanPagination = ({ total, page, setPage, itemCount, pageRange }) => {
   return (
-    <>
-      <Nav>
-        <Button onClick={() => setPage(page - 1)} disabled={page === 1}>
-          &lt;
-        </Button>
-        {Array(numPages)
-          .fill()
-          .map((_, i) => (
-            <Button
-              key={i + 1}
-              onClick={() => setPage(i + 1)}
-              aria-current={page === i + 1 ? 'page' : null}
-            >
-              {i + 1}
-            </Button>
-          ))}
-        <Button onClick={() => setPage(page + 1)} disabled={page === numPages}>
-          &gt;
-        </Button>
-      </Nav>
-    </>
+    <PaginationBox>
+      <Pagination
+        totalItemsCount={total}
+        activePage={page}
+        onChange={setPage}
+        itemsCountPerPage={itemCount}
+        pageRangeDisplayed={pageRange}
+        prevPageText={
+          <img src={process.env.PUBLIC_URL + '/images/left_arrow_ico.png'} />
+        }
+        nextPageText={
+          <img src={process.env.PUBLIC_URL + '/images/right_arrow_ico.png'} />
+        }
+        hideFirstLastPages={true}
+      ></Pagination>
+    </PaginationBox>
   );
 };
 

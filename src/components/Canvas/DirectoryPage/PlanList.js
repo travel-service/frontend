@@ -10,7 +10,7 @@ const PlanListContainer = styled.div`
   width: 80%;
   min-height: 85vh;
   padding: 25px;
-
+  padding-bottom: 100px;
   background: #ffffff;
   border-radius: 10px;
 `;
@@ -170,23 +170,34 @@ const PlanList = ({
   const [searchT, setSearchT] = useState('');
   const [resPlans, setRP] = useState([]); // 검색 및 정렬 통합용
 
-  const [page, setPage] = useState(2); // 현재 페이지
-  const offset = (page - 1) * 12;
+  const [page, setPage] = useState(1); // 현재 페이지
+  const offset = (page - 1) * 10;
 
   useEffect(() => {
-    currentDirId === 'm'
-      ? setPL(mainPlans.mainDirectory)
-      : currentDirId === 't'
-      ? setPL(trashPlans.trashDirectory)
-      : setPL(userPlans);
+    setSearchT('');
+    setRP([]);
+    setPL(
+      currentDirId === 'm'
+        ? mainPlans.mainDirectory
+        : currentDirId === 't'
+        ? trashPlans.trashDirectory
+        : [], //userPlans,
+    );
   }, [
     currentDirId,
     mainPlans.mainDirectory,
     trashPlans.trashDirectory,
-    userPlans,
-    //checkedPlans,
-    plansList,
+    //userPlans,
   ]);
+
+  useEffect(() => {
+    setRP(
+      plansList &&
+        plansList.filter((p) => {
+          return p.name.toLowerCase().includes(searchT);
+        }),
+    );
+  }, [searchT]);
 
   const onBlur = () => {
     setIsShow(false);
@@ -194,46 +205,31 @@ const PlanList = ({
 
   const Searching = (e) => {
     setSearchT(e.toLowerCase());
-    setRP(
-      plansList &&
-        plansList.filter((p) => {
-          return p.name.toLowerCase().includes(searchT);
-        }),
-    );
   };
 
   const SortPlans = (e) => {
+    const sortP = searchT !== '' ? resPlans : plansList;
     if (e.target.value === 'name') {
-      setRP(
-        plansList &&
-          plansList.sort((a, b) => {
-            let n = a.name.toLowerCase();
-            let m = b.name.toLowerCase();
-            return n < m ? -1 : n === m ? 0 : 1;
-          }),
-      );
+      sortP.sort((a, b) => {
+        let n = a.name.toLowerCase();
+        let m = b.name.toLowerCase();
+        return n < m ? -1 : n === m ? 0 : 1;
+      });
     }
     if (e.target.value === 'date') {
-      setRP(
-        plansList &&
-          plansList.sort((a, b) => {
-            let n = a.createdDate.toLowerCase();
-            let m = b.createdDate.toLowerCase();
-            return n < m ? -1 : n === m ? 0 : 1;
-          }),
-      );
+      sortP.sort((a, b) => {
+        let n = a.createdDate.toLowerCase();
+        let m = b.createdDate.toLowerCase();
+        return n < m ? -1 : n === m ? 0 : 1;
+      });
     }
     if (e.target.value === 'recent') {
-      setRP(
-        plansList &&
-          plansList.sort((a, b) => {
-            let n = a.createdDate.toLowerCase();
-            let m = b.createdDate.toLowerCase();
-            return n < m ? 1 : n === m ? 0 : -1;
-          }),
-      );
+      sortP.sort((a, b) => {
+        let n = a.createdDate.toLowerCase();
+        let m = b.createdDate.toLowerCase();
+        return n < m ? 1 : n === m ? 0 : -1;
+      });
     }
-    setRP([]);
   };
 
   return (
@@ -242,37 +238,38 @@ const PlanList = ({
         <PlanListContainer>
           <TitleContainer>
             <ItemsDiv>
-              {
-                /*해당 디렉토리 제목, 아이콘, 갯수 변경*/
-                currentDirId === 'm' ? (
-                  <>
-                    <TitleTextDiv>모든 여행</TitleTextDiv>
-                    <PlanCountContainer>
-                      {mainPlans.planCount}
-                    </PlanCountContainer>
-                  </>
-                ) : currentDirId === 't' ? (
-                  <>
-                    <TitleTextDiv>휴지통</TitleTextDiv>
-                    <PlanCountContainer>
-                      {trashPlans.trashPlanCount}
-                    </PlanCountContainer>
-                  </>
-                ) : (
-                  <>
-                    <TitleTextDiv>
-                      {
-                        userDirs.mainUserDirectory.find((dir) => {
+              {currentDirId === 'm' ? (
+                <>
+                  <TitleTextDiv>모든 여행</TitleTextDiv>
+                  <PlanCountContainer>{mainPlans.planCount}</PlanCountContainer>
+                </>
+              ) : currentDirId === 't' ? (
+                <>
+                  <TitleTextDiv>휴지통</TitleTextDiv>
+                  <PlanCountContainer>
+                    {trashPlans.trashPlanCount}
+                  </PlanCountContainer>
+                </>
+              ) : (
+                <>
+                  <TitleTextDiv>
+                    {
+                      userDirs.mainUserDirectory.find((dir) => {
+                        return dir.userDirectoryId === currentDirId;
+                      }).directoryName
+                    }
+                  </TitleTextDiv>
+                  <PlanCountContainer>
+                    {
+                      userDirs.planCount[
+                        userDirs.mainUserDirectory.findIndex((dir) => {
                           return dir.userDirectoryId === currentDirId;
-                        }).directoryName
-                      }
-                    </TitleTextDiv>
-                    <PlanCountContainer>
-                      {userPlans ? userPlans.length : 0}
-                    </PlanCountContainer>
-                  </>
-                )
-              }
+                        })
+                      ]
+                    }
+                  </PlanCountContainer>
+                </>
+              )}
             </ItemsDiv>
             {currentDirId === 't' && (
               <AlertTextDiv>
@@ -289,10 +286,10 @@ const PlanList = ({
                     e.target.checked
                       ? setCheckedPlans(
                           plansList &&
-                            plansList.filter((i) =>
-                              i.name.toLowerCase().includes(searchT)
-                                ? i.planId
-                                : '',
+                            plansList.filter(
+                              (i) =>
+                                i.name.toLowerCase().includes(searchT) &&
+                                i.planId,
                             ),
                         )
                       : setCheckedPlans([]);
@@ -311,22 +308,28 @@ const PlanList = ({
                     onBlur();
                   }}
                 >
-                  <PlanBtn
+                  {/*<PlanBtn
                     onClick={() => {
                       console.log('복사');
                     }}
                   >
                     <img
+                      alt="copy"
                       src={process.env.PUBLIC_URL + '/images/copy_ico.png'}
                     />
                     복사
-                  </PlanBtn>
+                  </PlanBtn>*/}
                   <PlanBtn
                     onClick={() => {
-                      setIsShow(true);
+                      userDirs.mainUserDirectory.length > 0
+                        ? setIsShow(true)
+                        : alert(
+                            '담을 보관함이 없습니다. 보관함을 먼저 생성해주세요.',
+                          );
                     }}
                   >
                     <img
+                      alt="add_folder"
                       src={
                         process.env.PUBLIC_URL + '/images/add_folder_ico.png'
                       }
@@ -345,6 +348,7 @@ const PlanList = ({
                                   }}
                                 >
                                   <img
+                                    alt="folder"
                                     src={
                                       process.env.PUBLIC_URL +
                                       '/images/folder_ico.png'
@@ -364,6 +368,7 @@ const PlanList = ({
                     }}
                   >
                     <img
+                      alt="delete"
                       src={process.env.PUBLIC_URL + '/images/delete_ico.png'}
                     />
                     삭제
@@ -378,6 +383,7 @@ const PlanList = ({
                     }}
                   >
                     <img
+                      alt="restore"
                       src={process.env.PUBLIC_URL + '/images/restore_ico.png'}
                     />
                     복원
@@ -390,6 +396,7 @@ const PlanList = ({
                     }}
                   >
                     <img
+                      alt="delete"
                       src={process.env.PUBLIC_URL + '/images/delete_ico.png'}
                     />
                     삭제
@@ -404,6 +411,7 @@ const PlanList = ({
                     }}
                   >
                     <img
+                      alt="delete"
                       src={process.env.PUBLIC_URL + '/images/delete_ico.png'}
                     />
                     삭제
@@ -426,34 +434,30 @@ const PlanList = ({
             </ItemsDiv>
           </TitleContainer>
           <PlansContainer>
-            {resPlans !== [] && searchT !== ''
+            {searchT !== ''
               ? resPlans && // 검색 후 정렬 적용을 위한 플랜 리스트
-                plansList
-                  .filter((p) => {
-                    return p.name.toLowerCase().includes(searchT);
-                  })
-                  .map((item) => {
-                    return (
-                      <PlanLayout
-                        key={item.planId}
-                        planId={item.planId}
-                        name={item.name}
-                        periods={item.periods}
-                        createdDate={item.createdDate}
-                        userDirs={userDirs}
-                        checkedPlans={checkedPlans}
-                        setCheckedPlans={setCheckedPlans}
-                        postMovePlans={postMovePlans}
-                        postTrash={postTrash}
-                        postRevert={postRevert}
-                        currentDirId={currentDirId}
-                        deletePlan={deletePlan}
-                      />
-                    );
-                  })
-              : plansList && // 0703 조건 수정
-                /*slice(offset, offset + 12).*/
-                plansList.map((item) => {
+                resPlans.slice(offset, offset + 10).map((item) => {
+                  return (
+                    <PlanLayout
+                      key={item.planId}
+                      planId={item.planId}
+                      name={item.name}
+                      periods={item.periods}
+                      createdDate={item.createdDate}
+                      userDirs={userDirs}
+                      checkedPlans={checkedPlans}
+                      setCheckedPlans={setCheckedPlans}
+                      postMovePlans={postMovePlans}
+                      postTrash={postTrash}
+                      postRevert={postRevert}
+                      currentDirId={currentDirId}
+                      deletePlan={deletePlan}
+                    />
+                  );
+                })
+              : plansList &&
+                plansList.length > 0 &&
+                plansList.slice(offset, offset + 10).map((item) => {
                   return (
                     <PlanLayout
                       key={item.planId}
@@ -473,11 +477,19 @@ const PlanList = ({
                   );
                 })}
           </PlansContainer>
-          {/*<PlanPagination
-        total={mainPlans.planCount ? mainPlans.planCount : 1}
-        page={page}
-        setPage={setPage}
-      />*/}
+          <PlanPagination
+            total={
+              plansList && plansList.length > 0 && searchT === ''
+                ? plansList.length
+                : resPlans && resPlans.length > 0 && searchT !== ''
+                ? resPlans.length
+                : 1
+            }
+            page={page}
+            itemCount={10}
+            setPage={setPage}
+            pageRange={5}
+          />
         </PlanListContainer>
       )}
     </>
