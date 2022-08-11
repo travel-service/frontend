@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import PlanLayout from 'components/Canvas/common/PlanLayout';
 import PlanPagination from '../common/PlanPagination';
+import CustomCheckbox from 'lib/custom/CustomCheckbox';
 
 //리스트 전체
 const PlanListContainer = styled.div`
@@ -169,13 +170,14 @@ const PlanList = ({
   const [plansList, setPL] = useState([]); // 플랜 컴포넌트 공통
   const [searchT, setSearchT] = useState('');
   const [resPlans, setRP] = useState([]); // 검색 및 정렬 통합용
+  const [isAll, setIsAll] = useState(false); // 전체 체크박스 여부
 
   const [page, setPage] = useState(1); // 현재 페이지
   const offset = (page - 1) * 10;
 
   useEffect(() => {
-    setSearchT('');
-    setRP([]);
+    //setSearchT('');
+    //setRP([]);
     setPL(
       currentDirId === 'm'
         ? mainPlans.mainDirectory
@@ -208,28 +210,41 @@ const PlanList = ({
   };
 
   const SortPlans = (e) => {
-    const sortP = searchT !== '' ? resPlans : plansList;
-    if (e.target.value === 'name') {
-      sortP.sort((a, b) => {
-        let n = a.name.toLowerCase();
-        let m = b.name.toLowerCase();
-        return n < m ? -1 : n === m ? 0 : 1;
-      });
+    if (e === 'name') {
+      setRP(
+        plansList.sort((a, b) => {
+          let n = a.name.toLowerCase();
+          let m = b.name.toLowerCase();
+          return n < m ? -1 : n === m ? 0 : 1;
+        }),
+      );
     }
-    if (e.target.value === 'date') {
-      sortP.sort((a, b) => {
-        let n = a.createdDate.toLowerCase();
-        let m = b.createdDate.toLowerCase();
-        return n < m ? -1 : n === m ? 0 : 1;
-      });
+    if (e === 'date') {
+      setRP(
+        plansList.sort((a, b) => {
+          let n = a.createdDate.toLowerCase();
+          let m = b.createdDate.toLowerCase();
+          return n < m ? -1 : n === m ? 0 : 1;
+        }),
+      );
     }
-    if (e.target.value === 'recent') {
-      sortP.sort((a, b) => {
-        let n = a.createdDate.toLowerCase();
-        let m = b.createdDate.toLowerCase();
-        return n < m ? 1 : n === m ? 0 : -1;
-      });
+    if (e === 'recent') {
+      setRP(
+        plansList.sort((a, b) => {
+          let n = a.createdDate.toLowerCase();
+          let m = b.createdDate.toLowerCase();
+          return n < m ? 1 : n === m ? 0 : -1;
+        }),
+      );
     }
+    setRP([]);
+  };
+
+  const CheckPlans = (e) => {
+    const settingP = searchT !== '' ? resPlans : plansList;
+    e
+      ? setCheckedPlans(settingP && settingP.map((i) => i.planId))
+      : setCheckedPlans([]);
   };
 
   return (
@@ -279,23 +294,20 @@ const PlanList = ({
           </TitleContainer>
           <TitleContainer>
             <ItemsDiv>
-              <label>
-                <input
-                  type="checkbox"
-                  onClick={(e) => {
-                    e.target.checked
-                      ? setCheckedPlans(
-                          plansList &&
-                            plansList.filter(
-                              (i) =>
-                                i.name.toLowerCase().includes(searchT) &&
-                                i.planId,
-                            ),
-                        )
-                      : setCheckedPlans([]);
-                  }}
-                />
-              </label>
+              <CustomCheckbox
+                id="all"
+                onChange={(e) => {
+                  CheckPlans(e.target.checked);
+                }}
+                checked={
+                  plansList &&
+                  resPlans &&
+                  checkedPlans &&
+                  (plansList.length || resPlans.length) === checkedPlans.length
+                    ? true
+                    : false
+                }
+              />
               <CheckTextDiv>전체 선택</CheckTextDiv>
               {checkedPlans && checkedPlans.length > 0 && (
                 <CheckTextDiv nums="true">
@@ -308,17 +320,6 @@ const PlanList = ({
                     onBlur();
                   }}
                 >
-                  {/*<PlanBtn
-                    onClick={() => {
-                      console.log('복사');
-                    }}
-                  >
-                    <img
-                      alt="copy"
-                      src={process.env.PUBLIC_URL + '/images/copy_ico.png'}
-                    />
-                    복사
-                  </PlanBtn>*/}
                   <PlanBtn
                     onClick={() => {
                       userDirs.mainUserDirectory.length > 0
@@ -358,7 +359,9 @@ const PlanList = ({
                                 </PlanPopUp>
                               );
                             })
-                          : alert('보관함을 먼저 생성해주세요.')}
+                          : alert(
+                              '담을 보관함이 없습니다. 보관함을 먼저 생성해주세요.',
+                            )}
                       </PlanPopUpContainer>
                     )}
                   </PlanBtn>
@@ -379,7 +382,6 @@ const PlanList = ({
                   <PlanBtn
                     onClick={() => {
                       postRevert();
-                      console.log('복원');
                     }}
                   >
                     <img
@@ -426,7 +428,11 @@ const PlanList = ({
                 }}
                 placeholder="여행 제목으로 검색"
               />
-              <ComboDiv onChange={SortPlans}>
+              <ComboDiv
+                onChange={(e) => {
+                  SortPlans(e.target.value);
+                }}
+              >
                 <option value="recent">최신 순</option>
                 <option value="date">생성일 순</option>
                 <option value="name">이름 순</option>
@@ -452,6 +458,8 @@ const PlanList = ({
                       postRevert={postRevert}
                       currentDirId={currentDirId}
                       deletePlan={deletePlan}
+                      isAll={isAll}
+                      setIsAll={setIsAll}
                     />
                   );
                 })
@@ -473,6 +481,8 @@ const PlanList = ({
                       postRevert={postRevert}
                       currentDirId={currentDirId}
                       deletePlan={deletePlan}
+                      isAll={isAll}
+                      setIsAll={setIsAll}
                     />
                   );
                 })}

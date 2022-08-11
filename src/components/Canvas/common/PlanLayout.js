@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import CustomCheckbox from 'lib/custom/CustomCheckbox';
 //import ModalModule from 'components/common/modal/ModalModule';
 
 // 플랜 레이아웃(이름, 기간, 날짜, 썸네일(호버 시 정보), 이동/복사/담기 버튼)
@@ -88,7 +89,6 @@ const MoreDiv = styled.div`
   text-align: right;
   position: absolute;
   z-index: 2;
-  background: yellow;
 `;
 // 설정 버튼
 const MoreButton = styled.button`
@@ -167,6 +167,8 @@ const PlanLayout = ({
   postRevert,
   currentDirId,
   deletePlan,
+  isAll,
+  setIsAll,
 }) => {
   const [clickMore, setClickMore] = useState(false); // 담기클릭
   const [isShow, setIsShow] = useState(false); // 점세개 클릭
@@ -182,13 +184,12 @@ const PlanLayout = ({
 
   const onClickPlans = (e) => {
     if (moreRef.current && !moreRef.current.contains(e.target)) {
-      //onClickCheck(!isShow, planId);
       setCheckedPlans([]);
       setIsShow(false);
       setClickMore(false);
     }
   };
-  const onClickCheck = (checked, i) => {
+  const onChangeCheck = (checked, i) => {
     if (checked) {
       setCheckedPlans([...checkedPlans, i]);
     } else {
@@ -224,10 +225,12 @@ const PlanLayout = ({
         )}
       </ThumbnailContainer>
       <PlanNameDiv>
-        <input
-          type="checkbox"
+        <CustomCheckbox
+          circle={true}
+          id={planId}
           onChange={(e) => {
-            onClickCheck(e.target.checked, planId);
+            setIsAll(false);
+            onChangeCheck(e.target.checked, planId);
           }}
           checked={checkedPlans && checkedPlans.includes(planId) ? true : false}
         />
@@ -240,7 +243,7 @@ const PlanLayout = ({
             onClick={() => {
               setIsShow(!isShow);
               !checkedPlans.includes(planId)
-                ? onClickCheck(!isShow, planId)
+                ? onChangeCheck(!isShow, planId)
                 : setCheckedPlans([planId]);
             }}
           >
@@ -249,16 +252,6 @@ const PlanLayout = ({
           {currentDirId === 'm'
             ? isShow && (
                 <PlanControlUl ref={moreRef}>
-                  <PlanControlLi
-                    onClick={() => {
-                      console.log('복사');
-                    }}
-                    onMouseOver={() => {
-                      setClickMore(false);
-                    }}
-                  >
-                    복사
-                  </PlanControlLi>
                   <PlanControlLi
                     onMouseOver={() => {
                       setClickMore(false);
@@ -286,7 +279,7 @@ const PlanLayout = ({
                       deletePlan();
                     }}
                   >
-                    영구 삭제
+                    삭제
                   </PlanControlLi>
                   <PlanControlLi
                     onClick={() => {
