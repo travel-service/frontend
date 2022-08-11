@@ -40,7 +40,7 @@ export default handleActions(
     [CHECK_SUCCESS]: (state, action) => {
       return {
         ...state,
-        userState: action.payload.data, // nickName
+        userState: action.payload.data.result, // nickName
         checkError: null,
       };
     },

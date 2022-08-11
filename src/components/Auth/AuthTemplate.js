@@ -82,7 +82,7 @@ const AuthTemplate = ({ children }) => {
       <WhiteBox>
         <Div>
           <AuthLogo>
-            <Logo auth={true} />
+            <Logo auth={'true'} />
           </AuthLogo>
           {children}
         </Div>
