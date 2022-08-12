@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import CustomCheckbox from 'lib/custom/CustomCheckbox';
-//import ModalModule from 'components/common/modal/ModalModule';
 
 // 플랜 레이아웃(이름, 기간, 날짜, 썸네일(호버 시 정보), 이동/복사/담기 버튼)
 const PlanContainer = styled.div`
@@ -167,8 +166,6 @@ const PlanLayout = ({
   postRevert,
   currentDirId,
   deletePlan,
-  isAll,
-  setIsAll,
 }) => {
   const [clickMore, setClickMore] = useState(false); // 담기클릭
   const [isShow, setIsShow] = useState(false); // 점세개 클릭
@@ -196,6 +193,14 @@ const PlanLayout = ({
       setCheckedPlans(checkedPlans.filter((e) => e !== i));
     }
   };
+  const ConfirmDel = (m, t) => {
+    if (window.confirm(m)) {
+      t ? deletePlan() : postTrash();
+      setCheckedPlans([]);
+      setIsShow(false);
+      setClickMore(false);
+    }
+  };
 
   return (
     <PlanContainer>
@@ -210,7 +215,7 @@ const PlanLayout = ({
           setIsOver(!isOver);
         }}
       >
-        {isOver && (
+        {isOver && currentDirId !== 't' && (
           <LinkContainer>
             <LinkButton to={process.env.PUBLIC_URL + '/canvas/share'}>
               완성된 여행 보기
@@ -229,12 +234,11 @@ const PlanLayout = ({
           circle={true}
           id={planId}
           onChange={(e) => {
-            setIsAll(false);
             onChangeCheck(e.target.checked, planId);
           }}
           checked={checkedPlans && checkedPlans.includes(planId) ? true : false}
         />
-        {name}
+        {name.length > 10 ? name.substr(0, 10) + '...' : name}
       </PlanNameDiv>
       <DateDiv>{createdDate.replace(/-/g, '.')}</DateDiv>
       <PlanTitleDiv>
@@ -247,7 +251,10 @@ const PlanLayout = ({
                 : setCheckedPlans([planId]);
             }}
           >
-            <img src={process.env.PUBLIC_URL + '/images/more_ico.png'} />
+            <img
+              src={process.env.PUBLIC_URL + '/images/more_ico.png'}
+              alt="더보기"
+            />
           </MoreButton>
           {currentDirId === 'm'
             ? isShow && (
@@ -257,7 +264,10 @@ const PlanLayout = ({
                       setClickMore(false);
                     }}
                     onClick={() => {
-                      postTrash();
+                      ConfirmDel(
+                        '플랜을 삭제하시겠습니까? 복원은 휴지통에서 30일 이내로 가능합니다.',
+                        0,
+                      );
                     }}
                   >
                     삭제
@@ -276,7 +286,7 @@ const PlanLayout = ({
                 <PlanControlUl ref={moreRef}>
                   <PlanControlLi
                     onClick={() => {
-                      deletePlan();
+                      ConfirmDel('플랜을 영구 삭제하시겠습니까?', 1);
                     }}
                   >
                     삭제
@@ -284,6 +294,9 @@ const PlanLayout = ({
                   <PlanControlLi
                     onClick={() => {
                       postRevert();
+                      setIsShow(false);
+                      setClickMore(false);
+                      alert("플랜을 '모든 여행'으로 복원했습니다.");
                     }}
                   >
                     복원
@@ -294,7 +307,10 @@ const PlanLayout = ({
                 <PlanControlUl ref={moreRef}>
                   <PlanControlLi
                     onClick={() => {
-                      postTrash();
+                      ConfirmDel(
+                        '플랜을 삭제하시겠습니까? 복원은 휴지통에서 30일 이내로 가능합니다.',
+                        0,
+                      );
                     }}
                   >
                     삭제
@@ -302,21 +318,25 @@ const PlanLayout = ({
                 </PlanControlUl>
               )}
           {isShow && clickMore && userDirs.mainUserDirectory.length > 0 ? (
-            <SubUl>
+            <SubUl ref={moreRef}>
               {userDirs.mainUserDirectory.map((item) => {
                 return (
                   <MoveLi
                     key={item.userDirectoryId}
                     onClick={() => {
                       postMovePlans(item.userDirectoryId);
-                      setIsShow(!isShow);
-                      setClickMore(!clickMore);
+                      setIsShow(false);
+                      setClickMore(false);
+                      alert(`플랜이 ${item.directoryName}에 담겼습니다.`);
                     }}
                   >
                     <img
+                      style={{ marginRight: '5px' }}
                       src={process.env.PUBLIC_URL + '/images/folder_ico.png'}
                     />
-                    {' ' + item.directoryName}
+                    {item.directoryName.length > 5
+                      ? item.directoryName.substr(0, 5) + '...'
+                      : item.directoryName}
                   </MoveLi>
                 );
               })}
@@ -325,7 +345,6 @@ const PlanLayout = ({
             isShow &&
             clickMore &&
             userDirs.mainUserDirectory.length === 0 && (
-              //alert('담을 보관함이 없습니다.')
               <SubUl>담을 보관함이 없습니다.</SubUl>
             )
           )}

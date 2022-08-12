@@ -1,11 +1,5 @@
 import axios from 'axios';
 
-// token 반환 다시 설정(모든 plan 요청 후)
-const headerToken = (response) => {
-  axios.defaults.headers.common['authorization'] =
-    response.headers.authorization;
-};
-
 // 여행 설정 페이지, 여행 생성
 export const createPlan = async (userPlan) => {
   try {
@@ -28,7 +22,7 @@ export const createConcpet = async (id, conceptForm) => {
       conceptForm: conceptForm,
     });
 
-    console.log(`여행컨셉설정: `, response);
+    //console.log(`여행컨셉설정: `, response);
     return response.data;
   } catch (err) {
     console.log(err);
@@ -42,7 +36,7 @@ export const getPlan = async (id) => {
     const response = await axios.get(`/members/plan/${id}`);
     console.log(response);
 
-    console.log(`${id} 여행: `, response);
+    //console.log(`${id} 여행: `, response);
     return response.data;
   } catch (err) {
     console.log(err);
@@ -55,7 +49,7 @@ export const getConcpet = async (id) => {
   try {
     const response = await axios.get(`/members/plan/${id}/concept`);
 
-    console.log(`${id} 컨셉: `, response);
+    //console.log(`${id} 컨셉: `, response);
     return response.data;
   } catch (err) {
     console.log(err);
@@ -68,7 +62,7 @@ export const putPlan = async (id, userPlan) => {
   try {
     const response = await axios.post(`/members/plan/${id}`, userPlan);
 
-    console.log(`${id} 플랜수정: `, response);
+    //console.log(`${id} 플랜수정: `, response);
     return response.data;
   } catch (err) {
     console.log(err);
@@ -83,7 +77,7 @@ export const postConcept = async (id, conceptForm) => {
       conceptForm: conceptForm,
     });
 
-    console.log(`${id} 컨셉수정: `, response);
+    //console.log(`${id} 컨셉수정: `, response);
     return response.data;
   } catch (err) {
     console.log(err);

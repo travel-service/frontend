@@ -42,7 +42,7 @@ const DirectoryForm = () => {
     getTrashPlans,
     setCurrentDir,
     setCreateUserDir,
-    setUserDirs,
+    setUserPlans,
     setDirName,
     setCheckedPlans,
     postCreateDir,
@@ -52,7 +52,6 @@ const DirectoryForm = () => {
     postMovePlans,
     postRevert,
     deletePlan,
-    //setUserPlans,
   } = dirStore();
 
   useEffect(() => {
@@ -96,9 +95,9 @@ const DirectoryForm = () => {
           createUserDir={createUserDir}
           changeDirName={changeDirName}
           setCurrentDir={setCurrentDir}
+          setUserPlans={setUserPlans}
           setCreateUserDir={setCreateUserDir}
           setDirName={setDirName}
-          setUserDirs={setUserDirs}
           setCheckedPlans={setCheckedPlans}
           postCreateDir={postCreateDir}
           postChangeDirName={postChangeDirName}

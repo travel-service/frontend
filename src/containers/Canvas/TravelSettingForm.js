@@ -46,8 +46,6 @@ const TravelSettingForm = () => {
       setThumbnail('');
     } else {
       getPlan(id);
-      console.log('uP:', userPlan);
-      console.log('컨셉:', conceptForm.concept);
     }
   }, [id, getPlan]);
 

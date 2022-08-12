@@ -170,7 +170,6 @@ const PlanList = ({
   const [plansList, setPL] = useState([]); // 플랜 컴포넌트 공통
   const [searchT, setSearchT] = useState('');
   const [resPlans, setRP] = useState([]); // 검색 및 정렬 통합용
-  const [isAll, setIsAll] = useState(false); // 전체 체크박스 여부
 
   const [page, setPage] = useState(1); // 현재 페이지
   const offset = (page - 1) * 10;
@@ -247,6 +246,14 @@ const PlanList = ({
       : setCheckedPlans([]);
   };
 
+  const ConfirmText = (m, t) => {
+    if (window.confirm(m)) {
+      t ? deletePlan() : postTrash();
+      setCheckedPlans([]);
+      setIsShow(false);
+    }
+  };
+
   return (
     <>
       {mainPlans && trashPlans && userDirs && (
@@ -303,6 +310,7 @@ const PlanList = ({
                   plansList &&
                   resPlans &&
                   checkedPlans &&
+                  checkedPlans.length > 0 &&
                   (plansList.length || resPlans.length) === checkedPlans.length
                     ? true
                     : false
@@ -338,36 +346,41 @@ const PlanList = ({
                     담기
                     {isShow && (
                       <PlanPopUpContainer>
-                        {userDirs
-                          ? userDirs.mainUserDirectory.map((item) => {
-                              return (
-                                <PlanPopUp
-                                  key={item.userDirectoryId}
-                                  onClick={() => {
-                                    postMovePlans(item.userDirectoryId);
-                                    setIsShow(false);
-                                  }}
-                                >
-                                  <img
-                                    alt="folder"
-                                    src={
-                                      process.env.PUBLIC_URL +
-                                      '/images/folder_ico.png'
-                                    }
-                                  />
-                                  {' ' + item.directoryName}
-                                </PlanPopUp>
-                              );
-                            })
-                          : alert(
-                              '담을 보관함이 없습니다. 보관함을 먼저 생성해주세요.',
-                            )}
+                        {userDirs &&
+                          userDirs.mainUserDirectory.map((item) => {
+                            return (
+                              <PlanPopUp
+                                key={item.userDirectoryId}
+                                onClick={() => {
+                                  postMovePlans(item.userDirectoryId);
+                                  setIsShow(false);
+                                  alert(
+                                    `플랜이 ${item.directoryName}에 담겼습니다.`,
+                                  );
+                                }}
+                              >
+                                <img
+                                  alt="folder"
+                                  src={
+                                    process.env.PUBLIC_URL +
+                                    '/images/folder_ico.png'
+                                  }
+                                />
+                                {' ' + item.directoryName}
+                              </PlanPopUp>
+                            );
+                          })}
                       </PlanPopUpContainer>
                     )}
                   </PlanBtn>
                   <PlanBtn
                     onClick={() => {
-                      postTrash();
+                      checkedPlans && checkedPlans.length > 0
+                        ? ConfirmText(
+                            '플랜을 삭제하시겠습니까? 복원은 휴지통에서 30일 이내로 가능합니다.',
+                            0,
+                          )
+                        : alert('선택된 플랜이 없습니다.');
                     }}
                   >
                     <img
@@ -381,7 +394,11 @@ const PlanList = ({
                 <ItemsDiv>
                   <PlanBtn
                     onClick={() => {
-                      postRevert();
+                      checkedPlans && checkedPlans.length === 0
+                        ? alert('선택된 플랜이 없습니다.')
+                        : postRevert() &&
+                          setIsShow(false) &&
+                          alert("플랜을 '모든 여행'으로 복원했습니다.");
                     }}
                   >
                     <img
@@ -392,9 +409,9 @@ const PlanList = ({
                   </PlanBtn>
                   <PlanBtn
                     onClick={() => {
-                      console.log('영구 삭제');
-                      // modal 알림창 추가, 확인 누르면 delete
-                      deletePlan();
+                      checkedPlans && checkedPlans.length > 0
+                        ? ConfirmText('플랜을 영구 삭제하시겠습니까?', 1)
+                        : alert('선택된 플랜이 없습니다.');
                     }}
                   >
                     <img
@@ -408,8 +425,12 @@ const PlanList = ({
                 <ItemsDiv>
                   <PlanBtn
                     onClick={() => {
-                      console.log('삭제');
-                      postTrash();
+                      checkedPlans && checkedPlans.length > 0
+                        ? ConfirmText(
+                            '플랜을 삭제하시겠습니까? 복원은 휴지통에서 30일 이내로 가능합니다.',
+                            0,
+                          )
+                        : alert('선택된 플랜이 없습니다.');
                     }}
                   >
                     <img
@@ -458,8 +479,6 @@ const PlanList = ({
                       postRevert={postRevert}
                       currentDirId={currentDirId}
                       deletePlan={deletePlan}
-                      isAll={isAll}
-                      setIsAll={setIsAll}
                     />
                   );
                 })
@@ -481,8 +500,6 @@ const PlanList = ({
                       postRevert={postRevert}
                       currentDirId={currentDirId}
                       deletePlan={deletePlan}
-                      isAll={isAll}
-                      setIsAll={setIsAll}
                     />
                   );
                 })}

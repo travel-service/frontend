@@ -6,18 +6,14 @@ export const dirStore = create((set, get) => ({
   currentDirId: 'm', // 현재 클릭한 디렉터리(보여줄 디렉터리)
   mainPlans: {}, // 메인 디렉터리 플랜들
   userDirs: {}, // 유저 디렉터리 이름들(목록)
-  //userPlans: [], // 해당 유저 디렉터리 내 플랜
+  userPlans: {}, // 해당 유저 디렉터리 내 플랜
   trashPlans: {}, // 휴지통 내 플랜들
   checkedPlans: [], // 선택된 플랜 id
   createUserDir: '', // 생성할 디렉터리 이름
   changeDirName: '', // 변경할 디렉터리 이름
+
   setUserPlans: (input) => {
     set({ userPlans: input });
-  },
-  setUserDirs: (input) => {
-    set((state) => ({
-      userDirs: { ...state.userDirs, input },
-    }));
   },
   setCurrentDir: (input) => {
     //현재 디렉터리 설정
@@ -54,13 +50,10 @@ export const dirStore = create((set, get) => ({
   // 플랜 삭제
   postTrash: async () => {
     const checkedPlans = get().checkedPlans;
-
     if (checkedPlans.length > 0) {
       const res = await dirAPI.postTrash(checkedPlans);
-
       if (res.httpStatus === 201) {
         set({ checkedPlans: [] });
-
         //n개 이상의 플랜 복원 시 데이터 새로 불러오는 것이 낫다고 생각,,
         const t = await dirAPI.getTrashPlans();
         if (t.httpStatus === 200) {
@@ -82,7 +75,7 @@ export const dirStore = create((set, get) => ({
         set({ checkedPlans: [] });
         const m = await dirAPI.getAllPlans();
         if (m.httpStatus === 200) {
-          set({ currentDirId: dirId });
+          set({ currentDirId: 'm' });
           set({ mainPlans: m });
         }
       }
@@ -191,7 +184,7 @@ export const dirStore = create((set, get) => ({
     );
 
     userDirs.mainUserDirectory[dirInd].directoryName = changeDirName;
-    set({ currentDirId: 'm' });
+    set({ currentDirId: currentDirId });
     set({ changeDirName: '' });
     /*if (res.httpStatus === 201) {
       userDirs.mainUserDirectory[dirInd].directoryName = changeDirName;

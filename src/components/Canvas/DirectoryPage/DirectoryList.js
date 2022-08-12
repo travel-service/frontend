@@ -160,10 +160,10 @@ const DirectoryList = ({
   createUserDir,
   changeDirName,
   setCurrentDir,
+  setUserPlans,
   setCreateUserDir,
   setDirName,
   setCheckedPlans,
-  setUserDirs,
   postCreateDir,
   postChangeDirName,
   postDeleteDir,
@@ -175,6 +175,12 @@ const DirectoryList = ({
 
   useEffect(() => {
     typeof currentDirId === 'number' && console.log(currentDirId);
+    /*setUserPlans(
+        userDirs.mainUserDirectory.filter((dir) => {
+          return dir.userDirectoryId === currentDirId;
+        }),
+      );
+    console.log('up:', userPlans);*/
   }, [currentDirId]);
 
   useEffect(() => {
@@ -230,11 +236,12 @@ const DirectoryList = ({
             <ButtonsDiv>
               <IconDiv
                 onClick={() => {
-                  !createDir ? setCreateDir(true) : onClickClose();
+                  createDir ? onClickClose() : setCreateDir(!createDir);
                 }}
               >
                 {!createDir ? (
                   <img
+                    alt="add_new_folder"
                     src={
                       process.env.PUBLIC_URL + '/images/add_new_folder_ico.png'
                     }
@@ -257,6 +264,7 @@ const DirectoryList = ({
                 <ButtonsDiv>
                   <BaseIconDiv>
                     <img
+                      alt="folder"
                       src={process.env.PUBLIC_URL + '/images/folders_ico.png'}
                     />
                   </BaseIconDiv>
@@ -279,6 +287,7 @@ const DirectoryList = ({
                     <ButtonsDiv change="true">
                       <BaseIconDiv>
                         <img
+                          alt="folder"
                           src={
                             process.env.PUBLIC_URL + '/images/folder_ico.png'
                           }
@@ -294,6 +303,8 @@ const DirectoryList = ({
                             onBlurDir();
                           }}
                         />
+                      ) : item.directoryName.length > 5 ? (
+                        item.directoryName.substr(0, 5) + '...'
                       ) : (
                         item.directoryName
                       )}
@@ -304,10 +315,12 @@ const DirectoryList = ({
                       </PlanCountContainer>
                       <MoreDiv
                         onClick={() => {
+                          chName && setChName(false);
                           setMoreBtn(!moreBtn);
                         }}
                       >
                         <img
+                          alt="more"
                           src={process.env.PUBLIC_URL + '/images/more_ico.png'}
                         />
                         {moreBtn && currentDirId === item.userDirectoryId && (
@@ -330,7 +343,11 @@ const DirectoryList = ({
                             <DirPopUp
                               bottomBtn="true"
                               onClick={() => {
-                                postDeleteDir();
+                                window.confirm(
+                                  "보관함을 삭제하시겠습니까? 플랜은 '모든 여행' 보관함에서 확인할 수 있습니다.",
+                                )
+                                  ? postDeleteDir()
+                                  : setMoreBtn(false);
                               }}
                             >
                               삭제
@@ -352,6 +369,7 @@ const DirectoryList = ({
                 <ButtonsDiv>
                   <BaseIconDiv>
                     <img
+                      alt="folder"
                       src={process.env.PUBLIC_URL + '/images/folder_ico.png'}
                     />
                   </BaseIconDiv>
@@ -376,6 +394,7 @@ const DirectoryList = ({
                 <ButtonsDiv>
                   <BaseIconDiv>
                     <img
+                      alt="trash"
                       src={process.env.PUBLIC_URL + '/images/trash_ico.png'}
                     />
                   </BaseIconDiv>
