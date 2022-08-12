@@ -5,8 +5,6 @@ import Profile from '../img/profile2.jpg';
 import { FaRegBookmark, FaRegHeart, FaPen } from 'react-icons/fa';
 import { HiOutlineFolderOpen } from 'react-icons/hi';
 import { useStore } from 'lib/zustand/myStore';
-import { setIn } from 'immutable';
-import { AccountBalance } from '@mui/icons-material';
 
 const MyInfoBox = styled.div`
   display: flex;
@@ -18,10 +16,12 @@ const MyInfoBox = styled.div`
   height: 487px;
   // height: 100%;
   // width: 20%;
-  margin: 10px;
-  border: 1.5px solid rgba(241, 107, 108, 0.2);
+  margin: 25px 10px 25px 10px;
+  // border: 1.5px solid rgba(241, 107, 108, 0.2);
+  border-radius: 10px;
+  background-color: #fff;
   hr {
-    border-color: rgba(241, 107, 108, 0.2);
+    border: 1px solid #e5e7e8;
   }
 `;
 
@@ -42,6 +42,9 @@ const MyInfoMessage = styled.div`
   align-items: center;
   justify-content: center;
   color: rgba(0, 0, 0, 0.4);
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 16px;
   margin: 1px;
 `;
 
@@ -52,9 +55,9 @@ const MyInfoName = styled.div`
 `;
 
 const ProfileEdit = styled.button`
-  border: 1.5px solid rgba(241, 107, 108, 0.2);
-  border-radius: 5px;
-  margin: 10px;
+  border: 1px solid #e5e7e8;
+  border-radius: 10px;
+  margin: 10px 5px 5px 10px;
   padding: 5px;
   font-weight: 600;
   /* 색상 */
@@ -65,6 +68,10 @@ const ProfileEdit = styled.button`
   &:active {
     background: rgb(241, 107, 108);
   }
+`;
+
+const Buttons = styled.div`
+  display: flex;
 `;
 
 const Menu = styled.div`
@@ -100,9 +107,28 @@ const ChangeInput = styled.input`
   text-align: center;
 `;
 
+const DupCheck = styled.div`
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 16px;
+  .color {
+    color: #0085ff;
+  }
+`;
+
 const UserInfoBox = () => {
   const [visible, setVisible] = useState(true);
-  const { getBasic, profile, setNick, setBio, postNickBio } = useStore();
+  const {
+    getBasic,
+    profile,
+    setNick,
+    setBio,
+    postNick,
+    postBio,
+    checkgetNick,
+    checknick,
+    sendnick,
+  } = useStore();
 
   useEffect(() => {
     getBasic();
@@ -115,10 +141,34 @@ const UserInfoBox = () => {
   // Test function
   const onEdit = () => {
     setVisible(!visible);
-    visible ? console.log('hum..') : console.log('처리중');
-    setNick(inputaccount.nickname);
-    setBio(inputaccount.bio);
-    postNickBio();
+    if (visible) {
+      console.log('edit click');
+    } else {
+      console.log('처리중');
+      PostEdit();
+    }
+  };
+
+  const cancel = () => {
+    setVisible(true);
+    // setNick(profile.nickname);
+    // setBio(profile.bio);
+  };
+
+  const PostEdit = () => {
+    if (checknick.message === '사용 가능한 닉네임 입니다') {
+      setNick(inputaccount.nickname);
+      setBio(inputaccount.bio);
+      postNick();
+      postBio();
+      alert('성공적으로 변경 됐습니다.');
+    } else if (checknick.message === '현재 사용자가 설정한 닉네임 입니다.') {
+      setBio(inputaccount.bio);
+      postBio();
+      alert('성공적으로 변경 됐습니다.');
+    } else {
+      alert('이미 존재하는 닉네임 입니다.');
+    }
   };
 
   // input 입력값 inputaccount state값 변경되게
@@ -131,7 +181,8 @@ const UserInfoBox = () => {
       ...inputaccount,
       [e.target.name]: e.target.value,
     });
-    console.log(inputaccount);
+    sendnick.nickname = inputaccount.nickname;
+    checkgetNick();
   };
 
   return (
@@ -141,6 +192,13 @@ const UserInfoBox = () => {
           <MyInfoProfile src={profile.img}></MyInfoProfile>
           <MyInfoName>{profile.nickname}</MyInfoName>
           <MyInfoMessage>{profile.bio}</MyInfoMessage>
+          {/** 프로필 수정 */}
+          <ProfileEdit onClick={onEdit}>
+            <div>
+              프로필 수정 &nbsp;
+              <FaPen />
+            </div>
+          </ProfileEdit>
         </>
       )}
       {!visible && (
@@ -153,6 +211,11 @@ const UserInfoBox = () => {
             placeholder={profile.nickname}
             onChange={onChangeInput}
           ></ChangeInput>
+          {/* 사용 불가능할 때는 어떻게 변경할지. div에 id값을 줘서 조건식? */}
+          <DupCheck>
+            {/* {check === '' && <div className={check}>*8자 이내로 작성</div>} */}
+            *{checknick.message}
+          </DupCheck>
           <ChangeInput
             type="text"
             id="bio"
@@ -160,19 +223,17 @@ const UserInfoBox = () => {
             placeholder={profile.bio}
             onChange={onChangeInput}
           ></ChangeInput>
+          {/** 프로필 수정 */}
+          <Buttons>
+            <ProfileEdit onClick={cancel}>
+              <div>취소</div>
+            </ProfileEdit>
+            <ProfileEdit onClick={onEdit}>
+              <div>완료</div>
+            </ProfileEdit>
+          </Buttons>
         </>
       )}
-      {/** 프로필 수정 */}
-      <ProfileEdit onClick={onEdit}>
-        {visible ? (
-          <div>
-            프로필 수정 &nbsp;
-            <FaPen />
-          </div>
-        ) : (
-          <div>완료</div>
-        )}
-      </ProfileEdit>
     </>
   );
 };

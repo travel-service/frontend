@@ -9,7 +9,8 @@ const MyTemplateBlock = styled.div``;
 const MyBox = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
+  background-color: #f6f6f8;
 `;
 
 const MyTemplate = ({ children }) => {

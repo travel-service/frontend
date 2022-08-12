@@ -1,9 +1,11 @@
+import { RepeatOneSharp } from '@mui/icons-material';
 import axios from 'axios';
 
+// 회원 개인페이지, 프로필 사진
 export const getMyinfo = async () => {
   try {
-    const nickbio = await axios.get('/api/user/my-page');
-    const res = await axios.get('/api/user/my-page/img', {
+    const nickbio = await axios.get('/members/my-page');
+    const res = await axios.get('/members/my-page/img', {
       responseType: 'blob',
     });
     console.log(nickbio, res);
@@ -11,8 +13,8 @@ export const getMyinfo = async () => {
     const img = window.URL.createObjectURL(file);
     console.log(file);
     return {
-      nickname: nickbio.data.nickName,
-      bio: nickbio.data.bio,
+      nickname: nickbio.data.result.nickname,
+      bio: nickbio.data.result.bio,
       img,
     };
   } catch (e) {
@@ -20,14 +22,70 @@ export const getMyinfo = async () => {
   }
 };
 
+// 회원 개인정보 수정 "요청"
 export const postMyinfo = async (profile) => {
   try {
-    const response = await axios.post('/api/user/profile/edit', {
-      Profile: profile,
-    });
+    console.log(profile);
+    const response = await axios.post('/members/profile/edit', profile);
     console.log('postMyinfo:', response);
     return response.data;
   } catch (e) {
     console.log(e);
+  }
+};
+
+// 회원 개인페이지 닉네임 수정 "요청"
+export const postMyNick = async (nickName) => {
+  try {
+    console.log(nickName);
+    const response = await axios.post(`/members/profile/${nickName}`);
+    return response;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+// 회원 개인페이지 닉네임 수정 "요청"
+export const postMyBio = async (bio) => {
+  try {
+    console.log(bio);
+    const response = await axios.post('/members/profile/bio', bio);
+    return response;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+// 회원 프로필 사진 업데이트 0810
+// export const postMyImg =  async () => {
+//   try{
+//     const response = await axios.post('/members/profile/img', );
+//     return response;
+//   } catch (e) {
+//     console.log(e);
+//   }
+// };
+
+// 중복 닉네임 체크
+export const getCheckNick = async (nick, prenick) => {
+  try {
+    const response = await axios
+      .get(`/api/nickname/${nick}`, {
+        validateStatus: (status) => status < 500,
+      })
+      .catch((error) => {
+        const message = error.message;
+        console.log('message', message);
+      });
+    // return response;
+    console.log(response.status);
+    console.log(response.data);
+    if (nick === prenick && response.status === 409) {
+      const setmessage = '현재 사용자가 설정한 닉네임 입니다.';
+      return setmessage;
+    }
+    return response.data.message;
+  } catch (error) {
+    console.dir(error);
   }
 };
