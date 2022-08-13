@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import palette from '../../../lib/styles/palette';
 import Modal from '../../modal/modal';
-import { useStore } from '../../../lib/zustand/planStore';
+import { useStore, sysLocStore } from '../../../lib/zustand/planStore';
 import BlockInfo from '../BlockInfo/BlockInfo';
 
 const BButton = styled.button`
@@ -50,11 +50,16 @@ function Location ({location}) {
     setModalOpen(false);
   };
 
-  const { selCateLoc, onAdd, remove } = useStore();
+  const { onAdd, remove } = useStore();
+
+  const { setLatLng } = sysLocStore();
 
   return (
     <Block>
-      <div onClick={OpenModal}>
+      <div onClick={ () => {
+        OpenModal()
+        setLatLng(location.id)
+      }}>
         <Img src={location.image} alt="img" />
         <BlockDiv>
           {location.name}
@@ -83,6 +88,7 @@ function Location ({location}) {
 }
 
 function LocationList({ locations, search }) {
+  // console.log(locations);
   var arr = locations.filter(val => (val.name.includes(search)));
   return (
     <Blocks>

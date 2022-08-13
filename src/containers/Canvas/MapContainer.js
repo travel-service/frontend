@@ -9,6 +9,7 @@ import 'lib/styles/Modal.css'
 import test from '../../lib/styles/test.css'
 import styled from 'styled-components';
 import BlockInfo from 'components/Canvas/BlockInfo/BlockInfo';
+import { sysLocStore } from 'lib/zustand/planStore';
 
 const Div = styled.div`
   z-index: 0;
@@ -20,7 +21,7 @@ const MapContainer = ({coords}) => {
   const [kakaoMap, setKakaoMap] = useState(null);
   const container = useRef(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [info, setInfo] = useState()
+  const [info, setInfo] = useState({id: 0, type: 0})
 
   const openModal = () => {
     setModalIsOpen(true);
@@ -30,19 +31,22 @@ const MapContainer = ({coords}) => {
     setModalIsOpen(false);
   }
 
+  const { lat, lng } = sysLocStore();
+
   useEffect(() => {
     const options = {
       center : new kakao.maps.LatLng(33.280701, 126.570667),
         level: 7
       }
 
-      let map = new kakao.maps.Map(container.current, options); // 카카오 맵
-      let mapTypeControl = new kakao.maps.MapTypeControl(); // 지도 타입전환 컨드롤러
-      let zoomControl = new kakao.maps.ZoomControl(); // 줌 제어 컨트롤러
-      map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
-      map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
-      setKakaoMap(map);
-    },[container]);
+    let map = new kakao.maps.Map(container.current, options); // 카카오 맵
+    let mapTypeControl = new kakao.maps.MapTypeControl(); // 지도 타입전환 컨드롤러
+    let zoomControl = new kakao.maps.ZoomControl(); // 줌 제어 컨트롤러
+    map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+    setKakaoMap(map);
+  },[container]);
 
   useEffect(() => {
     if (kakaoMap === null) {
@@ -116,8 +120,8 @@ const MapContainer = ({coords}) => {
           titleArea.setAttribute('class', 'title');
           
           const title = document.createElement('div');
-          title.onclick = () => (console.log(positions[i]), openModal());
-          title.innerHTML = positions[i].title;
+          title.onclick = () => (setInfo(position), openModal());
+          title.innerHTML = position.title;
 
           const close = document.createElement('div');
           close.setAttribute('class', 'close');
@@ -137,14 +141,12 @@ const MapContainer = ({coords}) => {
 
         kakao.maps.event.addListener(marker, 'click', function() {
           if ( selectedMarker !== null) {
-            console.log('test');
             customOverlay.setMap(null);
           }
           if (!selectedMarker || selectedMarker !== marker) {
             !!selectedMarker && selectedMarker.setImage(selectedMarker.normalImage);
             setPicker();
           }
-          console.log('test2');
           customOverlay.setMap(kakaoMap);
           selectedMarker = marker;
         });
@@ -162,8 +164,11 @@ const MapContainer = ({coords}) => {
     else {
       return;
     }
-  },[kakaoMap, coords])
+    let latlng = new kakao.maps.LatLng(lat, lng);
+    kakaoMap.panTo(latlng);
+  },[kakaoMap, coords, lat, lng])
 
+  console.log(info);
   return (
     <>
       <Div id="myMap" ref={container} style={{
@@ -178,7 +183,7 @@ const MapContainer = ({coords}) => {
       closeModal={closeModal}
       header="상세정보"
       >
-        {/* <BlockInfo type={info.type} id={info.id}/> */}
+        <BlockInfo type={info.type} id={info.id}/>
       </ModalModule>
     </>
     

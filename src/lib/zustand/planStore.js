@@ -268,6 +268,8 @@ export const sysLocStore = create((set, get) => ({
     CoordsList: [],
   },
   flag: false,
+  lat: 33.280701,
+  lng: 126.570667,
 
   getSysLoc: async () => {
     if (get().flag === false) {
@@ -343,4 +345,11 @@ export const sysLocStore = create((set, get) => ({
       },
     });
   },
+
+  setLatLng: (id) => {
+    const coordsList = get().sysCateLocCoords.CoordsList
+    const found = coordsList.find(loc => loc.id === id)
+    set({lat: found.coords.latitude})
+    set({lng: found.coords.longitude})
+  }
 }));

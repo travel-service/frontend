@@ -4,55 +4,88 @@ import create from 'zustand';
 export const infoStore = create((set) => ({
     
     getInfo : async (id, type) => {
-        var info
-        switch (type) {
-            case 'att': 
-                info = await axios.get(`http://localhost:4000/attractionInfo/${id}`);
-                console.log(info.data.location);
-                // set({attInfo: {ATTRACTION: info.data.ATTRACTION}})
-                set({attInfo: {location: info.data.location, ATTRACTION: info.data.ATTRACTION}})
+        console.log(id);
+        var info = await axios.get(`http://localhost:4000/locationInfo/${id}`);
+        console.log(info);
+        set({attInfo: info.data})
 
-                break;
-            case 'cult': 
-                info = await axios.get(`http://localhost:4000/cultureInfo/${id}`);
-                set({cultInfo: info.data})
-                break;
-            case 'fest': 
-                info = await axios.get(`http://localhost:4000/festivalInfo/${id}`);
-                set({festInfo: info.data})
-                break;
-            case 'lepo': 
-                info = await axios.get(`http://localhost:4000/leportsInfo/${id}`);
-                set({lepoInfo: info.data})
-                break;
-            case 'lodge': 
-                info = await axios.get(`http://localhost:4000/lodgeInfo/${id}`);
-                set({lodgeInfo: info.data})
-                break;
-            case 'res': 
-                info = await axios.get(`http://localhost:4000/restaurantInfo/${id}`);
-                set({resInfo: info.data})
-                break;
-            default:
-        }
+        // var info
+        // switch (type) {
+        //     case 'att': 
+        //         info = await axios.get(`http://localhost:4000/attractionInfo/${id}`);
+        //         console.log(info.data.location);
+        //         // set({attInfo: {ATTRACTION: info.data.ATTRACTION}})
+        //         set({attInfo: {location: info.data.location, ATTRACTION: info.data.ATTRACTION}})
+        //         break;
+        //     case 'cult': 
+        //         info = await axios.get(`http://localhost:4000/cultureInfo/${id}`);
+        //         set({cultInfo: info.data})
+        //         break;
+        //     case 'fest': 
+        //         info = await axios.get(`http://localhost:4000/festivalInfo/${id}`);
+        //         set({festInfo: info.data})
+        //         break;
+        //     case 'lepo': 
+        //         info = await axios.get(`http://localhost:4000/leportsInfo/${id}`);
+        //         set({lepoInfo: info.data})
+        //         break;
+        //     case 'lodge': 
+        //         info = await axios.get(`http://localhost:4000/lodgeInfo/${id}`);
+        //         set({lodgeInfo: info.data})
+        //         break;
+        //     case 'res': 
+        //         info = await axios.get(`http://localhost:4000/restaurantInfo/${id}`);
+        //         set({resInfo: info.data})
+        //         break;
+        //     default:
+        // }
+    },
+
+    Info: {
+        name: "test",
+        address1: "",
+        address2: "",
+        image: "",
+        image2: "",
+        tel: "",
+        summary: "",
+        report: "",
+        parking: "",
+        restDate: "",
+        fee: "",
+        useTime: "",
+        spendTime: "",
+        endDate: "",
+        homepage: "",
+        place: "",
+        startDate: "",
+        placeInfo: "",
+        playTime: "",
+        program: "",
+        openPeriod: "",
+        reservation: "",
+        checkInTime: "",
+        checkOutTime: "",
+        chkCooking: "",
+        reservationUrl: "",
+        subfacility: "",
+        popularMenu: "",
+        openTime: "",
+        packing: "",
+        menu: ""
     },
 
     attInfo: {
-        ATTRACTION: {
-            parking: "",
-            restDate: "",
-            useTime: ""
-        },
-        location: {
-            name: "test",
-            address1: "",
-            address2: "",
-            image: "",
-            // image2: "",
-            tel: "",
-            summary: "",
-            report: "",
-        }
+        name: "test",
+        address1: "",
+        address2: "",
+        image: "",
+        // image2: "",
+        tel: "",
+        summary: "",
+        report: "",
+        parking: "",
+        restDate: "",
     },
     cultInfo: {
         name: "test",

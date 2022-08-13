@@ -8,6 +8,7 @@ import Map from 'containers/Canvas/MapContainer'
 const ContentsArea = styled.div`
   overflow: auto;
   background-color: skyblue;
+  
 `
 
 const FilterArea = styled.div`
@@ -55,8 +56,8 @@ const SelectArea = ({ location, selLocs, coords }) => {
       <FilterArea>
         <TypeFilter />
         <input 
-          type="texy"
-          placeholder="Search"
+          type="text"
+          placeholder="블록 검색"
           onChange={(e) => {
             setSearch(e.target.value);
           }}
