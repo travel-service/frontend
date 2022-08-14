@@ -25,6 +25,8 @@
 
 .modal.openModal {
   display: flex;
+  z-index: 99;
+
   align-items: center;
   justify-content: center;
   /* 팝업이 열릴때 스르륵 열리는 효과 */
