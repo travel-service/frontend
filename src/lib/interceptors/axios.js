@@ -8,15 +8,10 @@ axios.interceptors.response.use(
   (resp) => resp,
   async (error) => {
     if (!refresh) {
-      if (
-        error.response.data.code === 'EX' ||
-        error.response.data.code === 'MEMBER-EX' ||
-        error.response.data.message === 'AccessToken 이 없습니다.'
-      ) {
-        // unauthenticated
+      if (error.response.data.message.includes('AccessToken')) {
         refresh = true;
         const response = await authAPI.refresh(); // new AccessToken
-        if (response.status === 200) {
+        if (response.status === 201) {
           axios.defaults.headers.common['authorization'] =
             response.headers.authorization;
           return axios(error.config);

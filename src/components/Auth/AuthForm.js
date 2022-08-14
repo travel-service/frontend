@@ -135,6 +135,7 @@ const AuthForm = ({
   error,
   onBlur,
   detailErr,
+  checkValue,
 }) => {
   const text = textMap[type];
 
@@ -162,7 +163,15 @@ const AuthForm = ({
                 maxLength="20"
                 minLength="4"
               />
+              <button name="userName" onClick={(e) => checkValue(e)}>
+                아이디 중복 검사
+              </button>
             </StyledDiv>
+            {type === 'signup' && detailErr.userName.message && (
+              <SpanRed detail={detailErr.userName.status === 1}>
+                {detailErr.userName.message}
+              </SpanRed>
+            )}
             <StyledDiv>
               <InputHeader>
                 {type === 'signup' && <SpanRed>*</SpanRed>}
@@ -222,7 +231,15 @@ const AuthForm = ({
                     onBlur={onBlur}
                     maxLength="8"
                   />
+                  <button name="nickName" onClick={(e) => checkValue(e)}>
+                    닉네임 중복 검사
+                  </button>
                 </StyledDiv>
+                {type === 'signup' && detailErr.nickName.message && (
+                  <SpanRed detail={detailErr.nickName.status === 1}>
+                    {detailErr.nickName.message}
+                  </SpanRed>
+                )}
                 <StyledDiv>
                   <InputHeader>생년월일</InputHeader>
                   <StyledInput

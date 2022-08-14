@@ -5,6 +5,8 @@ import {
   initializeForm,
   signup,
   tempSetAuth,
+  checkUserName,
+  checkNickName,
 } from 'lib/redux/modules/auth';
 import AuthForm from 'components/Auth/AuthForm';
 import { useNavigate } from 'react-router-dom';
@@ -15,23 +17,47 @@ const SignupForm = () => {
   const [detailErr, setDetailErr] = useState({
     password: null,
     passwordCheck: null,
-    nickName: null,
+    userName: {
+      status: null,
+      message: null,
+    },
+    nickName: {
+      status: null,
+      message: null,
+    },
   });
   const dispatch = useDispatch();
-  const { form, auth, authError, userState } = useSelector(
-    ({ auth, user }) => ({
+  const { form, auth, authError, userState, userNameValid, nickNameValid } =
+    useSelector(({ auth, user }) => ({
       // state.auth, state.user
       form: auth.signup, // store이름 auth, auth.signup에(회원 정보 목록 있음)
       auth: auth.auth,
       authError: auth.authError,
+      userNameValid: auth.userNameValid,
+      nickNameValid: auth.nickNameValid,
       userState: user.userState,
-    }),
-  );
+    }));
+
+  const checkSpace = (value) => {
+    const reg = /\s/g;
+    const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g;
+    if (value.match(reg) || value.match(regExp)) return 1;
+    else return 0;
+  };
 
   // 인풋 변경 이벤트 핸들러
   const onChange = useCallback(
     (e) => {
       const { value, name } = e.target;
+      if (name === 'userName' || name === 'nickName') {
+        setDetailErr({
+          ...detailErr,
+          [name]: {
+            status: null,
+            message: null,
+          },
+        });
+      }
       dispatch(
         changeField({
           form: 'signup',
@@ -40,13 +66,13 @@ const SignupForm = () => {
         }),
       );
     },
-    [dispatch],
+    [dispatch, detailErr],
   );
 
   // 폼 등록 이벤트 핸들러
   const onSubmit = (e) => {
     e.preventDefault();
-    const {
+    let {
       userName,
       email,
       password,
@@ -55,6 +81,17 @@ const SignupForm = () => {
       birthday,
       gender,
     } = form;
+
+    if (detailErr.userName.status !== 2) {
+      setError('아이디 중복 검사를 해주세요');
+      return;
+    }
+
+    if (detailErr.nickName.status !== 2) {
+      setError('닉네임 중복 검사를 해주세요');
+      return;
+    }
+
     // 필수항목 중 하나라도 비어 있다면
     if (
       [userName, password, passwordCheck, nickName, email, gender].includes('')
@@ -88,19 +125,56 @@ const SignupForm = () => {
     dispatch(initializeForm('signup'));
   }, [dispatch]);
 
+  useEffect(() => {
+    if (userNameValid[0] === 1) {
+      setDetailErr({
+        ...detailErr,
+        userName: {
+          status: 1,
+          message: userNameValid[1],
+        },
+      });
+    }
+    if (userNameValid[0] === 0) {
+      setDetailErr({
+        ...detailErr,
+        userName: {
+          status: 2,
+          message: '사용 가능한 아이디 입니다.',
+        },
+      });
+    }
+  }, [userNameValid]);
+
+  useEffect(() => {
+    if (nickNameValid[0] === 1) {
+      setDetailErr({
+        ...detailErr,
+        nickName: {
+          status: 1,
+          message: nickNameValid[1],
+        },
+      });
+    }
+    if (nickNameValid[0] === 0) {
+      setDetailErr({
+        ...detailErr,
+        nickName: {
+          status: 2,
+          message: '사용 가능한 닉네임 입니다.',
+        },
+      });
+    }
+  }, [nickNameValid]);
+
   // 회원가입 성공/실패 처리
   useEffect(() => {
     if (authError) {
       // 아이디가 이미 존재
-      setError(authError.message);
+      setError(authError);
       return;
-      // }
-      // 기타 이유
-      // setError('회원가입 실패');
-      // return;
     }
     if (auth) {
-      console.log(auth);
       console.log('회원가입 성공');
       dispatch(tempSetAuth()); // 회원가입후 auth 제거
       alert('회원가입이 완료되었습니다!');
@@ -151,13 +225,28 @@ const SignupForm = () => {
         dispatch(changeField({ form: 'signup', key: 'birthday', value: tmp }));
       }
     }
-    // else if (name === 'phoneNum') {
-    //   const { phoneNum } = form;
-    //   if (phoneNum.length === 11) {
-    //     let tmp = phoneNum.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
-    //     dispatch(changeField({ form: 'signup', key: 'phoneNum', value: tmp }));
-    //   }
-    // }
+  };
+
+  const checkValue = (e) => {
+    const { name } = e.target;
+    const { userName, nickName } = form;
+    if (checkSpace(form[name]) || form[name] === '') {
+      setDetailErr({
+        ...detailErr,
+        [name]: {
+          status: 1,
+          message: `올바르지 않은 ${
+            name === 'userName' ? '아이디' : '닉네임'
+          } 형식 입니다.`,
+        },
+      });
+      return;
+    }
+    if (name === 'userName') {
+      dispatch(checkUserName({ userName }));
+    } else if (name === 'nickName') {
+      dispatch(checkNickName({ nickName }));
+    } else return;
   };
 
   return (
@@ -169,6 +258,7 @@ const SignupForm = () => {
       error={error}
       detailErr={detailErr}
       onBlur={onBlur}
+      checkValue={checkValue}
     />
   );
 };
