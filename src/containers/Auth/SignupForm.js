@@ -40,6 +40,7 @@ const SignupForm = () => {
 
   const checkSpace = (value) => {
     const reg = /\s/g;
+    // eslint-disable-next-line no-useless-escape
     const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g;
     if (value.match(reg) || value.match(regExp)) return 1;
     else return 0;
@@ -144,6 +145,7 @@ const SignupForm = () => {
         },
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userNameValid]);
 
   useEffect(() => {
@@ -165,6 +167,7 @@ const SignupForm = () => {
         },
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nickNameValid]);
 
   // 회원가입 성공/실패 처리
@@ -176,6 +179,7 @@ const SignupForm = () => {
     }
     if (auth) {
       console.log('회원가입 성공');
+
       dispatch(tempSetAuth()); // 회원가입후 auth 제거
       alert('회원가입이 완료되었습니다!');
       navigate(process.env.PUBLIC_URL + '/');
@@ -248,6 +252,21 @@ const SignupForm = () => {
       dispatch(checkNickName({ nickName }));
     } else return;
   };
+
+  // 새로 렌더시 초기화
+  useEffect(() => {
+    setDetailErr({
+      ...detailErr,
+      userName: {
+        status: null,
+        message: null,
+      },
+      nickName: {
+        status: null,
+        message: null,
+      },
+    });
+  }, []);
 
   return (
     <AuthForm

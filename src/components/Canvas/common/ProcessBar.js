@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import BlackCustomBtn from './BlackCustomBtn';
 import { MdExitToApp, MdOutlineSave } from 'react-icons/md';
 import { useStore } from 'lib/zustand/planStore';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import palette from 'lib/styles/palette';
 
 const Container = styled.div`
@@ -124,7 +124,7 @@ const Buttons = styled.div`
 
 const ProcessBar = ({ type, siteMap }) => {
   const { postPlan } = useStore();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // 0726 작성 중 수정 필요
   const save = async () => {
