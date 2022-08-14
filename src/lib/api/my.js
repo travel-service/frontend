@@ -103,6 +103,13 @@ export const getEditPage = async () => {
   try {
     const response = await axios.get('/members/profile/edit');
     console.log(response);
+    return {
+      nickname: response.data.result.profile.nickName,
+      bio: response.data.result.profile.bio,
+      birthday: response.data.result.info.birthday,
+      email: response.data.result.info.email,
+      gender: response.data.result.info.gender,
+    };
     // return {
     //   nickname: response.data.result.nickname,
     //   bio: response.data.result.bio,

@@ -2,32 +2,48 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
-const Img = styled.img`
-  height: 40px;
-  margin-right: 10px;
+const LogoContainer = styled(Link)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   ${(props) =>
     !props.auth &&
     css`
-      @media screen and (max-width: 767px) {
-        height: 25px;
+      flex-direction: row;
+      ${LogoImg} {
+        width: 45px;
+        margin-bottom: 0px;
+        margin-right: 15px;
+      }
+
+      ${LogoLetter} {
+        height: 15px;
       }
     `}
 `;
 
+const LogoImg = styled.img`
+  width: 120px;
+  margin-bottom: 25px;
+`;
+
+const LogoLetter = styled.img`
+  height: 30px;
+`;
+
 const Logo = ({ auth }) => {
   return (
-    <Link to={process.env.PUBLIC_URL + '/'}>
-      <Img
-        auth={auth}
-        alt=""
-        src={process.env.PUBLIC_URL + '/images/logoPainting.png'}
+    <LogoContainer to={process.env.PUBLIC_URL + '/'} auth={auth}>
+      <LogoImg
+        alt="LogoImage"
+        src={process.env.PUBLIC_URL + '/images/logoPaintingV2.png'}
       />
-      <Img
-        auth={auth}
-        alt=""
-        src={process.env.PUBLIC_URL + '/images/FontLogo.png'}
+      <LogoLetter
+        alt="LogoLetter"
+        src={process.env.PUBLIC_URL + '/images/logoLetterV2.png'}
       />
-    </Link>
+    </LogoContainer>
   );
 };
 

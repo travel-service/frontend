@@ -34,7 +34,7 @@ const BuildBlockForm = ({ idx }) => {
       selCateLoc={selCateLoc}
       dayLocDel={dayLocDel}
       setViewTime={setViewTime}
-      userTravelDay={userTravelDay}
+      travelDay={userTravelDay.travelDay}
       setTimeData={setTimeData}
       splitTime={splitTime}
       memberLocations={memberLocations}

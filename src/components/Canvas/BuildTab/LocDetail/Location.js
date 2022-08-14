@@ -1,7 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import palette from 'lib/styles/palette';
-import { Draggable } from 'react-beautiful-dnd';
 import Time from 'lib/Icons/Time';
 import Close from 'lib/Icons/Close';
 import { MdAccessTime } from 'react-icons/md';
@@ -22,7 +21,7 @@ const Img = styled.img`
   border-radius: 10px;
 `;
 
-const List = styled.li`
+const Container = styled.li`
   display: flex;
   list-style: none;
   white-space: normal;
@@ -61,12 +60,6 @@ const List = styled.li`
     `}
 `;
 
-const Clone = styled(List)`
-  ~ li {
-    transform: none !important;
-  }
-`;
-
 const ImgDiv = styled.div``;
 
 const ListDiv = styled.div`
@@ -100,6 +93,7 @@ const Btn = styled.div`
   display: none;
   ${(props) =>
     props.day > -1 &&
+    !props.check &&
     css`
       display: flex;
       flex-direction: column;
@@ -115,17 +109,7 @@ const Clock = styled.div`
   margin-bottom: 5px;
 `;
 
-const Location = ({
-  location,
-  index,
-  day,
-  id,
-  dayLocDel,
-  setViewTime,
-  lastIdx,
-  type,
-  nextLocation,
-}) => {
+const Location = ({ location, index, day, dayLocDel, isDragging, check }) => {
   const { movingData } = location;
 
   const onClick = () => {
@@ -137,79 +121,47 @@ const Location = ({
   };
 
   return (
-    <Draggable draggableId={String(id)} index={index} key={id}>
-      {(provided, snapshot) => {
-        return (
-          <React.Fragment>
-            <List
-              ref={provided.innerRef}
-              {...provided.dragHandleProps}
-              {...provided.draggableProps}
-              isDragging={snapshot.isDragging}
-              style={provided.draggableProps.style}
-              index={index}
-              day={day}
-            >
-              <ImgDiv>
-                <Img
-                  src={location.image}
-                  alt="locationImg"
-                  onError={(e) => handleImgError(e)}
-                />
-              </ImgDiv>
-              <ListDiv>
-                <div>
-                  {index !== 0 && day > -1 && (
-                    <Clock>
-                      {day > -1 && (
-                        <>
-                          {movingData.stayTime && <MdAccessTime size="12px" />}
-                          <TimeSpan>
-                            {!movingData.startTime &&
-                              movingData.stayTime &&
-                              `${movingData.stayTime} 체류`}
-                            {movingData.startTime &&
-                              `${movingData.arriveTime}~${movingData.startTime}`}
-                          </TimeSpan>
-                        </>
-                      )}
-                      <Time
-                        type="pen"
-                        title="체류 시간 설정"
-                        index={index}
-                        day={day}
-                      />
-                    </Clock>
-                  )}
-                  <LocName day={day}>{location.name}</LocName>
-                  <LocAddress>{location.address1}</LocAddress>
-                </div>
-                <Btn day={day}>
-                  <Close size="18" onClick={onClick} tooltip={true} />
-                </Btn>
-              </ListDiv>
-            </List>
-            {snapshot.isDragging && day === undefined && (
-              <Clone>
-                <ImgDiv>
-                  <Img
-                    src={location.image}
-                    alt="img"
-                    onError={handleImgError}
-                  />
-                </ImgDiv>
-                <ListDiv>
-                  <div>
-                    <LocName>{location.name}</LocName>
-                    <LocAddress>{location.address1}</LocAddress>
-                  </div>
-                </ListDiv>
-              </Clone>
-            )}
-          </React.Fragment>
-        );
-      }}
-    </Draggable>
+    <Container day={day} isDragging={isDragging}>
+      <ImgDiv>
+        <Img
+          src={location.image}
+          alt="locationImg"
+          onError={(e) => handleImgError(e)}
+        />
+      </ImgDiv>
+      <ListDiv>
+        <div>
+          {index !== 0 && day > -1 && (
+            <Clock>
+              {day > -1 && (
+                <>
+                  {movingData.stayTime && <MdAccessTime size="12px" />}
+                  <TimeSpan>
+                    {!movingData.startTime &&
+                      movingData.stayTime &&
+                      `${movingData.stayTime} 체류`}
+                    {movingData.startTime &&
+                      `${movingData.arriveTime}~${movingData.startTime}`}
+                  </TimeSpan>
+                </>
+              )}
+              <Time
+                type="pen"
+                title="체류 시간 설정"
+                index={index}
+                day={day}
+                check={check}
+              />
+            </Clock>
+          )}
+          <LocName day={day}>{location.name}</LocName>
+          <LocAddress>{location.address1}</LocAddress>
+        </div>
+        <Btn day={day} check={check}>
+          <Close size="18" onClick={onClick} tooltip={true} />
+        </Btn>
+      </ListDiv>
+    </Container>
   );
 };
 
