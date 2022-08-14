@@ -10,10 +10,10 @@ export const useStore = create((set, get) => ({
     destination: '',
     name: '',
     periods: 1,
-    planStatus: 'MAIN',
+    //planStatus: 'MAIN',
     thumbnail: '', // FormData, 이름
   },
-  userPlanConcept: {
+  conceptForm: {
     concept: [],
   },
   Concepts: [
@@ -24,6 +24,9 @@ export const useStore = create((set, get) => ({
   ],
   userTravelDay: {
     travelDay: [],
+  },
+  setId: (input) => {
+    set({ id: input });
   },
   setName: (input) => {
     set((state) => ({ userPlan: { ...state.userPlan, name: input } }));
@@ -45,8 +48,13 @@ export const useStore = create((set, get) => ({
   },
   setConcept: (input) => {
     set((state) => ({
-      userPlanConcept: { ...state.userPlanConcept, concept: input },
+      conceptForm: { ...state.conceptForm, concept: input },
     }));
+    if (input === []) {
+      set({
+        conceptForm: { concept: input },
+      });
+    }
   },
   setDepart: (input) => {
     const pD =
@@ -64,7 +72,9 @@ export const useStore = create((set, get) => ({
   setThumbnail: (input) => {
     set((state) => ({ userPlan: { ...state.userPlan, thumbnail: input } }));
   },
-
+  setStatus: (input) => {
+    set((state) => ({ userPlan: { ...state.userPlan, planStatus: input } }));
+  },
   // 압축 로직, [{}, {}...] => [id, id...]
   zipSelLoc: (item) => {
     // item는 객체 배열, id값으로만 된 배열 생성후 userPlan.dbSelLoc에 덮어쓰기
@@ -169,28 +179,13 @@ export const useStore = create((set, get) => ({
     }
   },
 
-  // 다음으로 누를 때 백으로 전송(Canvas 페이지에서)
-  // canvasPost: async () => {
-  //   let { selectedLocations } = get().userPlan;
-  //   let tmp = [];
-  //   for (let key of Object.keys(selectedLocations))
-  //     tmp = [...tmp, ...get().zipSelLoc(selectedLocations[key])];
-  //   console.log(selectedLocations);
-  //   const response = await axios.post(`http://localhost:4000/travelPlans`, {
-  //     travelDays: get().userPlan.travelDays,
-  //     selectedLocations: tmp,
-  //   });
-  //   console.log(response); // 성공하면 success
-  //   // set((state) => ({ userPlan: { ...state.userPlan } }));
-  //   // console.log(get().userPlan);
-  // },
-
   // 0704 찬우 수
   // GET userPlan
   getPlan: async (id) => {
     const res = await planAPI.getPlan(id);
-    set({ userPlan: res.planForm });
-    // set({ userPlanConcept: response.data.conceptForm });
+    const con = await planAPI.getConcpet(id);
+    set({ userPlan: { ...res.planForm } });
+    set({ conceptForm: { concept: con.conceptForm } });
     // set({ userTravelDay: response.data.dayForm });
   },
 
@@ -199,57 +194,31 @@ export const useStore = create((set, get) => ({
   postPlan: async (type) => {
     // 매개변수 id는 userPlan id
     const userPlan = get().userPlan;
-    // const userPlanConcept = get().userPlanConcept;
+    const conceptForm = get().conceptForm;
     // const userTravelDay = get().userTravelDay;
     const id = get().id;
     if (type === 0 && !id) {
       // plan 생성
       const res = await planAPI.createPlan(userPlan);
-      if (res > 0) {
+      if (res.planId) {
         // 정상적 id 반환
-        set({ id: res });
+        set({ id: res.planId });
       } else {
         // postPlan 에러
       }
     } else if (type === 0 && id > 0) {
       // plan 수정
+      delete userPlan.planId;
+      if (!userPlan.thumbnail) {
+        userPlan.thumbnail = '';
+      }
+      await planAPI.putPlan(id, userPlan);
+      await planAPI.postConcept(id, conceptForm);
     } else if (type === 1) {
       // selectedLocation 생성 및 수정
     } else if (type === 2) {
       // day 생성 및 수정
     }
-
-    // if (id === undefined) {
-    //   const response = await axios.post(`http://localhost:8080/members/plan`, {
-    //     /*...userPlan,*/
-    //     planForm: userPlan,
-    //     conceptForm: userPlanConcept,
-    //     dayForm: userTravelDay,
-    //   });
-    //   console.log(response);
-    //   //set({ userPlan: response.data }); // 백에서 보내주는 데이터가 userPlan
-    // } else {
-    //   //const response = await axios.post(`/members/1/plan`, {
-    //   //test용 patch..
-    //   const response = await axios.patch(
-    //     `http://localhost:4000/travelPlans/${id}`,
-    //     {
-    //       planForm: userPlan,
-    //       conceptForm: userPlanConcept,
-    //       dayForm: userTravelDay,
-    //     },
-    //   );
-    //   console.log(response); // 성공하면 success
-    // }
-  },
-}));
-
-// 여행 보관함에서 사용
-export const planStore = create((set, get) => ({
-  plans: undefined, // 여행 보관함
-  getAllPlans: async () => {
-    const res = await planAPI.getAllPlans();
-    set({ plans: res });
   },
 }));
 

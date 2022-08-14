@@ -1,221 +1,368 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { dirStore } from 'lib/dirStore';
-//import ModalModule from 'components/common/modal/ModalModule';
-//import MoreSettings from '../DirectoryPage/MoreSettings';
+import { Link } from 'react-router-dom';
+import CustomCheckbox from 'lib/custom/CustomCheckbox';
 
 // 플랜 레이아웃(이름, 기간, 날짜, 썸네일(호버 시 정보), 이동/복사/담기 버튼)
 const PlanContainer = styled.div`
-  //display: flex;
-  margin: 10px;
-  padding: 10px;
-  border: 2px solid lightgray;
-  //width: 300px;
-  //height: 250px;
-  width: 350px;
-  height: 270px;
-`;
-const PlanTitleDiv = styled.div`
-  display: flex;
-  justify-content: space-between;
+  width: 246px;
+  //width: 24%;
+  height: 260px;
+  background: #ffffff;
+  border: 1px solid #e5e7e8;
+  border-radius: 10px;
+  padding: 15px;
 `;
 const PlanNameDiv = styled.div`
   display: flex;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: #000000;
   align-items: center;
-  font-size: 1.2rem;
-  height: 30px;
-  width: 80%;
+  margin-top: 14px;
+`;
+const PeriodsContainer = styled.div`
+  position: absolute;
+  margin-top: 15px;
+  margin-left: 145px;
 `;
 const PeriodsDiv = styled.div`
-  text-align: center;
-  font-size: 12px;
-  border: 1px solid black;
-  border-radius: 5px;
-  padding: 5px;
-  width: 20%;
+  background: #000000;
+  opacity: 0.69;
+  font-weight: 800;
+  font-size: 10px;
+  line-height: 12px;
+  color: #ffffff;
+  padding: 10px 20px 10px 20px;
+  border-radius: 20px;
 `;
 const ThumbnailContainer = styled.div`
-  border: 1px solid gray;
+  width: 216px;
+  height: 150px;
+  border-radius: 10px;
+  background: #efefef;
+`;
+const LinkContainer = styled.div`
+  position: absolute;
   display: flex;
+  gap: 11px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 72%; //70 75
-  margin: 10px 10px 7px 10px;
-  &:hover {
-    background: lightgray;
-  }
+  width: 216px;
+  height: 150px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  z-index: 1;
 `;
-const LinkButton = styled.button`
+const LinkButton = styled(Link)`
   text-align: center;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: #ffffff;
   font-size: 15px;
-  border: 1px solid black;
+  text-decoration: none;
+
+  border: 1px solid #ffffff;
   border-radius: 5px;
-  padding: 5px;
-  background: white;
+  padding: 10px;
+
   width: 70%;
   cursor: pointer;
-  margin-bottom: 5%;
-  //margin: 0% 15% 5% 15%;
 `;
 const DateDiv = styled.div`
-  margin-left: 10px;
-  margin-right: 10px;
-  width: 40%;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  color: #7e7e7e;
+  margin-top: 10px;
 `;
+const PlanTitleDiv = styled.div`
+  display: flex;
+  justify-content: right;
+`;
+// 설정(점세개) div
 const MoreDiv = styled.div`
-  // 설정(점세개) div
   text-align: right;
-  //background: red;
-  //width: 20%;
-  z-index: 100;
+  position: absolute;
+  z-index: 2;
 `;
+// 설정 버튼
 const MoreButton = styled.button`
-  // 설정 버튼
-  /*display: flex;
-  width: 10px;*/
-  margin-right: 10px;
   border: none;
-  font-weight: bold;
   background: none;
   cursor: pointer;
 `;
 const PlanControlUl = styled.ul`
-  //display: block;
-  //position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
   list-style: none;
-  padding: 5px;
-  margin: 0px;
-  background: gray;
-  //border: 0.1px solid silver;
+  padding: 10px;
+  background: #e5e7e8;
+  border-radius: 10px;
+  margin: 0;
 `;
 const PlanControlLi = styled.li`
-  //display: block;
-  //position: relative;
+  text-align: center;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: #000000;
   decoration: none;
-  background: white;
-  padding: 5px 15px 5px 15px;
-  border: 0.1px solid silver;
+  padding: 10px 20px 10px 20px;
+  background: #ffffff;
+  border-radius: 5px;
   cursor: pointer;
-  margin: 5px;
+  &:hover {
+    background: #000000;
+    color: #ffffff;
+  }
+`;
+const SubUl = styled.ul`
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  text-align: left;
+  gap: 5px;
+  list-style: none;
+  padding: 10px;
+  background: #e5e7e8;
+  border-radius: 10px;
+  margin: 0;
+  width: 148px;
+  margin-left: -150px;
+  margin-top: -52px;
+  z-index: 2;
+  // left: 90px;
+  //top: 23px;
 `;
 const MoveLi = styled.li`
-  //position: relative;
-  width: 150px;
-  //margin-left: 85px;
-  //margin-top: -40px;
-  list-style: none;
-  background: white;
-  text-align: center;
-  padding: 5px 15px 5px 15px;
-  border: 0.1px solid silver;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: #000000;
+  text-align: left;
+
+  decoration: none;
+  padding: 10px 15px 10px 15px;
+  background: #ffffff;
+  border-radius: 5px;
   cursor: pointer;
 `;
 
-const PlanLayout = ({ planName, planId, planPeriods, planDate }) => {
-  const [clickMore, setClickMore] = useState(false);
-  const [isShow, setIsShow] = useState(false);
-  const [isOver, setIsOver] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
+const PlanLayout = ({
+  planId,
+  name,
+  periods,
+  createdDate,
 
-  const { userDirs } = dirStore();
+  userDirs,
+  checkedPlans,
+  setCheckedPlans,
+  postMovePlans,
+  postTrash,
+  postRevert,
+  currentDirId,
+  deletePlan,
 
-  const onClickMore = () => {
-    setClickMore(false);
-    setIsShow(!isShow);
-    console.log('click');
+  myP,
+}) => {
+  const [clickMore, setClickMore] = useState(false); // 담기클릭
+  const [isShow, setIsShow] = useState(false); // 점세개 클릭
+  const [isOver, setIsOver] = useState(false); // 마우스오버 버튼
+  const moreRef = useRef(null);
+
+  useEffect(() => {
+    document.addEventListener('mousedown', onClickPlans);
+    return () => {
+      document.removeEventListener('mousedown', onClickPlans);
+    };
+  });
+
+  const onClickPlans = (e) => {
+    if (moreRef.current && !moreRef.current.contains(e.target)) {
+      setCheckedPlans([]);
+      setIsShow(false);
+      setClickMore(false);
+    }
   };
-  const onMO = () => {
-    setIsOver(!isOver);
+  const onChangeCheck = (checked, i) => {
+    if (checked) {
+      setCheckedPlans([...checkedPlans, i]);
+    } else {
+      setCheckedPlans(checkedPlans.filter((e) => e !== i));
+    }
   };
-  const onClicktext = (text) => {
-    text === '담기' ? setClickMore(!clickMore) : console.log(text);
-  };
-  const onClickView = (w) => {
-    w === 'v' ? console.log('link to view') : console.log('link to canvas');
+  const ConfirmDel = (m, t) => {
+    if (window.confirm(m)) {
+      t ? deletePlan() : postTrash();
+      setCheckedPlans([]);
+      setIsShow(false);
+      setClickMore(false);
+    }
   };
 
   return (
     <PlanContainer>
-      <PlanTitleDiv>
-        <PlanNameDiv>{planName}</PlanNameDiv>
-        <PeriodsDiv>{planPeriods}일</PeriodsDiv>
-      </PlanTitleDiv>
+      <PeriodsContainer>
+        <PeriodsDiv>{periods}일</PeriodsDiv>
+      </PeriodsContainer>
       <ThumbnailContainer // 마우스 올리면 컴포넌트 나오게
         onMouseEnter={() => {
-          onMO();
+          setIsOver(!isOver);
         }}
         onMouseLeave={() => {
-          onMO();
-        }}
-        onClick={() => {
-          setIsChecked(!isChecked);
+          setIsOver(!isOver);
         }}
       >
         {isOver && (
-          <>
-            {/*isChecked && <input type="checkbox" /> /*체크 기능*/}
-            <LinkButton
-              onClick={() => {
-                onClickView('v');
-              }}
-            >
+          <LinkContainer>
+            <LinkButton to={process.env.PUBLIC_URL + '/canvas/share'}>
               완성된 여행 보기
             </LinkButton>
             <LinkButton
-              onClick={() => {
-                onClickView('f');
-              }}
+              to={process.env.PUBLIC_URL + '/canvas/setting'}
+              state={{ planId: planId }}
             >
               수정하기
             </LinkButton>
-          </>
+          </LinkContainer>
         )}
       </ThumbnailContainer>
-      <PlanTitleDiv>
-        <DateDiv>{planDate.substr(0, 10).replace(/-/g, '.')}</DateDiv>
-        <MoreDiv>
-          <MoreButton
-            onClick={() => {
-              onClickMore();
+      <PlanNameDiv>
+        {myP ? (
+          ''
+        ) : (
+          <CustomCheckbox
+            circle={true}
+            id={planId}
+            onChange={(e) => {
+              onChangeCheck(e.target.checked, planId);
             }}
-          >
-            :
-          </MoreButton>
-          {isShow && (
-            <PlanControlUl>
-              <PlanControlLi
-                onClick={() => {
-                  onClicktext('복사');
-                }}
-              >
-                복사
-              </PlanControlLi>
-              <PlanControlLi
-                onClick={() => {
-                  onClicktext('삭제');
-                }}
-              >
-                삭제
-              </PlanControlLi>
-              <PlanControlLi
-                onClick={() => {
-                  onClicktext('담기');
-                }}
-              >
-                담기
-              </PlanControlLi>
-            </PlanControlUl>
-          )}
-          {isShow &&
-            clickMore &&
-            userDirs.mainUserDirectory.map((item) => {
-              return (
-                <MoveLi key={item.userDirectoryId}>{item.directoryName}</MoveLi>
-              );
-            })}
-        </MoreDiv>
-      </PlanTitleDiv>
+            checked={
+              checkedPlans && checkedPlans.includes(planId) ? true : false
+            }
+          />
+        )}
+        {name.length > 10 ? name.substr(0, 10) + '...' : name}
+      </PlanNameDiv>
+      <DateDiv>{createdDate.replace(/-/g, '.')}</DateDiv>
+      {myP ? (
+        ''
+      ) : (
+        <PlanTitleDiv>
+          <MoreDiv>
+            <MoreButton
+              onClick={() => {
+                setIsShow(!isShow);
+                !checkedPlans.includes(planId)
+                  ? onChangeCheck(!isShow, planId)
+                  : setCheckedPlans([planId]);
+              }}
+            >
+              <img
+                src={process.env.PUBLIC_URL + '/images/more_ico.png'}
+                alt="더보기"
+              />
+            </MoreButton>
+            {currentDirId === 'm'
+              ? isShow && (
+                  <PlanControlUl ref={moreRef}>
+                    <PlanControlLi
+                      onMouseOver={() => {
+                        setClickMore(false);
+                      }}
+                      onClick={() => {
+                        ConfirmDel(
+                          '플랜을 삭제하시겠습니까? 복원은 휴지통에서 30일 이내로 가능합니다.',
+                          0,
+                        );
+                      }}
+                    >
+                      삭제
+                    </PlanControlLi>
+                    <PlanControlLi
+                      onMouseOver={() => {
+                        setClickMore(true);
+                      }}
+                    >
+                      담기
+                    </PlanControlLi>
+                  </PlanControlUl>
+                )
+              : currentDirId === 't'
+              ? isShow && (
+                  <PlanControlUl ref={moreRef}>
+                    <PlanControlLi
+                      onClick={() => {
+                        ConfirmDel('플랜을 영구 삭제하시겠습니까?', 1);
+                      }}
+                    >
+                      삭제
+                    </PlanControlLi>
+                    <PlanControlLi
+                      onClick={() => {
+                        postRevert();
+                        setIsShow(false);
+                        setClickMore(false);
+                        alert("플랜을 '모든 여행'으로 복원했습니다.");
+                      }}
+                    >
+                      복원
+                    </PlanControlLi>
+                  </PlanControlUl>
+                )
+              : isShow && (
+                  <PlanControlUl ref={moreRef}>
+                    <PlanControlLi
+                      onClick={() => {
+                        ConfirmDel(
+                          '플랜을 삭제하시겠습니까? 복원은 휴지통에서 30일 이내로 가능합니다.',
+                          0,
+                        );
+                      }}
+                    >
+                      삭제
+                    </PlanControlLi>
+                  </PlanControlUl>
+                )}
+            {isShow && clickMore && userDirs.mainUserDirectory.length > 0 ? (
+              <SubUl ref={moreRef}>
+                {userDirs.mainUserDirectory.map((item) => {
+                  return (
+                    <MoveLi
+                      key={item.userDirectoryId}
+                      onClick={() => {
+                        postMovePlans(item.userDirectoryId);
+                        setIsShow(false);
+                        setClickMore(false);
+                        alert(`플랜이 ${item.directoryName}에 담겼습니다.`);
+                      }}
+                    >
+                      <img
+                        style={{ marginRight: '5px' }}
+                        src={process.env.PUBLIC_URL + '/images/folder_ico.png'}
+                      />
+                      {item.directoryName.length > 5
+                        ? item.directoryName.substr(0, 5) + '...'
+                        : item.directoryName}
+                    </MoveLi>
+                  );
+                })}
+              </SubUl>
+            ) : (
+              isShow &&
+              clickMore &&
+              userDirs.mainUserDirectory.length === 0 && (
+                <SubUl>담을 보관함이 없습니다.</SubUl>
+              )
+            )}
+          </MoreDiv>
+        </PlanTitleDiv>
+      )}
     </PlanContainer>
   );
 };

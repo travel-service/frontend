@@ -1,5 +1,4 @@
-import React, { /*useEffect,*/ useState } from 'react';
-import { useStore } from 'lib/zustand/planStore';
+import React, { useState } from 'react';
 import ReactTooltip from 'react-tooltip';
 import styled from 'styled-components';
 import Close from 'lib/Icons/Close';
@@ -61,8 +60,7 @@ const StyledFile = styled.label`
   }
 `;
 
-export const ImageSetting = () => {
-  const { userPlan, setThumbnail } = useStore();
+export const ImageSetting = ({ userPlan, setThumbnail }) => {
   const [imgData, setImgData] = useState(null);
 
   const insertImg = (e) => {
@@ -112,7 +110,7 @@ export const ImageSetting = () => {
 
   return (
     <ThumbnailSettingDiv>
-      <TitleSpan>4. 썸네일 등록 </TitleSpan>
+      <TitleSpan>3. 썸네일 등록 </TitleSpan>
       <TooltipButton data-tip data-for="thumbnailsetting">
         ?
       </TooltipButton>

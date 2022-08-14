@@ -35,7 +35,10 @@
     ]
   },
   "userD": {
-    "planCount": [3, 2],
+    "planCount": [
+      3,
+      2
+    ],
     "mainUserDirectory": [
       {
         "userDirectoryId": 80,
@@ -45,7 +48,10 @@
         "userDirectoryId": 81,
         "directoryName": "제주도대안"
       }
-    ]
+    ],
+    "id": 82,
+    "userDirectoryId": 82,
+    "directoryName": "ㅇㅇㅇ"
   },
   "userDirectory80": [
     {
@@ -125,7 +131,11 @@
         ]
       },
       "dayForm": {
-        "travelDay": [[], [], []]
+        "travelDay": [
+          [],
+          [],
+          []
+        ]
       }
     },
     {

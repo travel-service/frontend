@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useStore } from 'lib/zustand/planStore';
 import ReactTooltip from 'react-tooltip';
 import { addDays } from 'date-fns';
 import DatePicker from 'react-datepicker';
@@ -38,18 +37,14 @@ const Datediv = styled.div`
   }
 `;
 
-export const DateSetting = () => {
-  const { userPlan, setDepart, setPeriods } = useStore();
-
+export const DateSetting = ({ userPlan, setDepart, setPeriods }) => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  //const [minDate, setMinDate] = useState(new Date());
 
   useEffect(() => {
+    //depart가 있으면
     if (!isNaN(Date.parse(userPlan.depart))) {
-      //depart가 있으면
       setStartDate(new Date(userPlan.depart));
-      //setMinDate(new Date(userPlan.depart));
       if (userPlan.periods === 1) {
         setEndDate(new Date(userPlan.depart));
       } else {
@@ -68,12 +63,6 @@ export const DateSetting = () => {
       diff = endDate.getTime() - date.getTime();
       pPeriods = Math.ceil(diff / 1000 / 60 / 60 / 24) + 1;
     }
-    /*if (endDate.getTime() < date.getTime()) {
-      setEndDate(date);
-    }
-    console.log(endDate);
-    const diff = endDate.getTime() - date.getTime();
-    const pPeriods = Math.ceil(diff / 1000 / 60 / 60 / 24) + 1;*/
     setPeriods(pPeriods);
   };
 
@@ -108,7 +97,7 @@ export const DateSetting = () => {
             selectsStart
             startDate={startDate}
             endDate={endDate}
-            //minDate={minDate}
+            minDate={addDays(endDate, -30)}
           />
         </span>
         <span>도착일 </span>
