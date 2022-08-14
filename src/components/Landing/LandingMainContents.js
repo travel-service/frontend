@@ -4,9 +4,10 @@ import styled from 'styled-components';
 import BackImg from 'lib/images/landingBackV2.png';
 import { MdSearch } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import palette from 'lib/styles/palette';
 
 const Container = styled.div`
-  width: 100vw;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -16,7 +17,7 @@ const FlexBox = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  background-color: #ffd0c0;
+  background-color: ${palette.landing};
   padding: 0% 0%;
 `;
 
@@ -145,7 +146,8 @@ const Banner = styled.div`
   border-width: 1px;
   border-color: rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-  width: 800px;
+  width: 700px;
+  max-width: 1200px;
   height: 300px;
   background-color: white;
   box-shadow: 4px 4px 4px grey;
@@ -166,6 +168,11 @@ const Banner = styled.div`
   }
 `;
 
+const SearchDes = styled(Link)`
+  text-decoration: none;
+  color: ${palette.red};
+`;
+
 const LandingMainContents = () => {
   return (
     <Container>
@@ -182,7 +189,9 @@ const LandingMainContents = () => {
                 <Input placeholder="현재는 제주도로만 서비스중!" />
               </Div>
               {/* <button>검색</button> */}
-              <Link to={process.env.PUBLIC_URL + '/search'}>검색</Link>
+              <SearchDes to={process.env.PUBLIC_URL + '/search'}>
+                검색
+              </SearchDes>
             </InputContainer>
             <GoDirBtn to={process.env.PUBLIC_URL + '/canvas/directory'}>
               여행 보관함 가기

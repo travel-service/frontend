@@ -6,11 +6,16 @@ import TravelSettingForm from 'containers/Canvas/TravelSettingForm';
 import PlanDays from '../BuildTab/Dnd/PlanDays';
 import CanvasButtons from './CanvasButtons';
 import SelLocBasket from '../BuildTab/Dnd/SelLocBasket';
+import TravelCheckForm from 'containers/Canvas/TravelCheckForm';
 
 const Container = styled.div`
   flex: 1;
   height: 100%;
-  min-height: 85vh; // 이렇게 하면 될지?
+  width: 100%;
+  min-height: 800px; // 이렇게 하면 될지?
+  max-height: 1300px; // 이렇게 하면 될지?
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   padding-bottom: 35px;
@@ -46,6 +51,8 @@ const Main = styled.div`
   margin-left: 30px;
   margin-right: 30px;
   padding: 25px;
+  max-height: 900px; // 이렇게 하면 될지?
+
   @media screen and (max-width: 767px) {
     padding: 20px;
     margin-left: 20px;
@@ -68,8 +75,10 @@ const Title = styled.div`
 
 const Contents = styled.div`
   flex: 1;
-  max-height: 80vh; // 수정 가능
   overflow: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const siteMap = {
@@ -96,9 +105,10 @@ const CanvasForm = ({ type, data }) => {
           <Contents>
             {type === 'setting' && <TravelSettingForm />}
             {type === 'select' && <Block />}
-            {type === 'build' && <PlanDays idx={2} data={data} />}
+            {type === 'build' && <PlanDays data={data} />}
+            {type === 'check' && <TravelCheckForm />}
           </Contents>
-          <CanvasButtons />
+          <CanvasButtons siteMap={siteMap} />
         </Main>
       </Canvas>
     </Container>

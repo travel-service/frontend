@@ -46,8 +46,10 @@ const buttonStyle = css`
       background-color: #f16b6c;
       color: white;
       width: 100%;
-      font-size: 16px;
       font-weight: 700;
+      font-size: 18px;
+      height: 55px;
+      border-radius: 10px;
     `}
 `;
 

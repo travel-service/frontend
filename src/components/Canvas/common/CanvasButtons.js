@@ -20,13 +20,11 @@ const ButtonLink = styled(Link)`
   align-items: center;
 `;
 
-const siteMap = ['setting', 'select', 'build', 'share'];
-
-const CanvasButtons = () => {
+const CanvasButtons = ({ siteMap }) => {
   const location = useLocation();
   const { postPlan } = useStore();
   const urlName = location.pathname.replace(/\/trablock\/canvas\//g, '');
-  const idx = siteMap.indexOf(urlName);
+  const idx = Object.keys(siteMap).indexOf(urlName);
 
   // const onClickSettingNextButton = () => {
   //   // postPlan(2);
@@ -51,7 +49,11 @@ const CanvasButtons = () => {
   return (
     <>
       <Buttons>
-        <ButtonLink to={process.env.PUBLIC_URL + `/canvas/${siteMap[idx - 1]}`}>
+        <ButtonLink
+          to={
+            process.env.PUBLIC_URL + `/canvas/${Object.keys(siteMap)[idx - 1]}`
+          }
+        >
           {idx !== 0 && (
             <StyledButton backColor="white" onClick={onClickPrev}>
               <MdOutlineArrowBackIos /> 이전
@@ -60,11 +62,10 @@ const CanvasButtons = () => {
         </ButtonLink>
         <ButtonLink
           to={
-            process.env.PUBLIC_URL +
-            `/canvas/${idx === 3 ? siteMap[3] : siteMap[idx + 1]}`
+            process.env.PUBLIC_URL + `/canvas/${Object.keys(siteMap)[idx + 1]}`
           }
         >
-          {idx !== 2 && (
+          {idx !== 3 && (
             <StyledButton
               backColor="black"
               onClick={() => {

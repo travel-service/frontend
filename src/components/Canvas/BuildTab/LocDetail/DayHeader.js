@@ -49,7 +49,7 @@ const Span = styled.span`
   font-weight: 600;
 `;
 
-const DayHeader = ({ index, firLoc }) => {
+const DayHeader = ({ index, firLoc, check }) => {
   const { userPlan } = useStore();
   const [dates, setDates] = useState('');
 
@@ -77,7 +77,7 @@ const DayHeader = ({ index, firLoc }) => {
       <DateDiv>{dates}</DateDiv>
       <Div>
         <Time
-          flag={firLoc === undefined}
+          flag={firLoc === undefined || check}
           title="출발 시간 설정"
           index={0}
           day={index}

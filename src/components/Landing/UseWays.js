@@ -2,31 +2,30 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
-  width: 100%;
-  position: relative;
+  max-width: 1400px;
+  padding: 0px 30px;
   margin-bottom: 7%;
 `;
 
 const List = styled.div`
-  margin: 3% 7%;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   flex-wrap: wrap;
-  gap: 2%;
+  margin: 0px 20px;
 `;
 
 const Way = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 180px;
-  height: 180px;
+  width: 300px;
+  height: 190px;
   border-radius: 15px;
   background-color: #f2f2f2;
   padding: 15px;
   justify-content: space-around;
   flex-basis: 22%;
-  margin: 1% 0px;
+  margin: 10px 10px;
 
   :hover {
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
@@ -36,7 +35,7 @@ const Way = styled.div`
   }
 
   @media screen and (max-width: 1023px) {
-    flex-basis: 35%;
+    flex-basis: 32%;
   }
   @media screen and (max-width: 767px) {
     flex-basis: 60%;
@@ -56,6 +55,8 @@ const Div = styled.div`
 
 const H3 = styled.h3`
   margin: 5px;
+  font-size: 18px;
+
   @media screen and (max-width: 767px) {
     font-size: 14px;
   }

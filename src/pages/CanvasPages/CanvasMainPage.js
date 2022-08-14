@@ -4,8 +4,8 @@ import { Routes, Route } from 'react-router-dom';
 import TravelSettingPage from './TravelSettingPage';
 import SelectBlockPage from './SelectBlockPage';
 import BuildBlockPage from './BuildBlockPage';
-import TravelSharePage from './TravelSharePage';
 import DirectoryPage from './DirectoryPage';
+import TravelCheckPage from './TravelCheckPage';
 
 const CanvasMainPage = () => {
   return (
@@ -15,7 +15,7 @@ const CanvasMainPage = () => {
       <Route element={<TravelSettingPage />} path="setting" />
       <Route element={<SelectBlockPage />} path="select" />
       <Route element={<BuildBlockPage />} path="build" />
-      <Route element={<TravelSharePage />} path="share" />
+      <Route element={<TravelCheckPage />} path="check" />
     </Routes>
   );
 };

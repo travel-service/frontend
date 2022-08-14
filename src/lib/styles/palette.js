@@ -28,6 +28,7 @@ const palette = {
   back1: '#f6f6f8',
   back2: '#e5e7e8',
   border1: '#ddddde',
+  red: '#f16b6c',
   red1: '#f75d5d',
   red2: '#e14040',
 };

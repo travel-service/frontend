@@ -1,6 +1,5 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import AuthHeader from 'components/Base/Header/AuthHeader';
 import Logo from 'components/Landing/Logo';
 
 const AuthTemplateBlock = styled.div`
@@ -28,19 +27,24 @@ const WhiteBox = styled.div`
 `;
 
 const Div = styled.div`
-  padding: 50px 0px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   min-height: 100vh;
+  width: 100%;
+  padding-bottom: 100px;
 `;
 
 const Main = styled.div`
   width: 55%;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   @media screen and (max-width: 767px) {
     width: 0%;
-    display: none; // 0529  임시 none 처리, 메뉴 바 삽입 예정
+    display: none;
   }
 `;
 
@@ -77,13 +81,12 @@ const AuthTemplate = ({ children }) => {
       <WhiteBox>
         <Div>
           <AuthLogo>
-            <Logo auth={true} />
+            <Logo auth={'true'} />
           </AuthLogo>
           {children}
         </Div>
       </WhiteBox>
       <Main>
-        <AuthHeader />
         <Illustration plane>
           <MainCharacter src={process.env.PUBLIC_URL + '/images/plane.png'} />
         </Illustration>
