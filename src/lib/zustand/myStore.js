@@ -30,6 +30,21 @@ export const useStore = create((set, get) => ({
       },
     });
   },
+  getEditP: async () => {
+    const res = await myAPI.getEditPage();
+    const { nickname, bio, birthday, gender, email } = res;
+    set({
+      profile: {
+        nickname,
+        bio,
+      },
+      info: {
+        birthday,
+        gender,
+        email,
+      },
+    });
+  },
   setNick: (input) => {
     set((state) => ({ profile: { ...state.profile, nickname: input } }));
   },
@@ -74,5 +89,13 @@ export const useStore = create((set, get) => ({
   },
   setSendNick: (input) => {
     set((state) => ({ sendnick: { ...state.sendnick, nickname: input } }));
+  },
+  postImg: async (frm) => {
+    console.log(frm);
+    const res = await myAPI.postMyImg(frm);
+    console.log(res);
+  },
+  setImg: (input) => {
+    set((state) => ({ profile: { ...state.profile, img: input } }));
   },
 }));

@@ -25,16 +25,22 @@ const MyInfoBox = styled.div`
   }
 `;
 
-const MyInfoProfile = styled.img`
+const MyInfoProfile = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  //width: 70%;
-  //height: 70%;
-  width: 150px;
-  height: 150px;
-  border-radius: 100%;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  .profile-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+  }
+  .profile-user-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 `;
 
 const MyInfoMessage = styled.div`
@@ -116,6 +122,64 @@ const DupCheck = styled.div`
   }
 `;
 
+const EditImg = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .profile-img {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border-radius: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+  }
+  .profile-user-img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background-image: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.6) 100%
+    );
+  }
+  .editStyle {
+    position: absolute;
+    display: block;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.6) 100%
+    );
+    width: 100%;
+    height: 100%;
+    .editB {
+      position: absolute;
+      text-align: center;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 19px;
+      color: #ffffff;
+      text-shadow: 0px 4px 3px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      top: 75%;
+    }
+    input[type='file'] {
+      /* 파일 필드 숨기기 */
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+  }
+`;
+
 const UserInfoBox = () => {
   const [visible, setVisible] = useState(true);
   const {
@@ -128,6 +192,8 @@ const UserInfoBox = () => {
     checkgetNick,
     checknick,
     sendnick,
+    setImg,
+    postImg,
   } = useStore();
 
   useEffect(() => {
@@ -143,9 +209,11 @@ const UserInfoBox = () => {
     setVisible(!visible);
     if (visible) {
       console.log('edit click');
+      setImage('');
     } else {
       console.log('처리중');
       PostEdit();
+      setImage('');
     }
   };
 
@@ -155,12 +223,21 @@ const UserInfoBox = () => {
     // setBio(profile.bio);
   };
 
-  const PostEdit = () => {
-    if (checknick.message === '사용 가능한 닉네임 입니다') {
+  const PostEdit = (file) => {
+    // if (file) {
+    //   const formData = new FormData();
+    //   formData.append('file', file);
+    // } 조건식 1 2 만들어서 참인경우 경우의 수
+    if (checknick.message === '사용 가능한 닉네임 입니다' && image !== '') {
       setNick(inputaccount.nickname);
       setBio(inputaccount.bio);
+      // const formData = new FormData();
+      // console.log(formData.append('file', file), formData);
+      // setpreImg();
       postNick();
       postBio();
+      // postImg(formData.append('file', file));
+      // console.log(formData);
       alert('성공적으로 변경 됐습니다.');
     } else if (checknick.message === '현재 사용자가 설정한 닉네임 입니다.') {
       setBio(inputaccount.bio);
@@ -185,11 +262,45 @@ const UserInfoBox = () => {
     checkgetNick();
   };
 
+  // 프로필 사진 미리보기
+  const [image, setImage] = useState('');
+  const preview = (fileBlob) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(fileBlob);
+    return new Promise((resolve) => {
+      reader.onload = () => {
+        setImage(reader.result);
+        resolve();
+      };
+    });
+  };
+
+  const onChangeImg = (e) => {
+    e.preventDefault();
+    if (e.target.files) {
+      const file = e.target.files[0];
+      console.log(file);
+      preview(file);
+      // PostEdit(file);
+      const formData = new FormData();
+      formData.append('file', file);
+      postImg(formData);
+    }
+  };
+
   return (
     <>
       {visible && (
         <>
-          <MyInfoProfile src={profile.img}></MyInfoProfile>
+          <MyInfoProfile>
+            <div className="profile-img">
+              <img
+                src={profile.img}
+                alt="profileImg"
+                className="profile-user-img"
+              />
+            </div>
+          </MyInfoProfile>
           <MyInfoName>{profile.nickname}</MyInfoName>
           <MyInfoMessage>{profile.bio}</MyInfoMessage>
           {/** 프로필 수정 */}
@@ -203,7 +314,33 @@ const UserInfoBox = () => {
       )}
       {!visible && (
         <>
-          <MyInfoProfile src={profile.img}></MyInfoProfile>
+          <EditImg>
+            <div className="profile-img">
+              {image && (
+                <img src={image} alt="preview" className="profile-user-img" />
+              )}
+              {image === '' && (
+                <img
+                  src={profile.img}
+                  alt="profileImg"
+                  className="profile-user-img"
+                />
+              )}
+              <div className="editStyle">
+                <div className="editB">
+                  <label for="profile-upload">수정</label>
+                  <input
+                    type="file"
+                    id="profile-upload"
+                    accept="image/*"
+                    placeholder="수정"
+                    onChange={onChangeImg}
+                  />
+                </div>
+              </div>
+            </div>
+          </EditImg>
+          {/** 프로필 수정 */}
           <ChangeInput
             type="text"
             id="nickname"
@@ -223,7 +360,6 @@ const UserInfoBox = () => {
             placeholder={profile.bio}
             onChange={onChangeInput}
           ></ChangeInput>
-          {/** 프로필 수정 */}
           <Buttons>
             <ProfileEdit onClick={cancel}>
               <div>취소</div>
