@@ -115,9 +115,11 @@ const ModalModule = ({
           <Close size="20" onClick={closeModal} tooltip={false} />
         </Header>
         <Main map={map}>{children}</Main>
-        <Btn>
-          <BlackCustomBtn onClick={onSubmit} value="완료" color="black" />
-        </Btn>
+        {onSubmit && (
+          <Btn>
+            <BlackCustomBtn onClick={onSubmit} value="완료" color="black" />
+          </Btn>
+        )}
       </Section>
       {map === 'memberLoc' && (
         <Section2>

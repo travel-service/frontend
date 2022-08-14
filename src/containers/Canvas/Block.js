@@ -10,9 +10,8 @@ const Block = () => {
   useEffect(() => {
     getSysLoc();
     getSysLocCoords();
-    // console.log(sysCateLoc);
-    // console.log(selCateLoc);
-    // console.log(sysCateLocCoords);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

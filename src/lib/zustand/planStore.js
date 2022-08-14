@@ -113,16 +113,6 @@ export const useStore = create(
         Restaurant: [],
       },
 
-      // 0719 찬우 수정 category
-      // category: {
-      //   1: { eng: 'Attraction', kor: '관광지' },
-      //   2: { eng: 'Culture', kor: '문화시설' },
-      //   3: { eng: 'Festival', kor: '축제' },
-      //   4: { eng: 'Leports', kor: '레포츠' },
-      //   5: { eng: 'Lodge', kor: '숙박 시설' },
-      //   6: { eng: 'Restaurant', kor: '음식점' },
-      // },
-
       category: {
         Attraction: '관광지',
         Culture: '문화시설',
@@ -139,63 +129,6 @@ export const useStore = create(
             [type]: [...state.selCateLoc[type], loc],
           },
         }));
-        // switch (type) {
-        //   case '1':
-        //     //  set(state => ({ selAttraction: [...state.selAttraction, loc] }));
-        //     set((state) => ({
-        //       selCateLoc: {
-        //         ...state.selCateLoc,
-        //         selAttraction: [...state.selCateLoc.selAttraction, loc],
-        //       },
-        //     }));
-        //     break;
-        //   case '2':
-        //     // set(state => ({ selCulture: [...state.selCulture, loc] }));
-        //     set((state) => ({
-        //       selCateLoc: {
-        //         ...state.selCateLoc,
-        //         selCulture: [...state.selCateLoc.selCulture, loc],
-        //       },
-        //     }));
-        //     break;
-        //   case '3':
-        //     // set(state => ({ selFestival: [...state.selFestival, loc] }));
-        //     set((state) => ({
-        //       selCateLoc: {
-        //         ...state.selCateLoc,
-        //         selFestival: [...state.selCateLoc.selFestival, loc],
-        //       },
-        //     }));
-        //     break;
-        //   case '4':
-        //     // set(state => ({ selLeports: [...state.selLeports, loc] }));
-        //     set((state) => ({
-        //       selCateLoc: {
-        //         ...state.selCateLoc,
-        //         selLeports: [...state.selCateLoc.selLeports, loc],
-        //       },
-        //     }));
-        //     break;
-        //   case '5':
-        //     // set(state => ({ selLodge: [...state.selLodge, loc] }));
-        //     set((state) => ({
-        //       selCateLoc: {
-        //         ...state.selCateLoc,
-        //         selLodge: [...state.selCateLoc.selLodge, loc],
-        //       },
-        //     }));
-        //     break;
-        //   case '6':
-        //     // set(state => ({ selRestaurant: [...state.selRestaurant, loc] }));
-        //     set((state) => ({
-        //       selCateLoc: {
-        //         ...state.selCateLoc,
-        //         selRestaurant: [...state.selCateLoc.selRestaurant, loc],
-        //       },
-        //     }));
-        //     break;
-        //   default:
-        // }
       },
 
       //remove: (locId) => set(state => ({ selLoc: state.selLoc.filter(loc => loc.id !== locId)})),
@@ -210,95 +143,8 @@ export const useStore = create(
             [type]: tmpSelTypeArr,
           },
         }));
-
-        // switch (type) {
-        //   case '1':
-        //     // set(state => ({ selAttraction: state.selAttraction.filter(loc => loc.id !== locId)}));
-        //     set((state) => ({
-        //       selCateLoc: {
-        //         ...state.selCateLoc,
-        //         selAttraction: state.selCateLoc.selAttraction.filter(
-        //           (loc) => loc.id !== locId,
-        //         ),
-        //       },
-        //     }));
-        //     break;
-        //   case '2':
-        //     // set(state => ({ selCulture: state.selCulture.filter(loc => loc.id !== locId)}));
-        //     set((state) => ({
-        //       selCateLoc: {
-        //         ...state.selCateLoc,
-        //         selCulture: state.selCateLoc.selCulture.filter(
-        //           (loc) => loc.id !== locId,
-        //         ),
-        //       },
-        //     }));
-        //     break;
-        //   case '3':
-        //     // set(state => ({ selFestival: state.selFestival.filter(loc => loc.id !== locId)}));
-        //     set((state) => ({
-        //       selCateLoc: {
-        //         ...state.selCateLoc,
-        //         selFestival: state.selCateLoc.selFestival.filter(
-        //           (loc) => loc.id !== locId,
-        //         ),
-        //       },
-        //     }));
-        //     break;
-        //   case '4':
-        //     // set(state => ({ selLeports: state.selLeports.filter(loc => loc.id !== locId)}));
-        //     set((state) => ({
-        //       selCateLoc: {
-        //         ...state.selCateLoc,
-        //         selLeports: state.selCateLoc.selLeports.filter(
-        //           (loc) => loc.id !== locId,
-        //         ),
-        //       },
-        //     }));
-        //     break;
-        //   case '5':
-        //     // set(state => ({ selLodge: state.selLodge.filter(loc => loc.id !== locId)}));
-        //     set((state) => ({
-        //       selCateLoc: {
-        //         ...state.selCateLoc,
-        //         selLodge: state.selCateLoc.selLodge.filter(
-        //           (loc) => loc.id !== locId,
-        //         ),
-        //       },
-        //     }));
-        //     break;
-        //   case '6':
-        //     // set(state => ({ selRestaurant: state.selRestaurant.filter(loc => loc.id !== locId)}));
-        //     set((state) => ({
-        //       selCateLoc: {
-        //         ...state.selCateLoc,
-        //         selRestaurant: state.selCateLoc.selRestaurant.filter(
-        //           (loc) => loc.id !== locId,
-        //         ),
-        //       },
-        //     }));
-        //     break;
-        //   default:
-        // }
       },
 
-      // 다음으로 누를 때 백으로 전송(Canvas 페이지에서)
-      // canvasPost: async () => {
-      //   let { selectedLocations } = get().userPlan;
-      //   let tmp = [];
-      //   for (let key of Object.keys(selectedLocations))
-      //     tmp = [...tmp, ...get().zipSelLoc(selectedLocations[key])];
-      //   console.log(selectedLocations);
-      //   const response = await axios.post(`http://localhost:4000/travelPlans`, {
-      //     travelDays: get().userPlan.travelDays,
-      //     selectedLocations: tmp,
-      //   });
-      //   console.log(response); // 성공하면 success
-      //   // set((state) => ({ userPlan: { ...state.userPlan } }));
-      //   // console.log(get().userPlan);
-      // },
-
-      // 0704 찬우 수
       // GET userPlan
       getPlan: async (id) => {
         const res = await planAPI.getPlan(id);
@@ -418,7 +264,7 @@ export const sysLocStore = create((set, get) => ({
     Restaurant: [],
   },
   sysCateLocCoords: {
-    CoordsList: [],
+    // CoordsList: [],
   },
   flag: false,
   lat: 33.280701,
@@ -426,8 +272,8 @@ export const sysLocStore = create((set, get) => ({
 
   getSysLoc: async () => {
     if (get().flag === false) {
-      // const response = await axios.get('http://localhost:4000/locations_v2');
       const response = await locationAPI.getBlockLocations();
+      console.log(response);
 
       if (response.status === 200) {
         // 받아온 key값으로 배열 생성
@@ -448,52 +294,11 @@ export const sysLocStore = create((set, get) => ({
           }));
         });
       }
-      // let att = [];
-      // let cul = [];
-      // let fes = [];
-      // let lepo = [];
-      // let lod = [];
-      // let rest = [];
-      // for (let x of response.data['Attraction']) {
-      //   x.isSelect = false;
-      //   att.push(x);
-      // }
-      // for (let x of response.data['Culture']) {
-      //   x.isSelect = false;
-      //   cul.push(x);
-      // }
-      // for (let x of response.data['Festival']) {
-      //   x.isSelect = false;
-      //   fes.push(x);
-      // }
-      // for (let x of response.data['Leports']) {
-      //   x.isSelect = false;
-      //   lepo.push(x);
-      // }
-      // for (let x of response.data['Lodge']) {
-      //   x.isSelect = false;
-      //   lod.push(x);
-      // }
-      // for (let x of response.data['Restaurant']) {
-      //   x.isSelect = false;
-      //   rest.push(x);
-      // }
-      // set({
-      //   sysCateLoc: {
-      //     Attraction: att,
-      //     Culture: cul,
-      //     Festival: fes,
-      //     Leports: lepo,
-      //     Lodge: lod,
-      //     Restaurant: rest,
-      //   },
-      // });
       set({ flag: true });
     }
   },
 
   getSysLocCoords: async () => {
-    // const response = await axios.get('http://localhost:4000/locations_marks');
     const response = await locationAPI.getMarkLocations();
 
     if (response.status === 200) {
@@ -515,36 +320,12 @@ export const sysLocStore = create((set, get) => ({
         }));
       });
     }
-    // let att = [];
-    // let cul = [];
-    // let fes = [];
-    // let lepo = [];
-    // let lod = [];
-    // let rest = [];
-    // for (let x of response.data['Attraction']) {
-    //   x.isSelect = false;
-    //   att.push(x);
-    // }
-    // for (let x of response.data["Festival"]) {
-    //   x.isSelect = false;
-    //   fes.push(x);
-    // }
-    // set({
-    //   sysCateLocCoords: {
-    //     CoordsList: att,
-    //     // Culture: cul,
-    //     // Festival: fes,
-    //     // Leports: lepo,
-    //     // Lodge: lod,
-    //     // Restaurant: rest,
-    //   },
-    // });
   },
 
-  setLatLng: (id) => {
-    const coordsList = get().sysCateLocCoords.CoordsList
-    const found = coordsList.find(loc => loc.id === id)
-    set({lat: found.coords.latitude})
-    set({lng: found.coords.longitude})
-  }
+  setLatLng: (id, type) => {
+    const coordsList = get().sysCateLocCoords[type];
+    const found = coordsList.find((loc) => loc.locationId === id);
+    set({ lat: found.coords.latitude });
+    set({ lng: found.coords.longitude });
+  },
 }));

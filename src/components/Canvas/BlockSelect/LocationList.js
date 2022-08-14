@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import palette from '../../../lib/styles/palette';
-import Modal from '../../modal/modal';
+import ModalModule from 'components/common/modal/ModalModule';
 import { useStore, sysLocStore } from '../../../lib/zustand/planStore';
 import BlockInfo from '../BlockInfo/BlockInfo';
 
@@ -44,6 +44,7 @@ function Location({ location }) {
 
   const OpenModal = () => {
     setModalOpen(true);
+    console.log(modalOpen);
   };
 
   const closeModal = () => {
@@ -51,15 +52,16 @@ function Location({ location }) {
   };
 
   const { onAdd, remove } = useStore();
-
   const { setLatLng } = sysLocStore();
 
   return (
     <Block>
-      <div onClick={ () => {
-        OpenModal()
-        setLatLng(location.id)
-      }}>
+      <div
+        onClick={() => {
+          OpenModal();
+          setLatLng(location.locationId, location.type.type);
+        }}
+      >
         <Img src={location.image} alt="img" />
         <BlockDiv>
           {location.name}
@@ -80,25 +82,26 @@ function Location({ location }) {
       >
         {location.isSelect ? '취소' : '선택'}
       </BButton>
-      <Modal open={modalOpen} close={closeModal} header={location.name}>
-        <BlockInfo type={location.type.type} id={location.id} />
-      </Modal>
+      <ModalModule
+        modalIsOpen={modalOpen}
+        closeModal={closeModal}
+        header={location.name}
+      >
+        <BlockInfo type={location.type.type} id={location.locationId} />
+      </ModalModule>
     </Block>
   );
 }
 
 function LocationList({ locations, search }) {
-  // console.log(locations);
-  var arr = locations.filter(val => (val.name.includes(search)));
+  var arr = locations.filter((val) => val.name.includes(search));
   return (
     <Blocks>
-      {arr.map(location => (
-        <Location location={location} key={location.id} />
+      {arr.map((location) => (
+        <Location location={location} key={location.locationId} />
       ))}
     </Blocks>
   );
 }
 
 export default LocationList;
-
-
