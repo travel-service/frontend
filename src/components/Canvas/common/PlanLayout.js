@@ -158,6 +158,7 @@ const PlanLayout = ({
   name,
   periods,
   createdDate,
+
   userDirs,
   checkedPlans,
   setCheckedPlans,
@@ -166,6 +167,8 @@ const PlanLayout = ({
   postRevert,
   currentDirId,
   deletePlan,
+
+  myP,
 }) => {
   const [clickMore, setClickMore] = useState(false); // 담기클릭
   const [isShow, setIsShow] = useState(false); // 점세개 클릭
@@ -215,7 +218,7 @@ const PlanLayout = ({
           setIsOver(!isOver);
         }}
       >
-        {isOver && currentDirId !== 't' && (
+        {isOver && (
           <LinkContainer>
             <LinkButton to={process.env.PUBLIC_URL + '/canvas/share'}>
               완성된 여행 보기
@@ -230,126 +233,136 @@ const PlanLayout = ({
         )}
       </ThumbnailContainer>
       <PlanNameDiv>
-        <CustomCheckbox
-          circle={true}
-          id={planId}
-          onChange={(e) => {
-            onChangeCheck(e.target.checked, planId);
-          }}
-          checked={checkedPlans && checkedPlans.includes(planId) ? true : false}
-        />
+        {myP ? (
+          ''
+        ) : (
+          <CustomCheckbox
+            circle={true}
+            id={planId}
+            onChange={(e) => {
+              onChangeCheck(e.target.checked, planId);
+            }}
+            checked={
+              checkedPlans && checkedPlans.includes(planId) ? true : false
+            }
+          />
+        )}
         {name.length > 10 ? name.substr(0, 10) + '...' : name}
       </PlanNameDiv>
       <DateDiv>{createdDate.replace(/-/g, '.')}</DateDiv>
-      <PlanTitleDiv>
-        <MoreDiv>
-          <MoreButton
-            onClick={() => {
-              setIsShow(!isShow);
-              !checkedPlans.includes(planId)
-                ? onChangeCheck(!isShow, planId)
-                : setCheckedPlans([planId]);
-            }}
-          >
-            <img
-              src={process.env.PUBLIC_URL + '/images/more_ico.png'}
-              alt="더보기"
-            />
-          </MoreButton>
-          {currentDirId === 'm'
-            ? isShow && (
-                <PlanControlUl ref={moreRef}>
-                  <PlanControlLi
-                    onMouseOver={() => {
-                      setClickMore(false);
-                    }}
-                    onClick={() => {
-                      ConfirmDel(
-                        '플랜을 삭제하시겠습니까? 복원은 휴지통에서 30일 이내로 가능합니다.',
-                        0,
-                      );
-                    }}
-                  >
-                    삭제
-                  </PlanControlLi>
-                  <PlanControlLi
-                    onMouseOver={() => {
-                      setClickMore(true);
-                    }}
-                  >
-                    담기
-                  </PlanControlLi>
-                </PlanControlUl>
+      {myP ? (
+        ''
+      ) : (
+        <PlanTitleDiv>
+          <MoreDiv>
+            <MoreButton
+              onClick={() => {
+                setIsShow(!isShow);
+                !checkedPlans.includes(planId)
+                  ? onChangeCheck(!isShow, planId)
+                  : setCheckedPlans([planId]);
+              }}
+            >
+              <img
+                src={process.env.PUBLIC_URL + '/images/more_ico.png'}
+                alt="더보기"
+              />
+            </MoreButton>
+            {currentDirId === 'm'
+              ? isShow && (
+                  <PlanControlUl ref={moreRef}>
+                    <PlanControlLi
+                      onMouseOver={() => {
+                        setClickMore(false);
+                      }}
+                      onClick={() => {
+                        ConfirmDel(
+                          '플랜을 삭제하시겠습니까? 복원은 휴지통에서 30일 이내로 가능합니다.',
+                          0,
+                        );
+                      }}
+                    >
+                      삭제
+                    </PlanControlLi>
+                    <PlanControlLi
+                      onMouseOver={() => {
+                        setClickMore(true);
+                      }}
+                    >
+                      담기
+                    </PlanControlLi>
+                  </PlanControlUl>
+                )
+              : currentDirId === 't'
+              ? isShow && (
+                  <PlanControlUl ref={moreRef}>
+                    <PlanControlLi
+                      onClick={() => {
+                        ConfirmDel('플랜을 영구 삭제하시겠습니까?', 1);
+                      }}
+                    >
+                      삭제
+                    </PlanControlLi>
+                    <PlanControlLi
+                      onClick={() => {
+                        postRevert();
+                        setIsShow(false);
+                        setClickMore(false);
+                        alert("플랜을 '모든 여행'으로 복원했습니다.");
+                      }}
+                    >
+                      복원
+                    </PlanControlLi>
+                  </PlanControlUl>
+                )
+              : isShow && (
+                  <PlanControlUl ref={moreRef}>
+                    <PlanControlLi
+                      onClick={() => {
+                        ConfirmDel(
+                          '플랜을 삭제하시겠습니까? 복원은 휴지통에서 30일 이내로 가능합니다.',
+                          0,
+                        );
+                      }}
+                    >
+                      삭제
+                    </PlanControlLi>
+                  </PlanControlUl>
+                )}
+            {isShow && clickMore && userDirs.mainUserDirectory.length > 0 ? (
+              <SubUl ref={moreRef}>
+                {userDirs.mainUserDirectory.map((item) => {
+                  return (
+                    <MoveLi
+                      key={item.userDirectoryId}
+                      onClick={() => {
+                        postMovePlans(item.userDirectoryId);
+                        setIsShow(false);
+                        setClickMore(false);
+                        alert(`플랜이 ${item.directoryName}에 담겼습니다.`);
+                      }}
+                    >
+                      <img
+                        style={{ marginRight: '5px' }}
+                        src={process.env.PUBLIC_URL + '/images/folder_ico.png'}
+                      />
+                      {item.directoryName.length > 5
+                        ? item.directoryName.substr(0, 5) + '...'
+                        : item.directoryName}
+                    </MoveLi>
+                  );
+                })}
+              </SubUl>
+            ) : (
+              isShow &&
+              clickMore &&
+              userDirs.mainUserDirectory.length === 0 && (
+                <SubUl>담을 보관함이 없습니다.</SubUl>
               )
-            : currentDirId === 't'
-            ? isShow && (
-                <PlanControlUl ref={moreRef}>
-                  <PlanControlLi
-                    onClick={() => {
-                      ConfirmDel('플랜을 영구 삭제하시겠습니까?', 1);
-                    }}
-                  >
-                    삭제
-                  </PlanControlLi>
-                  <PlanControlLi
-                    onClick={() => {
-                      postRevert();
-                      setIsShow(false);
-                      setClickMore(false);
-                      alert("플랜을 '모든 여행'으로 복원했습니다.");
-                    }}
-                  >
-                    복원
-                  </PlanControlLi>
-                </PlanControlUl>
-              )
-            : isShow && (
-                <PlanControlUl ref={moreRef}>
-                  <PlanControlLi
-                    onClick={() => {
-                      ConfirmDel(
-                        '플랜을 삭제하시겠습니까? 복원은 휴지통에서 30일 이내로 가능합니다.',
-                        0,
-                      );
-                    }}
-                  >
-                    삭제
-                  </PlanControlLi>
-                </PlanControlUl>
-              )}
-          {isShow && clickMore && userDirs.mainUserDirectory.length > 0 ? (
-            <SubUl ref={moreRef}>
-              {userDirs.mainUserDirectory.map((item) => {
-                return (
-                  <MoveLi
-                    key={item.userDirectoryId}
-                    onClick={() => {
-                      postMovePlans(item.userDirectoryId);
-                      setIsShow(false);
-                      setClickMore(false);
-                      alert(`플랜이 ${item.directoryName}에 담겼습니다.`);
-                    }}
-                  >
-                    <img
-                      style={{ marginRight: '5px' }}
-                      src={process.env.PUBLIC_URL + '/images/folder_ico.png'}
-                    />
-                    {item.directoryName.length > 5
-                      ? item.directoryName.substr(0, 5) + '...'
-                      : item.directoryName}
-                  </MoveLi>
-                );
-              })}
-            </SubUl>
-          ) : (
-            isShow &&
-            clickMore &&
-            userDirs.mainUserDirectory.length === 0 && (
-              <SubUl>담을 보관함이 없습니다.</SubUl>
-            )
-          )}
-        </MoreDiv>
-      </PlanTitleDiv>
+            )}
+          </MoreDiv>
+        </PlanTitleDiv>
+      )}
     </PlanContainer>
   );
 };
