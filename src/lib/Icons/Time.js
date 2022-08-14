@@ -1,15 +1,28 @@
 // 시간 추가, 변경 버튼
 import React, { useState } from 'react';
-import { MdMoreTime } from 'react-icons/md';
-import styled from 'styled-components';
+import { MdMoreTime, MdOutlineModeEditOutline } from 'react-icons/md';
+import styled, { css } from 'styled-components';
 import ModalModule from 'components/common/modal/ModalModule';
 // import TimeInput from 'components/Canvas/common/TimeInput';
 import ReactTooltip from 'react-tooltip';
 import { buildStore } from 'lib/zustand/CanvasBuildStore';
 
-const TimeBtn = styled(MdMoreTime)`
+const TimeStyle = css`
   cursor: pointer;
-  /* margin-left: 7px; */
+  ${(props) =>
+    props.disabled &&
+    css`
+      pointer-events: none;
+      opacity: 0.5;
+    `}
+`;
+
+const TimePen = styled(MdOutlineModeEditOutline)`
+  ${TimeStyle}
+`;
+
+const TimeBtn = styled(MdMoreTime)`
+  ${TimeStyle}
 `;
 
 const Container = styled.div`
@@ -18,11 +31,18 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const Input = styled.input`
-  margin-left: 10px;
+const Div = styled.div`
+  font-size: 20px;
 `;
 
-const Time = ({ title, day, index }) => {
+const Input = styled.input`
+  margin-left: 10px;
+  margin-bottom: 10px;
+  height: 30px;
+  font-size: 20px;
+`;
+
+const Time = ({ title, day, index, flag, type, check }) => {
   const { setTimeData } = buildStore();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [stayTime, setStayTime] = useState({
@@ -30,6 +50,7 @@ const Time = ({ title, day, index }) => {
     min: '',
   });
   const [startTime, setStartTime] = useState('00:00');
+  const { hour, min } = stayTime;
 
   const openModal = () => {
     setModalIsOpen(true);
@@ -85,10 +106,26 @@ const Time = ({ title, day, index }) => {
     closeModal();
   };
 
-  const { hour, min } = stayTime;
   return (
     <>
-      <TimeBtn size="18" onClick={openModal} data-tip data-for="time" />
+      {type === 'pen' && (
+        <TimePen
+          disabled={check}
+          size="15px"
+          onClick={openModal}
+          data-tip
+          data-for="time"
+        />
+      )}
+      {type !== 'pen' && (
+        <TimeBtn
+          disabled={flag}
+          size="18"
+          onClick={openModal}
+          data-tip
+          data-for="time"
+        />
+      )}
       <ReactTooltip id="time" place="right" type="info" effect="solid">
         <div>여행계획에 필요한 시간을 설정해주세요.</div>
       </ReactTooltip>
@@ -101,19 +138,18 @@ const Time = ({ title, day, index }) => {
         day={day}
       >
         <Container>
-          {title === '출발시각' && (
-            <div>
-              출발시각
+          {title === '출발 시간 설정' && (
+            <Div>
               <Input
                 type="time"
                 value={startTime}
                 onChange={onChangeStartTime}
               />
-            </div>
+            </Div>
           )}
-          {title === '체류시간' && (
+          {title === '체류 시간 설정' && (
             <>
-              <div>
+              <Div>
                 <Input
                   type="number"
                   onChange={onChangeStayTime}
@@ -134,7 +170,7 @@ const Time = ({ title, day, index }) => {
                   max="59"
                 />
                 &nbsp;분
-              </div>
+              </Div>
               <div>
                 {parseInt(hour) > 0 ? `${hour}시간` : ''}
                 {parseInt(min) > 0 ? ` ${min}분` : ''}

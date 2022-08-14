@@ -669,7 +669,7 @@
   },
   "locations": {
     "1": {
-      "id": 1,
+      "locationId": 1,
       "type": "1",
       "name": "한라산",
       "address": "주소",
@@ -680,7 +680,7 @@
       "isSelect": false
     },
     "2": {
-      "id": 2,
+      "locationId": 2,
       "type": "1",
       "name": "만장굴",
       "address": "주소",
@@ -691,7 +691,7 @@
       "isSelect": false
     },
     "3": {
-      "id": 3,
+      "locationId": 3,
       "type": "1",
       "name": "성산 일출봉",
       "address": "주소",
@@ -702,7 +702,7 @@
       "isSelect": false
     },
     "4": {
-      "id": 4,
+      "locationId": 4,
       "type": "6",
       "name": "곰막식당",
       "address": "주소",
@@ -713,7 +713,7 @@
       "isSelect": false
     },
     "5": {
-      "id": 5,
+      "locationId": 5,
       "type": "6",
       "name": "고집돌우럭",
       "address": "주소",
@@ -724,7 +724,7 @@
       "isSelect": false
     },
     "6": {
-      "id": 6,
+      "locationId": 6,
       "type": "6",
       "name": "정성듬뿍 제주국",
       "address": "주소",
@@ -735,7 +735,7 @@
       "isSelect": false
     },
     "7": {
-      "id": 7,
+      "locationId": 7,
       "type": "5",
       "name": "레인보우인 제주",
       "address": "주소",
@@ -746,7 +746,7 @@
       "isSelect": false
     },
     "8": {
-      "id": 8,
+      "locationId": 8,
       "type": "5",
       "name": "그랜드 하얏트 호텔",
       "address": "주소",
@@ -757,7 +757,7 @@
       "isSelect": false
     },
     "9": {
-      "id": 9,
+      "locationId": 9,
       "type": "5",
       "name": "제주 칼호텔",
       "address": "주소",

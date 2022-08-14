@@ -4,24 +4,13 @@ import SearchPlace from './SearchPlace';
 import Map2 from './Map2';
 import styled from 'styled-components';
 
-const Ul = styled.ul`
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 250px;
-  margin: 10px 0 30px 10px;
-  padding: 5px;
-  overflow-y: auto;
-  background: rgba(255, 255, 255, 0.7);
-  z-index: 1;
-  font-size: 12px;
-  border-radius: 10px;
+const Container = styled.div`
+  width: 100%;
 `;
 
 const MapContainer = ({ onSelect }) => {
-  const [inputText, setInputText] = useState('한경대학교');
-  const [place, setPlace] = useState('한경대학교');
+  const [inputText, setInputText] = useState('한국관광공사');
+  const [place, setPlace] = useState('한국관광공사');
   const [forMarkerPositions, setForMarkerPositions] = useState([]);
   const [searchPlaces, setSearchPlaces] = useState([]);
 
@@ -74,7 +63,7 @@ const MapContainer = ({ onSelect }) => {
   }, [place, searchCoord]);
 
   return (
-    <div>
+    <Container>
       <SearchPlace
         inputText={inputText}
         onChange={onChange}
@@ -88,7 +77,7 @@ const MapContainer = ({ onSelect }) => {
         setSearchPlaces={setSearchPlaces}
         onSelect={onSelect}
       />
-    </div>
+    </Container>
   );
 };
 

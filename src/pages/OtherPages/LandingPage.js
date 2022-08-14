@@ -4,7 +4,7 @@ import LandingForm from 'containers/Other/LandingForm';
 
 const LandingPage = () => {
   return (
-    <PageTemplate>
+    <PageTemplate type="landing">
       <LandingForm />
     </PageTemplate>
   );

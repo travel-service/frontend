@@ -5,9 +5,18 @@ module.exports = function (app) {
     createProxyMiddleware('/api', {
       target: 'http://localhost:8080',
       changeOrigin: true,
-      // pathRewrite: {
-      //   '^/api': '' // URL ^/api -> 공백 변경
-      // }
     }),
   );
+  // app.use(
+  //   createProxyMiddleware('/members', {
+  //     target: 'http://localhost:8080',
+  //     changeOrigin: true,
+  //   }),
+  // );
+  // app.use(
+  //   createProxyMiddleware('/locations', {
+  //     target: 'http://localhost:8080',
+  //     changeOrigin: true,
+  //   }),
+  // );
 };

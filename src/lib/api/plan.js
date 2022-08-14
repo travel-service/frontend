@@ -6,8 +6,6 @@ export const createPlan = async (userPlan) => {
     const response = await axios.post('/members/plan', {
       planForm: userPlan,
     });
-
-    console.log('여행설정: ', response);
     return response.data;
   } catch (err) {
     console.log(err);
@@ -30,13 +28,10 @@ export const createConcpet = async (id, conceptForm) => {
   }
 };
 
-// 여행 받아오기(여행보관함에서)
+// 여행 수정(여행보관함에서)
 export const getPlan = async (id) => {
   try {
     const response = await axios.get(`/members/plan/${id}`);
-    console.log(response);
-
-    //console.log(`${id} 여행: `, response);
     return response.data;
   } catch (err) {
     console.log(err);
@@ -48,8 +43,8 @@ export const getPlan = async (id) => {
 export const getConcpet = async (id) => {
   try {
     const response = await axios.get(`/members/plan/${id}/concept`);
-
-    //console.log(`${id} 컨셉: `, response);
+    //headerToken(response);
+    console.log(`${id} 컨셉: `, response);
     return response.data;
   } catch (err) {
     console.log(err);
@@ -61,8 +56,8 @@ export const getConcpet = async (id) => {
 export const putPlan = async (id, userPlan) => {
   try {
     const response = await axios.post(`/members/plan/${id}`, userPlan);
-
-    //console.log(`${id} 플랜수정: `, response);
+    //headerToken(response);
+    console.log(`${id} 플랜수정: `, response);
     return response.data;
   } catch (err) {
     console.log(err);
@@ -76,8 +71,47 @@ export const postConcept = async (id, conceptForm) => {
     const response = await axios.post(`/members/plan/${id}/concept`, {
       conceptForm: conceptForm,
     });
+    //headerToken(response);
+    console.log(`${id} 컨셉수정: `, response);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    return 0;
+  }
+};
 
-    //console.log(`${id} 컨셉수정: `, response);
+// day 생성(post)
+export const postPlanDay = async (dayForm, id) => {
+  try {
+    const response = await axios.post(`/members/plan/${id}/day`, {
+      dayForm: {
+        travelDay: dayForm.travelDay,
+      },
+    });
+    return response;
+  } catch (err) {
+    console.log(err);
+    return 0;
+  }
+};
+
+// day 수정(put)
+export const updatePlanDay = async (dayForm, id) => {
+  try {
+    const response = await axios.put(`/members/plan/${id}/day`, {
+      dayForm,
+    });
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    return 0;
+  }
+};
+
+// day 조회
+export const getPlanDay = async (id) => {
+  try {
+    const response = await axios.get(`/members/plan/${id}/day`);
     return response.data;
   } catch (err) {
     console.log(err);

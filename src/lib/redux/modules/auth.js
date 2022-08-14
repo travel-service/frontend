@@ -1,5 +1,8 @@
 import { createAction, handleActions } from 'redux-actions';
-import { takeLatest, call } from 'redux-saga/effects';
+import {
+  takeLatest,
+  // call
+} from 'redux-saga/effects';
 import produce from 'immer';
 import createRequestSaga, {
   createRequestActionTypes,
@@ -14,7 +17,10 @@ const [SIGNUP, SIGNUP_SUCCESS, SIGNUP_FAILURE] =
   createRequestActionTypes('auth/SIGNUP'); // 회원가입
 const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] =
   createRequestActionTypes('auth/LOGIN'); // 로그인
-// const LOGOUT = 'auth/LOGOUT'; // 로그아웃
+const [USERNAME, USERNAME_SUCCESS, USERNAME_FAILURE] =
+  createRequestActionTypes('auth/USERNAME'); // 아이디 중복 검증
+const [NICKNAME, NICKNAME_SUCCESS, NICKNAME_FAILURE] =
+  createRequestActionTypes('auth/NICKNAME'); // 닉네임 중복 검증
 
 // createAction(타입, 현재 상태)
 export const changeField = createAction(
@@ -42,27 +48,24 @@ export const login = createAction(LOGIN, ({ userName, password }) => ({
   password,
 }));
 export const tempSetAuth = createAction(TEMP_SET_AUTH, (auth) => auth);
-// export const logout = createAction(LOGOUT);
-
-// function* logoutSaga() {
-//   // 로그아웃시 스토리지 삭제
-//   try {
-//     yield call(authAPI.logout);
-//     localStorage.removeItem('userState');
-//     localStorage.removeItem('accessToken');
-//   } catch (e) {
-//     console.log(e);
-//   }
-// }
+export const checkUserName = createAction(USERNAME, ({ userName }) => ({
+  userName,
+}));
+export const checkNickName = createAction(NICKNAME, ({ nickName }) => ({
+  nickName,
+}));
 
 // 사가 생성
 // yield 비동기 통신
 const signupSaga = createRequestSaga(SIGNUP, authAPI.signup);
 const loginSaga = createRequestSaga(LOGIN, authAPI.login);
+const checkUserNameSaga = createRequestSaga(USERNAME, authAPI.checkUserName);
+const checkNickNameSaga = createRequestSaga(NICKNAME, authAPI.checkNickName);
 export function* authSaga() {
   yield takeLatest(SIGNUP, signupSaga);
   yield takeLatest(LOGIN, loginSaga);
-  // yield takeLatest(LOGOUT, logoutSaga);
+  yield takeLatest(USERNAME, checkUserNameSaga);
+  yield takeLatest(NICKNAME, checkNickNameSaga);
 }
 
 // 초기값
@@ -83,6 +86,8 @@ const initialState = {
   },
   auth: null,
   authError: null,
+  userNameValid: [-1, null], // [검증여부, 에러메시지]
+  nickNameValid: [-1, null],
 };
 
 const auth = handleActions(
@@ -100,23 +105,39 @@ const auth = handleActions(
       authError: null, // 폼 전환 시 외원 인증 에러 초기화
     }),
     // 회원가입 성공
-    [SIGNUP_SUCCESS]: (state, { payload: auth }) => {
-      return {
-        ...state,
-        auth,
-        authError: null,
-      };
+    [SIGNUP_SUCCESS]: (state, action) => {
+      // 회원가입 status 별 다른 에러 출력을 위해 수정
+      if (action.payload.status === 400) {
+        return {
+          ...state,
+          auth: null,
+          authError: action.payload.data.message,
+        };
+      } else if (action.payload.status === 201) {
+        return {
+          ...state,
+          auth: action.payload.data,
+          authError: null,
+        };
+      } else {
+        return {
+          ...state,
+          authError: action.payload.response.data.me,
+        };
+      }
     },
     // 회원가입 실패
-    [SIGNUP_FAILURE]: (state, { payload: error }) => ({
-      ...state,
-      authError: error,
-    }),
+    [SIGNUP_FAILURE]: (state, { payload: error }) => {
+      return {
+        ...state,
+        authError: error,
+      };
+    },
     // 로그인 성공
     [LOGIN_SUCCESS]: (state, { payload: auth }) => {
       return {
         ...state,
-        auth: auth.data,
+        auth: auth.data.result,
         authError: null,
       };
     },
@@ -129,21 +150,54 @@ const auth = handleActions(
       };
     },
     // 회원가입후 auth 제거
-    [TEMP_SET_AUTH]: (state, action) => {
-      console.log(action);
+    [TEMP_SET_AUTH]: (state) => {
       return {
         ...state,
         auth: null,
       };
     },
-    // // 로그아웃
-    // [LOGOUT]: (state) => ({
-    //   ...state,
-    //   userState: null,
-    //   auth: null,
-    //   authError: null,
-    //   accessToken: null,
-    // }),
+    [USERNAME_SUCCESS]: (state, { payload: data }) => {
+      if (data.status === 200) {
+        return {
+          ...state,
+          userNameValid: [0, null],
+        };
+      } else if (data.response.status === 409) {
+        return {
+          ...state,
+          userNameValid: [1, data.response.data.message],
+        };
+      } else {
+        console.log('시스템 오류');
+        return;
+      }
+    },
+    [USERNAME_FAILURE]: (state) => {
+      return {
+        ...state,
+      };
+    },
+    [NICKNAME_SUCCESS]: (state, { payload: data }) => {
+      if (data.status === 200) {
+        return {
+          ...state,
+          nickNameValid: [0, null],
+        };
+      } else if (data.response.status === 409) {
+        return {
+          ...state,
+          nickNameValid: [1, data.response.data.message],
+        };
+      } else {
+        console.log('시스템 오류');
+        return;
+      }
+    },
+    [NICKNAME_FAILURE]: (state) => {
+      return {
+        ...state,
+      };
+    },
   },
   initialState,
 );
