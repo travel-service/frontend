@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Profile from '../img/profile2.jpg';
 import { FaRegBookmark, FaRegHeart, FaPen } from 'react-icons/fa';
 import { HiOutlineFolderOpen } from 'react-icons/hi';
+import { useStore } from 'lib/zustand/myStore';
 
 const MyInfoBox = styled.div`
   display: flex;
@@ -15,23 +16,31 @@ const MyInfoBox = styled.div`
   height: 487px;
   // height: 100%;
   // width: 20%;
-  margin: 10px;
-  border: 1.5px solid rgba(241, 107, 108, 0.2);
+  margin: 25px 10px 25px 10px;
+  // border: 1.5px solid rgba(241, 107, 108, 0.2);
+  border-radius: 10px;
+  background-color: #fff;
   hr {
-    border-color: rgba(241, 107, 108, 0.2);
+    border: 1px solid #e5e7e8;
   }
 `;
 
-const MyInfoProfile = styled.img`
+const MyInfoProfile = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  //width: 70%;
-  //height: 70%;
-  width: 150px;
-  height: 150px;
-  border-radius: 100%;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  .profile-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+  }
+  .profile-user-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 `;
 
 const MyInfoMessage = styled.div`
@@ -39,6 +48,9 @@ const MyInfoMessage = styled.div`
   align-items: center;
   justify-content: center;
   color: rgba(0, 0, 0, 0.4);
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 16px;
   margin: 1px;
 `;
 
@@ -49,10 +61,11 @@ const MyInfoName = styled.div`
 `;
 
 const ProfileEdit = styled.button`
-  border: 1.5px solid rgba(241, 107, 108, 0.2);
-  border-radius: 5px;
-  margin: 10px;
+  border: 1px solid #e5e7e8;
+  border-radius: 10px;
+  margin: 10px 5px 5px 10px;
   padding: 5px;
+  font-weight: 600;
   /* 색상 */
   background: #fff;
   &:hover {
@@ -61,6 +74,10 @@ const ProfileEdit = styled.button`
   &:active {
     background: rgb(241, 107, 108);
   }
+`;
+
+const Buttons = styled.div`
+  display: flex;
 `;
 
 const Menu = styled.div`
@@ -81,92 +98,286 @@ const Menu = styled.div`
   }
 `;
 
-const ChangeName = styled.input``;
+const ChangeInput = styled.input`
+  font-family: inherit;
+  width: 50%;
+  border: 0;
+  border-bottom: 1px solid rgba(241, 107, 108, 0.2);
+  outline: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(0, 0, 0);
+  padding: 5px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+  text-align: center;
+`;
 
-/** 데이터 받아오기 
-const GetInfo = () => {
-  let [profile, setProfile] = useState();
-  let [name, setName] = useState('모제링링');
-  let [bio, setBio] = useState('여행은 즐기는 것! 신난다!');
+const DupCheck = styled.div`
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 16px;
+  .color {
+    color: #0085ff;
+  }
+`;
 
-  /*const getData = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get('http://localhost:4000/');
-      setTest(response.data.reverse());
-    } catch (e) {
-      console.log(e);
+const EditImg = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .profile-img {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border-radius: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+  }
+  .profile-user-img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background-image: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.6) 100%
+    );
+  }
+  .editStyle {
+    position: absolute;
+    display: block;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.6) 100%
+    );
+    width: 100%;
+    height: 100%;
+    .editB {
+      position: absolute;
+      text-align: center;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 19px;
+      color: #ffffff;
+      text-shadow: 0px 4px 3px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      top: 75%;
     }
-    setLoading(false);
-  };
-  
-  useEffect(() => {
-    getData();
-  }, []);
-  */
-/*
-  let test = false;
+    input[type='file'] {
+      /* 파일 필드 숨기기 */
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+  }
+`;
 
+const UserInfoBox = () => {
+  const [visible, setVisible] = useState(true);
+  const {
+    getBasic,
+    profile,
+    setNick,
+    setBio,
+    postNick,
+    postBio,
+    checkgetNick,
+    checknick,
+    sendnick,
+    setImg,
+    postImg,
+  } = useStore();
+
+  useEffect(() => {
+    getBasic();
+  }, []);
+
+  useEffect(() => {
+    console.log(profile);
+  }, [profile]);
+
+  // Test function
   const onEdit = () => {
-    test = true;
-    console.log('hum..');
-    // setBio('여행은 즐기는 것! 신난다!');
+    setVisible(!visible);
+    if (visible) {
+      console.log('edit click');
+      setImage('');
+    } else {
+      console.log('처리중');
+      PostEdit();
+      setImage('');
+    }
+  };
+
+  const cancel = () => {
+    setVisible(true);
+    // setNick(profile.nickname);
+    // setBio(profile.bio);
+  };
+
+  const PostEdit = (file) => {
+    // if (file) {
+    //   const formData = new FormData();
+    //   formData.append('file', file);
+    // } 조건식 1 2 만들어서 참인경우 경우의 수
+    if (checknick.message === '사용 가능한 닉네임 입니다' && image !== '') {
+      setNick(inputaccount.nickname);
+      setBio(inputaccount.bio);
+      // const formData = new FormData();
+      // console.log(formData.append('file', file), formData);
+      // setpreImg();
+      postNick();
+      postBio();
+      // postImg(formData.append('file', file));
+      // console.log(formData);
+      alert('성공적으로 변경 됐습니다.');
+    } else if (checknick.message === '현재 사용자가 설정한 닉네임 입니다.') {
+      setBio(inputaccount.bio);
+      postBio();
+      alert('성공적으로 변경 됐습니다.');
+    } else {
+      alert('이미 존재하는 닉네임 입니다.');
+    }
+  };
+
+  // input 입력값 inputaccount state값 변경되게
+  const [inputaccount, setInput] = useState({
+    nickname: profile.nickname,
+    bio: profile.bio,
+  });
+  const onChangeInput = (e) => {
+    setInput({
+      ...inputaccount,
+      [e.target.name]: e.target.value,
+    });
+    sendnick.nickname = inputaccount.nickname;
+    checkgetNick();
+  };
+
+  // 프로필 사진 미리보기
+  const [image, setImage] = useState('');
+  const preview = (fileBlob) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(fileBlob);
+    return new Promise((resolve) => {
+      reader.onload = () => {
+        setImage(reader.result);
+        resolve();
+      };
+    });
+  };
+
+  const onChangeImg = (e) => {
+    e.preventDefault();
+    if (e.target.files) {
+      const file = e.target.files[0];
+      console.log(file);
+      preview(file);
+      // PostEdit(file);
+      const formData = new FormData();
+      formData.append('file', file);
+      postImg(formData);
+    }
   };
 
   return (
     <>
-      {test ? (
+      {visible && (
         <>
-          <MyInfoName>
-            <ChangeName type="text" />
-          </MyInfoName>
-          <MyInfoMessage>
-            <input type="text" />
-          </MyInfoMessage>
-        </>
-      ) : (
-        <>
-          <MyInfoName>{name}</MyInfoName>
-          <MyInfoMessage>{bio}</MyInfoMessage>
+          <MyInfoProfile>
+            <div className="profile-img">
+              <img
+                src={profile.img}
+                alt="profileImg"
+                className="profile-user-img"
+              />
+            </div>
+          </MyInfoProfile>
+          <MyInfoName>{profile.nickname}</MyInfoName>
+          <MyInfoMessage>{profile.bio}</MyInfoMessage>
+          {/** 프로필 수정 */}
+          <ProfileEdit onClick={onEdit}>
+            <div>
+              프로필 수정 &nbsp;
+              <FaPen />
+            </div>
+          </ProfileEdit>
         </>
       )}
-      {/** <MyInfoProfile src={Profile}></MyInfoProfile>
-      <MyInfoName>{name}</MyInfoName>
-      <MyInfoMessage>{bio}</MyInfoMessage>}
-
-      {/** 프로필 수정 }
-      <ProfileEdit onClick={onEdit}>
-        프로필 수정 &nbsp;
-        <FaPen />
-      </ProfileEdit>
+      {!visible && (
+        <>
+          <EditImg>
+            <div className="profile-img">
+              {image && (
+                <img src={image} alt="preview" className="profile-user-img" />
+              )}
+              {image === '' && (
+                <img
+                  src={profile.img}
+                  alt="profileImg"
+                  className="profile-user-img"
+                />
+              )}
+              <div className="editStyle">
+                <div className="editB">
+                  <label for="profile-upload">수정</label>
+                  <input
+                    type="file"
+                    id="profile-upload"
+                    accept="image/*"
+                    placeholder="수정"
+                    onChange={onChangeImg}
+                  />
+                </div>
+              </div>
+            </div>
+          </EditImg>
+          {/** 프로필 수정 */}
+          <ChangeInput
+            type="text"
+            id="nickname"
+            name="nickname"
+            placeholder={profile.nickname}
+            onChange={onChangeInput}
+          ></ChangeInput>
+          {/* 사용 불가능할 때는 어떻게 변경할지. div에 id값을 줘서 조건식? */}
+          <DupCheck>
+            {/* {check === '' && <div className={check}>*8자 이내로 작성</div>} */}
+            *{checknick.message}
+          </DupCheck>
+          <ChangeInput
+            type="text"
+            id="bio"
+            name="bio"
+            placeholder={profile.bio}
+            onChange={onChangeInput}
+          ></ChangeInput>
+          <Buttons>
+            <ProfileEdit onClick={cancel}>
+              <div>취소</div>
+            </ProfileEdit>
+            <ProfileEdit onClick={onEdit}>
+              <div>완료</div>
+            </ProfileEdit>
+          </Buttons>
+        </>
+      )}
     </>
   );
 };
-*/
 
 const MyInfo = () => {
-  // let [profile, setProfile] = useState();
-  let [name, setName] = useState('모제링링');
-  let [bio, setBio] = useState('여행은 즐기는 것! 신난다!');
-
-  // Test function
-  const onEdit = () => {
-    console.log('hum..');
-    // setBio('여행은 즐기는 것! 신난다!');
-  };
-
   return (
     <MyInfoBox>
-      <MyInfoProfile src={Profile}></MyInfoProfile>
-      <MyInfoName>{name}</MyInfoName>
-      <MyInfoMessage>{bio}</MyInfoMessage>
-      {/** 프로필 수정 */}
-      <ProfileEdit onClick={onEdit}>
-        프로필 수정 &nbsp;
-        <FaPen />
-      </ProfileEdit>
-
-      {/*<GetInfo />*/}
+      <UserInfoBox />
       <hr size="1" width="80%" />
       <Menu>
         {/** page별 url로 변경해야함 */}

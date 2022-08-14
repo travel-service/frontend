@@ -6,8 +6,8 @@ import NoticeListPage from './NoticeListPage';
 const NoticeMainPage = () => {
   return (
     <Routes>
-      <Route element={<NoticeListPage />} path="noticeList" />
-      <Route element={<NoticeViewerPage />} path="noticeViewer/:numId" />
+      <Route element={<NoticeListPage />} path="/" />
+      <Route element={<NoticeViewerPage />} path="/:numId" />
     </Routes>
   );
 };

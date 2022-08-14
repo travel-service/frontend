@@ -74,11 +74,14 @@ const PageN = styled.div`
   .pagincon li {
     list-style: none;
     padding: 10px;
-    border: 1px solid #828282;
+    margin: 1px;
+    border-radius: 30px;
+    border: 1px solid #dedede;
   }
   .pagination li {
     display: inline-block;
-    background: #dedede;
+    background: none;
+    font-weight: bold;
     overflow: hidden;
     :hover {
       background-color: #ffa8a8;
@@ -169,9 +172,7 @@ const PostItem = ({ test, loading, postnum }) => {
               <div className="title">
                 <Link
                   style={{ textDecoration: 'none', color: 'black' }}
-                  to={
-                    process.env.PUBLIC_URL + `/notice/noticeViewer/${t.numId}`
-                  }
+                  to={process.env.PUBLIC_URL + `/notice/${t.numId}`}
                 >
                   <b>{t.title}</b>
                 </Link>

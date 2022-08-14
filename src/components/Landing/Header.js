@@ -173,17 +173,13 @@ const Header = ({ userState, onLogout, type }) => {
                   로그아웃
                 </MenuEl>
               </Mobile>
-              <MenuEl to={process.env.PUBLIC_URL + '/notice/noticelist'}>
-                공지사항
-              </MenuEl>
+              <MenuEl to={process.env.PUBLIC_URL + '/notice'}>공지사항</MenuEl>
             </>
           ) : (
             <>
               <MenuEl to={process.env.PUBLIC_URL + '/signup'}>회원가입</MenuEl>
               <MenuEl to={process.env.PUBLIC_URL + '/login'}>로그인</MenuEl>
-              <MenuEl to={process.env.PUBLIC_URL + '/notice/noticelist'}>
-                공지사항
-              </MenuEl>
+              <MenuEl to={process.env.PUBLIC_URL + '/notice'}>공지사항</MenuEl>
             </>
           )}
         </Menu>
