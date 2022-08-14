@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import AuthHeader from 'components/Base/Header/AuthHeader'; // 랜딩페이지 헤더로 교체
+import HeaderContainer from 'containers/common/HeaderContainer';
 import MyHeader from './MyHeader';
 
 // 내정보 여행보관함 설정 메뉴바
@@ -9,13 +9,14 @@ const MyTemplateBlock = styled.div``;
 const MyBox = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
+  background-color: #f6f6f8;
 `;
 
 const MyTemplate = ({ children }) => {
   return (
     <MyTemplateBlock>
-      <AuthHeader />
+      <HeaderContainer />
       <MyHeader />
       <MyBox>{children}</MyBox>
     </MyTemplateBlock>

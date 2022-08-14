@@ -97,7 +97,7 @@ const NoticeViewer = () => {
           <Button>
             <Link
               style={{ textDecoration: 'none', color: 'white' }}
-              to={process.env.PUBLIC_URL + '/notice/noticeList'}
+              to={process.env.PUBLIC_URL + '/notice'}
             >
               목록으로 돌아가기
             </Link>
@@ -130,7 +130,7 @@ const NoticeViewer = () => {
           <Button>
             <Link
               style={{ textDecoration: 'none', color: 'white' }}
-              to={process.env.PUBLIC_URL + '/notice/noticeList'}
+              to={process.env.PUBLIC_URL + '/notice'}
             >
               목록
             </Link>
