@@ -652,6 +652,22 @@
       },
       "parking": true,
       "restDate": "매주 화요일"
+    },
+    {
+      "id": 2,
+      "name": "섭지코지",
+      "areaCode": 39,
+      "address1": "제주특별자치도 서귀포시 천지동",
+      "address2": "null",
+      "image": "null",
+      "tel": "010-1234-5678",
+      "summary": "긴내용긴내용긴내용",
+      "report": "요약 타이틀",
+      "type": {
+          "type": "Attraction"
+      },
+      "parking": true,
+      "restDate": "매주 화요일"
     }
   ],
   "attractionInfo": [

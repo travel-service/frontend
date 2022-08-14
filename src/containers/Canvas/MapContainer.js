@@ -141,7 +141,7 @@ const MapContainer = ({coords}) => {
 
         kakao.maps.event.addListener(marker, 'click', function() {
           if ( selectedMarker !== null) {
-            customOverlay.setMap(null);
+            closeOverlay();
           }
           if (!selectedMarker || selectedMarker !== marker) {
             !!selectedMarker && selectedMarker.setImage(selectedMarker.normalImage);
@@ -150,7 +150,11 @@ const MapContainer = ({coords}) => {
           customOverlay.setMap(kakaoMap);
           selectedMarker = marker;
         });
+        function closeOverlay() {
+          customOverlay.setMap(null);
+        }
       }
+      
 
       function createMarkerImg(img, size) {
         var markerImg = new kakao.maps.MarkerImage(
@@ -164,6 +168,8 @@ const MapContainer = ({coords}) => {
     else {
       return;
     }
+
+
     let latlng = new kakao.maps.LatLng(lat, lng);
     kakaoMap.panTo(latlng);
   },[kakaoMap, coords, lat, lng])
