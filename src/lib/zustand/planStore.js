@@ -9,7 +9,7 @@ export const useStore = create(
     (set, get) => ({
       id: null,
       userPlan: {},
-      userPlanConcept: {},
+      conceptForm: {},
       userTravelDay: {},
       // 여행 생성 후 다시 생성시 초기화를 위함(랜딩 페이지오면 초기화)
       initializePlanForm: () => {
@@ -23,7 +23,7 @@ export const useStore = create(
             planStatus: 'MAIN',
             thumbnail: '',
           },
-          userPlanConcept: {
+          conceptForm: {
             concept: [],
           },
           userTravelDay: {
@@ -46,6 +46,9 @@ export const useStore = create(
         { id: 3, name: '가족', eword: 'Family' },
         { id: 4, name: '혼자', eword: 'Alone' },
       ],
+      setId: (input) => {
+        set({ id: input });
+      },
       setName: (input) => {
         set((state) => ({ userPlan: { ...state.userPlan, name: input } }));
       },
@@ -66,7 +69,7 @@ export const useStore = create(
       },
       setConcept: (input) => {
         set((state) => ({
-          userPlanConcept: { ...state.userPlanConcept, concept: input },
+          conceptForm: { ...state.conceptForm, concept: input },
         }));
       },
       setDepart: (input) => {
@@ -300,7 +303,7 @@ export const useStore = create(
       getPlan: async (id) => {
         const res = await planAPI.getPlan(id);
         set({ userPlan: res.planForm });
-        // set({ userPlanConcept: response.data.conceptForm });
+        // set({ conceptForm: response.data.conceptForm });
       },
 
       // GET day

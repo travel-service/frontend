@@ -15,6 +15,7 @@ const DirContainer = styled.div`
   padding-right: 2%;
   padding-left: 2%;
   padding-bottom: 2%;
+  width: 100%;
 
   font-family: 'Pretendard';
   font-style: normal;
