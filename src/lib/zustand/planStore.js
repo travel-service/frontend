@@ -91,13 +91,14 @@ export const useStore = create(
         set((state) => ({ userPlan: { ...state.userPlan, thumbnail: input } }));
       },
 
-      // 압축 로직, [{}, {}...] => [id, id...]
-      zipSelLoc: (item) => {
-        // item는 객체 배열, id값으로만 된 배열 생성후 userPlan.dbSelLoc에 덮어쓰기
-        // set({})
+      // 압축 로직, {a: [], b: [], ...} => [id, id...]
+      zipSelLoc: (obj) => {
+        // item는 객체 배열, locationId값으로만 된 배열 생성
         let result = [];
-        for (let x of item) {
-          result.push(x['id']);
+        for (let type in obj) {
+          for (let loc of obj[type]) {
+            result.push(loc['locationId']);
+          }
         }
         return result;
       },
@@ -133,7 +134,6 @@ export const useStore = create(
 
       //remove: (locId) => set(state => ({ selLoc: state.selLoc.filter(loc => loc.id !== locId)})),
       remove: (locId, type) => {
-        console.log(locId, type);
         let tmpSelTypeArr = get().selCateLoc[type].filter((obj) => {
           return obj.locationId !== locId;
         });
@@ -153,8 +153,17 @@ export const useStore = create(
       },
 
       // GET day
-      getPlanDays: async (id) => {
-        const res = await planAPI.getPlanDay(id);
+      getPlanDays: async (planId) => {
+        if (planId) {
+          set({
+            userTravelDay: {
+              travelDay: [],
+              status: true,
+            },
+          });
+        }
+        planId = planId ? planId : get().id;
+        const res = await planAPI.getPlanDay(planId);
         if (!res) {
           console.log('get day 실패');
           return;
@@ -166,9 +175,12 @@ export const useStore = create(
             { length: get().userPlan.periods },
             () => [],
           );
+          let selLocs = await locationAPI.getSelectedLocations(planId);
+          let memLocs = await memLocStore.getState().getMemberLocations();
           let tmpSelCateLoc = {
-            ...get().selCateLoc,
-            member: memLocStore.getState().memberLocations,
+            // ...get().selCateLoc,
+            ...selLocs.data.blockLocations,
+            member: memLocs,
           };
           for (let i = 0; i < res.dayForm.length; i++) {
             let tmp = res.dayForm[i];
@@ -176,11 +188,20 @@ export const useStore = create(
               let flag = 0;
               for (let j = 0; j < tmpSelCateLoc[key].length; j++) {
                 if (tmpSelCateLoc[key][j].locationId === tmp.locationId) {
+                  flag = 1;
                   let idx = tmp.days - 1;
                   tmp.name = tmpSelCateLoc[key][j].name;
                   tmp.image = tmpSelCateLoc[key][j].image;
                   tmp.address1 = tmpSelCateLoc[key][j].address1;
-                  tempDayArr[idx].push(tmp);
+
+                  // dayForm의 days가 오름차순으로 온다는 가정
+                  if (tempDayArr.length > idx) {
+                    // 이미 day 배열 존재
+                    tempDayArr[idx].push(tmp);
+                  } else {
+                    // 새로운 day 배열
+                    tempDayArr.push([tmp]);
+                  }
                   break;
                 }
               }
@@ -198,11 +219,13 @@ export const useStore = create(
 
       // POST plan (다음으로, 저장하기)
       postPlan: async (idx) => {
+        // idx => 0: settingPage, 1: selectPage, 2: buildPage
         const userPlan = get().userPlan;
         const conceptForm = get().conceptForm;
         const userTravelDay = get().userTravelDay;
         const id = get().id;
 
+        // 여행 설정 페이지
         if (idx === 0 && !id) {
           // plan 생성
           const res = await planAPI.createPlan(userPlan);
@@ -220,8 +243,14 @@ export const useStore = create(
           }
           await planAPI.putPlan(id, userPlan);
           await planAPI.postConcept(id, conceptForm);
-        } else if (idx === 1) {
-          // selectedLocation 생성 및 수정
+        }
+        // 블록 선택 페이지
+        else if (idx === 1) {
+          // 0816 selectedLocation 생성 및 수정
+          // selLocIdArr: selCateLoc => locationId만 뽑아서 배열로 압축
+          let selLocIdArr = get().zipSelLoc(get().selCateLoc);
+          // post api(생성 or 수정)
+          await locationAPI.postSelectedLocations(id, selLocIdArr);
         } else if (idx === 2) {
           // day 생성 및 수정
           if (!userTravelDay.status) {
@@ -242,15 +271,6 @@ export const useStore = create(
     },
   ),
 );
-
-// 여행 보관함에서 사용
-export const planStore = create((set, get) => ({
-  // plans: undefined, // 여행 보관함
-  // getAllPlans: async () => {
-  //   const res = await planAPI.getAllPlans();
-  //   set({ plans: res });
-  // },
-}));
 
 // systemLocation 받아오고, 카테고리 따라서 분류
 export const sysLocStore = create((set, get) => ({
@@ -273,7 +293,6 @@ export const sysLocStore = create((set, get) => ({
   getSysLoc: async () => {
     if (get().flag === false) {
       const response = await locationAPI.getBlockLocations();
-      console.log(response);
 
       if (response.status === 200) {
         // 받아온 key값으로 배열 생성
