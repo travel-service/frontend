@@ -27,6 +27,7 @@ export const memLocStore = create(
         set(() => ({
           memberLocations: memLoc,
         }));
+        return memLoc;
       },
 
       // memLoc 생성 함수

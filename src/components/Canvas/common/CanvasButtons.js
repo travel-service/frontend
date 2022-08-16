@@ -1,5 +1,6 @@
+// Canvas 단에 있는 이전으로 다음으로 버튼
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import StyledButton from 'components/common/Button';
 import { useStore } from 'lib/zustand/planStore';
@@ -14,7 +15,7 @@ const Buttons = styled.div`
   justify-content: space-between;
 `;
 
-const ButtonLink = styled(Link)`
+const Button = styled.div`
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -22,54 +23,46 @@ const ButtonLink = styled(Link)`
 
 const CanvasButtons = ({ siteMap }) => {
   const location = useLocation();
-  const { userPlan, postPlan } = useStore();
+  const navigate = useNavigate();
+  const { userPlan } = useStore();
+
   const urlName = location.pathname.replace(/\/trablock\/canvas\//g, '');
   const idx = Object.keys(siteMap).indexOf(urlName);
 
-  const onClickNext = (idx) => {
-    userPlan.name === '' ? alert('여행 이름을 입력해주세요.') : postPlan(idx);
+  const onClickNext = () => {
+    if (userPlan.name === '') {
+      alert('여행 이름을 입력해주세요.');
+      return;
+    } else {
+      navigate(
+        process.env.PUBLIC_URL + `/canvas/${Object.keys(siteMap)[idx + 1]}`,
+      );
+    }
   };
 
   const onClickPrev = () => {
-    console.log('prev');
+    navigate(
+      process.env.PUBLIC_URL + `/canvas/${Object.keys(siteMap)[idx - 1]}`,
+    );
   };
-
-  // const onClickExit = () => {
-  //   // postPlan(1);
-  //   postPlan(idx);
-  //   console.log('저장하고 나가기');
-  // };
 
   return (
     <>
       <Buttons>
-        <ButtonLink
-          to={
-            process.env.PUBLIC_URL + `/canvas/${Object.keys(siteMap)[idx - 1]}`
-          }
-        >
+        <Button>
           {idx !== 0 && (
             <StyledButton backColor="white" onClick={onClickPrev}>
               <MdOutlineArrowBackIos /> 이전
             </StyledButton>
           )}
-        </ButtonLink>
-        <ButtonLink
-          to={
-            process.env.PUBLIC_URL + `/canvas/${Object.keys(siteMap)[idx + 1]}`
-          }
-        >
+        </Button>
+        <Button>
           {idx !== 3 && (
-            <StyledButton
-              backColor="black"
-              onClick={() => {
-                onClickNext(0);
-              }}
-            >
+            <StyledButton backColor="black" onClick={onClickNext}>
               다음 <MdOutlineArrowForwardIos />
             </StyledButton>
           )}
-        </ButtonLink>
+        </Button>
       </Buttons>
     </>
   );

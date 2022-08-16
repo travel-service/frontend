@@ -1,13 +1,13 @@
 import React from 'react';
-import CanvasTemplate from 'components/Canvas/common/CanvasTemplate';
 import CanvasForm from 'components/Canvas/common/CanvasForm';
+import PageTemplate from 'components/common/PageTemplate';
 
 const SelectBlockPage = () => {
   return (
     <>
-      <CanvasTemplate>
+      <PageTemplate>
         <CanvasForm type="select" />
-      </CanvasTemplate>
+      </PageTemplate>
     </>
   );
 };

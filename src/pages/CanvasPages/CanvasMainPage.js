@@ -10,12 +10,12 @@ import TravelCheckPage from './TravelCheckPage';
 const CanvasMainPage = () => {
   return (
     <Routes>
-      {/* <Route element={<InsertCanvasPage />} path="insert" /> */}
       <Route element={<DirectoryPage />} path="directory" />
       <Route element={<TravelSettingPage />} path="setting" />
       <Route element={<SelectBlockPage />} path="select" />
       <Route element={<BuildBlockPage />} path="build" />
       <Route element={<TravelCheckPage />} path="check" />
+      <Route element={<TravelCheckPage />} path="check/:planId" />
     </Routes>
   );
 };

@@ -25,7 +25,7 @@ const Container = styled.div`
   ${(props) =>
     props.check &&
     css`
-      max-height: 55vh;
+      /* max-height: 55vh; */
     `}
 `;
 
