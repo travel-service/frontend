@@ -8,7 +8,11 @@ axios.interceptors.response.use(
   (resp) => resp,
   async (error) => {
     if (!refresh) {
-      if (error.response.data.message.includes('AccessToken')) {
+      console.log(error);
+      if (
+        error.response.data.message.includes('AccessToken') ||
+        error.response.status === 500
+      ) {
         refresh = true;
         const response = await authAPI.refresh(); // new AccessToken
         if (response.status === 201) {

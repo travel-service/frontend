@@ -21,6 +21,7 @@ const BuildBlockForm = ({ idx }) => {
     getPlanDays(id);
     getMemberLocations();
     return () => {
+      console.log('idx', idx);
       postPlan(idx);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps

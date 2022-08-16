@@ -104,7 +104,7 @@ const CanvasForm = ({ type, data }) => {
           <Title>{siteMap[type]}</Title>
           <Contents>
             {type === 'setting' && <TravelSettingForm />}
-            {type === 'select' && <Block />}
+            {type === 'select' && <Block idx={1} />}
             {type === 'build' && <PlanDays data={data} />}
             {type === 'check' && <TravelCheckForm />}
           </Contents>
