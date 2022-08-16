@@ -230,7 +230,7 @@ const DirectoryList = ({
     <DirListContainer>
       {mainPlans && userDirs && trashPlans && (
         <>
-          <NewPlanButton to={process.env.PUBLIC_URL + `/canvas/setting`}>
+          <NewPlanButton to={process.env.PUBLIC_URL + `/search`}>
             새로운 여행 만들기 +
           </NewPlanButton>
           <ButtonsDiv title="true">

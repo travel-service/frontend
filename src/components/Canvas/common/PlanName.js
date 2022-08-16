@@ -41,17 +41,18 @@ const PencilButton = styled.button`
   }
 `;
 
-const PlanName = ({ userPlan, setName }) => {
+const PlanName = ({ userPlan, id, setName, postPlan }) => {
   const [isDisabled, setIsDisabled] = useState(true); // input 활성화
   const [isChecked, setIsChecked] = useState(true); // 펜, 저장 버튼 변경
   const [nameText, setNameText] = useState('');
-  const { id, postPlan } = useStore();
+  const [createPlan, setCP] = useState(false); // 플랜 생성 후 이름 수정용
 
   useEffect(() => {
     if (userPlan.name && id) {
+      setCP(true);
       return setNameText(userPlan.name);
     }
-  }, [userPlan.name]);
+  }, [userPlan.name, id]);
 
   const onClickPencil = () => {
     setIsDisabled(!isDisabled);
@@ -61,8 +62,12 @@ const PlanName = ({ userPlan, setName }) => {
   const onClickSave = () => {
     setIsChecked(!isChecked);
     setIsDisabled(!isDisabled);
-    setName(nameText);
-    nameText !== '' && postPlan(0); // 플랜 생성
+    if (!createPlan) {
+      setName(nameText);
+      nameText !== '' && setCP(true) && postPlan(0); // 플랜 생성
+    } else {
+      setName(nameText);
+    }
   };
 
   const Naming = (e) => {

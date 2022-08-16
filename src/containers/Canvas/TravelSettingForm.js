@@ -22,6 +22,8 @@ const TravelSettingForm = () => {
     setThumbnail,
     setName,
     getPlan,
+    initializePlanForm,
+    postPlan,
   } = useStore();
 
   const location = useLocation();
@@ -29,29 +31,27 @@ const TravelSettingForm = () => {
   useEffect(() => {
     if (location.state) {
       setId(location.state.planId);
-      //console.log('planId: ', location.state.planId);
+      id && getPlan(id);
     } else {
-      setId(null);
-    }
-  }, []);
-
-  //리팩토링할 때 store 내 initial 함수로 바꾸기
-  useEffect(() => {
-    // depart, periods, name, concept, thumbnail 초기화
-    if (id === null) {
+      initializePlanForm();
       setDepart(new Date());
-      setPeriods(1);
-      setName('');
-      setConcept([]);
-      setThumbnail('');
-    } else {
-      getPlan(id);
     }
-  }, [id, getPlan]);
+  }, [id]);
+
+  useEffect(() => {
+    return () => {
+      postPlan(0);
+    };
+  }, []);
 
   return (
     <div>
-      <PlanName userPlan={userPlan} setName={setName} />
+      <PlanName
+        userPlan={userPlan}
+        id={id}
+        setName={setName}
+        postPlan={postPlan}
+      />
       <DateSetting
         userPlan={userPlan}
         setDepart={setDepart}
