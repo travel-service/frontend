@@ -72,7 +72,8 @@ const MainCharacter = styled.img`
 `;
 
 const AuthLogo = styled.div`
-  margin-bottom: 50px;
+  margin-top: 50px;
+  margin-bottom: 20px;
 `;
 
 const AuthTemplate = ({ children }) => {
