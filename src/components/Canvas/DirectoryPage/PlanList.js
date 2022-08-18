@@ -3,6 +3,13 @@ import styled from 'styled-components';
 import PlanLayout from 'components/Canvas/common/PlanLayout';
 import PlanPagination from '../common/PlanPagination';
 import CustomCheckbox from 'lib/custom/CustomCheckbox';
+import {
+  HiOutlineFolderDownload,
+  HiOutlineFolder,
+  HiRefresh,
+} from 'react-icons/hi';
+import { BiXCircle } from 'react-icons/bi';
+import EmptyArrow from 'lib/Icons/EmptyArrow';
 
 //리스트 전체
 const PlanListContainer = styled.div`
@@ -336,12 +343,7 @@ const PlanList = ({
                           );
                     }}
                   >
-                    <img
-                      alt="add_folder"
-                      src={
-                        process.env.PUBLIC_URL + '/images/add_folder_ico.png'
-                      }
-                    />
+                    <HiOutlineFolderDownload size="20" />
                     담기
                     {isShow && (
                       <PlanPopUpContainer>
@@ -358,14 +360,18 @@ const PlanList = ({
                                   );
                                 }}
                               >
-                                <img
-                                  alt="folder"
-                                  src={
-                                    process.env.PUBLIC_URL +
-                                    '/images/folder_ico.png'
-                                  }
-                                />
-                                {' ' + item.directoryName}
+                                <div
+                                  style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                  }}
+                                >
+                                  <HiOutlineFolder
+                                    size="20"
+                                    style={{ marginRight: '5px' }}
+                                  />
+                                  {item.directoryName}
+                                </div>
                               </PlanPopUp>
                             );
                           })}
@@ -382,10 +388,7 @@ const PlanList = ({
                         : alert('선택된 플랜이 없습니다.');
                     }}
                   >
-                    <img
-                      alt="delete"
-                      src={process.env.PUBLIC_URL + '/images/delete_ico.png'}
-                    />
+                    <BiXCircle size="20" />
                     삭제
                   </PlanBtn>
                 </ItemsDiv>
@@ -400,10 +403,7 @@ const PlanList = ({
                           alert("플랜을 '모든 여행'으로 복원했습니다.");
                     }}
                   >
-                    <img
-                      alt="restore"
-                      src={process.env.PUBLIC_URL + '/images/restore_ico.png'}
-                    />
+                    <HiRefresh size="20" />
                     복원
                   </PlanBtn>
                   <PlanBtn
@@ -413,10 +413,7 @@ const PlanList = ({
                         : alert('선택된 플랜이 없습니다.');
                     }}
                   >
-                    <img
-                      alt="delete"
-                      src={process.env.PUBLIC_URL + '/images/delete_ico.png'}
-                    />
+                    <BiXCircle size="20" />
                     삭제
                   </PlanBtn>
                 </ItemsDiv>
@@ -432,10 +429,7 @@ const PlanList = ({
                         : alert('선택된 플랜이 없습니다.');
                     }}
                   >
-                    <img
-                      alt="delete"
-                      src={process.env.PUBLIC_URL + '/images/delete_ico.png'}
-                    />
+                    <BiXCircle size="20" />
                     삭제
                   </PlanBtn>
                 </ItemsDiv>

@@ -67,7 +67,7 @@ const Datediv = styled.div`
   }
 `;
 
-export const DateSetting = ({ userPlan, setDepart, setPeriods }) => {
+export const DateSetting = ({ userPlan, setDepart, setPeriods, Question }) => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
@@ -107,10 +107,7 @@ export const DateSetting = ({ userPlan, setDepart, setPeriods }) => {
     <DateSettingDiv>
       <TitleSpan>1. 여행 일자 설정 </TitleSpan>
       <TooltipButton data-tip data-for="datesetting">
-        <img
-          alt="tip"
-          src={process.env.PUBLIC_URL + '/images/question_ico.png'}
-        />
+        <Question size="14" />
       </TooltipButton>
       <ReactTooltip id="datesetting" place="right" type="info" effect="solid">
         <div>

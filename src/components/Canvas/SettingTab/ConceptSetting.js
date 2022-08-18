@@ -42,7 +42,12 @@ const ElementDiv = styled.li`
   color: #000000;
 `;
 
-export const ConceptSetting = ({ conceptForm, Concepts, setConcept }) => {
+export const ConceptSetting = ({
+  conceptForm,
+  Concepts,
+  setConcept,
+  Question,
+}) => {
   const onClickConcept = (checked, word) => {
     if (checked) {
       setConcept([...conceptForm.concept, word]);
@@ -55,10 +60,7 @@ export const ConceptSetting = ({ conceptForm, Concepts, setConcept }) => {
     <ConceptSettingDiv>
       <TitleSpan>2. 여행 컨셉 </TitleSpan>
       <TooltipButton data-tip data-for="conceptsetting">
-        <img
-          alt="tip"
-          src={process.env.PUBLIC_URL + '/images/question_ico.png'}
-        />
+        <Question size="14" />
       </TooltipButton>
       <ReactTooltip
         id="conceptsetting"

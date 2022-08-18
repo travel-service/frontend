@@ -2,6 +2,13 @@ import Close from 'lib/Icons/Close';
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import {
+  HiOutlineFolderAdd,
+  HiOutlineFolderOpen,
+  HiOutlineFolder,
+  HiOutlineTrash,
+} from 'react-icons/hi';
+import More from 'lib/Icons/More';
 
 // 좌측 바, 디렉터리 목록
 // (새여행 버튼, 디렉터리 생성/삭제, 디렉터리 이름, 플랜갯수)
@@ -111,8 +118,8 @@ const CreateInput = styled.input`
 `;
 // 더보기 버튼
 const MoreDiv = styled.div`
-  padding-left: 10px;
-  padding-top: 2.5px;
+  margin-top: 4px;
+  padding-left: 6px;
   cursor: pointer;
 `;
 // 더보기 container
@@ -240,14 +247,9 @@ const DirectoryList = ({
                 }}
               >
                 {!createDir ? (
-                  <img
-                    alt="add_new_folder"
-                    src={
-                      process.env.PUBLIC_URL + '/images/add_new_folder_ico.png'
-                    }
-                  />
+                  <HiOutlineFolderAdd size="20" />
                 ) : (
-                  <Close />
+                  <Close size="20" />
                 )}
               </IconDiv>
             </ButtonsDiv>
@@ -263,10 +265,7 @@ const DirectoryList = ({
               >
                 <ButtonsDiv>
                   <BaseIconDiv>
-                    <img
-                      alt="folder"
-                      src={process.env.PUBLIC_URL + '/images/folders_ico.png'}
-                    />
+                    <HiOutlineFolderOpen size="20" />
                   </BaseIconDiv>
                   <DirTextDiv>모든 여행</DirTextDiv>
                 </ButtonsDiv>
@@ -286,12 +285,7 @@ const DirectoryList = ({
                   >
                     <ButtonsDiv change="true">
                       <BaseIconDiv>
-                        <img
-                          alt="folder"
-                          src={
-                            process.env.PUBLIC_URL + '/images/folder_ico.png'
-                          }
-                        />
+                        <HiOutlineFolder size="20" />
                       </BaseIconDiv>
                       {chName && currentDirId === item.userDirectoryId ? (
                         <CreateInput
@@ -319,10 +313,7 @@ const DirectoryList = ({
                           setMoreBtn(!moreBtn);
                         }}
                       >
-                        <img
-                          alt="more"
-                          src={process.env.PUBLIC_URL + '/images/more_ico.png'}
-                        />
+                        <More size="20" />
                         {moreBtn && currentDirId === item.userDirectoryId && (
                           <DirPopUpContainer ref={outRef}>
                             <DirPopUp
@@ -368,10 +359,7 @@ const DirectoryList = ({
               >
                 <ButtonsDiv>
                   <BaseIconDiv>
-                    <img
-                      alt="folder"
-                      src={process.env.PUBLIC_URL + '/images/folder_ico.png'}
-                    />
+                    <HiOutlineFolder size="20" />
                   </BaseIconDiv>
                   <CreateInput
                     c
@@ -393,10 +381,7 @@ const DirectoryList = ({
               >
                 <ButtonsDiv>
                   <BaseIconDiv>
-                    <img
-                      alt="trash"
-                      src={process.env.PUBLIC_URL + '/images/trash_ico.png'}
-                    />
+                    <HiOutlineTrash size="20" />
                   </BaseIconDiv>
                   <DirTextDiv>휴지통</DirTextDiv>
                 </ButtonsDiv>

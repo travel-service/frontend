@@ -59,7 +59,7 @@ const PencilButton = styled.button`
   }
 `;
 
-const PlanName = ({ userPlan, id, setName, postPlan }) => {
+const PlanName = ({ userPlan, id, setName, postPlan, Question }) => {
   const [isDisabled, setIsDisabled] = useState(true); // input 활성화
   const [isChecked, setIsChecked] = useState(true); // 펜, 저장 버튼 변경
   const [nameText, setNameText] = useState('');
@@ -97,10 +97,7 @@ const PlanName = ({ userPlan, id, setName, postPlan }) => {
     <NamingDiv>
       <TitleSpan>0. 여행 이름 설정 </TitleSpan>
       <TooltipButton data-tip data-for="planName">
-        <img
-          alt="tip"
-          src={process.env.PUBLIC_URL + '/images/question_ico.png'}
-        />
+        <Question size="14" />
       </TooltipButton>
       <ReactTooltip id="planName" place="right" type="info" effect="solid">
         <div>연필 버튼을 클릭하면 여행 이름을 설정할 수 있습니다.</div>

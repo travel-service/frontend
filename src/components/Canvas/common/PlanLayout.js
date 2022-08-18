@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import CustomCheckbox from 'lib/custom/CustomCheckbox';
+import { HiOutlineFolder } from 'react-icons/hi';
+import More from 'lib/Icons/More';
 
 // 플랜 레이아웃(이름, 기간, 날짜, 썸네일(호버 시 정보), 이동/복사/담기 버튼)
 const PlanContainer = styled.div`
@@ -261,10 +263,7 @@ const PlanLayout = ({
                   : setCheckedPlans([planId]);
               }}
             >
-              <img
-                src={process.env.PUBLIC_URL + '/images/more_ico.png'}
-                alt="더보기"
-              />
+              <More size="20" />
             </MoreButton>
             {currentDirId === 'm'
               ? isShow && (
@@ -340,13 +339,20 @@ const PlanLayout = ({
                         alert(`플랜이 ${item.directoryName}에 담겼습니다.`);
                       }}
                     >
-                      <img
-                        style={{ marginRight: '5px' }}
-                        src={process.env.PUBLIC_URL + '/images/folder_ico.png'}
-                      />
-                      {item.directoryName.length > 5
-                        ? item.directoryName.substr(0, 5) + '...'
-                        : item.directoryName}
+                      <div
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <HiOutlineFolder
+                          size="20"
+                          style={{ marginRight: '5px' }}
+                        />
+                        {item.directoryName.length > 5
+                          ? item.directoryName.substr(0, 5) + '...'
+                          : item.directoryName}
+                      </div>
                     </MoveLi>
                   );
                 })}

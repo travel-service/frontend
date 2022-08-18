@@ -6,6 +6,7 @@ import React, { useEffect } from 'react';
 import { useStore } from 'lib/zustand/planStore';
 import styled from 'styled-components';
 import { useLocation } from 'react-router-dom';
+import Question from 'lib/Icons/Question';
 
 const StyledDiv = styled.div`
   @media only screen and (min-width: 800px) {
@@ -58,18 +59,25 @@ const TravelSettingForm = () => {
           id={id}
           setName={setName}
           postPlan={postPlan}
+          Question={Question}
         />
         <DateSetting
           userPlan={userPlan}
           setDepart={setDepart}
           setPeriods={setPeriods}
+          Question={Question}
         />
         <ConceptSetting
           conceptForm={conceptForm}
           Concepts={Concepts}
           setConcept={setConcept}
+          Question={Question}
         />
-        <ImageSetting userPlan={userPlan} setThumbnail={setThumbnail} />
+        <ImageSetting
+          userPlan={userPlan}
+          setThumbnail={setThumbnail}
+          Question={Question}
+        />
       </div>
       <div>{/*추천 플랜*/}</div>
     </StyledDiv>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ReactTooltip from 'react-tooltip';
 import styled from 'styled-components';
+import { AiOutlinePicture } from 'react-icons/ai';
 
 const ThumbnailSettingDiv = styled.div`
   margin-top: 25px;
@@ -63,7 +64,7 @@ const StyledFile = styled.label`
   }
 `;
 
-export const ImageSetting = ({ userPlan, setThumbnail }) => {
+export const ImageSetting = ({ userPlan, setThumbnail, Question }) => {
   const [imgData, setImgData] = useState(null);
 
   const insertImg = (e) => {
@@ -108,17 +109,14 @@ export const ImageSetting = ({ userPlan, setThumbnail }) => {
   };*/
   const deleteImg = () => {
     setImgData(null);
-    setThumbnail([]);
+    setThumbnail('');
   };
 
   return (
     <ThumbnailSettingDiv>
       <TitleSpan>3. 커버 사진 </TitleSpan>
       <TooltipButton data-tip data-for="thumbnailsetting">
-        <img
-          alt="tip"
-          src={process.env.PUBLIC_URL + '/images/question_ico.png'}
-        />
+        <Question size="14" />
       </TooltipButton>
       <ReactTooltip
         id="thumbnailsetting"
@@ -137,10 +135,7 @@ export const ImageSetting = ({ userPlan, setThumbnail }) => {
               height="130"
             />
           ) : (
-            <img
-              src={process.env.PUBLIC_URL + '/images/photo_ico.png'}
-              alt="미리보기"
-            />
+            <AiOutlinePicture size="30" />
           )}
         </PreviewboxDiv>
         <form encType="multipart/form-data" style={{ height: '35px' }}>
