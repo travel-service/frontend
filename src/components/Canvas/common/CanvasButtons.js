@@ -26,15 +26,13 @@ const CanvasButtons = ({ siteMap }) => {
   const urlName = location.pathname.replace(/\/trablock\/canvas\//g, '');
   const idx = Object.keys(siteMap).indexOf(urlName);
 
+  const onClickNext = () => {
+    userPlan.name === '' && idx === 0 && alert('여행 이름을 설정해주세요');
+  };
+
   const onClickPrev = () => {
     console.log('prev');
   };
-
-  // const onClickExit = () => {
-  //   // postPlan(1);
-  //   postPlan(idx);
-  //   console.log('저장하고 나가기');
-  // };
 
   return (
     <>
@@ -52,14 +50,14 @@ const CanvasButtons = ({ siteMap }) => {
         </ButtonLink>
         <ButtonLink
           to={
-            userPlan.name === '' && idx === 0
+            idx === 0 && userPlan.name === ''
               ? process.env.PUBLIC_URL + `/canvas/${Object.keys(siteMap)[idx]}`
               : process.env.PUBLIC_URL +
                 `/canvas/${Object.keys(siteMap)[idx + 1]}`
           }
         >
           {idx !== 3 && (
-            <StyledButton backColor="black">
+            <StyledButton backColor="black" onClick={onClickNext}>
               다음 <MdOutlineArrowForwardIos />
             </StyledButton>
           )}

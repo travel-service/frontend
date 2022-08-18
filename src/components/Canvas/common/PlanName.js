@@ -78,16 +78,14 @@ const PlanName = ({ userPlan, id, setName, postPlan }) => {
   };
 
   const onClickSave = () => {
-    setIsChecked(!isChecked);
-    setIsDisabled(!isDisabled);
-    if (!createPlan && nameText !== '') {
-      setName(nameText);
-      setCP(true);
-      postPlan(0, 1); // 플랜 생성
+    if (nameText === '') {
+      alert('여행 이름을 설정해주세요.');
     } else {
-      nameText !== ''
-        ? setName(nameText)
-        : alert('이름은 공백이 될 수 없습니다.');
+      setIsChecked(!isChecked);
+      setIsDisabled(!isDisabled);
+      setName(nameText);
+      !createPlan && postPlan(0, 1);
+      setCP(true);
     }
   };
 

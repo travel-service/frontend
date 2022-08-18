@@ -35,8 +35,12 @@ const TravelSettingForm = () => {
       setId(location.state.planId);
       id && getPlan(id);
     } else {
-      initializePlanForm();
-      setDepart(new Date());
+      if (id === null) {
+        initializePlanForm();
+        setDepart(new Date());
+      } else {
+        id && getPlan(id);
+      }
     }
   }, [id]);
 
