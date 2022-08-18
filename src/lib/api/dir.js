@@ -66,13 +66,25 @@ export const postDirName = async (id, changeDirName) => {
   }
 };
 
-// 플랜 삭제
+// main에서 플랜 삭제
 export const postTrash = async (checkedPlans) => {
   try {
     const response = await axios.post(`/directories/trash`, {
       planId: checkedPlans,
     });
 
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    return 0;
+  }
+};
+// user에서 플랜 삭제
+export const userTrash = async (checkedPlans, directoryId) => {
+  try {
+    const response = await axios.delete(`/directories/${directoryId}/plans`, {
+      data: { planIds: checkedPlans },
+    });
     return response.data;
   } catch (err) {
     console.log(err);

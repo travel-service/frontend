@@ -166,6 +166,7 @@ const PlanList = ({
   postMovePlans,
   postRevert,
   deletePlan,
+  userTrash,
 }) => {
   const [isShow, setIsShow] = useState(false);
   const [plansList, setPL] = useState([]); // 플랜 컴포넌트 공통
@@ -176,20 +177,18 @@ const PlanList = ({
   const offset = (page - 1) * 10;
 
   useEffect(() => {
-    //setSearchT('');
-    //setRP([]);
     setPL(
       currentDirId === 'm'
         ? mainPlans.mainDirectory
         : currentDirId === 't'
         ? trashPlans.trashDirectory
-        : [], //userPlans,
+        : userPlans,
     );
   }, [
     currentDirId,
     mainPlans.mainDirectory,
     trashPlans.trashDirectory,
-    //userPlans,
+    userPlans,
   ]);
 
   useEffect(() => {
@@ -249,8 +248,7 @@ const PlanList = ({
 
   const ConfirmText = (m, t) => {
     if (window.confirm(m)) {
-      t ? deletePlan() : postTrash();
-      setCheckedPlans([]);
+      t === 1 ? deletePlan() : t === 0 ? postTrash() : userTrash();
       setIsShow(false);
     }
   };
@@ -428,8 +426,8 @@ const PlanList = ({
                     onClick={() => {
                       checkedPlans && checkedPlans.length > 0
                         ? ConfirmText(
-                            '플랜을 삭제하시겠습니까? 복원은 휴지통에서 30일 이내로 가능합니다.',
-                            0,
+                            '플랜을 삭제하시겠습니까? 플랜은 모든 여행에서 확인할 수 있습니다.',
+                            2,
                           )
                         : alert('선택된 플랜이 없습니다.');
                     }}
@@ -480,6 +478,7 @@ const PlanList = ({
                       postRevert={postRevert}
                       currentDirId={currentDirId}
                       deletePlan={deletePlan}
+                      userTrash={userTrash}
                     />
                   );
                 })
@@ -501,6 +500,7 @@ const PlanList = ({
                       postRevert={postRevert}
                       currentDirId={currentDirId}
                       deletePlan={deletePlan}
+                      userTrash={userTrash}
                     />
                   );
                 })}

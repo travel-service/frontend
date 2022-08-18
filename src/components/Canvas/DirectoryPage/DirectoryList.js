@@ -174,15 +174,13 @@ const DirectoryList = ({
   const outRef = useRef(null);
 
   useEffect(() => {
-    typeof currentDirId === 'number' && console.log(currentDirId);
-    /*
-        userDirs.mainUserDirectory.map((dir) => {
-          setUserPlans(mainPlans.mainDirectory.map((plan) => {
-            return dir.userDirectoryId === currentDirId
-          }).planId)
+    typeof currentDirId === 'number' &&
+      mainPlans.mainDirectory &&
+      setUserPlans(
+        mainPlans.mainDirectory.filter((plan) => {
+          return plan.userDirectoryIds.includes(currentDirId);
         }),
-      
-    console.log('up:', userPlans);*/
+      );
   }, [currentDirId]);
 
   useEffect(() => {

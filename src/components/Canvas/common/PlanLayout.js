@@ -136,8 +136,6 @@ const SubUl = styled.ul`
   margin-left: -150px;
   margin-top: -52px;
   z-index: 2;
-  // left: 90px;
-  //top: 23px;
 `;
 const MoveLi = styled.li`
   font-weight: 400;
@@ -167,6 +165,7 @@ const PlanLayout = ({
   postRevert,
   currentDirId,
   deletePlan,
+  userTrash,
 
   myP,
 }) => {
@@ -198,8 +197,7 @@ const PlanLayout = ({
   };
   const ConfirmDel = (m, t) => {
     if (window.confirm(m)) {
-      t ? deletePlan() : postTrash();
-      setCheckedPlans([]);
+      t === 1 ? deletePlan() : t === 0 ? postTrash() : userTrash();
       setIsShow(false);
       setClickMore(false);
     }
@@ -220,10 +218,7 @@ const PlanLayout = ({
       >
         {isOver && (
           <LinkContainer>
-            <LinkButton
-              to={process.env.PUBLIC_URL + '/canvas/check'}
-              state={{ planId: planId }}
-            >
+            <LinkButton to={process.env.PUBLIC_URL + `/plan/${planId}`}>
               완성된 여행 보기
             </LinkButton>
             <LinkButton
@@ -323,8 +318,8 @@ const PlanLayout = ({
                     <PlanControlLi
                       onClick={() => {
                         ConfirmDel(
-                          '플랜을 삭제하시겠습니까? 복원은 휴지통에서 30일 이내로 가능합니다.',
-                          0,
+                          '플랜을 삭제하시겠습니까? 플랜은 모든 여행에서 확인할 수 있습니다.',
+                          2,
                         );
                       }}
                     >
