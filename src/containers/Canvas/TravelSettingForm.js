@@ -11,6 +11,8 @@ const StyledDiv = styled.div`
   @media only screen and (min-width: 800px) {
     display: flex;
   }
+  font-family: 'Pretendard';
+  font-style: normal;
 `;
 const TravelSettingForm = () => {
   const { id, userPlan, conceptForm, Concepts } = useStore();
@@ -40,32 +42,33 @@ const TravelSettingForm = () => {
 
   useEffect(() => {
     return () => {
-      postPlan(0);
+      userPlan.name !== '' && postPlan(0);
     };
-  }, []);
+  }, [userPlan.name]);
 
   return (
-    <div>
-      <PlanName
-        userPlan={userPlan}
-        id={id}
-        setName={setName}
-        postPlan={postPlan}
-      />
-      <DateSetting
-        userPlan={userPlan}
-        setDepart={setDepart}
-        setPeriods={setPeriods}
-      />
-      <StyledDiv>
+    <StyledDiv>
+      <div>
+        <PlanName
+          userPlan={userPlan}
+          id={id}
+          setName={setName}
+          postPlan={postPlan}
+        />
+        <DateSetting
+          userPlan={userPlan}
+          setDepart={setDepart}
+          setPeriods={setPeriods}
+        />
         <ConceptSetting
           conceptForm={conceptForm}
           Concepts={Concepts}
           setConcept={setConcept}
         />
         <ImageSetting userPlan={userPlan} setThumbnail={setThumbnail} />
-      </StyledDiv>
-    </div>
+      </div>
+      <div>{/*추천 플랜*/}</div>
+    </StyledDiv>
   );
 };
 

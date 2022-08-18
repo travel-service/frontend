@@ -350,17 +350,17 @@ export const useStore = create(
         }
       },
 
-      // POST plan (다음으로, 저장하기)
-      postPlan: async (idx) => {
+      // POST plan (다음으로, 저장하기), cP 플랜 생성 판단용
+      postPlan: async (idx, cP = false) => {
         const userPlan = get().userPlan;
         const conceptForm = get().conceptForm;
         const userTravelDay = get().userTravelDay;
         const id = get().id;
 
-        if (idx === 0 && id === null) {
+        if (idx === 0 && cP) {
           // plan 생성
           const res = await planAPI.createPlan(userPlan);
-          if (res.planId) {
+          if (res && res.planId) {
             // 정상적 id 반환
             set({ id: res.planId });
           } else {

@@ -1,43 +1,61 @@
 import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
+import ReactTooltip from 'react-tooltip';
 import Pencil from 'lib/Icons/Pencil';
-import { useStore } from 'lib/zustand/planStore';
+import { MdOutlineSave } from 'react-icons/md';
 
 const NamingDiv = styled.div`
-  display: flex;
-  margin-top: 30px;
-  margin-left: 30px;
-  margin-bottom: 30px;
-  height: 50px;
-  width: 50%;
+  width: 500px;
   @media only screen and (max-width: 768px) {
     width: 100%;
   }
 `;
-
+const TitleSpan = styled.span`
+  font-weight: 600;
+  font-size: 15px;
+  width: 100px;
+  height: 20px;
+  color: #000000;
+`;
+const TooltipButton = styled.button`
+  margin-left: 10px;
+  background: none;
+  height: 12px;
+  width: 12px;
+  border: none;
+  cursor: pointer;
+`;
 const StyledInput = styled.input`
   border: none;
-  font-size: 1.2em;
-  height: 40px;
-  width: 50%;
+  font-weight: 400;
+  font-size: 15px;
+  color: #868686;
+  padding: 15px;
+  width: 200px;
   background: none;
+  :focus {
+    outline: none;
+  }
   ${(props) =>
     props.disabled ||
     css`
-      border: solid 1px gray;
+      border: none;
+      background: #ededef;
       border-radius: 5px;
     `}
 `;
-
 const PencilButton = styled.button`
   border: none;
-  margin-left: 3%;
-  height: 85%;
-  width: 6%;
+  margin-left: 10px;
+  font-weight: 400;
+  font-size: 15px;
+  height: 45px;
+  width: 45px;
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: 5px;
+  background: none;
   :hover {
-    background: lightgray;
+    background: #ededef;
   }
 `;
 
@@ -48,7 +66,7 @@ const PlanName = ({ userPlan, id, setName, postPlan }) => {
   const [createPlan, setCP] = useState(false); // 플랜 생성 후 이름 수정용
 
   useEffect(() => {
-    if (userPlan.name && id) {
+    if (userPlan.name !== '' && id) {
       setCP(true);
       return setNameText(userPlan.name);
     }
@@ -62,11 +80,14 @@ const PlanName = ({ userPlan, id, setName, postPlan }) => {
   const onClickSave = () => {
     setIsChecked(!isChecked);
     setIsDisabled(!isDisabled);
-    if (!createPlan) {
+    if (!createPlan && nameText !== '') {
       setName(nameText);
-      nameText !== '' && setCP(true) && postPlan(0); // 플랜 생성
+      setCP(true);
+      postPlan(0, 1); // 플랜 생성
     } else {
-      setName(nameText);
+      nameText !== ''
+        ? setName(nameText)
+        : alert('이름은 공백이 될 수 없습니다.');
     }
   };
 
@@ -76,21 +97,33 @@ const PlanName = ({ userPlan, id, setName, postPlan }) => {
 
   return (
     <NamingDiv>
-      <StyledInput
-        type="text"
-        placeholder={'새 여행 보관함'}
-        disabled={isDisabled}
-        value={nameText}
-        onChange={Naming}
-      />
-      <PencilButton
-        type="button"
-        onClick={() => {
-          isChecked ? onClickPencil() : onClickSave();
-        }}
-      >
-        {isChecked ? <Pencil size="20" /> : '저장'}
-      </PencilButton>
+      <TitleSpan>0. 여행 이름 설정 </TitleSpan>
+      <TooltipButton data-tip data-for="planName">
+        <img
+          alt="tip"
+          src={process.env.PUBLIC_URL + '/images/question_ico.png'}
+        />
+      </TooltipButton>
+      <ReactTooltip id="planName" place="right" type="info" effect="solid">
+        <div>연필 버튼을 클릭하면 여행 이름을 설정할 수 있습니다.</div>
+      </ReactTooltip>
+      <div style={{ display: 'flex', alignItems: 'center', marginTop: '15px' }}>
+        <StyledInput
+          type="text"
+          placeholder={'새 여행 보관함'}
+          disabled={isDisabled}
+          value={nameText}
+          onChange={Naming}
+        />
+        <PencilButton
+          type="button"
+          onClick={() => {
+            isChecked ? onClickPencil() : onClickSave();
+          }}
+        >
+          {isChecked ? <Pencil size="20" /> : <MdOutlineSave size="20" />}
+        </PencilButton>
+      </div>
     </NamingDiv>
   );
 };

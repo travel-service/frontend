@@ -112,7 +112,8 @@ const ComboDiv = styled.select`
   font-weight: 400;
   font-size: 13px;
   line-height: 16px;
-  background: url('../images/down_arrow_ico.png') no-repeat 85% 53%/15px auto;
+  background: url('${process.env.PUBLIC_URL}/images/down_arrow_ico.png')
+    no-repeat 85% 53%/15px auto;
 `;
 const CheckTextDiv = styled.div`
   font-weight: 400;
