@@ -1,4 +1,3 @@
-import Close from 'lib/Icons/Close';
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -9,6 +8,8 @@ import {
   HiOutlineTrash,
 } from 'react-icons/hi';
 import More from 'lib/Icons/More';
+import Close from 'lib/Icons/Close';
+import DirLayout from './DirLayout';
 
 // 좌측 바, 디렉터리 목록
 // (새여행 버튼, 디렉터리 생성/삭제, 디렉터리 이름, 플랜갯수)
@@ -41,14 +42,12 @@ const NewPlanButton = styled(Link)`
   line-height: 17px;
   color: #ffffff;
 `;
-
 //버튼 정렬 용
 const ButtonsDiv = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   ${(props) => (props.title ? 'margin-top: 20px;' : '')};
-  ${(props) => (props.change ? 'justify-content: left;' : '')};
 `;
 // text
 const DirTextDiv = styled.div`
@@ -56,19 +55,6 @@ const DirTextDiv = styled.div`
   font-size: 14px;
   line-height: 17px;
   color: #000000;
-`;
-//각 디렉토리 네모박스
-const DirContainer = styled.div`
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px;
-
-  background: #ffffff;
-  ${(props) => (props.ck ? 'border: 2px solid #f87676;' : '')};
-  border-radius: 10px;
-  margin-top: 15px;
 `;
 // 생성 버튼
 const IconDiv = styled.div`
@@ -79,33 +65,6 @@ const IconDiv = styled.div`
   cursor: pointer;
   padding: 10px 20px 10px 20px;
 `;
-//디렉터리 아이콘 들어갈 자리
-const BaseIconDiv = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  height: 33.5px;
-  width: 33.5px;
-  margin-right: 10px;
-
-  border: 1.5px solid #000000;
-  border-radius: 100%;
-`;
-//플랜 개수
-const PlanCountContainer = styled.div`
-  box-sizing: border-box;
-  background: #ffffff;
-  border: 1px solid #000000;
-  border-radius: 20px;
-  padding: 5px 10px 5px 10px;
-
-  font-weight: 500;
-  font-size: 8px;
-  line-height: 10px;
-  color: #000000;
-`;
-
 //디렉토리 생성 input
 const CreateInput = styled.input`
   border-radius: 5px;
@@ -162,7 +121,6 @@ const DirectoryList = ({
   mainPlans,
   trashPlans,
   userDirs,
-  userPlans,
   currentDirId,
   createUserDir,
   changeDirName,
@@ -188,7 +146,7 @@ const DirectoryList = ({
           return plan.userDirectoryIds.includes(currentDirId);
         }),
       );
-  }, [currentDirId]);
+  }, [currentDirId, mainPlans]);
 
   useEffect(() => {
     document.addEventListener('mousedown', onClickMore);
@@ -196,9 +154,14 @@ const DirectoryList = ({
       document.removeEventListener('mousedown', onClickMore);
     };
   });
+  const onClickMore = (e) => {
+    if (outRef.current && !outRef.current.contains(e.target)) {
+      setMoreBtn(!moreBtn);
+    }
+  };
 
+  // 디렉터리 생성 완료 시
   const onBlurDir = () => {
-    // 디렉터리 생성 완료 시
     if (createUserDir !== '' && createDir) {
       postCreateDir();
     } else if (changeDirName !== '' && chName) {
@@ -208,13 +171,11 @@ const DirectoryList = ({
     setChName(false);
   };
 
+  // 디렉터리 이름 변경
   const onChangeDirName = (e, c) => {
-    // 디렉터리 이름 변경
     if (c) {
-      // 새로운 디렉터리 생성 시
       setCreateUserDir(e);
     } else {
-      // 디렉터리 변경
       setDirName(e);
     }
   };
@@ -223,12 +184,6 @@ const DirectoryList = ({
     setCreateDir(false);
     setCreateUserDir('');
     setDirName('');
-  };
-
-  const onClickMore = (e) => {
-    if (outRef.current && !outRef.current.contains(e.target)) {
-      setMoreBtn(!moreBtn);
-    }
   };
 
   return (
@@ -240,54 +195,43 @@ const DirectoryList = ({
           </NewPlanButton>
           <ButtonsDiv title="true">
             <DirTextDiv>내 여행</DirTextDiv>
-            <ButtonsDiv>
-              <IconDiv
-                onClick={() => {
-                  createDir ? onClickClose() : setCreateDir(!createDir);
-                }}
-              >
-                {!createDir ? (
-                  <HiOutlineFolderAdd size="20" />
-                ) : (
-                  <Close size="20" />
-                )}
-              </IconDiv>
-            </ButtonsDiv>
+            <IconDiv
+              onClick={() => {
+                createDir ? onClickClose() : setCreateDir(!createDir);
+              }}
+            >
+              {createDir ? (
+                <Close size="20" />
+              ) : (
+                <HiOutlineFolderAdd size="20" />
+              )}
+            </IconDiv>
           </ButtonsDiv>
           <div>
-            {
-              <DirContainer
-                ck={currentDirId === 'm' ? true : false}
-                onClick={() => {
-                  setCurrentDir('m');
-                  setCheckedPlans([]);
-                }}
-              >
-                <ButtonsDiv>
-                  <BaseIconDiv>
-                    <HiOutlineFolderOpen size="20" />
-                  </BaseIconDiv>
-                  <DirTextDiv>모든 여행</DirTextDiv>
-                </ButtonsDiv>
-                <PlanCountContainer>{mainPlans.planCount}</PlanCountContainer>
-              </DirContainer>
-            }
+            <DirLayout
+              ck={currentDirId === 'm' ? true : false}
+              onClick={() => {
+                setCurrentDir('m');
+                setCheckedPlans([]);
+              }}
+              ico={<HiOutlineFolderOpen size="20" />}
+              title="모든 여행"
+              pCount={mainPlans.planCount}
+            />
             {userDirs.mainUserDirectory &&
               userDirs.mainUserDirectory.map((item, index) => {
                 return (
-                  <DirContainer
+                  <DirLayout
                     key={item.userDirectoryId}
+                    userD={true}
                     ck={currentDirId === item.userDirectoryId ? true : false}
                     onClick={() => {
                       setCurrentDir(item.userDirectoryId);
                       setCheckedPlans([]);
                     }}
-                  >
-                    <ButtonsDiv change="true">
-                      <BaseIconDiv>
-                        <HiOutlineFolder size="20" />
-                      </BaseIconDiv>
-                      {chName && currentDirId === item.userDirectoryId ? (
+                    ico={<HiOutlineFolder size="20" />}
+                    chName={
+                      chName && currentDirId === item.userDirectoryId ? (
                         <CreateInput
                           value={changeDirName}
                           onChange={(e) => {
@@ -301,12 +245,10 @@ const DirectoryList = ({
                         item.directoryName.substr(0, 5) + '...'
                       ) : (
                         item.directoryName
-                      )}
-                    </ButtonsDiv>
-                    <ButtonsDiv>
-                      <PlanCountContainer>
-                        {userDirs.planCount[index]}
-                      </PlanCountContainer>
+                      )
+                    }
+                    pCount={userDirs.planCount[index]}
+                    moreBtn={
                       <MoreDiv
                         onClick={() => {
                           chName && setChName(false);
@@ -346,21 +288,18 @@ const DirectoryList = ({
                           </DirPopUpContainer>
                         )}
                       </MoreDiv>
-                    </ButtonsDiv>
-                  </DirContainer>
+                    }
+                  />
                 );
               })}
             {createDir && !chName && (
-              <DirContainer
-                new
+              <DirLayout
                 onBlur={() => {
                   onBlurDir();
                 }}
-              >
-                <ButtonsDiv>
-                  <BaseIconDiv>
-                    <HiOutlineFolder size="20" />
-                  </BaseIconDiv>
+                ico={<HiOutlineFolder size="20" />}
+                createD={true}
+                createIn={
                   <CreateInput
                     c
                     placeholder="새 여행 보관함"
@@ -368,30 +307,19 @@ const DirectoryList = ({
                       onChangeDirName(e.target.value, true);
                     }}
                   />
-                </ButtonsDiv>
-              </DirContainer>
+                }
+              />
             )}
-            {
-              <DirContainer
-                ck={currentDirId === 't' ? true : false}
-                onClick={() => {
-                  setCurrentDir('t');
-                  setCheckedPlans([]);
-                }}
-              >
-                <ButtonsDiv>
-                  <BaseIconDiv>
-                    <HiOutlineTrash size="20" />
-                  </BaseIconDiv>
-                  <DirTextDiv>휴지통</DirTextDiv>
-                </ButtonsDiv>
-                <ButtonsDiv>
-                  <PlanCountContainer>
-                    {trashPlans.trashPlanCount}
-                  </PlanCountContainer>
-                </ButtonsDiv>
-              </DirContainer>
-            }
+            <DirLayout
+              ck={currentDirId === 't' ? true : false}
+              onClick={() => {
+                setCurrentDir('t');
+                setCheckedPlans([]);
+              }}
+              ico={<HiOutlineTrash size="20" />}
+              title="휴지통"
+              pCount={trashPlans.trashPlanCount}
+            />
           </div>
         </>
       )}
