@@ -16,7 +16,6 @@ const DirContainer = styled.div`
 // 정렬용
 const AlignDiv = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
 `;
 // title

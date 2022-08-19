@@ -105,9 +105,13 @@ const MoreControl = ({
       setClickMore(false);
     }
   };
-  const ConfirmDel = (m, t) => {
+  const ConfirmDel = (m) => {
     if (window.confirm(m)) {
-      t === 1 ? deletePlan() : t === 0 ? postTrash() : userTrash();
+      currentDirId === 'm'
+        ? postTrash()
+        : currentDirId === 't'
+        ? deletePlan()
+        : userTrash();
       setIsShow(false);
       setClickMore(false);
     }
@@ -137,7 +141,6 @@ const MoreControl = ({
                     onClick={() => {
                       ConfirmDel(
                         '플랜을 삭제하시겠습니까? 복원은 휴지통에서 30일 이내로 가능합니다.',
-                        0,
                       );
                     }}
                   >
@@ -157,7 +160,9 @@ const MoreControl = ({
                 <PlanControlUl ref={moreRef}>
                   <PlanControlLi
                     onClick={() => {
-                      ConfirmDel('플랜을 영구 삭제하시겠습니까?', 1);
+                      ConfirmDel(
+                        '플랜을 영구 삭제하시겠습니까? 영구 삭제된 플랜은 복구할 수 없습니다.',
+                      );
                     }}
                   >
                     삭제
@@ -180,7 +185,6 @@ const MoreControl = ({
                     onClick={() => {
                       ConfirmDel(
                         '플랜을 삭제하시겠습니까? 플랜은 모든 여행에서 확인할 수 있습니다.',
-                        2,
                       );
                     }}
                   >

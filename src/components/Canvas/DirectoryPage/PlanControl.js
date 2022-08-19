@@ -75,9 +75,13 @@ const PlanControl = ({
   const onBlur = () => {
     setIsShow(false);
   };
-  const ConfirmText = (m, t) => {
+  const ConfirmText = (m) => {
     if (window.confirm(m)) {
-      t === 1 ? deletePlan() : t === 0 ? postTrash() : userTrash();
+      currentDirId === 'm'
+        ? postTrash()
+        : currentDirId === 't'
+        ? deletePlan()
+        : userTrash();
       setIsShow(false);
     }
   };
@@ -107,9 +111,13 @@ const PlanControl = ({
                       <PlanPopUp
                         key={item.userDirectoryId}
                         onClick={() => {
-                          postMovePlans(item.userDirectoryId);
-                          setIsShow(false);
-                          alert(`플랜이 ${item.directoryName}에 담겼습니다.`);
+                          checkedPlans && checkedPlans.length > 0
+                            ? postMovePlans(item.userDirectoryId) &&
+                              setIsShow(false) &&
+                              alert(
+                                `플랜이 ${item.directoryName}에 담겼습니다.`,
+                              )
+                            : alert(noPlans);
                         }}
                       >
                         <div
@@ -135,7 +143,6 @@ const PlanControl = ({
               checkedPlans && checkedPlans.length > 0
                 ? ConfirmText(
                     '플랜을 삭제하시겠습니까? 복원은 휴지통에서 30일 이내로 가능합니다.',
-                    0,
                   )
                 : alert(noPlans);
             }}
@@ -161,7 +168,9 @@ const PlanControl = ({
           <PlanBtn
             onClick={() => {
               checkedPlans && checkedPlans.length > 0
-                ? ConfirmText('플랜을 영구 삭제하시겠습니까?', 1)
+                ? ConfirmText(
+                    '플랜을 영구 삭제하시겠습니까? 영구 삭제된 플랜은 복구할 수 없습니다.',
+                  )
                 : alert(noPlans);
             }}
           >
@@ -176,7 +185,6 @@ const PlanControl = ({
               checkedPlans && checkedPlans.length > 0
                 ? ConfirmText(
                     '플랜을 삭제하시겠습니까? 플랜은 모든 여행에서 확인할 수 있습니다.',
-                    2,
                   )
                 : alert(noPlans);
             }}

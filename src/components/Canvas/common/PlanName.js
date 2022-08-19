@@ -29,7 +29,7 @@ const StyledInput = styled.input`
   border: none;
   font-weight: 400;
   font-size: 15px;
-  color: #868686;
+  color: #000000;
   padding: 15px;
   width: 200px;
   background: none;
@@ -105,7 +105,7 @@ const PlanName = ({ userPlan, id, setName, postPlan, Question }) => {
       <div style={{ display: 'flex', alignItems: 'center', marginTop: '15px' }}>
         <StyledInput
           type="text"
-          placeholder={'새 여행 보관함'}
+          placeholder={'새 여행 이름'}
           disabled={isDisabled}
           value={nameText}
           onChange={Naming}
