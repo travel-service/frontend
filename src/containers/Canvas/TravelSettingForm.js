@@ -6,11 +6,14 @@ import React, { useEffect } from 'react';
 import { useStore } from 'lib/zustand/planStore';
 import styled from 'styled-components';
 import { useLocation } from 'react-router-dom';
+import Question from 'lib/Icons/Question';
 
 const StyledDiv = styled.div`
   @media only screen and (min-width: 800px) {
     display: flex;
   }
+  font-family: 'Pretendard';
+  font-style: normal;
 `;
 const TravelSettingForm = () => {
   const { id, userPlan, conceptForm, Concepts } = useStore();
@@ -22,6 +25,8 @@ const TravelSettingForm = () => {
     setThumbnail,
     setName,
     getPlan,
+    initializePlanForm,
+    postPlan,
   } = useStore();
 
   const location = useLocation();
@@ -29,43 +34,53 @@ const TravelSettingForm = () => {
   useEffect(() => {
     if (location.state) {
       setId(location.state.planId);
-      //console.log('planId: ', location.state.planId);
+      id && getPlan(id);
     } else {
-      setId(null);
+      if (id === null) {
+        initializePlanForm();
+        setDepart(new Date());
+      } else {
+        id && getPlan(id);
+      }
     }
-  }, []);
+  }, [id]);
 
-  //리팩토링할 때 store 내 initial 함수로 바꾸기
   useEffect(() => {
-    // depart, periods, name, concept, thumbnail 초기화
-    if (id === null) {
-      setDepart(new Date());
-      setPeriods(1);
-      setName('');
-      setConcept([]);
-      setThumbnail('');
-    } else {
-      getPlan(id);
-    }
-  }, [id, getPlan]);
+    return () => {
+      userPlan.name !== '' && postPlan(0);
+    };
+  }, [userPlan.name]);
 
   return (
-    <div>
-      <PlanName userPlan={userPlan} setName={setName} />
-      <DateSetting
-        userPlan={userPlan}
-        setDepart={setDepart}
-        setPeriods={setPeriods}
-      />
-      <StyledDiv>
+    <StyledDiv>
+      <div>
+        <PlanName
+          userPlan={userPlan}
+          id={id}
+          setName={setName}
+          postPlan={postPlan}
+          Question={Question}
+        />
+        <DateSetting
+          userPlan={userPlan}
+          setDepart={setDepart}
+          setPeriods={setPeriods}
+          Question={Question}
+        />
         <ConceptSetting
           conceptForm={conceptForm}
           Concepts={Concepts}
           setConcept={setConcept}
+          Question={Question}
         />
-        <ImageSetting userPlan={userPlan} setThumbnail={setThumbnail} />
-      </StyledDiv>
-    </div>
+        <ImageSetting
+          userPlan={userPlan}
+          setThumbnail={setThumbnail}
+          Question={Question}
+        />
+      </div>
+      <div>{/*추천 플랜*/}</div>
+    </StyledDiv>
   );
 };
 

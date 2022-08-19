@@ -80,7 +80,6 @@ export const useStore = create(
           '/' +
           input.getDate().toString().padStart(2, '0');
         set((state) => ({ userPlan: { ...state.userPlan, depart: pD } }));
-        // return pD; // ?
       },
       setDestination: (input) => {
         set((state) => ({
@@ -148,8 +147,9 @@ export const useStore = create(
       // GET userPlan
       getPlan: async (id) => {
         const res = await planAPI.getPlan(id);
+        const con = await planAPI.getConcpet(id);
         set({ userPlan: res.planForm });
-        // set({ conceptForm: response.data.conceptForm });
+        set({ conceptForm: { concept: con.conceptForm } });
       },
 
       // GET day
@@ -217,8 +217,8 @@ export const useStore = create(
         }
       },
 
-      // POST plan (다음으로, 저장하기)
-      postPlan: async (idx) => {
+      // POST plan (다음으로, 저장하기), cP 플랜 생성 판단용
+      postPlan: async (idx, cP = false) => {
         // idx => 0: settingPage, 1: selectPage, 2: buildPage
         const userPlan = get().userPlan;
         const conceptForm = get().conceptForm;
@@ -226,10 +226,10 @@ export const useStore = create(
         const id = get().id;
 
         // 여행 설정 페이지
-        if (idx === 0 && !id) {
+        if (idx === 0 && cP) {
           // plan 생성
           const res = await planAPI.createPlan(userPlan);
-          if (res.planId) {
+          if (res && res.planId) {
             // 정상적 id 반환
             set({ id: res.planId });
           } else {
@@ -241,7 +241,7 @@ export const useStore = create(
           if (!userPlan.thumbnail) {
             userPlan.thumbnail = '';
           }
-          await planAPI.putPlan(id, userPlan);
+          await planAPI.postPlan(id, userPlan);
           await planAPI.postConcept(id, conceptForm);
         }
         // 블록 선택 페이지

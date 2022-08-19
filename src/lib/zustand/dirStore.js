@@ -13,6 +13,7 @@ export const dirStore = create((set, get) => ({
   changeDirName: '', // 변경할 디렉터리 이름
 
   setUserPlans: (input) => {
+    // 사용자 보관함 플랜 설정
     set({ userPlans: input });
   },
   setCurrentDir: (input) => {
@@ -28,26 +29,38 @@ export const dirStore = create((set, get) => ({
     set({ changeDirName: input });
   },
   setCreateUserDir: (input) => {
-    //사용자 디렉터리 생성
+    // 사용자 디렉터리 생성
     set({ createUserDir: input });
   },
 
   // main dir 플랜 불러오기
   getMainPlans: async () => {
     const res = await dirAPI.getAllPlans();
-    set({ mainPlans: res });
+    if (res.httpStatus === 200) {
+      set({ mainPlans: res });
+    } else {
+      console.log('에러 발생');
+    }
   },
   // user dir 목록 불러오기
   getUserDirs: async () => {
     const res = await dirAPI.getUserDirs();
-    set({ userDirs: res });
+    if (res.httpStatus === 200) {
+      set({ userDirs: res });
+    } else {
+      console.log('에러 발생');
+    }
   },
   // trash dir 플랜 불러오기
   getTrashPlans: async () => {
     const res = await dirAPI.getTrashPlans();
-    set({ trashPlans: res });
+    if (res.httpStatus === 200) {
+      set({ trashPlans: res });
+    } else {
+      console.log('에러 발생');
+    }
   },
-  // 플랜 삭제 (m->t)
+  // 모든 보관함 플랜 삭제
   postTrash: async () => {
     const checkedPlans = get().checkedPlans;
     if (checkedPlans.length > 0) {
@@ -57,23 +70,49 @@ export const dirStore = create((set, get) => ({
         //n개 이상의 플랜 복원 시 데이터 새로 불러오는 것이 낫다고 생각,,
         const t = await dirAPI.getTrashPlans();
         const m = await dirAPI.getAllPlans();
-        if (t.httpStatus === 200 && m.httpStatus === 200) {
+        const d = await dirAPI.getUserDirs();
+        if (
+          t.httpStatus === 200 &&
+          m.httpStatus === 200 &&
+          d.httpStatus === 200
+        ) {
           set({ currentDirId: 't' });
           set({ mainPlans: m });
           set({ trashPlans: t });
+          set({ userDirs: d });
         }
       }
     } else {
       alert('선택된 플랜이 없습니다.');
     }
   },
-  // 플랜 삭제 (u->m?)
+  // 사용자 보관함 플랜 삭제
+  userTrash: async () => {
+    const checkedPlans = get().checkedPlans;
+    const currentDirId = get().currentDirId;
+    if (checkedPlans.length > 0) {
+      const res = await dirAPI.userTrash(checkedPlans, currentDirId);
+      console.log(res);
+      if (res.httpStatus === 204) {
+        set({ checkedPlans: [] });
+        //n개 이상의 플랜 복원 시 데이터 새로 불러오는 것이 낫다고 생각,,
+        const m = await dirAPI.getAllPlans();
+        const d = await dirAPI.getUserDirs();
+        if (m.httpStatus === 200 && d.httpStatus === 200) {
+          set({ currentDirId: currentDirId });
+          set({ mainPlans: m });
+          set({ userDirs: d });
+        }
+      }
+    } else {
+      alert('선택된 플랜이 없습니다.');
+    }
+  },
   // 플랜 담기
   postMovePlans: async (dirId) => {
     const checkedPlans = get().checkedPlans;
     if (checkedPlans.length > 0) {
       const res = await dirAPI.movePlan(checkedPlans, dirId);
-
       if (res.httpStatus === 201) {
         set({ checkedPlans: [] });
         const m = await dirAPI.getAllPlans();
@@ -93,16 +132,20 @@ export const dirStore = create((set, get) => ({
     const checkedPlans = get().checkedPlans;
     if (checkedPlans.length > 0) {
       const res = await dirAPI.postRevert(checkedPlans);
-
       if (res.httpStatus === 201) {
         set({ checkedPlans: [] });
-
         const t = await dirAPI.getTrashPlans();
         const m = await dirAPI.getAllPlans();
-        if (t.httpStatus === 200 && m.httpStatus === 200) {
+        const d = await dirAPI.getUserDirs();
+        if (
+          t.httpStatus === 200 &&
+          m.httpStatus === 200 &&
+          d.httpStatus === 200
+        ) {
           set({ currentDirId: 'm' });
           set({ trashPlans: t });
           set({ mainPlans: m });
+          set({ userDirs: d });
         }
       }
     } else {
@@ -114,10 +157,8 @@ export const dirStore = create((set, get) => ({
     const checkedPlans = get().checkedPlans;
     if (checkedPlans.length > 0) {
       const res = await dirAPI.deletePlan(checkedPlans);
-
       if (res.httpStatus === 204) {
         set({ checkedPlans: [] });
-
         const t = await dirAPI.getTrashPlans();
         if (t.httpStatus === 200) {
           set({ currentDirId: 't' });
@@ -132,7 +173,6 @@ export const dirStore = create((set, get) => ({
   postCreateDir: async () => {
     const createUserDir = get().createUserDir;
     const res = await dirAPI.createDir(createUserDir);
-
     if (res.httpStatus === 201) {
       set((state) => ({
         userDirs: {
@@ -160,7 +200,6 @@ export const dirStore = create((set, get) => ({
     const dirInd = userDirs.mainUserDirectory.findIndex(
       (e) => e.userDirectoryId === currentDirId,
     );
-
     if (res.httpStatus === 204) {
       set({ currentDirId: 'm' });
       set((state) => ({
@@ -187,7 +226,6 @@ export const dirStore = create((set, get) => ({
     const dirInd = userDirs.mainUserDirectory.findIndex(
       (e) => e.userDirectoryId === currentDirId,
     );
-
     userDirs.mainUserDirectory[dirInd].directoryName = changeDirName;
     if (res.httpStatus === 201) {
       userDirs.mainUserDirectory[dirInd].directoryName = changeDirName;

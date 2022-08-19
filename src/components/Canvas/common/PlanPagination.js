@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Pagination from 'react-js-pagination';
+import EmptyArrow from 'lib/Icons/EmptyArrow';
 
 const PaginationBox = styled.div`
   .pagination {
@@ -27,6 +28,8 @@ const PaginationBox = styled.div`
   }
 
   ul.pagination li a {
+    display: flex;
+    align-items: center;
     text-decoration: none;
     color: #b2b5ba;
   }
@@ -58,12 +61,8 @@ const PlanPagination = ({ total, page, setPage, itemCount, pageRange }) => {
         onChange={setPage}
         itemsCountPerPage={itemCount}
         pageRangeDisplayed={pageRange}
-        prevPageText={
-          <img src={process.env.PUBLIC_URL + '/images/left_arrow_ico.png'} />
-        }
-        nextPageText={
-          <img src={process.env.PUBLIC_URL + '/images/right_arrow_ico.png'} />
-        }
+        prevPageText={<EmptyArrow size="20" dir="true" />}
+        nextPageText={<EmptyArrow size="20" dir="false" />}
         hideFirstLastPages={true}
       ></Pagination>
     </PaginationBox>

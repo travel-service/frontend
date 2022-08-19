@@ -1,43 +1,53 @@
 import React from 'react';
 import ReactTooltip from 'react-tooltip';
 import styled from 'styled-components';
+import CustomCheckbox from 'lib/custom/CustomCheckbox';
 
-const TitleSpan = styled.span`
-  font-size: 1.2em;
-`;
 const ConceptSettingDiv = styled.div`
-  margin-top: 10px;
-  margin-left: 30px;
-  width: 40%;
-  height: 180px;
+  width: 600px;
+  font-family: 'Pretendard';
+  font-style: normal;
   @media only screen and (max-width: 800px) {
     width: 80%;
     height: 100px;
   }
 `;
+const TitleSpan = styled.span`
+  font-weight: 600;
+  font-size: 15px;
+  width: 100px;
+  height: 20px;
+`;
 const TooltipButton = styled.button`
   margin-left: 10px;
-  border: 1px solid gray;
+  background: none;
+  height: 12px;
+  width: 12px;
+  border: none;
   cursor: pointer;
-  border-radius: 100%;
-  font-size: 1.2em;
-  :hover {
-    background: lightgray;
-  }
 `;
 const CheckboxDiv = styled.div`
   display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-  margin-left: 20px;
-  font-weight: bold;
+  flex-flow: row wrap;
+  gap: 20px;
+  align-items: center;
+  margin-top: 15px;
 `;
 const ElementDiv = styled.li`
   list-style: none;
-  width: 20%;
+  display: flex;
+  align-items: center;
+  font-weight: 400;
+  font-size: 13px;
+  color: #000000;
 `;
 
-export const ConceptSetting = ({ conceptForm, Concepts, setConcept }) => {
+export const ConceptSetting = ({
+  conceptForm,
+  Concepts,
+  setConcept,
+  Question,
+}) => {
   const onClickConcept = (checked, word) => {
     if (checked) {
       setConcept([...conceptForm.concept, word]);
@@ -50,7 +60,7 @@ export const ConceptSetting = ({ conceptForm, Concepts, setConcept }) => {
     <ConceptSettingDiv>
       <TitleSpan>2. 여행 컨셉 </TitleSpan>
       <TooltipButton data-tip data-for="conceptsetting">
-        ?
+        <Question size="14" />
       </TooltipButton>
       <ReactTooltip
         id="conceptsetting"
@@ -64,8 +74,7 @@ export const ConceptSetting = ({ conceptForm, Concepts, setConcept }) => {
         {Concepts.map((item, id) => {
           return (
             <ElementDiv key={id}>
-              <input
-                type="checkbox"
+              <CustomCheckbox
                 onChange={(e) => {
                   onClickConcept(e.target.checked, `${item.eword}`);
                 }}
@@ -75,7 +84,7 @@ export const ConceptSetting = ({ conceptForm, Concepts, setConcept }) => {
                     ? true
                     : false
                 }
-              />{' '}
+              />
               {item.name}
             </ElementDiv>
           );

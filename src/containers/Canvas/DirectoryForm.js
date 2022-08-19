@@ -26,7 +26,7 @@ const DirectoryForm = () => {
     userState: user.userState,
   }));
 
-  const { setId } = useStore();
+  const { initializePlanForm } = useStore();
   const {
     mainPlans,
     trashPlans,
@@ -53,10 +53,11 @@ const DirectoryForm = () => {
     postMovePlans,
     postRevert,
     deletePlan,
+    userTrash,
   } = dirStore();
 
   useEffect(() => {
-    setId(null); //merge 할 때 initial로 바꾸기
+    initializePlanForm();
     setCurrentDir('m');
     setCheckedPlans([]);
     setDirName('');
@@ -67,22 +68,7 @@ const DirectoryForm = () => {
       getUserDirs();
       getTrashPlans();
     }
-  }, [setId, getMainPlans, getTrashPlans, userState]);
-
-  /*useEffect(() => {
-    if (mainPlans.mainDirectory && userDirs.mainUserDirectory) {
-      const i = mainPlans.mainDirectory.filter((p) => {
-        userDirs.mainUserDirectory.map(
-          (i) => {
-            p.userDirectoryId.filter(
-              (c) => c.userDirectoryId === i.userDirectoryId,
-            );
-          },
-        );
-      });
-    }
-    //console.log(userPlans);
-  }, [mainPlans, userDirs]);*/
+  }, [getMainPlans, getTrashPlans, userState]);
 
   return (
     <PageTemplate>
@@ -117,6 +103,7 @@ const DirectoryForm = () => {
           getTrashPlans={getTrashPlans}
           postRevert={postRevert}
           deletePlan={deletePlan}
+          userTrash={userTrash}
         />
       </DirContainer>
     </PageTemplate>

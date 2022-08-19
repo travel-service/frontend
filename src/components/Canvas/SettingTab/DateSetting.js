@@ -5,39 +5,69 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import styled from 'styled-components';
 
+const DateSettingDiv = styled.div`
+  margin-top: 25px;
+  margin-bottom: 25px;
+  width: 600px;
+  font-family: 'Pretendard';
+  font-style: normal;
+`;
 const TitleSpan = styled.span`
-  font-size: 1.2em;
+  font-weight: 600;
+  font-size: 15px;
+  width: 100px;
+  height: 20px;
 `;
 const TooltipButton = styled.button`
   margin-left: 10px;
-  border: 1px solid gray;
-  border-radius: 100%;
+  background: none;
+  height: 12px;
+  width: 12px;
+  border: none;
   cursor: pointer;
-  font-size: 1.2em;
-  :hover {
-    background: lightgray;
+`;
+const StyledDp = styled(DatePicker)`
+  border: none;
+  border-radius: 5px;
+  padding: 15px;
+  width: 200px;
+  height: 46px;
+  font-weight: 400;
+  font-size: 13px;
+  background: #ededef url('../images/calendar_ico.png') no-repeat 93% 50%/15px
+    auto;
+  :focus {
+    outline: none;
   }
 `;
-const DateSettingDiv = styled.div`
-  margin-top: 10px;
-  margin-left: 30px;
-  height: 100px;
-  width: 95%;
+const PeriodD = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 46px;
+  background: #ffffff;
+  border: 1px solid #fc6b6b;
+  border-radius: 30px;
+  padding: 15px;
+  font-weight: 400;
+  font-size: 13px;
+  color: #f75d5d;
 `;
 const Datediv = styled.div`
-  font-weight: bold;
+  margin-top: 15px;
   display: flex;
+  gap: 10px;
   flex-flow: row wrap;
   align-items: center;
-  justify-content: space-between;
-  padding: 20px;
-  width: 70%;
+  width: 600px;
+  font-weight: 400;
+  font-size: 13px;
   @media only screen and (max-width: 768px) {
     width: 100%;
   }
 `;
 
-export const DateSetting = ({ userPlan, setDepart, setPeriods }) => {
+export const DateSetting = ({ userPlan, setDepart, setPeriods, Question }) => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
@@ -77,7 +107,7 @@ export const DateSetting = ({ userPlan, setDepart, setPeriods }) => {
     <DateSettingDiv>
       <TitleSpan>1. 여행 일자 설정 </TitleSpan>
       <TooltipButton data-tip data-for="datesetting">
-        ?
+        <Question size="14" />
       </TooltipButton>
       <ReactTooltip id="datesetting" place="right" type="info" effect="solid">
         <div>
@@ -87,9 +117,8 @@ export const DateSetting = ({ userPlan, setDepart, setPeriods }) => {
         </div>
       </ReactTooltip>
       <Datediv>
-        <span>출발일 </span>
         <span>
-          <DatePicker
+          <StyledDp
             dateFormat="yyyy/MM/dd"
             showPopperArrow={false}
             selected={startDate}
@@ -98,11 +127,14 @@ export const DateSetting = ({ userPlan, setDepart, setPeriods }) => {
             startDate={startDate}
             endDate={endDate}
             minDate={addDays(endDate, -30)}
+            onKeyDown={(e) => {
+              e.preventDefault();
+            }}
           />
         </span>
-        <span>도착일 </span>
+        <span>~</span>
         <span>
-          <DatePicker
+          <StyledDp
             dateFormat="yyyy/MM/dd"
             showPopperArrow={false}
             selected={endDate}
@@ -112,11 +144,14 @@ export const DateSetting = ({ userPlan, setDepart, setPeriods }) => {
             endDate={endDate}
             minDate={startDate}
             maxDate={addDays(startDate, 30)}
+            onKeyDown={(e) => {
+              e.preventDefault();
+            }}
           />
         </span>
-        <div>
+        <PeriodD>
           {userPlan.periods - 1}박 {userPlan.periods}일
-        </div>
+        </PeriodD>
       </Datediv>
     </DateSettingDiv>
   );

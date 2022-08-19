@@ -1,66 +1,70 @@
 import React, { useState } from 'react';
 import ReactTooltip from 'react-tooltip';
 import styled from 'styled-components';
-import Close from 'lib/Icons/Close';
+import { AiOutlinePicture } from 'react-icons/ai';
 
-const TitleSpan = styled.span`
-  font-size: 1.2em;
-`;
 const ThumbnailSettingDiv = styled.div`
-  margin-left: 30px;
-  @media only screen and (min-width: 800px) {
-    margin-left: 10%;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    height: 180px;
-  }
+  margin-top: 25px;
+  margin-bottom: 25px;
+  font-family: 'Pretendard';
+  font-style: normal;
+  // @media only screen and (min-width: 800px) {
+  //   margin-left: 10%;
+  //   margin-top: 10px;
+  //   margin-bottom: 10px;
+  //   height: 180px;
+  // }
+`;
+const TitleSpan = styled.span`
+  font-weight: 600;
+  font-size: 15px;
+  width: 100px;
+  height: 20px;
 `;
 const TooltipButton = styled.button`
-  margin: 0;
   margin-left: 10px;
-  border: 1px solid gray;
+  background: none;
+  height: 12px;
+  width: 12px;
+  border: none;
   cursor: pointer;
-  border-radius: 100%;
-  font-size: 1.2em;
-  :hover {
-    background: lightgray;
-  }
 `;
 const ThumbnailboxDiv = styled.div`
   display: flex;
   align-items: flex-end;
-  height: 130px;
-  margin: 20px;
+  margin-top: 15px;
+  height: 150px;
 `;
 const PreviewboxDiv = styled.div`
+  display: flex;
   align-items: center;
-  ${({ uploading }) => {
-    return uploading
-      ? `width: 100px;
-      margin-left: 5%;`
-      : `width: 173px;
-    height: 130px;
-    text-align: center;
-    background: rgba(0, 0, 0, 0.5);
-    color: white;`;
-  }};
+  justify-content: center;
+  background: #e5e7e8;
+  border-radius: 10px;
+  width: 216px;
+  height: 150px;
+  margin-right: 10px;
 `;
 const StyledFile = styled.label`
-  border: 1px solid lightgray;
+  //height: 46px;
+  margin: 0;
+  padding: 15px 25px 15px 25px;
+  margin-right: 10px;
+  background: #ffffff;
+  border: 1px solid #e5e7e8;
   border-radius: 5px;
-  background: white;
-  padding-right: 7%;
-  padding-left: 7%;
-  padding-top: 2%;
-  padding-bottom: 2%;
   cursor: pointer;
+  font-weight: 400;
+  font-size: 13px;
+  color: #000000;
+  text-align: center;
   :hover {
-    background: lightgray;
-    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+    background: #000000;
+    color: #ffffff;
   }
 `;
 
-export const ImageSetting = ({ userPlan, setThumbnail }) => {
+export const ImageSetting = ({ userPlan, setThumbnail, Question }) => {
   const [imgData, setImgData] = useState(null);
 
   const insertImg = (e) => {
@@ -105,14 +109,14 @@ export const ImageSetting = ({ userPlan, setThumbnail }) => {
   };*/
   const deleteImg = () => {
     setImgData(null);
-    setThumbnail([]);
+    setThumbnail('');
   };
 
   return (
     <ThumbnailSettingDiv>
-      <TitleSpan>3. 썸네일 등록 </TitleSpan>
+      <TitleSpan>3. 커버 사진 </TitleSpan>
       <TooltipButton data-tip data-for="thumbnailsetting">
-        ?
+        <Question size="14" />
       </TooltipButton>
       <ReactTooltip
         id="thumbnailsetting"
@@ -124,27 +128,39 @@ export const ImageSetting = ({ userPlan, setThumbnail }) => {
       </ReactTooltip>
       <ThumbnailboxDiv>
         <PreviewboxDiv uploading={false}>
-          <img
-            src={
-              imgData ? imgData : userPlan.thumbnail ? userPlan.thumbnail : null
-            }
-            alt="이미지 미리보기"
-            height="130"
-          />
-        </PreviewboxDiv>
-        <PreviewboxDiv uploading={true}>
-          <form encType="multipart/form-data">
-            <StyledFile htmlFor="input-file">파일 선택</StyledFile>
-            <input
-              type="file"
-              id="input-file"
-              accept="image/*"
-              onChange={(e) => insertImg(e)}
-              style={{ display: 'none' }}
+          {imgData ? (
+            <img
+              src={userPlan.thumbnail ? userPlan.thumbnail : imgData}
+              alt="미리보기"
+              height="130"
             />
-          </form>
+          ) : (
+            <AiOutlinePicture size="30" />
+          )}
         </PreviewboxDiv>
-        <Close size="20" onClick={() => deleteImg()} />
+        <form encType="multipart/form-data" style={{ height: '35px' }}>
+          {userPlan.thumbnail ? (
+            <>
+              <StyledFile htmlFor="delete-file">파일 삭제</StyledFile>
+              <button
+                id="delete-file"
+                onClick={() => deleteImg()}
+                style={{ display: 'none' }}
+              />
+            </>
+          ) : (
+            <>
+              <StyledFile htmlFor="input-file">파일 찾기</StyledFile>
+              <input
+                type="file"
+                id="input-file"
+                accept="image/*"
+                onChange={(e) => insertImg(e)}
+                style={{ display: 'none' }}
+              />
+            </>
+          )}
+        </form>
       </ThumbnailboxDiv>
     </ThumbnailSettingDiv>
   );

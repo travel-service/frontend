@@ -47,6 +47,7 @@ const Menu = styled.div`
 const HoverProfile = styled.div`
   display: none;
   position: absolute;
+  z-index: 1;
   background-color: ${palette.back1};
   top: 60px;
   border-radius: 10px;
