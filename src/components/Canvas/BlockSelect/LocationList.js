@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import palette from '../../../lib/styles/palette';
-import Modal from '../../modal/modal';
+import ModalModule from 'components/common/modal/ModalModule';
 import { useStore, sysLocStore } from '../../../lib/zustand/planStore';
 import BlockInfo from '../BlockInfo/BlockInfo';
 
@@ -37,9 +37,9 @@ const Img = styled.img`
 const Blocks = styled.div`
   display: flex;
   flex-wrap: wrap;
-`
+`;
 
-function Location ({location}) {
+function Location({ location }) {
   const [modalOpen, setModalOpen] = useState(false);
 
   const OpenModal = () => {
@@ -51,15 +51,16 @@ function Location ({location}) {
   };
 
   const { onAdd, remove } = useStore();
-
   const { setLatLng } = sysLocStore();
 
   return (
     <Block>
-      <div onClick={ () => {
-        OpenModal()
-        setLatLng(location.id)
-      }}>
+      <div
+        onClick={() => {
+          OpenModal();
+          setLatLng(location.locationId, location.type.type);
+        }}
+      >
         <Img src={location.image} alt="img" />
         <BlockDiv>
           {location.name}
@@ -67,38 +68,39 @@ function Location ({location}) {
           {location.address}
         </BlockDiv>
       </div>
-      <BButton 
+      <BButton
         onClick={() => {
           if (location.isSelect === false) {
-            onAdd(location, location.type.type)
-            location.isSelect = true
+            onAdd(location, location.type.type);
+            location.isSelect = true;
+          } else {
+            remove(location.locationId, location.type.type);
+            location.isSelect = false;
           }
-          else {
-            remove(location.id, location.type.type);
-            location.isSelect = false
-          }
-          //console.log(location)
-        } 
-      }>{location.isSelect ? '취소' : '선택'}</BButton>
-      <Modal open={modalOpen} close={closeModal} header={location.name}>
-        <BlockInfo type={location.type.type} id={location.id}/>
-      </Modal>
+        }}
+      >
+        {location.isSelect ? '취소' : '선택'}
+      </BButton>
+      <ModalModule
+        modalIsOpen={modalOpen}
+        closeModal={closeModal}
+        header={location.name}
+      >
+        <BlockInfo type={location.type.type} id={location.locationId} />
+      </ModalModule>
     </Block>
   );
 }
 
 function LocationList({ locations, search }) {
-  // console.log(locations);
-  var arr = locations.filter(val => (val.name.includes(search)));
+  var arr = locations.filter((val) => val.name.includes(search));
   return (
     <Blocks>
-      {arr.map(location => (
-        <Location location={location} key={location.id} />
+      {arr.map((location) => (
+        <Location location={location} key={location.locationId} />
       ))}
     </Blocks>
   );
 }
 
 export default LocationList;
-
-

@@ -1,6 +1,8 @@
-import axios from 'axios';
 import create from 'zustand';
 import * as planAPI from 'lib/api/plan';
+import * as locationAPI from 'lib/api/location';
+import { persist } from 'zustand/middleware';
+import { memLocStore } from './memberLocStore';
 
 export const useStore = create((set, get) => ({
   id: null,
@@ -79,94 +81,43 @@ export const useStore = create((set, get) => ({
   selCateLoc: {
     // 객체가 담기는 배열을 담는 객체
     // 담은 location => 분류
-    selAttraction: [],
-    selCulture: [],
-    selFestival: [],
-    selLeports: [],
-    selLodge: [],
-    selRestaurant: [],
+    Attraction: [],
+    Culture: [],
+    Festival: [],
+    Leports: [],
+    Lodge: [],
+    Restaurant: [],
   },
 
   category: {
-    1: { eng: 'Attraction', kor: '관광지' },
-    2: { eng: 'Culture', kor: '문화시설' },
-    3: { eng: 'Festival', kor: '축제' },
-    4: { eng: 'Leports', kor: '레포츠' },
-    5: { eng: 'Lodge', kor: '숙박 시설' },
-    6: { eng: 'Restaurant', kor: '음식점' },
+    Attraction: '관광지',
+    Culture: '문화시설',
+    Festival: '축제',
+    Leports: '레포츠',
+    Lodge: '숙박시설',
+    Restaurant: '음식점',
   },
 
-  //selCateLoc배열에 해당 블록을 추가하는 함수
   onAdd: (loc, type) => {
-    console.log(loc);
-    console.log(type);
-    switch (type) {
-      case 0:
-         set(state => ({ selCateLoc: {
-          ...state.selCateLoc,
-          selAttraction: [...state.selCateLoc.selAttraction, loc]
-         }}));
-        //  set(state => ({ }));
-        break;
-      case 1:
-        set(state => ({ selCateLoc: {
-          ...state.selCateLoc,
-          selCulture: [...state.selCateLoc.selCulture, loc]
-         }}));
-        break;
-      case 2:
-        set(state => ({ selCateLoc: {
-          ...state.selCateLoc,
-          selFestival: [...state.selCateLoc.selFestival, loc]
-         }}));
-        break;
-      case 3:
-        set(state => ({ selCateLoc: {
-          ...state.selCateLoc,
-          selLeports: [...state.selCateLoc.selLeports, loc]
-         }}));
-        break;
-      case 4:
-        console.log(loc);
-        set(state => ({ selCateLoc: {
-          ...state.selCateLoc,
-          selLodge: [...state.selCateLoc.selLodge, loc]
-         }}));
-        break;
-      case 5:
-        console.log(loc);
-        set(state => ({ selCateLoc: {
-          ...state.selCateLoc,
-          selRestaurant: [...state.selCateLoc.selRestaurant, loc]
-         }}));
-        break;
-      default:
-    }
+    set((state) => ({
+      selCateLoc: {
+        ...state.selCateLoc,
+        [type]: [...state.selCateLoc[type], loc],
+      },
+    }));
   },
 
-  //selCateLoc 배열에 있는 로케이션 블록을 삭제하는 함수
+  //remove: (locId) => set(state => ({ selLoc: state.selLoc.filter(loc => loc.id !== locId)})),
   remove: (locId, type) => {
-    switch (type) {
-      case 0:
-        set(state => ({ selCateLoc: {...state.selCateLoc, selAttraction: state.selCateLoc.selAttraction.filter(loc => loc.id !== locId)}}));
-        break;
-      case 1:
-        set(state => ({ selCateLoc: {...state.selCateLoc, selCulture: state.selCateLoc.selCulture.filter(loc => loc.id !== locId)}}));
-        break;
-      case 2:
-        set(state => ({ selCateLoc: {...state.selCateLoc, selFestival: state.selCateLoc.selFestival.filter(loc => loc.id !== locId)}}));
-        break;
-      case 3:
-        set(state => ({ selCateLoc: {...state.selCateLoc, selLeports: state.selCateLoc.selLeports.filter(loc => loc.id !== locId)}}));
-        break;
-      case 4:
-        set(state => ({ selCateLoc: {...state.selCateLoc, selLodge: state.selCateLoc.selLodge.filter(loc => loc.id !== locId)}}));
-        break;
-      case 5:
-        set(state => ({ selCateLoc: {...state.selCateLoc, selRestaurant: state.selCateLoc.selRestaurant.filter(loc => loc.id !== locId)}}));
-        break;
-      default:
-    }
+    let tmpSelTypeArr = get().selCateLoc[type].filter((obj) => {
+      return obj.locationId !== locId;
+    });
+    set((state) => ({
+      selCateLoc: {
+        ...state.selCateLoc,
+        [type]: tmpSelTypeArr,
+      },
+    }));
   },
 
   // 다음으로 누를 때 백으로 전송(Canvas 페이지에서)
@@ -265,7 +216,7 @@ export const sysLocStore = create((set, get) => ({
     Restaurant: [],
   },
   sysCateLocCoords: {
-    CoordsList: [],
+    // CoordsList: [],
   },
   flag: false,
   lat: 33.280701,
@@ -273,83 +224,59 @@ export const sysLocStore = create((set, get) => ({
 
   getSysLoc: async () => {
     if (get().flag === false) {
-      const response = await axios.get('http://localhost:4000/locations_v2');
-      let att = [];
-      let cul = [];
-      let fes = [];
-      let lepo = [];
-      let lod = [];
-      let rest = [];
-      for (let x of response.data["Attraction"]) {
-        x.isSelect = false;
-        att.push(x);
+      const response = await locationAPI.getBlockLocations();
+
+      if (response.status === 200) {
+        // 받아온 key값으로 배열 생성
+        const typesArr = Object.keys(response.data);
+
+        // 배열의 값인 type으로 sysCateLoc 상태 업데이트
+        typesArr.forEach((type) => {
+          let tmp = [];
+          for (let x of response.data[type]) {
+            x.isSelect = false;
+            tmp.push(x);
+          }
+          set((state) => ({
+            sysCateLoc: {
+              ...state.sysCateLoc,
+              [type]: tmp,
+            },
+          }));
+        });
       }
-      for (let x of response.data["Culture"]) {
-        x.isSelect = false;
-        cul.push(x);
-      }
-      for (let x of response.data["Festival"]) {
-        x.isSelect = false;
-        fes.push(x);
-      }
-      for (let x of response.data["Leports"]) {
-        x.isSelect = false;
-        lepo.push(x);
-      }
-      for (let x of response.data["Lodge"]) {
-        x.isSelect = false;
-        lod.push(x);
-      }
-      for (let x of response.data["Restaurant"]) {
-        x.isSelect = false;
-        rest.push(x);
-      }
-      set({
-        sysCateLoc: {
-          Attraction: att,
-          Culture: cul,
-          Festival: fes,
-          Leports: lepo,
-          Lodge: lod,
-          Restaurant: rest,
-        },
-      });
-      set({flag: true})
+      set({ flag: true });
     }
   },
 
   getSysLocCoords: async () => {
-    const response = await axios.get('http://localhost:4000/locations_mark');
-    let att = [];
-    // let cul = [];
-    // let fes = [];
-    // let lepo = [];
-    // let lod = [];
-    // let rest = [];
-    for (let x of response.data["Attraction"]) {
-      x.isSelect = false;
-      att.push(x);
+    const response = await locationAPI.getMarkLocations();
+
+    if (response.status === 200) {
+      // 받아온 key값으로 배열 생성
+      const typesArr = Object.keys(response.data);
+
+      // 배열의 값인 type으로 sysCateLocCoords 상태 업데이트
+      typesArr.forEach((type) => {
+        let tmp = [];
+        for (let x of response.data[type]) {
+          x.isSelect = false;
+          tmp.push(x);
+        }
+        set((state) => ({
+          sysCateLocCoords: {
+            ...state.sysCateLocCoords,
+            [type]: tmp,
+          },
+        }));
+      });
     }
-    // for (let x of response.data["Festival"]) {
-    //   x.isSelect = false;
-    //   fes.push(x);
-    // }
-    set({
-      sysCateLocCoords: {
-        CoordsList: att,
-        // Culture: cul,
-        // Festival: fes,
-        // Leports: lepo,
-        // Lodge: lod,
-        // Restaurant: rest,
-      },
-    });
   },
 
-  setLatLng: (id) => {
-    const coordsList = get().sysCateLocCoords.CoordsList
-    const found = coordsList.find(loc => loc.id === id)
-    set({lat: found.coords.latitude})
-    set({lng: found.coords.longitude})
-  }
+  setLatLng: (id, type) => {
+    const coordsList = get().sysCateLocCoords[type];
+    const found = coordsList.find((loc) => loc.locationId === id);
+    set({ lat: found.coords.latitude });
+    set({ lng: found.coords.longitude });
+  },
 }));
