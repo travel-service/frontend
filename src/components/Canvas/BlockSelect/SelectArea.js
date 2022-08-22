@@ -7,34 +7,35 @@ import Map from 'containers/Canvas/MapContainer';
 
 const ContentsArea = styled.div`
   overflow: auto;
-  background-color: skyblue;
+  position: static;
 `;
 
 const FilterArea = styled.div`
-  background-color: lemonchiffon;
 `;
 
 const WhiteBox = styled.div`
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.025);
-  padding: 2em;
-  margin: 2em;
-  background: white;
-  border-radius: 8px;
-  width: 93%;
-  height: 536px;
+  padding: 3px;
+  background: #E5E7E8;
+  border: 1px solid #E5E7E8;
+  border-radius: 10px;
   overflow-y: scroll;
+  height: 450px;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const BlockListArea = styled.div`
-  width: 50%;
+  width: 57.5%;
   float: left;
-  background-color: #e0ffdb;
+  padding-right: 25px;
 `;
 
 const MapArea = styled.div`
-  width: 50%;
-  float: left;
-  background-color: brown;
+  width: 42.5%;
+  float: right;
+  padding-left: 25px;
 `;
 
 const SelectArea = ({ location, selLocs, coords }) => {
@@ -62,17 +63,17 @@ const SelectArea = ({ location, selLocs, coords }) => {
 
   return (
     <ContentsArea>
-      <FilterArea>
-        <TypeFilter />
-        <input
-          type="text"
-          placeholder="블록 검색"
-          onChange={(e) => {
-            setSearch(e.target.value);
-          }}
-        />
-      </FilterArea>
       <BlockListArea>
+        <FilterArea>
+          <TypeFilter />
+          <input
+            type="text"
+            placeholder="블록 검색"
+            onChange={(e) => {
+              setSearch(e.target.value);
+            }}
+          />
+        </FilterArea>
         <WhiteBox>
           {(attIsCheck === true || noneCheck === true) &&
             selectedOnly === false && (

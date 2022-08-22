@@ -1,43 +1,70 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import palette from '../../../lib/styles/palette';
 import ModalModule from 'components/common/modal/ModalModule';
 import { useStore, sysLocStore } from '../../../lib/zustand/planStore';
 import BlockInfo from '../BlockInfo/BlockInfo';
 
-const BButton = styled.button`
-  padding: 6px 12px;
-  color: white;
-  font-size: 10px;
-  border: none;
-  border-radius: 4px;
-  background-color: #74b9ff;
+const InfoButton = styled.button`
+  width: 100px;
+  height: 26px;
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  text-align: center;
   z-index: 0;
+  background: #FFFFFF;
+  border: 1px solid #E5E7E8;
+  border-radius: 5px;
 `;
 
 const Block = styled.li`
   list-style: none;
-  margin: 15px;
-  background-color: ${palette.gray[0]};
-  box-shadow: 3px 3px 3px 3px ${palette.gray[5]};
-  padding: 2%;
-  width: 33%;
+  margin: 13px;
+  border: 1px solid #E5E7E8;
+  border-radius: 10px;
+  background: #FFFFFF;
+  padding: 12px;
+  width: 252px;
+  height: 134px;
+  display: flex;
 `;
 
 const BlockDiv = styled.div`
   margin-left: 5px;
   font-weight: bold;
+  p1 {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 13px;
+    line-height: 16px;
+  }
+  address {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 9px;
+    line-height: 11px;
+    color: #7E7E7E;
+  }
 `;
 
 const Img = styled.img`
-  width: 95%;
-  height: 90%;
+  width: 110px;
+  height: 110px;
+  border-radius: 10px;
 `;
 
 const Blocks = styled.div`
   display: flex;
   flex-wrap: wrap;
 `;
+
+const TextArea = styled.div`
+  padding-left: 18px;
+`
 
 function Location({ location }) {
   const [modalOpen, setModalOpen] = useState(false);
@@ -53,7 +80,6 @@ function Location({ location }) {
 
   const { onAdd, remove } = useStore();
   const { setLatLng } = sysLocStore();
-
   return (
     <Block>
       <div
@@ -63,25 +89,36 @@ function Location({ location }) {
         }}
       >
         <Img src={location.image} alt="img" />
-        <BlockDiv>
-          {location.name}
-          <br />
-          {location.address}
-        </BlockDiv>
       </div>
-      <BButton
-        onClick={() => {
-          if (location.isSelect === false) {
-            onAdd(location, location.type.type);
-            location.isSelect = true;
-          } else {
-            remove(location.locationId, location.type.type);
-            location.isSelect = false;
-          }
-        }}
-      >
-        {location.isSelect ? '취소' : '선택'}
-      </BButton>
+      <TextArea>
+        <BlockDiv
+          onClick={() => {
+            OpenModal();
+            setLatLng(location.locationId, location.type.type);
+          }}
+        >
+          <p1>
+            {location.name}
+          </p1>
+          <address>
+            {location.address1}
+          </address>
+        </BlockDiv>
+        <InfoButton
+          onClick={() => {
+            if (location.isSelect === false) {
+              onAdd(location, location.type.type);
+              location.isSelect = true;
+            } else {
+              remove(location.locationId, location.type.type);
+              location.isSelect = false;
+            }
+          }}
+        >
+          {location.isSelect ? '취소' : '선택'}
+        </InfoButton>
+      </TextArea>
+
       <ModalModule
         modalIsOpen={modalOpen}
         closeModal={closeModal}

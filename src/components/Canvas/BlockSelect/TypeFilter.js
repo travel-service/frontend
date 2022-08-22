@@ -3,13 +3,21 @@ import styled from 'styled-components';
 import { filterStore } from 'lib/filterStore';
 
 const TypeSelect = styled.div`
-  /* padding: 0.5em ; */
   padding-top: 0.5rem;
-  background-color: lemonchiffon;
-  text-align: center;
   p1 {
-    display: inline;
-    padding: 0.5em;
+    padding-left: 20px;
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 16px;
+  }
+  p2 {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 18px;
   }
 `
 
@@ -21,6 +29,7 @@ function TypeFilter() {
 
   return (
       <TypeSelect>
+        <p2>블록 탐색</p2>
         <p1>
           <input 
             type="checkbox"

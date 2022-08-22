@@ -90,7 +90,7 @@ const MapContainer = ({ coords }) => {
 
         //마커 생성 함수
         function setMarker() {
-          if (position.type === 0) {
+          if (position.type === 'Attraction') {
             marker.setImage(attMarker);
             marker.normalImage = attMarker;
           } else {
@@ -101,7 +101,7 @@ const MapContainer = ({ coords }) => {
 
         //피커 생성 함수
         function setPicker() {
-          if (position.type === 0) {
+          if (position.type === 'Attraction') {
             marker.setImage(attPicker);
           } else {
             marker.setImage(logPicker);
@@ -143,9 +143,6 @@ const MapContainer = ({ coords }) => {
         });
 
         kakao.maps.event.addListener(marker, 'click', function () {
-          if (selectedMarker !== null) {
-            closeOverlay();
-          }
           if (!selectedMarker || selectedMarker !== marker) {
             !!selectedMarker &&
               selectedMarker.setImage(selectedMarker.normalImage);
@@ -154,9 +151,6 @@ const MapContainer = ({ coords }) => {
           customOverlay.setMap(kakaoMap);
           selectedMarker = marker;
         });
-        function closeOverlay() {
-          customOverlay.setMap(null);
-        }
       }
 
       function createMarkerImg(img, size) {
@@ -178,8 +172,9 @@ const MapContainer = ({ coords }) => {
         id="myMap"
         ref={container}
         style={{
-          // width: '500px',
-          height: '600px',
+          height: '553px',
+          borderRadius: '10px',
+          border: '1px solid #E5E7E8'
         }}
       ></Div>
       <ModalModule
