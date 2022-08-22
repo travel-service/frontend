@@ -120,7 +120,7 @@ const PlanLayout = ({
       >
         {isOver && currentDirId !== 't' && (
           <LinkContainer>
-            <LinkButton to={process.env.PUBLIC_URL + `/plan/${planId}`}>
+            <LinkButton to={process.env.PUBLIC_URL + `/canvas/check/${planId}`}>
               완성된 여행 보기
             </LinkButton>
             <LinkButton

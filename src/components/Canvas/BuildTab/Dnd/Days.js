@@ -165,8 +165,8 @@ const Days = ({
         )}
         {travelDay.map((day, index) => (
           // 각 day
-          <>
-            <Day key={index} idx={index} dayIdx={dayIdx} mobile={mobile}>
+          <React.Fragment key={index}>
+            <Day idx={index} dayIdx={dayIdx} mobile={mobile}>
               <DayHeader index={index} firLoc={day[0]} check={check} />
               {/* day 영역 */}
               <Droppable droppableId={`day${index}`}>
@@ -251,7 +251,7 @@ const Days = ({
                 )}
               </Droppable>
             </Day>
-          </>
+          </React.Fragment>
         ))}
       </Container>
     </>

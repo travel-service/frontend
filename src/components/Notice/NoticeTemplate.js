@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Header from 'components/Landing/Header';
+import HeaderContainer from 'containers/common/HeaderContainer';
 
 const NoticeTemplateBlock = styled.div`
   height: 100%;
@@ -11,7 +11,7 @@ const NoticeTemplateBlock = styled.div`
 const NoticeTemplate = ({ children }) => {
   return (
     <NoticeTemplateBlock>
-      <Header />
+      <HeaderContainer type="landing" />
       {children}
     </NoticeTemplateBlock>
   );

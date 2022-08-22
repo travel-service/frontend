@@ -154,6 +154,7 @@ export const useStore = create(
 
       // GET day
       getPlanDays: async (planId) => {
+        console.log(planId);
         if (planId) {
           set({
             userTravelDay: {
@@ -163,58 +164,60 @@ export const useStore = create(
           });
         }
         planId = planId ? planId : get().id;
-        const res = await planAPI.getPlanDay(planId);
-        if (!res) {
+        const resDay = await planAPI.getPlanDay(planId);
+        const resPlan = await planAPI.getPlan(planId);
+        let planLen;
+        if (resPlan && resPlan.httpStatus === 201) {
+          planLen = resPlan.planForm.periods;
+        } else {
+          console.log('get plan 실패');
+          return;
+        }
+        if (resDay && resDay.httpStatus !== 200) {
           console.log('get day 실패');
           return;
         }
-        let n = res.dayForm.length;
-        if (n > 0) {
-          // day get 하고, locId를 selLoc에서 id를 찾아넣는다.(name과 image를 로딩하기 위한)
-          let tempDayArr = Array.from(
-            { length: get().userPlan.periods },
-            () => [],
-          );
-          let selLocs = await locationAPI.getSelectedLocations(planId);
-          let memLocs = await memLocStore.getState().getMemberLocations();
-          let tmpSelCateLoc = {
-            // ...get().selCateLoc,
-            ...selLocs.data.blockLocations,
-            member: memLocs,
-          };
-          for (let i = 0; i < res.dayForm.length; i++) {
-            let tmp = res.dayForm[i];
-            for (let key in tmpSelCateLoc) {
-              let flag = 0;
-              for (let j = 0; j < tmpSelCateLoc[key].length; j++) {
-                if (tmpSelCateLoc[key][j].locationId === tmp.locationId) {
-                  flag = 1;
-                  let idx = tmp.days - 1;
-                  tmp.name = tmpSelCateLoc[key][j].name;
-                  tmp.image = tmpSelCateLoc[key][j].image;
-                  tmp.address1 = tmpSelCateLoc[key][j].address1;
+        if (!resDay) return;
+        // day get 하고, locId를 selLoc에서 id를 찾아넣는다.(name과 image를 로딩하기 위한)
+        let tempDayArr = Array.from({ length: planLen }, () => []);
+        let selLocs = await locationAPI.getSelectedLocations(planId);
+        let memLocs = await memLocStore.getState().getMemberLocations();
+        let tmpSelCateLoc = {
+          ...selLocs.data.blockLocations,
+          member: memLocs,
+        };
+        for (let i = 0; i < resDay.dayForm.length; i++) {
+          let tmp = resDay.dayForm[i];
+          for (let key in tmpSelCateLoc) {
+            let flag = 0;
+            for (let j = 0; j < tmpSelCateLoc[key].length; j++) {
+              if (tmpSelCateLoc[key][j].locationId === tmp.locationId) {
+                flag = 1;
+                let idx = tmp.days - 1;
+                tmp.name = tmpSelCateLoc[key][j].name;
+                tmp.image = tmpSelCateLoc[key][j].image;
+                tmp.address1 = tmpSelCateLoc[key][j].address1;
 
-                  // dayForm의 days가 오름차순으로 온다는 가정
-                  if (tempDayArr.length > idx) {
-                    // 이미 day 배열 존재
-                    tempDayArr[idx].push(tmp);
-                  } else {
-                    // 새로운 day 배열
-                    tempDayArr.push([tmp]);
-                  }
-                  break;
+                // dayForm의 days가 오름차순으로 온다는 가정
+                if (tempDayArr.length > idx) {
+                  // 이미 day 배열 존재
+                  tempDayArr[idx].push(tmp);
+                } else {
+                  // 새로운 day 배열
+                  tempDayArr.push([tmp]);
                 }
+                break;
               }
-              if (flag) break;
             }
+            if (flag) break;
           }
-          set({
-            userTravelDay: {
-              travelDay: tempDayArr,
-              status: true,
-            },
-          });
         }
+        set({
+          userTravelDay: {
+            travelDay: tempDayArr,
+            status: true,
+          },
+        });
       },
 
       // POST plan (다음으로, 저장하기), cP 플랜 생성 판단용

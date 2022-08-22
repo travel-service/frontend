@@ -1,4 +1,3 @@
-import { RepeatOneSharp } from '@mui/icons-material';
 import axios from 'axios';
 
 // 회원 개인페이지, 프로필 사진
