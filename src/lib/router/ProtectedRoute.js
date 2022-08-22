@@ -15,6 +15,3 @@ const ProtectedRoute = ({ children }) => {
 };
 
 export default ProtectedRoute;
-
-// 220729
-// https://blog.logrocket.com/complete-guide-authentication-with-react-router-v6/
