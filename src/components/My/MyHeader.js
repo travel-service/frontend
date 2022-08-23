@@ -16,6 +16,8 @@ const Nav = styled.div`
   }
   .MainCategory {
     text-align: center;
+    font-size: 20px;
+    font-weight: bold;
     margin: 0px;
     padding: 10px;
     justify-content: space-between;
@@ -32,6 +34,8 @@ const Nav = styled.div`
     margin: 0px;
     padding: 10px;
     text-align: center;
+    font-size: 20px;
+    font-weight: bold;
     li {
       display: inline-block;
       list-style: none;
@@ -39,7 +43,7 @@ const Nav = styled.div`
     }
     list-style: none;
     box-sizing: border-box;
-    border-bottom: 1.5px solid rgba(241, 107, 108, 0.2);
+    //border-bottom: 1.5px solid rgba(241, 107, 108, 0.2);
   }
 `;
 
@@ -57,7 +61,11 @@ const MyHeader = () => {
           <li>
             <Link to={process.env.PUBLIC_URL + '/mypage/MyInfo'}>내정보</Link>
           </li>
-          <li>여행보관함</li>
+          <li>
+            <Link to={process.env.PUBLIC_URL + '/canvas/directory'}>
+              여행보관함
+            </Link>
+          </li>
           <li>
             <Link to={process.env.PUBLIC_URL + '/mypage/MySetting'}>설정</Link>
           </li>
@@ -75,7 +83,8 @@ const MyHeader = () => {
             <li>좋아요</li>
             <li>질문과 답변</li>
           </ul>
-        ) : location.pathname === '/trablock/mypage/MySetting' ? (
+        ) : location.pathname === '/trablock/mypage/MySetting' ||
+          location.pathname === '/trablock/mypage/MySetting/MyPasswd' ? (
           <ul className="SubCategory">
             <li>
               <Link to={process.env.PUBLIC_URL + '/mypage/MySetting'}>
@@ -83,7 +92,7 @@ const MyHeader = () => {
               </Link>
             </li>
             <li>
-              <Link to={process.env.PUBLIC_URL + '/mypage/MySetting'}>
+              <Link to={process.env.PUBLIC_URL + '/mypage/MySetting/MyPasswd'}>
                 비밀번호 변경
               </Link>
             </li>
