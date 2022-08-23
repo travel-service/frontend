@@ -1,12 +1,10 @@
 import axios from 'axios';
 
 // 여행지 블록 형태 받아오기
-export const getLocationInfo = async (id) => {
+export const getLocationInfo = async (id, type) => {
   try {
     // body에 type실어서 요청 필요 0814
-    const response = await axios.get(`/locations/${id}`, {
-      type: 'Attraction',
-    });
+    const response = await axios.get(`/locations/${id}?locationType=${type}`);
     return response;
   } catch (err) {
     console.log(err);

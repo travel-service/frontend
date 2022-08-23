@@ -6,9 +6,14 @@ const AttractionInfo = (locationId) => {
   const { id } = locationId;
 
   useEffect(() => {
-    getInfo(id);
+    getInfo(id, 'attraction');
   }, [getInfo, id]);
 
+  if (totalInfo.parking === true) {
+    totalInfo.parking = '가능';
+  } else {
+    totalInfo.parking = '불가능';
+  }
   return (
     <div>
       관광지 정보
@@ -44,7 +49,7 @@ const CultureInfo = (locationId) => {
   const { id } = locationId;
 
   useEffect(() => {
-    getInfo(id);
+    getInfo(id, 'culture');
   }, [getInfo, id]);
 
   if (totalInfo.parking === true) {
@@ -62,7 +67,7 @@ const CultureInfo = (locationId) => {
       <br />
       상세주소: {totalInfo.address2}
       <br />
-      이미지: {totalInfo.image1}
+      이미지: {totalInfo.image}
       <br />
       이미지2: {totalInfo.image2}
       <br />
@@ -92,7 +97,7 @@ const FestivalInfo = (locationId) => {
   // console.log(id);
 
   useEffect(() => {
-    getInfo(id);
+    getInfo(id, 'festival');
   }, [getInfo, id]);
 
   return (
@@ -105,7 +110,7 @@ const FestivalInfo = (locationId) => {
       <br />
       상세주소: {totalInfo.address2}
       <br />
-      이미지: {totalInfo.image1}
+      이미지: {totalInfo.image}
       <br />
       이미지2: {totalInfo.image2}
       <br />
@@ -138,10 +143,9 @@ const FestivalInfo = (locationId) => {
 const LeportsInfo = (locationId) => {
   const { totalInfo, getInfo } = infoStore();
   const { id } = locationId;
-  // console.log(id);
 
   useEffect(() => {
-    getInfo(id);
+    getInfo(id, 'leports');
   }, [getInfo, id]);
 
   if (totalInfo.parking === true) {
@@ -159,7 +163,7 @@ const LeportsInfo = (locationId) => {
       <br />
       상세주소: {totalInfo.address2}
       <br />
-      이미지: {totalInfo.image1}
+      이미지: {totalInfo.image}
       <br />
       이미지2: {totalInfo.image2}
       <br />
@@ -190,7 +194,7 @@ const LodgeInfo = (locationId) => {
   const { id } = locationId;
 
   useEffect(() => {
-    getInfo(id);
+    getInfo(id, 'lodge');
   }, [getInfo, id]);
 
   if (totalInfo.parking === true) {
@@ -208,7 +212,7 @@ const LodgeInfo = (locationId) => {
       <br />
       상세주소: {totalInfo.address2}
       <br />
-      이미지: {totalInfo.image1}
+      이미지: {totalInfo.image}
       <br />
       이미지2: {totalInfo.image2}
       <br />
@@ -240,7 +244,7 @@ const RestaurantInfo = (locationId) => {
   // console.log(id);
 
   useEffect(() => {
-    getInfo(id);
+    getInfo(id, 'restaurant');
   }, [getInfo, id]);
 
   if (totalInfo.parking === true) {
@@ -258,7 +262,7 @@ const RestaurantInfo = (locationId) => {
       <br />
       상세주소: {totalInfo.address2}
       <br />
-      이미지: {totalInfo.image1}
+      이미지: {totalInfo.image}
       <br />
       이미지2: {totalInfo.image2}
       <br />
