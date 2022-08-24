@@ -1,4 +1,3 @@
-// 임시로 만든 캔버스 메뉴 리스트 페이지
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import TravelSettingPage from './TravelSettingPage';
@@ -10,6 +9,7 @@ import TravelCheckPage from './TravelCheckPage';
 const CanvasMainPage = () => {
   return (
     <Routes>
+      <Route element={<DirectoryPage />} path="/" />
       <Route element={<DirectoryPage />} path="directory" />
       <Route element={<TravelSettingPage />} path="setting" />
       <Route element={<SelectBlockPage />} path="select" />
