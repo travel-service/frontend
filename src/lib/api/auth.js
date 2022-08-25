@@ -38,16 +38,13 @@ export const signup = async ({
   }
 };
 
+// accessToken으로 user 정보 업데이트
 export const userCheck = async () => {
   const response = await axios.get('/auth/status');
-  if (response.status === 200) {
-    localStorage.setItem('login', true);
-  } else {
-    localStorage.setItem('login', false);
-  }
   return response;
 };
 
+// refreshToken으로 accessToken 업데이트
 export const refresh = async () => {
   const response = await axios.get('/auth/refresh');
   return response;
@@ -56,7 +53,6 @@ export const refresh = async () => {
 // 로그아웃
 export const logout = async () => {
   const response = await axios.post('/members/logout');
-  console.log(response);
   window.location.reload(); // 페이지 새로고침, access 휘발
   return response;
 };
