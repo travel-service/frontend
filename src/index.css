@@ -12,6 +12,7 @@ body {
   box-sizing: border-box;
   overflow: overlay;
   -ms-overflow-style: none;
+  overscroll-behavior-y: none;
 }
 
 body::-webkit-scrollbar {
