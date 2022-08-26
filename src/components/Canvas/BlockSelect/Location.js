@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import styled, { css } from 'styled-components';
 import ModalModule from 'components/common/modal/ModalModule';
-import { useStore, sysLocStore } from '../../../lib/zustand/planStore';
+import { sysLocStore } from '../../../lib/zustand/planStore';
 import BlockInfo from '../BlockInfo/BlockInfo';
+import { useLazyImageObserver } from 'lib/custom/hooks/useLazyImageObserver';
 
 const DEFAULT_IMAGE = process.env.PUBLIC_URL + '/images/face3.png';
 
@@ -81,8 +82,10 @@ const InfoButton = styled.button`
     `}
 `;
 
-const Location = ({ location }) => {
+const Location = ({ location, onClick, idx, isSelect }) => {
   const [modalOpen, setModalOpen] = useState(false);
+  const { image, locationId, type, name, address1 } = location;
+  const { imageSrc, imageRef } = useLazyImageObserver({ src: image });
 
   const OpenModal = () => {
     setModalOpen(true);
@@ -92,8 +95,6 @@ const Location = ({ location }) => {
   const closeModal = () => {
     setModalOpen(false);
   };
-
-  const { onAdd, remove } = useStore();
   const { setLatLng } = sysLocStore();
 
   const handleImgError = (e) => {
@@ -108,48 +109,40 @@ const Location = ({ location }) => {
             <div
               onClick={() => {
                 OpenModal();
-                setLatLng(location.locationId, location.type.type);
+                setLatLng(locationId, type.type);
               }}
             >
               <Img
+                src={imageSrc}
+                ref={imageRef}
                 onError={(e) => handleImgError(e)}
-                src={location.image}
                 alt="img"
-                loading="lazy"
               />
             </div>
             <TextArea>
               <BlockDiv
                 onClick={() => {
                   OpenModal();
-                  setLatLng(location.locationId, location.type.type);
+                  setLatLng(locationId, type.type);
                 }}
               >
-                <div className="name">{location.name}</div>
-                <div className="address">{location.address1}</div>
+                <div className="name">{name}</div>
+                <div className="address">{address1}</div>
               </BlockDiv>
               <InfoButton
-                status={location.isSelect}
-                onClick={() => {
-                  if (location.isSelect === false) {
-                    onAdd(location, location.type.type);
-                    location.isSelect = true;
-                  } else {
-                    remove(location.locationId, location.type.type);
-                    location.isSelect = false;
-                  }
-                }}
+                status={isSelect}
+                onClick={() => onClick(location, idx)}
               >
-                {location.isSelect ? '취소' : '선택'}
+                {isSelect ? '취소' : '선택'}
               </InfoButton>
             </TextArea>
           </Block>
           <ModalModule
             modalIsOpen={modalOpen}
             closeModal={closeModal}
-            header={location.name}
+            header={name}
           >
-            <BlockInfo type={location.type.type} id={location.locationId} />
+            <BlockInfo type={type.type} id={locationId} />
           </ModalModule>
         </>
       )}
@@ -157,4 +150,4 @@ const Location = ({ location }) => {
   );
 };
 
-export default Location;
+export default memo(Location);

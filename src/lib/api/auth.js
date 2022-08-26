@@ -53,7 +53,8 @@ export const refresh = async () => {
 // 로그아웃
 export const logout = async () => {
   const response = await axios.post('/members/logout');
-  window.location.reload(); // 페이지 새로고침, access 휘발
+  // eslint-disable-next-line no-restricted-globals
+  location.reload();
   return response;
 };
 

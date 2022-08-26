@@ -1,4 +1,5 @@
-import React, { lazy, Suspense } from 'react';
+import { sysLocStore, useStore } from 'lib/zustand/planStore';
+import React, { lazy, Suspense, useCallback } from 'react';
 import styled, { css } from 'styled-components';
 
 const Location = lazy(() => import('./Location'));
@@ -50,14 +51,30 @@ const Type = styled.div`
 `;
 
 function LocationList({ locations, search, type }) {
+  const { remove, onAdd } = useStore();
+  const { setLocIsSelect } = sysLocStore();
   var arr = locations.filter((val) => val.name.includes(search));
+
+  const onClick = useCallback((loc, idx) => {
+    const { type } = loc.type;
+    let { isSelect, locationId } = loc;
+    if (!isSelect) {
+      onAdd(loc, type);
+      setLocIsSelect(type, idx, true);
+    } else {
+      remove(locationId, type);
+      setLocIsSelect(type, idx, false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       {!!arr.length && (
         <>
           <Type>{type}</Type>
           <Blocks>
-            {arr.map((location) => (
+            {arr.map((location, idx) => (
               <Suspense
                 key={location.locationId}
                 fallback={
@@ -70,7 +87,12 @@ function LocationList({ locations, search, type }) {
                   </ReadyLoc>
                 }
               >
-                <Location location={location} />
+                <Location
+                  onClick={onClick}
+                  location={location}
+                  idx={idx}
+                  isSelect={location.isSelect}
+                />
               </Suspense>
             ))}
           </Blocks>

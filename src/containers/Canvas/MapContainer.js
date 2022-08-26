@@ -3,14 +3,14 @@ import lodgeMarker from '../../lib/images/marker 아이콘_25x25 숙소마크.pn
 import lodgePicker from '../../lib/images/25x25 숙소마크 사본.png';
 import attractionMarker from '../../lib/images/marker 아이콘_25x25 관광지마크.png';
 import attractionPicker from '../../lib/images/25x25 관광지마크 사본.png';
-import cultureMarker from '../../lib/images/marker 아이콘_25x25 문화시설 마크.png'
-import culturePicker from '../../lib/images/25x25 문화시설 마크 사본.png'
-import leportsMarker from '../../lib/images/marker 아이콘_25x25 레포츠 마크.png'
-import leportsPicker from '../../lib/images/25x25 레포츠 마크 사본.png'
-import restaurantMarker from '../../lib/images/marker 아이콘_25x25 식당마크.png'
-import restaurantPicker from '../../lib/images/25x25 식당마크 사본.png'
-import festivalMarker from '../../lib/images/marker 아이콘_25x25 축제마크.png'
-import festivalPicker from '../../lib/images/25x25 축제마크 사본.png'
+import cultureMarker from '../../lib/images/marker 아이콘_25x25 문화시설 마크.png';
+import culturePicker from '../../lib/images/25x25 문화시설 마크 사본.png';
+import leportsMarker from '../../lib/images/marker 아이콘_25x25 레포츠 마크.png';
+import leportsPicker from '../../lib/images/25x25 레포츠 마크 사본.png';
+import restaurantMarker from '../../lib/images/marker 아이콘_25x25 식당마크.png';
+import restaurantPicker from '../../lib/images/25x25 식당마크 사본.png';
+import festivalMarker from '../../lib/images/marker 아이콘_25x25 축제마크.png';
+import festivalPicker from '../../lib/images/25x25 축제마크 사본.png';
 import ModalModule from 'components/common/modal/ModalModule';
 import 'lib/styles/Modal.css';
 import '../../lib/styles/test.css';
@@ -107,31 +107,31 @@ const MapContainer = ({ coords }) => {
         //마커 생성 함수
         function setMarker() {
           switch (position.type) {
-            case 'Attraction' :
+            case 'Attraction':
               marker.setImage(attMarker);
               marker.normalImage = attMarker;
               break;
-            case 'Culture' :
+            case 'Culture':
               marker.setImage(culMarker);
               marker.normalImage = culMarker;
               break;
-            case 'Leports' :
+            case 'Leports':
               marker.setImage(lepMarker);
               marker.normalImage = lepMarker;
               break;
-            case 'Restaurant' :
+            case 'Restaurant':
               marker.setImage(resMarker);
               marker.normalImage = resMarker;
               break;
-            case 'Festival' :
+            case 'Festival':
               marker.setImage(fesMarker);
               marker.normalImage = fesMarker;
               break;
-            case 'Lodge' :
+            case 'Lodge':
               marker.setImage(lodMarker);
               marker.normalImage = lodMarker;
               break;
-            default :
+            default:
               break;
           }
           // if (position.type === 'Attraction') {
@@ -146,25 +146,25 @@ const MapContainer = ({ coords }) => {
         //피커 생성 함수
         function setPicker() {
           switch (position.type) {
-            case 'Attraction' :
+            case 'Attraction':
               marker.setImage(attPicker);
               break;
-            case 'Culture' :
+            case 'Culture':
               marker.setImage(culPicker);
               break;
-            case 'Leports' :
+            case 'Leports':
               marker.setImage(lepPicker);
               break;
-            case 'Restaurant' :
+            case 'Restaurant':
               marker.setImage(resPicker);
               break;
-            case 'Festival' :
+            case 'Festival':
               marker.setImage(fesPicker);
               break;
-            case 'Lodge' :
+            case 'Lodge':
               marker.setImage(lodPicker);
               break;
-            default :
+            default:
               break;
           }
         }
@@ -235,7 +235,7 @@ const MapContainer = ({ coords }) => {
         style={{
           height: '553px',
           borderRadius: '10px',
-          border: '1px solid #E5E7E8'
+          border: '1px solid #E5E7E8',
         }}
       ></Div>
       <ModalModule

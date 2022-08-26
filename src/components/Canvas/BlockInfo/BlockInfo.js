@@ -289,6 +289,7 @@ const RestaurantInfo = (locationId) => {
 };
 
 function BlockInfo(typeId) {
+  console.log('BlockInfo');
   const { type, id } = typeId;
 
   switch (type) {

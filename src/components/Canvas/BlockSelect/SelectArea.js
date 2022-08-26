@@ -66,6 +66,8 @@ const SelectArea = ({ location, selLocs, coords }) => {
     !lodIsCheck &&
     !resIsCheck;
 
+  // console.log('SelectArea');
+
   return (
     <ContentsArea>
       <BlockListArea>
