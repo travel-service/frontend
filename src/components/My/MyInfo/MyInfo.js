@@ -219,28 +219,31 @@ const UserInfoBox = () => {
 
   const cancel = () => {
     setVisible(true);
+    setImage('');
     // setNick(profile.nickname);
     // setBio(profile.bio);
   };
 
-  const PostEdit = (file) => {
-    // if (file) {
-    //   const formData = new FormData();
-    //   formData.append('file', file);
-    // } 조건식 1 2 만들어서 참인경우 경우의 수
-    if (checknick.message === '사용 가능한 닉네임 입니다' && image !== '') {
-      setNick(inputaccount.nickname);
-      setBio(inputaccount.bio);
-      // const formData = new FormData();
-      // console.log(formData.append('file', file), formData);
-      // setpreImg();
+  const PostEdit = () => {
+    // 1-닉네임, 사진 변경, 2-한줄소개, 사진 변경 3-한줄소개 변경
+    if (checknick.message === '사용 가능한 닉네임 입니다') {
+      if (image !== '') {
+        const formData = new FormData();
+        formData.append('file', form.form_file);
+        postImg(formData);
+      }
+      setNick(inputfield.nickname);
+      setBio(inputfield.bio);
       postNick();
       postBio();
-      // postImg(formData.append('file', file));
-      // console.log(formData);
       alert('성공적으로 변경 됐습니다.');
     } else if (checknick.message === '현재 사용자가 설정한 닉네임 입니다.') {
-      setBio(inputaccount.bio);
+      if (image !== '') {
+        const formData = new FormData();
+        formData.append('file', form.form_file);
+        postImg(formData);
+      }
+      setBio(inputfield.bio);
       postBio();
       alert('성공적으로 변경 됐습니다.');
     } else {
@@ -248,18 +251,20 @@ const UserInfoBox = () => {
     }
   };
 
-  // input 입력값 inputaccount state값 변경되게
-  const [inputaccount, setInput] = useState({
+  // input 입력값 inputfield state값 변경되게
+  const [inputfield, setInput] = useState({
     nickname: profile.nickname,
-    bio: profile.bio,
+    bio: '',
   });
   const onChangeInput = (e) => {
     setInput({
-      ...inputaccount,
+      ...inputfield,
       [e.target.name]: e.target.value,
     });
-    sendnick.nickname = inputaccount.nickname;
-    checkgetNick();
+    if (e.target.name === 'nickname') {
+      sendnick.nickname = inputfield.nickname;
+      checkgetNick();
+    }
   };
 
   // 프로필 사진 미리보기
@@ -275,16 +280,14 @@ const UserInfoBox = () => {
     });
   };
 
+  const [form, setForm] = useState({ form_file: '' });
   const onChangeImg = (e) => {
     e.preventDefault();
     if (e.target.files) {
       const file = e.target.files[0];
       console.log(file);
       preview(file);
-      // PostEdit(file);
-      const formData = new FormData();
-      formData.append('file', file);
-      postImg(formData);
+      setForm({ form_file: e.target.files[0] });
     }
   };
 
@@ -328,14 +331,16 @@ const UserInfoBox = () => {
               )}
               <div className="editStyle">
                 <div className="editB">
-                  <label for="profile-upload">수정</label>
-                  <input
-                    type="file"
-                    id="profile-upload"
-                    accept="image/*"
-                    placeholder="수정"
-                    onChange={onChangeImg}
-                  />
+                  <label>
+                    <input
+                      type="file"
+                      id="profile-upload"
+                      accept="image/*"
+                      placeholder="수정"
+                      onChange={onChangeImg}
+                    />
+                    수정
+                  </label>
                 </div>
               </div>
             </div>
@@ -348,16 +353,11 @@ const UserInfoBox = () => {
             placeholder={profile.nickname}
             onChange={onChangeInput}
           ></ChangeInput>
-          {/* 사용 불가능할 때는 어떻게 변경할지. div에 id값을 줘서 조건식? */}
-          <DupCheck>
-            {/* {check === '' && <div className={check}>*8자 이내로 작성</div>} */}
-            *{checknick.message}
-          </DupCheck>
+          <DupCheck>*{checknick.message}</DupCheck>
           <ChangeInput
             type="text"
             id="bio"
             name="bio"
-            placeholder={profile.bio}
             onChange={onChangeInput}
           ></ChangeInput>
           <Buttons>
@@ -378,7 +378,7 @@ const MyInfo = () => {
   return (
     <MyInfoBox>
       <UserInfoBox />
-      <hr size="1" width="80%" />
+      <hr style={{ border: '1px solid #E5E7E8' }} width="80%" />
       <Menu>
         {/** page별 url로 변경해야함 */}
         <div>
@@ -396,7 +396,7 @@ const MyInfo = () => {
           </Link>
         </div>
         <div>
-          <Link to={process.env.PUBLIC_URL + '/mypage/MyInfo'}>
+          <Link to={process.env.PUBLIC_URL + '/canvas/directory'}>
             <HiOutlineFolderOpen size="24px" />
             <div>내 플랜</div>
             <div>1</div>

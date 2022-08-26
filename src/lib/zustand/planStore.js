@@ -27,7 +27,7 @@ export const useStore = create(
             concept: [],
           },
           userTravelDay: {
-            travelDay: [],
+            travelDay: '',
             status: false,
           },
           selCateLoc: {
@@ -154,7 +154,6 @@ export const useStore = create(
 
       // GET day
       getPlanDays: async (planId) => {
-        console.log(planId);
         if (planId) {
           set({
             userTravelDay: {
@@ -246,6 +245,8 @@ export const useStore = create(
           }
           await planAPI.postPlan(id, userPlan);
           await planAPI.postConcept(id, conceptForm);
+        } else if (idx === 0 && !id) {
+          return '여행 이름을 설정해주세요';
         }
         // 블록 선택 페이지
         else if (idx === 1) {
@@ -259,11 +260,12 @@ export const useStore = create(
           if (!userTravelDay.status) {
             // day가 없는 상태 => 생성 필요 post
             await planAPI.postPlanDay(userTravelDay, id);
-            //  성공시 "200 리턴"(통일 필요)
           } else {
             // day가 있는 상태 => 수정 필요 put
             await planAPI.updatePlanDay(userTravelDay, id);
           }
+        } else {
+          return '저장에 실패했습니다.';
         }
       },
     }),
@@ -278,7 +280,6 @@ export const useStore = create(
 // systemLocation 받아오고, 카테고리 따라서 분류
 export const sysLocStore = create((set, get) => ({
   sysCateLoc: {
-    // 전체 location => 분류
     Attraction: [],
     Culture: [],
     Festival: [],
@@ -286,61 +287,36 @@ export const sysLocStore = create((set, get) => ({
     Lodge: [],
     Restaurant: [],
   },
-  sysCateLocCoords: {
-    // CoordsList: [],
-  },
-  flag: false,
+  sysCateLocCoords: {},
+  sysBlockFlag: false,
+  sysMarkFlag: false,
   lat: 33.280701,
   lng: 126.570667,
 
+  // 0827
+  // sysLoc, sysLocCoords에서 isSelect없이 작동 가능해서 따로 매핑없이 그대로 받는 것으로 수정 -> 성능 개선
+
   getSysLoc: async () => {
-    if (get().flag === false) {
+    if (!get().sysBlockFlag) {
       const response = await locationAPI.getBlockLocations();
-
       if (response.status === 200) {
-        // 받아온 key값으로 배열 생성
-        const typesArr = Object.keys(response.data);
-
-        // 배열의 값인 type으로 sysCateLoc 상태 업데이트
-        typesArr.forEach((type) => {
-          let tmp = [];
-          for (let x of response.data[type]) {
-            x.isSelect = false;
-            tmp.push(x);
-          }
-          set((state) => ({
-            sysCateLoc: {
-              ...state.sysCateLoc,
-              [type]: tmp,
-            },
-          }));
+        set({
+          sysCateLoc: response.data,
+          sysBlockFlag: true,
         });
       }
-      set({ flag: true });
     }
   },
 
   getSysLocCoords: async () => {
-    const response = await locationAPI.getMarkLocations();
-
-    if (response.status === 200) {
-      // 받아온 key값으로 배열 생성
-      const typesArr = Object.keys(response.data);
-
-      // 배열의 값인 type으로 sysCateLocCoords 상태 업데이트
-      typesArr.forEach((type) => {
-        let tmp = [];
-        for (let x of response.data[type]) {
-          x.isSelect = false;
-          tmp.push(x);
-        }
-        set((state) => ({
-          sysCateLocCoords: {
-            ...state.sysCateLocCoords,
-            [type]: tmp,
-          },
-        }));
-      });
+    if (!get().sysMarkFlag) {
+      const response = await locationAPI.getMarkLocations();
+      if (response.status === 200) {
+        set({
+          sysCateLocCoords: response.data,
+          sysMarkFlag: true,
+        });
+      }
     }
   },
 
@@ -349,5 +325,20 @@ export const sysLocStore = create((set, get) => ({
     const found = coordsList.find((loc) => loc.locationId === id);
     set({ lat: found.coords.latitude });
     set({ lng: found.coords.longitude });
+  },
+
+  setLocIsSelect: (type, idx, flag) => {
+    let tmpLocArr = get().sysCateLoc[type];
+    if (flag) {
+      tmpLocArr[idx].isSelect = true;
+    } else {
+      tmpLocArr[idx].isSelect = false;
+    }
+    set((state) => ({
+      sysCateLoc: {
+        ...state.sysCateLoc,
+        [type]: tmpLocArr,
+      },
+    }));
   },
 }));

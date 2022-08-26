@@ -4,17 +4,16 @@ import axios from 'axios';
 export const getMyinfo = async () => {
   try {
     const nickbio = await axios.get('/members/my-page');
-    const res = await axios.get('/members/my-page/img', {
-      responseType: 'blob',
-    });
-    console.log(nickbio, res);
-    let file = new Blob([res.data], { type: 'image/png' });
-    const img = window.URL.createObjectURL(file);
-    console.log(file);
+    // const res = await axios.get('/members/my-page/img', {
+    //   responseType: 'blob',
+    // });
+    // console.log(nickbio, res);
+    // let file = new Blob([res.data], { type: 'image/png' });
+    // const img = window.URL.createObjectURL(file);
+    // console.log(file);
     return {
       nickname: nickbio.data.result.nickname,
       bio: nickbio.data.result.bio,
-      img,
     };
   } catch (e) {
     console.log(e);
@@ -26,7 +25,6 @@ export const postMyinfo = async (profile) => {
   try {
     console.log(profile);
     const response = await axios.post('/members/profile/edit', profile);
-    console.log('postMyinfo:', response);
     return response.data;
   } catch (e) {
     console.log(e);
@@ -65,19 +63,19 @@ export const postMyImg = async (formdata) => {
   }
 };
 
-// 회원 프로필 사진 요청 이건 아닌늣
-// export const Getprofile = async () => {
-//   try {
-//     const res = await axios.get('/members/my-page/img', {
-//       responseType: 'blob',
-//     });
-//     let file = new Blob([res.data], { type: 'image/png' });
-//     const img = window.URL.createObjectURL(file);
-//     return { img };
-//   } catch (e) {
-//     console.log(e);
-//   }
-// };
+// 회원 프로필 사진 요청
+export const getMyImg = async () => {
+  try {
+    const res = await axios.get('/members/my-page/img', {
+      responseType: 'blob',
+    });
+    let file = new Blob([res.data], { type: 'image/png' });
+    const img = window.URL.createObjectURL(file);
+    return { img };
+  } catch (e) {
+    console.log(e);
+  }
+};
 
 // 중복 닉네임 체크
 export const getCheckNick = async (nick, prenick) => {
@@ -102,17 +100,52 @@ export const getEditPage = async () => {
   try {
     const response = await axios.get('/members/profile/edit');
     console.log(response);
+    let infoBirthday = '';
+    // birthday format
+    if (
+      response.data.result.info.birthday !== null &&
+      response.data.result.info.birthday.length === 6
+    ) {
+      const birthdays = response.data.result.info.birthday;
+      let yy = birthdays.slice(0, 2);
+      if (yy < 22) {
+        yy = '20' + yy;
+      } else {
+        yy = '19' + yy;
+      }
+      console.log(yy);
+      infoBirthday =
+        yy + '-' + birthdays.slice(2, 4) + '-' + birthdays.slice(4, 6);
+      console.log(infoBirthday);
+    } else {
+      infoBirthday = response.data.result.info.birthday;
+    }
     return {
       nickname: response.data.result.profile.nickName,
       bio: response.data.result.profile.bio,
-      birthday: response.data.result.info.birthday,
+      birthday: infoBirthday,
       email: response.data.result.info.email,
       gender: response.data.result.info.gender,
     };
-    // return {
-    //   nickname: response.data.result.nickname,
-    //   bio: response.data.result.bio,
-    // };
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+// 비밀번호 수정
+export const postPass = async (pass) => {
+  try {
+    console.log(pass);
+    const response = await axios.post('/members/profile/password', pass, {
+      validateStatus: (status) => status < 401,
+    });
+    if (response.status === 400) {
+      return alert('잘못된 비밀번호 입니다. 다시 변경해주세요.');
+    } else if (response.status === 201) {
+      return alert('성공적으로 변경되었습니다.');
+    }
+    console.log(response);
+    return response;
   } catch (e) {
     console.log(e);
   }

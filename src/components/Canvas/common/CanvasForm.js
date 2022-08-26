@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import ProcessBar from './ProcessBar';
 import Block from 'containers/Canvas/Block';
@@ -81,14 +81,16 @@ const Contents = styled.div`
   justify-content: center;
 `;
 
-const siteMap = {
-  setting: '여행 설정',
-  select: '블록 선택',
-  build: '여행 캔버스',
-  check: '여행 확인하기',
-};
-
 const CanvasForm = ({ type, data }) => {
+  const siteMap = useMemo(() => {
+    return {
+      setting: '여행 설정',
+      select: '블록 선택',
+      build: '여행 캔버스',
+      check: '여행 확인하기',
+    };
+  }, []);
+
   return (
     <Container>
       {/* 프로세스 바 */}
