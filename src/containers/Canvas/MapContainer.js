@@ -134,49 +134,39 @@ const MapContainer = ({ coords }) => {
             default :
               break;
           }
-          // if (position.type === 'Attraction') {
-          //   marker.setImage(attMarker);
-          //   marker.normalImage = attMarker;
-          // } else {
-          //   marker.setImage(lodMarker);
-          //   marker.normalImage = lodMarker;
-          // }
         }
 
-        //피커 생성 함수
-        function setPicker() {
-          switch (position.type) {
-            case 'Attraction' :
-              marker.setImage(attPicker);
-              break;
-            case 'Culture' :
-              marker.setImage(culPicker);
-              break;
-            case 'Leports' :
-              marker.setImage(lepPicker);
-              break;
-            case 'Restaurant' :
-              marker.setImage(resPicker);
-              break;
-            case 'Festival' :
-              marker.setImage(fesPicker);
-              break;
-            case 'Lodge' :
-              marker.setImage(lodPicker);
-              break;
-            default :
-              break;
-          }
-        }
+        //피커 생성 함수 - 알수 없는 버그로 인한 일시 중단
+        // function setPicker() {
+        //   switch (position.type) {
+        //     case 'Attraction' :
+        //       marker.setImage(attPicker);
+        //       break;
+        //     case 'Culture' :
+        //       marker.setImage(culPicker);
+        //       break;
+        //     case 'Leports' :
+        //       marker.setImage(lepPicker);
+        //       break;
+        //     case 'Restaurant' :
+        //       marker.setImage(resPicker);
+        //       break;
+        //     case 'Festival' :
+        //       marker.setImage(fesPicker);
+        //       break;
+        //     case 'Lodge' :
+        //       marker.setImage(lodPicker);
+        //       break;
+        //     default :
+        //       break;
+        //   }
+        // }
 
         setMarker();
 
         const getOverlayContent = () => {
           const content = document.createElement('div');
           content.setAttribute('class', 'wrap');
-
-          const markInfo = document.createElement('div');
-          markInfo.setAttribute('class', 'info');
 
           const titleArea = document.createElement('div');
           titleArea.setAttribute('class', 'title');
@@ -188,11 +178,10 @@ const MapContainer = ({ coords }) => {
           const close = document.createElement('div');
           close.setAttribute('class', 'close');
           close.onclick = () => (
-            customOverlay.setMap(null), setMarker(), (selectedMarker = null)
+            customOverlay.setMap(null)/**, setMarker(), (selectedMarker = null) 피커생성 함수에 사용*/
           );
 
-          content.appendChild(markInfo);
-          markInfo.appendChild(titleArea);
+          content.appendChild(titleArea);
           titleArea.append(title, close);
           return content;
         };
@@ -204,13 +193,15 @@ const MapContainer = ({ coords }) => {
         });
 
         kakao.maps.event.addListener(marker, 'click', function () {
-          if (!selectedMarker || selectedMarker !== marker) {
-            !!selectedMarker &&
-              selectedMarker.setImage(selectedMarker.normalImage);
-            setPicker();
-          }
+          // 피커 생성 함수에 사용
+          // if (!selectedMarker || selectedMarker !== marker) {
+          //   !!selectedMarker &&
+          //     selectedMarker.setImage(selectedMarker.normalImage);
+          //   setPicker();
+          // }
           customOverlay.setMap(kakaoMap);
-          selectedMarker = marker;
+          // 피커 생성 함수에 사용
+          // selectedMarker = marker;
         });
       }
 
@@ -240,9 +231,8 @@ const MapContainer = ({ coords }) => {
       ></Div>
       <ModalModule
         modalIsOpen={modalIsOpen}
-        openModal={openModal}
         closeModal={closeModal}
-        header="상세정보"
+        title={info.title}
       >
         <BlockInfo type={info.type} id={info.id} />
       </ModalModule>

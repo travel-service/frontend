@@ -6,7 +6,7 @@ import BlockInfo from '../BlockInfo/BlockInfo';
 
 const InfoButton = styled.button`
   width: 100px;
-  height: 26px;
+  height: 25px;
   font-family: 'Pretendard';
   font-style: normal;
   font-weight: 400;
@@ -33,13 +33,15 @@ const Block = styled.li`
 
 const BlockDiv = styled.div`
   margin-left: 5px;
-  font-weight: bold;
-  p1 {
+  p {
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 800;
     font-size: 13px;
     line-height: 16px;
+    margin-top: 0px;
+    margin-bottom: 5px;
+    height: 45px;
   }
   address {
     font-family: 'Pretendard';
@@ -48,6 +50,7 @@ const BlockDiv = styled.div`
     font-size: 9px;
     line-height: 11px;
     color: #7E7E7E;
+    height: 35px;
   }
 `;
 
@@ -77,6 +80,16 @@ function Location({ location }) {
   const closeModal = () => {
     setModalOpen(false);
   };
+  console.log(location);
+  const blockSelect = () => {
+    if (location.isSelect === false) {
+      onAdd(location, location.type.type);
+      location.isSelect = true;
+    } else {
+      remove(location.locationId, location.type.type);
+      location.isSelect = false;
+    }
+  }
 
   const { onAdd, remove } = useStore();
   const { setLatLng } = sysLocStore();
@@ -97,9 +110,9 @@ function Location({ location }) {
             setLatLng(location.locationId, location.type.type);
           }}
         >
-          <p1>
+          <p>
             {location.name}
-          </p1>
+          </p>
           <address>
             {location.address1}
           </address>
@@ -122,7 +135,9 @@ function Location({ location }) {
       <ModalModule
         modalIsOpen={modalOpen}
         closeModal={closeModal}
-        header={location.name}
+        title={location.name}
+        blockSelect={blockSelect}
+        isSel={location.isSelect ? '취소' : '선택'}
       >
         <BlockInfo type={location.type.type} id={location.locationId} />
       </ModalModule>
