@@ -1,313 +1,287 @@
 import React, { useEffect } from 'react';
+import styled from 'styled-components';
 import { infoStore } from '../../../lib/zustand/infoStore';
 
-const AttractionInfo = (locationId) => {
-  const { totalInfo, getInfo } = infoStore();
-  const { id } = locationId;
+const ContentsArea = styled.div`
+  width: 450px;
+`
 
-  useEffect(() => {
-    getInfo(id, 'attraction');
-  }, [getInfo, id]);
+const AddrTel = styled.div`
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+`
 
-  if (totalInfo.parking === true) {
-    totalInfo.parking = '가능';
-  } else {
-    totalInfo.parking = '불가능';
-  }
+const InfoArea = styled.div`
+  padding-top: 15px;
+`
+
+const Info = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 10px;
+`
+
+const Tag = styled.div`
+  /* float: left; */
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+`
+
+const Text = styled.div`
+  /* float: right; */
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  text-align: right;
+`
+
+const Image = styled.img`
+  width: 450px;
+  height: auto;
+  border-radius: 10px;
+`
+
+function AttractionInfo({info}) {
   return (
-    <div>
-      관광지 정보
-      <br />
-      이름: {totalInfo.name}
-      <br />
-      주소: {totalInfo.address1}
-      <br />
-      상세주소: {totalInfo.address2}
-      <br />
-      이미지: {totalInfo.image}
-      <br />
-      이미지2: {totalInfo.image2}
-      <br />
-      전화: {totalInfo.tel}
-      <br />
-      설명: {totalInfo.summary}
-      <br />
-      상세설명: {totalInfo.report}
-      <br />
-      주차여부: {totalInfo.parking}
-      <br />
-      휴일: {totalInfo.restDate}
-      <br />
-      이용시간: {totalInfo.useTime}
-      <br />
-    </div>
+    <InfoArea>
+      <Info>
+        <Tag>설명</Tag>
+        <Text>{info.summary}~~하는곳</Text>
+      </Info>
+      <Info>
+        <Tag>주차여부</Tag>
+        <Text>{info.parking}</Text>
+      </Info>
+      <Info>
+        <Tag>휴일</Tag>
+        <Text>{info.restDate}</Text>
+      </Info>
+      <Info>
+        <Tag>이용시간</Tag>
+        <Text>{info.useTime}</Text>
+      </Info>
+    </InfoArea>
   );
 };
 
-const CultureInfo = (locationId) => {
-  const { totalInfo, getInfo } = infoStore();
-  const { id } = locationId;
-
-  useEffect(() => {
-    getInfo(id, 'culture');
-  }, [getInfo, id]);
-
-  if (totalInfo.parking === true) {
-    totalInfo.parking = '가능';
-  } else {
-    totalInfo.parking = '불가능';
-  }
+function CultureInfo({info}) {
   return (
-    <div>
-      문화시설 정보
-      <br />
-      이름: {totalInfo.name}
-      <br />
-      주소: {totalInfo.address1}
-      <br />
-      상세주소: {totalInfo.address2}
-      <br />
-      이미지: {totalInfo.image}
-      <br />
-      이미지2: {totalInfo.image2}
-      <br />
-      전화: {totalInfo.tel}
-      <br />
-      설명: {totalInfo.summary}
-      <br />
-      상세설명: {totalInfo.report}
-      <br />
-      주차여부: {totalInfo.parking}
-      <br />
-      휴일: {totalInfo.restDate}
-      <br />
-      이용요금: {totalInfo.fee}
-      <br />
-      이용시간: {totalInfo.useTime}
-      <br />
-      소요시간: {totalInfo.spendTime}
-      <br />
-    </div>
+    <InfoArea>
+      <Info>
+        <Tag>설명</Tag>
+        <Text>{info.summary}~~하는곳</Text>
+      </Info>
+      <Info>
+        <Tag>주차여부</Tag>
+        <Text>{info.parking}</Text>
+      </Info>
+      <Info>
+        <Tag>휴일</Tag>
+        <Text>{info.restDate}</Text>
+      </Info>
+      <Info>
+        <Tag>이용시간</Tag>
+        <Text>{info.useTime}</Text>
+      </Info>
+      <Info>
+        <Tag>이용요금</Tag>
+        <Text>{info.fee}</Text>
+      </Info>
+      <Info>
+        <Tag>소요시간</Tag>
+        <Text>{info.spendTime}</Text>
+      </Info>
+    </InfoArea>
   );
 };
 
-const FestivalInfo = (locationId) => {
-  const { totalInfo, getInfo } = infoStore();
-  const { id } = locationId;
-  // console.log(id);
-
-  useEffect(() => {
-    getInfo(id, 'festival');
-  }, [getInfo, id]);
-
+function FestivalInfo({info}) {
   return (
-    <div>
-      축제 정보
-      <br />
-      이름: {totalInfo.name}
-      <br />
-      주소: {totalInfo.address1}
-      <br />
-      상세주소: {totalInfo.address2}
-      <br />
-      이미지: {totalInfo.image}
-      <br />
-      이미지2: {totalInfo.image2}
-      <br />
-      전화: {totalInfo.tel}
-      <br />
-      설명: {totalInfo.summary}
-      <br />
-      상세설명: {totalInfo.report}
-      <br />
-      시작일: {totalInfo.startDate}
-      <br />
-      종료일: {totalInfo.endDate}
-      <br />
-      홈페이지: {totalInfo.homepage}
-      <br />
-      장소: {totalInfo.place}
-      <br />
-      위치안내: {totalInfo.placeInfo}
-      <br />
-      공연시간: {totalInfo.playTime}
-      <br />
-      프로그램: {totalInfo.programe}
-      <br />
-      이용요금: {totalInfo.fee}
-      <br />
-    </div>
+    <InfoArea>
+      <Info>
+        <Tag>설명</Tag>
+        <Text>{info.summary}~~하는곳</Text>
+      </Info>
+      <Info>
+        <Tag>시작일</Tag>
+        <Text>{info.startDate}</Text>
+      </Info>
+      <Info>
+        <Tag>종료일</Tag>
+        <Text>{info.endDate}</Text>
+      </Info>
+      <Info>
+        <Tag>홈페이지</Tag>
+        <Text>{info.homepage}</Text>
+      </Info>
+      <Info>
+        <Tag>장소</Tag>
+        <Text>{info.place}</Text>
+      </Info>
+      <Info>
+        <Tag>위치안내</Tag>
+        <Text>{info.placeInfo}</Text>
+      </Info>
+      <Info>
+        <Tag>공연시간</Tag>
+        <Text>{info.playTime}</Text>
+      </Info>
+      <Info>
+        <Tag>프로그램</Tag>
+        <Text>{info.program}</Text>
+      </Info>
+      <Info>
+        <Tag>이용요금</Tag>
+        <Text>{info.fee}</Text>
+      </Info>
+    </InfoArea>
   );
 };
 
-const LeportsInfo = (locationId) => {
-  const { totalInfo, getInfo } = infoStore();
-  const { id } = locationId;
-
-  useEffect(() => {
-    getInfo(id, 'leports');
-  }, [getInfo, id]);
-
-  if (totalInfo.parking === true) {
-    totalInfo.parking = '가능';
-  } else {
-    totalInfo.parking = '불가능';
-  }
+function LeportsInfo({info}) {
   return (
-    <div>
-      레포츠 정보
-      <br />
-      이름: {totalInfo.name}
-      <br />
-      주소: {totalInfo.address1}
-      <br />
-      상세주소: {totalInfo.address2}
-      <br />
-      이미지: {totalInfo.image}
-      <br />
-      이미지2: {totalInfo.image2}
-      <br />
-      전화: {totalInfo.tel}
-      <br />
-      설명: {totalInfo.summary}
-      <br />
-      상세설명: {totalInfo.report}
-      <br />
-      개장기간: {totalInfo.openPeriod}
-      <br />
-      주차여부: {totalInfo.parking}
-      <br />
-      예약: {totalInfo.reservation}
-      <br />
-      휴일: {totalInfo.restDate}
-      <br />
-      이용요금: {totalInfo.fee}
-      <br />
-      이용시간: {totalInfo.useTime}
-      <br />
-    </div>
+    <InfoArea>
+      <Info>
+        <Tag>설명</Tag>
+        <Text>{info.summary}~~하는곳</Text>
+      </Info>
+      <Info>
+        <Tag>개장기간</Tag>
+        <Text>{info.openPeriod}</Text>
+      </Info>
+      <Info>
+        <Tag>주차여부</Tag>
+        <Text>{info.parking}</Text>
+      </Info>
+      <Info>
+        <Tag>예약</Tag>
+        <Text>{info.reservation}</Text>
+      </Info>
+      <Info>
+        <Tag>휴일</Tag>
+        <Text>{info.restDate}</Text>
+      </Info>
+      <Info>
+        <Tag>이용시간</Tag>
+        <Text>{info.useTime}</Text>
+      </Info>
+      <Info>
+        <Tag>이용요금</Tag>
+        <Text>{info.fee}</Text>
+      </Info>
+    </InfoArea>
   );
 };
 
-const LodgeInfo = (locationId) => {
-  const { totalInfo, getInfo } = infoStore();
-  const { id } = locationId;
-
-  useEffect(() => {
-    getInfo(id, 'lodge');
-  }, [getInfo, id]);
-
-  if (totalInfo.parking === true) {
-    totalInfo.parking = '가능';
-  } else {
-    totalInfo.parking = '불가능';
-  }
+function LodgeInfo({info}) {
   return (
-    <div>
-      숙소 정보
-      <br />
-      이름: {totalInfo.name}
-      <br />
-      주소: {totalInfo.address1}
-      <br />
-      상세주소: {totalInfo.address2}
-      <br />
-      이미지: {totalInfo.image}
-      <br />
-      이미지2: {totalInfo.image2}
-      <br />
-      전화: {totalInfo.tel}
-      <br />
-      설명: {totalInfo.summary}
-      <br />
-      상세설명: {totalInfo.report}
-      <br />
-      체크인 시간: {totalInfo.checkInTime}
-      <br />
-      체크아웃 시간: {totalInfo.checkOutTime}
-      <br />
-      취사 여부: {totalInfo.chkCooking}
-      <br />
-      주차여부: {totalInfo.parking}
-      <br />
-      예약: {totalInfo.reservationUrl}
-      <br />
-      부대시설: {totalInfo.subfacility}
-      <br />
-    </div>
+    <InfoArea>
+      <Info>
+        <Tag>설명</Tag>
+        <Text>{info.summary}~~하는곳</Text>
+      </Info>
+      <Info>
+        <Tag>체크인 시간</Tag>
+        <Text>{info.checkInTime}</Text>
+      </Info>
+      <Info>
+        <Tag>체크아웃 시간</Tag>
+        <Text>{info.checkOutTime}</Text>
+      </Info>
+      <Info>
+        <Tag>취사 여부</Tag>
+        <Text>{info.chkCooking}</Text>
+      </Info>
+      <Info>
+        <Tag>주차여부</Tag>
+        <Text>{info.parking}</Text>
+      </Info>
+      <Info>
+        <Tag>예약</Tag>
+        <Text>{info.reservationUrl}</Text>
+      </Info>
+      <Info>
+        <Tag>부대시설</Tag>
+        <Text>{info.subfacility}</Text>
+      </Info>
+    </InfoArea>
   );
 };
 
-const RestaurantInfo = (locationId) => {
-  const { totalInfo, getInfo } = infoStore();
-  const { id } = locationId;
-  // console.log(id);
-
-  useEffect(() => {
-    getInfo(id, 'restaurant');
-  }, [getInfo, id]);
-
-  if (totalInfo.parking === true) {
-    totalInfo.parking = '가능';
-  } else {
-    totalInfo.parking = '불가능';
-  }
+function RestaurantInfo({info}) {
   return (
-    <div>
-      음식점 정보
-      <br />
-      이름: {totalInfo.name}
-      <br />
-      주소: {totalInfo.address1}
-      <br />
-      상세주소: {totalInfo.address2}
-      <br />
-      이미지: {totalInfo.image}
-      <br />
-      이미지2: {totalInfo.image2}
-      <br />
-      전화: {totalInfo.tel}
-      <br />
-      설명: {totalInfo.summary}
-      <br />
-      상세설명: {totalInfo.report}
-      <br />
-      인기메뉴: {totalInfo.popularMenu}
-      <br />
-      영업시간: {totalInfo.openTime}
-      <br />
-      포장여부: {totalInfo.packing}
-      <br />
-      주차여부: {totalInfo.parking}
-      <br />
-      휴일: {totalInfo.restDate}
-      <br />
-      메뉴: {totalInfo.menu}
-      <br />
-    </div>
+    <InfoArea>
+      <Info>
+        <Tag>설명</Tag>
+        <Text>{info.summary}~~하는곳</Text>
+      </Info>
+      <Info>
+        <Tag>인기메뉴</Tag>
+        <Text>{info.popularMenu}</Text>
+      </Info>
+      <Info>
+        <Tag>영업시간</Tag>
+        <Text>{info.openTime}</Text>
+      </Info>
+      <Info>
+        <Tag>포장여부</Tag>
+        <Text>{info.packing}</Text>
+      </Info>
+      <Info>
+        <Tag>주차여부</Tag>
+        <Text>{info.parking}</Text>
+      </Info>
+      <Info>
+        <Tag>휴일</Tag>
+        <Text>{info.restDate}</Text>
+      </Info>
+      <Info>
+        <Tag>메뉴</Tag>
+        <Text>{info.menu}</Text>
+      </Info>
+    </InfoArea>
   );
 };
 
 function BlockInfo(typeId) {
-  console.log('BlockInfo');
   const { type, id } = typeId;
+  const { totalInfo, getInfo } = infoStore();
 
-  switch (type) {
-    case 'Attraction':
-      return <AttractionInfo id={id} />;
-    case 'Culture':
-      return <CultureInfo id={id} />;
-    case 'Festival':
-      return <FestivalInfo id={id} />;
-    case 'Leports':
-      return <LeportsInfo id={id} />;
-    case 'Lodge':
-      return <LodgeInfo id={id} />;
-    case 'Restaurant':
-      return <RestaurantInfo id={id} />;
-    default:
-      return;
+  useEffect(() => {
+    getInfo(id, type);
+  }, [getInfo, id]);
+
+  if (totalInfo.parking === true) {
+    totalInfo.parking = '가능';
+  } else {
+    totalInfo.parking = '불가능';
   }
+
+  return (
+    <ContentsArea>
+      <AddrTel>
+        {totalInfo.address1} / {totalInfo.tel}tel
+      </AddrTel>
+      <br />
+      <Image src = {totalInfo.image}></Image>
+      <div>
+        { type === 'Attraction' && <AttractionInfo info={totalInfo}/>}
+        { type === 'Culture' && <CultureInfo info={totalInfo}/>}
+        { type === 'Festival' && <FestivalInfo info={totalInfo}/>}
+        { type === 'Leports' && <LeportsInfo info={totalInfo}/>}
+        { type === 'Lodge' && <LodgeInfo info={totalInfo}/>}
+        { type === 'Restaurant' && <RestaurantInfo info={totalInfo}/>}
+      </div>
+    </ContentsArea>
+  );
 }
 
 export default BlockInfo;

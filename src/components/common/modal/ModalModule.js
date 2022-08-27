@@ -102,6 +102,8 @@ const ModalModule = ({
   toLocName,
   onSelect,
   onClickAddress,
+  blockSelect,
+  isSel
 }) => {
   return (
     <StyledModal
@@ -118,6 +120,11 @@ const ModalModule = ({
         {onSubmit && (
           <Btn>
             <BlackCustomBtn onClick={onSubmit} value="완료" color="black" />
+          </Btn>
+        )}
+        {blockSelect && (
+          <Btn>
+            <BlackCustomBtn onClick={blockSelect} value={isSel} color="black" />
           </Btn>
         )}
       </Section>
