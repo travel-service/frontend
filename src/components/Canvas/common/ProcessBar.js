@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled, { css } from 'styled-components';
 import BlackCustomBtn from './BlackCustomBtn';
 import { MdExitToApp, MdOutlineSave } from 'react-icons/md';
 import { useStore } from 'lib/zustand/planStore';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import palette from 'lib/styles/palette';
 
 const Container = styled.div`
@@ -124,19 +124,27 @@ const Buttons = styled.div`
 
 const ProcessBar = ({ type, siteMap }) => {
   const { postPlan } = useStore();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  // 0726 작성 중 수정 필요
   const save = async () => {
-    await postPlan(Object.keys(siteMap).indexOf(type));
+    let res = await postPlan(Object.keys(siteMap).indexOf(type));
+    if (res) {
+      alert(res);
+      return 0;
+    } else {
+      alert('성공적으로 저장하였습니다.');
+      return 1;
+    }
   };
 
-  const saveLeave = () => {
-    save();
-    // 성공했다는 return 을 받으면 리다이렉트
-    // alert('저장 성공');
-    // navigate(process.env.PUBLIC_URL + '/');
+  const saveLeave = async () => {
+    let res = await save();
+    if (res) {
+      navigate(process.env.PUBLIC_URL + '/');
+    }
   };
+
+  console.log(type);
 
   return (
     <Container>
@@ -152,16 +160,18 @@ const ProcessBar = ({ type, siteMap }) => {
       </Process>
       <Buttons>
         {/* 0726 기능 구현 아직 */}
-        <BlackCustomBtn
-          onClick={save}
-          value={
-            <>
-              <MdOutlineSave size="20px" style={{ marginRight: '10px' }} />
-              <div>저장하기</div>
-            </>
-          }
-          type="button"
-        />
+        {type !== 'check' && (
+          <BlackCustomBtn
+            onClick={save}
+            value={
+              <>
+                <MdOutlineSave size="20px" style={{ marginRight: '10px' }} />
+                <>저장하기</>
+              </>
+            }
+            type="button"
+          />
+        )}
         <BlackCustomBtn
           onClick={saveLeave}
           value={
@@ -178,8 +188,4 @@ const ProcessBar = ({ type, siteMap }) => {
   );
 };
 
-export default ProcessBar;
-
-// 접근 제한 레퍼런스
-// https://cotak.tistory.com/108
-// https://velog.io/@poseassome/Router-%EC%A0%91%EA%B7%BC-%EC%A0%9C%ED%95%9C-%EA%B5%AC%ED%98%84
+export default memo(ProcessBar);

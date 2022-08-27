@@ -10,14 +10,19 @@ const ContentsArea = styled.div`
   position: static;
 `;
 
-const FilterArea = styled.div`
+const FilterArea = styled.div``;
+
+const Input = styled.input`
+  margin: 0px 0px 16px 16px;
+  border-radius: 4px;
+  height: 30px;
 `;
 
 const WhiteBox = styled.div`
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.025);
   padding: 3px;
-  background: #E5E7E8;
-  border: 1px solid #E5E7E8;
+  background: #e5e7e8;
+  border: 1px solid #e5e7e8;
   border-radius: 10px;
   overflow-y: scroll;
   height: 450px;
@@ -61,12 +66,15 @@ const SelectArea = ({ location, selLocs, coords }) => {
     !lodIsCheck &&
     !resIsCheck;
 
+  // console.log('SelectArea');
+
   return (
     <ContentsArea>
       <BlockListArea>
         <FilterArea>
           <TypeFilter />
-          <input
+          검색
+          <Input
             type="text"
             placeholder="블록 검색"
             onChange={(e) => {
@@ -77,51 +85,87 @@ const SelectArea = ({ location, selLocs, coords }) => {
         <WhiteBox>
           {(attIsCheck === true || noneCheck === true) &&
             selectedOnly === false && (
-              <LocationList locations={Attraction} search={search} />
+              <LocationList
+                locations={Attraction}
+                search={search}
+                type="관광지"
+              />
             )}
           {(culIsCheck === true || noneCheck === true) &&
             selectedOnly === false && (
-              <LocationList locations={Culture} search={search} />
+              <LocationList
+                locations={Culture}
+                search={search}
+                type="문화 시설"
+              />
             )}
           {(fesIsCheck === true || noneCheck === true) &&
             selectedOnly === false && (
-              <LocationList locations={Festival} search={search} />
+              <LocationList locations={Festival} search={search} type="축제" />
             )}
           {(lepIsCheck === true || noneCheck === true) &&
             selectedOnly === false && (
-              <LocationList locations={Leports} search={search} />
+              <LocationList locations={Leports} search={search} type="레포츠" />
             )}
           {(lodIsCheck === true || noneCheck === true) &&
             selectedOnly === false && (
-              <LocationList locations={Lodge} search={search} />
+              <LocationList locations={Lodge} search={search} type="숙박시설" />
             )}
           {(resIsCheck === true || noneCheck === true) &&
             selectedOnly === false && (
-              <LocationList locations={Restaurant} search={search} />
+              <LocationList
+                locations={Restaurant}
+                search={search}
+                type="음식점"
+              />
             )}
           {(attIsCheck === true || noneCheck === true) &&
             selectedOnly === true && (
-              <LocationList locations={selLocs.Attraction} search={search} />
+              <LocationList
+                locations={selLocs.Attraction}
+                search={search}
+                type="관광지"
+              />
             )}
           {(culIsCheck === true || noneCheck === true) &&
             selectedOnly === true && (
-              <LocationList locations={selLocs.Culture} search={search} />
+              <LocationList
+                locations={selLocs.Culture}
+                search={search}
+                type="문화 시설"
+              />
             )}
           {(fesIsCheck === true || noneCheck === true) &&
             selectedOnly === true && (
-              <LocationList locations={selLocs.Festival} search={search} />
+              <LocationList
+                locations={selLocs.Festival}
+                search={search}
+                type="축제"
+              />
             )}
           {(lepIsCheck === true || noneCheck === true) &&
             selectedOnly === true && (
-              <LocationList locations={selLocs.Leports} search={search} />
+              <LocationList
+                locations={selLocs.Leports}
+                search={search}
+                type="레포츠"
+              />
             )}
           {(lodIsCheck === true || noneCheck === true) &&
             selectedOnly === true && (
-              <LocationList locations={selLocs.Lodge} search={search} />
+              <LocationList
+                locations={selLocs.Lodge}
+                search={search}
+                type="숙박시설"
+              />
             )}
           {(resIsCheck === true || noneCheck === true) &&
             selectedOnly === true && (
-              <LocationList locations={selLocs.Restaurant} search={search} />
+              <LocationList
+                locations={selLocs.Restaurant}
+                search={search}
+                type="음식점"
+              />
             )}
         </WhiteBox>
       </BlockListArea>

@@ -5,6 +5,7 @@ import { Droppable, Draggable } from 'react-beautiful-dnd';
 import palette from 'lib/styles/palette';
 import Location from 'components/Canvas/BuildTab/LocDetail/Location';
 import MoveDataDiv from '../LocDetail/MoveDataDiv';
+import Spinner from 'lib/custom/Spinner';
 
 const Day = styled.div`
   margin: 10px;
@@ -150,7 +151,7 @@ const Days = ({
   return (
     <>
       <Container len={travelDay.length}>
-        {!travelDay.length && (
+        {travelDay === '' && (
           <ErrorImg>
             <h2>여행을 언제 가는거죠?</h2>
             <FaceIcon
@@ -163,96 +164,99 @@ const Days = ({
             </FontDiv>
           </ErrorImg>
         )}
-        {travelDay.map((day, index) => (
-          // 각 day
-          <React.Fragment key={index}>
-            <Day idx={index} dayIdx={dayIdx} mobile={mobile}>
-              <DayHeader index={index} firLoc={day[0]} check={check} />
-              {/* day 영역 */}
-              <Droppable droppableId={`day${index}`}>
-                {(provided, snapshot) => (
-                  <LocationsList
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                    isDraggingOver={snapshot.isDraggingOver}
-                    empty={day[0] === undefined}
-                  >
-                    {/* day에 location 존재하지 않을 때 */}
-                    {day[0] === undefined && (
-                      <InitForm>
-                        <EmptyBlock>
-                          {check
-                            ? '여행 계획이 없습니다!'
-                            : '블록 혹은 자체 생성한 블록을 넣어주세요.'}
-                        </EmptyBlock>
-                      </InitForm>
-                    )}
-                    {/* location map */}
-                    {day.map((loc, idx) => {
-                      return (
-                        <Div key={idx} idx={idx}>
-                          <Draggable
-                            draggableId={String(loc.copyLocationId)}
-                            index={idx}
-                            key={loc.copyLocationId}
-                            isDragDisabled={check}
-                          >
-                            {(provided, snapshot) => {
-                              return (
-                                <React.Fragment>
-                                  <LocationContainer
-                                    ref={provided.innerRef}
-                                    {...provided.dragHandleProps}
-                                    {...provided.draggableProps}
-                                    isDragging={snapshot.isDragging}
-                                    style={provided.draggableProps.style}
-                                    index={index}
-                                    day={day}
-                                  >
-                                    <Location
-                                      location={loc}
-                                      index={idx}
-                                      day={index}
-                                      dayLocDel={dayLocDel}
-                                      isDragging={snapshot.isDragging}
-                                      check={check}
-                                    />
-                                  </LocationContainer>
-                                  {snapshot.isDragging && day === undefined && (
-                                    <Clone>
-                                      <Location
-                                        key={idx}
-                                        location={loc}
-                                        id={loc.copyLocationId}
-                                        index={idx}
-                                      />
-                                    </Clone>
-                                  )}
-                                </React.Fragment>
-                              );
-                            }}
-                          </Draggable>
-                          {day[idx + 1] !== undefined && (
-                            <MoveDataDiv
-                              day={index}
+        {travelDay !== '' && travelDay.length === 0 && <Spinner flag={true} />}
+        {travelDay !== '' &&
+          travelDay.map((day, index) => (
+            // 각 day
+            <React.Fragment key={index}>
+              <Day idx={index} dayIdx={dayIdx} mobile={mobile}>
+                <DayHeader index={index} firLoc={day[0]} check={check} />
+                {/* day 영역 */}
+                <Droppable droppableId={`day${index}`}>
+                  {(provided, snapshot) => (
+                    <LocationsList
+                      ref={provided.innerRef}
+                      {...provided.droppableProps}
+                      isDraggingOver={snapshot.isDraggingOver}
+                      empty={day[0] === undefined}
+                    >
+                      {/* day에 location 존재하지 않을 때 */}
+                      {day[0] === undefined && (
+                        <InitForm>
+                          <EmptyBlock>
+                            {check
+                              ? '여행 계획이 없습니다!'
+                              : '블록 혹은 자체 생성한 블록을 넣어주세요.'}
+                          </EmptyBlock>
+                        </InitForm>
+                      )}
+                      {/* location map */}
+                      {day.map((loc, idx) => {
+                        return (
+                          <Div key={idx} idx={idx}>
+                            <Draggable
+                              draggableId={String(loc.copyLocationId)}
                               index={idx}
-                              travelDay={travelDay}
-                              setTimeData={setTimeData}
-                              setViewTime={setViewTime}
-                              splitTime={splitTime}
-                              check={check}
-                            />
-                          )}
-                          {provided.placeholder}
-                        </Div>
-                      );
-                    })}
-                  </LocationsList>
-                )}
-              </Droppable>
-            </Day>
-          </React.Fragment>
-        ))}
+                              key={loc.copyLocationId}
+                              isDragDisabled={check}
+                            >
+                              {(provided, snapshot) => {
+                                return (
+                                  <React.Fragment>
+                                    <LocationContainer
+                                      ref={provided.innerRef}
+                                      {...provided.dragHandleProps}
+                                      {...provided.draggableProps}
+                                      isDragging={snapshot.isDragging}
+                                      style={provided.draggableProps.style}
+                                      index={index}
+                                      day={day}
+                                    >
+                                      <Location
+                                        location={loc}
+                                        index={idx}
+                                        day={index}
+                                        dayLocDel={dayLocDel}
+                                        isDragging={snapshot.isDragging}
+                                        check={check}
+                                      />
+                                    </LocationContainer>
+                                    {snapshot.isDragging && day === undefined && (
+                                      <Clone>
+                                        <Location
+                                          key={idx}
+                                          location={loc}
+                                          id={loc.copyLocationId}
+                                          index={idx}
+                                        />
+                                      </Clone>
+                                    )}
+                                  </React.Fragment>
+                                );
+                              }}
+                            </Draggable>
+                            {day[idx + 1] !== undefined && (
+                              <MoveDataDiv
+                                day={index}
+                                index={idx}
+                                travelDay={travelDay}
+                                setTimeData={setTimeData}
+                                setViewTime={setViewTime}
+                                splitTime={splitTime}
+                                check={check}
+                              />
+                            )}
+                            {provided.placeholder}
+                          </Div>
+                        );
+                      })}
+                      {provided.placeholder}
+                    </LocationsList>
+                  )}
+                </Droppable>
+              </Day>
+            </React.Fragment>
+          ))}
       </Container>
     </>
   );

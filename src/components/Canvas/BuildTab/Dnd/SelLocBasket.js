@@ -46,8 +46,6 @@ const Container = styled.div`
 `;
 
 const Title = styled.div`
-  /* font-family: 'Pretendard'; */
-  /* font-style: normal; */
   font-weight: 600;
   font-size: 15px;
   margin-bottom: 15px;
