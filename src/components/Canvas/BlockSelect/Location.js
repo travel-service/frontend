@@ -34,6 +34,7 @@ const BlockDiv = styled.div`
     line-height: 11px;
     color: #7e7e7e;
     margin-top: 2px;
+    height: 35px;
   }
 `;
 
@@ -53,7 +54,7 @@ const TextArea = styled.div`
 
 const InfoButton = styled.button`
   width: 100px;
-  height: 26px;
+  height: 25px;
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -141,6 +142,9 @@ const Location = ({ location, onClick, idx, isSelect }) => {
             modalIsOpen={modalOpen}
             closeModal={closeModal}
             header={name}
+            title={name}
+            blockSelect={() => onClick(location, idx)}
+            isSel={isSelect ? '취소' : '선택'}
           >
             <BlockInfo type={type.type} id={locationId} />
           </ModalModule>
