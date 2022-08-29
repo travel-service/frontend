@@ -1,22 +1,28 @@
-// 임시로 만든 캔버스 메뉴 리스트 페이지
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import TravelSettingPage from './TravelSettingPage';
-import SelectBlockPage from './SelectBlockPage';
-import BuildBlockPage from './BuildBlockPage';
-import DirectoryPage from './DirectoryPage';
-import TravelCheckPage from './TravelCheckPage';
+import Spinner from 'lib/custom/Spinner';
+
+// router lazy 적용
+
+const DirectoryPage = lazy(() => import('./DirectoryPage'));
+const TravelSettingPage = lazy(() => import('./TravelSettingPage'));
+const SelectBlockPage = lazy(() => import('./SelectBlockPage'));
+const BuildBlockPage = lazy(() => import('./BuildBlockPage'));
+const TravelCheckPage = lazy(() => import('./TravelCheckPage'));
 
 const CanvasMainPage = () => {
   return (
-    <Routes>
-      <Route element={<DirectoryPage />} path="directory" />
-      <Route element={<TravelSettingPage />} path="setting" />
-      <Route element={<SelectBlockPage />} path="select" />
-      <Route element={<BuildBlockPage />} path="build" />
-      <Route element={<TravelCheckPage />} path="check" />
-      <Route element={<TravelCheckPage />} path="check/:planId" />
-    </Routes>
+    <Suspense fallback={<Spinner />}>
+      <Routes>
+        <Route element={<DirectoryPage />} path="/" />
+        <Route element={<DirectoryPage />} path="directory" />
+        <Route element={<TravelSettingPage />} path="setting" />
+        <Route element={<SelectBlockPage />} path="select" />
+        <Route element={<BuildBlockPage />} path="build" />
+        <Route element={<TravelCheckPage />} path="check" />
+        <Route element={<TravelCheckPage />} path="check/:planId" />
+      </Routes>
+    </Suspense>
   );
 };
 

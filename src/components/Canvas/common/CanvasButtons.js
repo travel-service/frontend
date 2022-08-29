@@ -26,7 +26,7 @@ const CanvasButtons = ({ siteMap }) => {
   const navigate = useNavigate();
   const { userPlan } = useStore();
 
-  const urlName = location.pathname.replace(/\/trablock\/canvas\//g, '');
+  const urlName = location.pathname.replace(/\/canvas\//g, '');
   const idx = Object.keys(siteMap).indexOf(urlName);
 
   const onClickNext = () => {

@@ -11,7 +11,7 @@ const NoticeTemplateBlock = styled.div`
 const NoticeTemplate = ({ children }) => {
   return (
     <NoticeTemplateBlock>
-      <HeaderContainer />
+      <HeaderContainer type="landing" />
       {children}
     </NoticeTemplateBlock>
   );

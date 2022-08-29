@@ -1,20 +1,39 @@
-import React from 'react';
-import { Navigate } from 'react-router-dom';
+import React, { useCallback, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { refresh } from 'lib/api/auth';
+import Spinner from 'lib/custom/Spinner';
 
 const ProtectedRoute = ({ children }) => {
-  const isLogin = () => {
-    return localStorage.getItem('login') === 'true' ? true : false;
-  };
+  const navigate = useNavigate();
+  const { userState } = useSelector(({ user }) => ({
+    userState: user.userState,
+  }));
 
-  if (!isLogin()) {
+  const alertToLogin = useCallback(() => {
     alert('로그인 후 사용가능한 서비스입니다 !');
-    return <Navigate to={process.env.PUBLIC_URL + '/login'} />;
-  }
+    navigate(process.env.PUBLIC_URL + '/login');
+    // eslint-disable-next-line no-restricted-globals
+    location.reload();
+  }, [navigate]);
 
-  return children;
+  useEffect(() => {
+    (async () => {
+      let res = await refresh();
+      if (!res.data) {
+        alertToLogin();
+        return;
+      } else if (res.data.status === 201) {
+        return;
+      } else {
+        alertToLogin();
+        return;
+      }
+    })();
+  }, [alertToLogin]);
+
+  if (!userState) return <Spinner />;
+  else return children;
 };
 
 export default ProtectedRoute;
-
-// 220729
-// https://blog.logrocket.com/complete-guide-authentication-with-react-router-v6/

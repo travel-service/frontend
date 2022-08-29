@@ -27,7 +27,7 @@ export const useStore = create(
             concept: [],
           },
           userTravelDay: {
-            travelDay: [],
+            travelDay: '',
             status: false,
           },
           selCateLoc: {
@@ -163,58 +163,60 @@ export const useStore = create(
           });
         }
         planId = planId ? planId : get().id;
-        const res = await planAPI.getPlanDay(planId);
-        if (!res) {
+        const resDay = await planAPI.getPlanDay(planId);
+        const resPlan = await planAPI.getPlan(planId);
+        let planLen;
+        if (resPlan && resPlan.httpStatus === 201) {
+          planLen = resPlan.planForm.periods;
+        } else {
+          console.log('get plan 실패');
+          return;
+        }
+        if (resDay && resDay.httpStatus !== 200) {
           console.log('get day 실패');
           return;
         }
-        let n = res.dayForm.length;
-        if (n > 0) {
-          // day get 하고, locId를 selLoc에서 id를 찾아넣는다.(name과 image를 로딩하기 위한)
-          let tempDayArr = Array.from(
-            { length: get().userPlan.periods },
-            () => [],
-          );
-          let selLocs = await locationAPI.getSelectedLocations(planId);
-          let memLocs = await memLocStore.getState().getMemberLocations();
-          let tmpSelCateLoc = {
-            // ...get().selCateLoc,
-            ...selLocs.data.blockLocations,
-            member: memLocs,
-          };
-          for (let i = 0; i < res.dayForm.length; i++) {
-            let tmp = res.dayForm[i];
-            for (let key in tmpSelCateLoc) {
-              let flag = 0;
-              for (let j = 0; j < tmpSelCateLoc[key].length; j++) {
-                if (tmpSelCateLoc[key][j].locationId === tmp.locationId) {
-                  flag = 1;
-                  let idx = tmp.days - 1;
-                  tmp.name = tmpSelCateLoc[key][j].name;
-                  tmp.image = tmpSelCateLoc[key][j].image;
-                  tmp.address1 = tmpSelCateLoc[key][j].address1;
+        if (!resDay) return;
+        // day get 하고, locId를 selLoc에서 id를 찾아넣는다.(name과 image를 로딩하기 위한)
+        let tempDayArr = Array.from({ length: planLen }, () => []);
+        let selLocs = await locationAPI.getSelectedLocations(planId);
+        let memLocs = await memLocStore.getState().getMemberLocations();
+        let tmpSelCateLoc = {
+          ...selLocs.data.blockLocations,
+          member: memLocs,
+        };
+        for (let i = 0; i < resDay.dayForm.length; i++) {
+          let tmp = resDay.dayForm[i];
+          for (let key in tmpSelCateLoc) {
+            let flag = 0;
+            for (let j = 0; j < tmpSelCateLoc[key].length; j++) {
+              if (tmpSelCateLoc[key][j].locationId === tmp.locationId) {
+                flag = 1;
+                let idx = tmp.days - 1;
+                tmp.name = tmpSelCateLoc[key][j].name;
+                tmp.image = tmpSelCateLoc[key][j].image;
+                tmp.address1 = tmpSelCateLoc[key][j].address1;
 
-                  // dayForm의 days가 오름차순으로 온다는 가정
-                  if (tempDayArr.length > idx) {
-                    // 이미 day 배열 존재
-                    tempDayArr[idx].push(tmp);
-                  } else {
-                    // 새로운 day 배열
-                    tempDayArr.push([tmp]);
-                  }
-                  break;
+                // dayForm의 days가 오름차순으로 온다는 가정
+                if (tempDayArr.length > idx) {
+                  // 이미 day 배열 존재
+                  tempDayArr[idx].push(tmp);
+                } else {
+                  // 새로운 day 배열
+                  tempDayArr.push([tmp]);
                 }
+                break;
               }
-              if (flag) break;
             }
+            if (flag) break;
           }
-          set({
-            userTravelDay: {
-              travelDay: tempDayArr,
-              status: true,
-            },
-          });
         }
+        set({
+          userTravelDay: {
+            travelDay: tempDayArr,
+            status: true,
+          },
+        });
       },
 
       // POST plan (다음으로, 저장하기), cP 플랜 생성 판단용
@@ -243,6 +245,8 @@ export const useStore = create(
           }
           await planAPI.postPlan(id, userPlan);
           await planAPI.postConcept(id, conceptForm);
+        } else if (idx === 0 && !id) {
+          return '여행 이름을 설정해주세요';
         }
         // 블록 선택 페이지
         else if (idx === 1) {
@@ -256,11 +260,12 @@ export const useStore = create(
           if (!userTravelDay.status) {
             // day가 없는 상태 => 생성 필요 post
             await planAPI.postPlanDay(userTravelDay, id);
-            //  성공시 "200 리턴"(통일 필요)
           } else {
             // day가 있는 상태 => 수정 필요 put
             await planAPI.updatePlanDay(userTravelDay, id);
           }
+        } else {
+          return '저장에 실패했습니다.';
         }
       },
     }),
@@ -275,7 +280,6 @@ export const useStore = create(
 // systemLocation 받아오고, 카테고리 따라서 분류
 export const sysLocStore = create((set, get) => ({
   sysCateLoc: {
-    // 전체 location => 분류
     Attraction: [],
     Culture: [],
     Festival: [],
@@ -283,61 +287,36 @@ export const sysLocStore = create((set, get) => ({
     Lodge: [],
     Restaurant: [],
   },
-  sysCateLocCoords: {
-    // CoordsList: [],
-  },
-  flag: false,
+  sysCateLocCoords: {},
+  sysBlockFlag: false,
+  sysMarkFlag: false,
   lat: 33.280701,
   lng: 126.570667,
 
+  // 0827
+  // sysLoc, sysLocCoords에서 isSelect없이 작동 가능해서 따로 매핑없이 그대로 받는 것으로 수정 -> 성능 개선
+
   getSysLoc: async () => {
-    if (get().flag === false) {
+    if (!get().sysBlockFlag) {
       const response = await locationAPI.getBlockLocations();
-
       if (response.status === 200) {
-        // 받아온 key값으로 배열 생성
-        const typesArr = Object.keys(response.data);
-
-        // 배열의 값인 type으로 sysCateLoc 상태 업데이트
-        typesArr.forEach((type) => {
-          let tmp = [];
-          for (let x of response.data[type]) {
-            x.isSelect = false;
-            tmp.push(x);
-          }
-          set((state) => ({
-            sysCateLoc: {
-              ...state.sysCateLoc,
-              [type]: tmp,
-            },
-          }));
+        set({
+          sysCateLoc: response.data,
+          sysBlockFlag: true,
         });
       }
-      set({ flag: true });
     }
   },
 
   getSysLocCoords: async () => {
-    const response = await locationAPI.getMarkLocations();
-
-    if (response.status === 200) {
-      // 받아온 key값으로 배열 생성
-      const typesArr = Object.keys(response.data);
-
-      // 배열의 값인 type으로 sysCateLocCoords 상태 업데이트
-      typesArr.forEach((type) => {
-        let tmp = [];
-        for (let x of response.data[type]) {
-          x.isSelect = false;
-          tmp.push(x);
-        }
-        set((state) => ({
-          sysCateLocCoords: {
-            ...state.sysCateLocCoords,
-            [type]: tmp,
-          },
-        }));
-      });
+    if (!get().sysMarkFlag) {
+      const response = await locationAPI.getMarkLocations();
+      if (response.status === 200) {
+        set({
+          sysCateLocCoords: response.data,
+          sysMarkFlag: true,
+        });
+      }
     }
   },
 
@@ -346,5 +325,20 @@ export const sysLocStore = create((set, get) => ({
     const found = coordsList.find((loc) => loc.locationId === id);
     set({ lat: found.coords.latitude });
     set({ lng: found.coords.longitude });
+  },
+
+  setLocIsSelect: (type, idx, flag) => {
+    let tmpLocArr = get().sysCateLoc[type];
+    if (flag) {
+      tmpLocArr[idx].isSelect = true;
+    } else {
+      tmpLocArr[idx].isSelect = false;
+    }
+    set((state) => ({
+      sysCateLoc: {
+        ...state.sysCateLoc,
+        [type]: tmpLocArr,
+      },
+    }));
   },
 }));

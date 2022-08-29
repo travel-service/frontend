@@ -2,6 +2,7 @@ import React from 'react';
 import UseWays from 'components/Landing/UseWays';
 import styled from 'styled-components';
 import BackImg from 'lib/images/landingBackV2.png';
+import BackImg_small from 'lib/images/landingBackV2_small.png';
 import { MdSearch } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import palette from 'lib/styles/palette';
@@ -35,7 +36,7 @@ const SubContents = styled.div`
     margin-top: 50px;
   }
   @media screen and (max-width: 767px) {
-    margin-top: 20px;
+    margin-top: 40px;
   }
 `;
 
@@ -48,7 +49,7 @@ const TextH3 = styled.div`
     line-height: 30px;
   }
   @media screen and (max-width: 767px) {
-    font-size: 15px;
+    font-size: 20px;
     line-height: 20px;
   }
 `;
@@ -62,7 +63,8 @@ const TextH2 = styled.div`
     line-height: 60px;
   }
   @media screen and (max-width: 767px) {
-    font-size: 20px;
+    margin-top: 10px;
+    font-size: 25px;
     line-height: 40px;
   }
 `;
@@ -77,7 +79,15 @@ const MainContents = styled.div`
   background-repeat: no-repeat;
   background-position: center top;
   background-color: #ffd0c0;
+  @media screen and (max-width: 767px) {
+    background-image: url(${BackImg_small});
+    /* height: calc(100vw * 0.49); */
+    height: 350px;
+    background-size: 100vw calc(100vw * 0.5);
+    background-position: center bottom;
+  }
 `;
+
 const InputContainer = styled.div`
   margin: 50px 0px;
   background-color: white;
@@ -89,7 +99,7 @@ const InputContainer = styled.div`
   box-shadow: 4px 4px 4px grey;
   padding-right: 20px;
   @media screen and (max-width: 767px) {
-    height: 40px;
+    /* height: 130px; */
   }
 `;
 
@@ -162,8 +172,8 @@ const Banner = styled.div`
     top: -100px;
   }
   @media screen and (max-width: 767px) {
-    width: 300px;
-    height: 100px;
+    width: 80%;
+    height: 150px;
     top: -30px;
   }
 `;
