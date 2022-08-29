@@ -34,6 +34,7 @@ export const useStore = create(
           },
         });
       }
+      // console.log(res);
     },
     getEditP: async () => {
       const res = await myAPI.getEditPage();
@@ -96,7 +97,7 @@ export const useStore = create(
     checkgetNick: async () => {
       const nick = get().sendnick.nickname;
       const prenick = get().profile.nickname;
-      console.log(nick, prenick);
+      // console.log(nick, prenick);
       const res = await myAPI.getCheckNick(nick, prenick);
       console.log(res);
       set((state) => ({
