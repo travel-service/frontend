@@ -144,8 +144,6 @@ const ProcessBar = ({ type, siteMap }) => {
     }
   };
 
-  console.log(type);
-
   return (
     <Container>
       <Process>

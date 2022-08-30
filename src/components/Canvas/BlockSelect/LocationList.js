@@ -53,6 +53,7 @@ const Type = styled.div`
 function LocationList({ locations, search, type }) {
   const { remove, onAdd } = useStore();
   const { setLocIsSelect } = sysLocStore();
+
   var arr = locations.filter((val) => val.name.includes(search));
 
   const onClick = useCallback((loc, idx) => {
