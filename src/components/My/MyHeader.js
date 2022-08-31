@@ -72,7 +72,7 @@ const MyHeader = () => {
         </ul>
       </Nav>
       <Nav>
-        {location.pathname === '/trablock/mypage/MyInfo' ? (
+        {location.pathname === '/mypage/MyInfo' ? (
           <ul className="SubCategory">
             <li>
               <Link to={process.env.PUBLIC_URL + '/mypage/MyInfo'}>
@@ -83,8 +83,8 @@ const MyHeader = () => {
             <li>좋아요</li>
             <li>질문과 답변</li>
           </ul>
-        ) : location.pathname === '/trablock/mypage/MySetting' ||
-          location.pathname === '/trablock/mypage/MySetting/MyPasswd' ? (
+        ) : location.pathname === '/mypage/MySetting' ||
+          location.pathname === '/mypage/MySetting/MyPasswd' ? (
           <ul className="SubCategory">
             <li>
               <Link to={process.env.PUBLIC_URL + '/mypage/MySetting'}>

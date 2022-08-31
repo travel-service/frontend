@@ -5,6 +5,8 @@ import { FaRegBookmark, FaRegHeart, FaPen } from 'react-icons/fa';
 import { HiOutlineFolderOpen } from 'react-icons/hi';
 import { useStore } from 'lib/zustand/myStore';
 
+const DEFAULT_IMAGE = process.env.PUBLIC_URL + '/images/face1.png';
+
 const MyInfoBox = styled.div`
   display: flex;
   // float: left;
@@ -290,6 +292,10 @@ const UserInfoBox = () => {
     }
   };
 
+  const handleImgError = (e) => {
+    e.target.src = DEFAULT_IMAGE;
+  };
+
   return (
     <>
       {visible && (
@@ -300,6 +306,7 @@ const UserInfoBox = () => {
                 src={profile.img}
                 alt="profileImg"
                 className="profile-user-img"
+                onError={(e) => handleImgError(e)}
               />
             </div>
           </MyInfoProfile>
