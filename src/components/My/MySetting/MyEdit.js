@@ -186,7 +186,6 @@ const UserEditForm = () => {
     e.preventDefault();
     if (e.target.files) {
       const file = e.target.files[0];
-      // console.log(file);
       preview(file);
       setForm({ form_file: e.target.files[0] });
     }
