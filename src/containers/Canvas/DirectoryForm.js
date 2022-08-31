@@ -70,6 +70,7 @@ const DirectoryForm = () => {
       getUserDirs();
       getTrashPlans();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getMainPlans, getTrashPlans, userState]);
 
   return (
