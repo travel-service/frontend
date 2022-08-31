@@ -155,8 +155,33 @@ export const useStore = create(
       // GET selectedLocations
       getSelectedLocations: async () => {
         const planId = get().id;
-        let selLocs = await locationAPI.getSelectedLocations(planId);
-        console.log(selLocs);
+        const res = await locationAPI.getSelectedLocations(planId);
+        if (res.status === 200) {
+          let data = res.data.blockLocations;
+          let tmpSysCateLoc = sysLocStore.getState().sysCateLoc;
+          for (const key in data) {
+            for (let loc of data[key]) {
+              loc.isSelect = true;
+              tmpSysCateLoc[key].some((location, idx) => {
+                if (location.locationId === loc.locationId) {
+                  tmpSysCateLoc[key][idx].isSelect = true;
+                  sysLocStore.setState({
+                    sysCateLoc: tmpSysCateLoc,
+                  });
+                  return true;
+                } else return false;
+              });
+            }
+            set((state) => ({
+              selCateLoc: {
+                ...state.selCateLoc,
+                [key]: data[key],
+              },
+            }));
+          }
+        } else {
+          console.log('sel loc get 실패');
+        }
       },
 
       // GET day
@@ -301,6 +326,20 @@ export const sysLocStore = create(
       sysMarkFlag: false,
       lat: 33.280701,
       lng: 126.570667,
+
+      initializeSysCateLocForm: () => {
+        set(() => ({
+          sysCateLoc: {
+            Attraction: [],
+            Culture: [],
+            Festival: [],
+            Leports: [],
+            Lodge: [],
+            Restaurant: [],
+          },
+          sysBlockFlag: false,
+        }));
+      },
 
       // 0827
       // sysLoc, sysLocCoords에서 isSelect없이 작동 가능해서 따로 매핑없이 그대로 받는 것으로 수정 -> 성능 개선
