@@ -9,7 +9,7 @@
 ![Badge](https://img.shields.io/badge/redux-^4.1.2-yellowgreen.svg)
 ![Badge](https://img.shields.io/badge/axios-^0.24.0-orange.svg)
 
-<p align="center"><img src="./public/images/logo.png" height="250px" width="300px"></p>  
+<p align="center"><img src="./public/images/poster.png" height="300px" width="300px"></p>  
 
 배포 URL : [tra-block.com](tra-block.com)
 
@@ -24,10 +24,21 @@
  
  ## 3. 📄주요 개발 페이지
   - 랜딩 페이지
+    <p>
+     <img src="./public/images/pageCapture/landing.png" width="500px">
+    </p>  
   - 회원가입, 로그인
+    <p><img src="./public/images/pageCapture/login.png" width="500px"></p>  
   - 마이페이지
+    <p><img src="./public/images/pageCapture/myPageMain.png" width="500px"><img src="./public/images/pageCapture/myPageInfo.png" width="500px"></p>  
   - 여행 보관함
+    <p><img src="./public/images/pageCapture/planDir.png" width="500px"></p>  
   - 여행 캔버스
+    <p>
+     <img src="./public/images/pageCapture/canvasSetting.png" width="500px">
+     <img src="./public/images/pageCapture/canvasSelect.png" width="500px">
+     <img src="./public/images/pageCapture/canvasBuild.png" width="500px">
+    </p>  
  
  ## 4. 🛠기술
 - HTML, CSS, JavaScript(ES6+), React.Js
