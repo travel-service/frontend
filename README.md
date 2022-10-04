@@ -1,102 +1,34 @@
-# 커밋 규칙
+# ✈트래블럭(frontend)
 
-## 1. Github commit 메시지 규칙의 필요성
+![Badge](https://img.shields.io/badge/react-17.0.28-yellow.svg)
+![Badge](https://img.shields.io/badge/javascript-es6+-lightgrey.svg)
+![Badge](https://img.shields.io/badge/yarn-1.22.18-brightgreengreen.svg)
+![Badge](https://img.shields.io/badge/react_router_dom-^6.0.2-orange.svg)
+![Badge](https://img.shields.io/badge/styled_components-^5.3.3-lightgrey.svg)
+![Badge](https://img.shields.io/badge/zustand-^3.7.1-blue.svg)
+![Badge](https://img.shields.io/badge/redux-^4.1.2-yellowgreen.svg)
+![Badge](https://img.shields.io/badge/axios-^0.24.0-orange.svg)
 
-* 팀원과의 소통
-* 편리한 과거의 기록 추적
-* 이슈를 함께 작성하면서 이슈와 관련된 진행 사항을 확인 가능
+<p align="center"><img src="./public/images/logo.png" height="250px" width="300px"></p>  
 
-<br>
----
+배포 URL : [tra-block.com](tra-block.com)
 
-## 2. Commit 메시지 작성 요령
-
-```
-타입(Type): 제목(Subject)
-
-본문(Body)
-
-꼬리말(Footer)
-```
-
-<br>
-
-### 2.1. 타입(Type)
-* Feat - 새로운 기능 추가
-* Fix - 버그 수정
-* Build - 빌드 관련 파일 수정
-* Ci - CI관련 설정 수정
-* Docs - 문서 (문서 추가, 수정, 삭제)
-* Style - 스타일 (코드 형식, 세미콜론 추가: 비즈니스 로직에 변경 없는 경우)
-* Refactor - 코드 리팩토링
-* Test - 테스트 (테스트 코드 추가, 수정, 삭제: 비즈니스 로직에 변경 없는 경우)
-* Chore - 기타 변경사항 (빌드 스크립트 수정 등)
-* Design - CSS 등 사용자 UI 디자인 변경
-* Rename - 파일 혹은 폴더명을 수정하거나 옮기는 작업만인 경우
-* Remove - 	파일을 삭제하는 작업만 수행한 경우
-
-<br>
-
-### 2.2. 제목(Subject)
-* 제목은 50자를 넘기지 않고, 마침표를 붙이지 않습니다.
-* 제목에는 commit 타입을 함께 작성합니다.
-* 과거 시제를 사용하지 않고 명령조로 작성합니다.
-* 제목과 본문은 한 줄 띄워 분리합니다.
-* 제목의 첫 글자는 반드시 대문자로 씁니다.
-* 제목이나 본문에 이슈 번호(가 있다면) 붙여야 합니다.
-
-*타입(Type) - 제목(Subject) 예시
-
-`Feat: 신규 RFID 인식 기능 추가`
-
-<br>
-
----
-
-### 2.3. 본문(Body)
-* 선택 사항이기에 모든 commit에 본문 내용을 작성할 필요는 없습니다.
-* 한 줄에 72자를 넘기면 안 됩니다.
-* 어떻게(How)보다 무엇을, 왜(What, Why)에 맞춰 작성합니다.
-* 설명뿐만 아니라, commit의 이유를 작성할 때에도 씁니다.
-
-```
-신규 RFID 기능 인식 기능 추가
-  - RFIDReader.java: 사용자 요건 사항으로 인한 RFID 인식 기능 추가
-```
-
-<br>
-
----
-
-### 2.4. 꼬리말(Footer)
-* 선택 사항이므로 모든 commit에 꼬리말을 작성할 필요는 없습니다.
-* Issue tracker ID를 작성할 때 사용합니다.
-* 해결: 이슈 해결 시 사용
-* 관련: 해당 commit에 관련된 이슈 번호
-* 참고: 참고할 이슈가 있는 경우 사용
-
-```
-해결: #123
-관련: #321
-참고: #222
-```
-
-*작성할 Commit 메시지 예시*
-```
-Feat: 신규 RFID 인식 기능 추가(#123)
-
-신규 RFID 기능 인식 기능 추가
-  - RFIDReader.java: 사용자 요건 사항으로 인한 RFID 인식 기능 추가
-
-해결: #123
-```
-
-<br>
-
----
-
-<br>
-
-🙇‍♂️참고링크🙇‍♀️
----
-https://junhyunny.github.io/information/github/git-commit-message-rule/
+## 1. 👨‍💻프론트엔드 개발 멤버 
+ - 김영서 - 여행 보관함, 캔버스(여행 설정)
+ - 신찬우 - 랜딩, 회원 인증, 캔버스(여행지 스케줄링)
+ - 윤세원 - 캔버스(여행지 선택)
+ - 탁하윤 - 마이페이지, 공지사항
+ 
+ ## 2. 🗓개발 기간
+ 2021.11 ~ 2022.08
+ 
+ ## 3. 📄주요 개발 페이지
+  - 랜딩 페이지
+  - 회원가입, 로그인
+  - 마이페이지
+  - 여행 보관함
+  - 여행 캔버스
+ 
+ ## 4. 🛠기술
+- HTML, CSS, JavaScript(ES6+), React.Js
+- Styled-Component, Zustand, Redux, Axios
