@@ -11,7 +11,7 @@
 
 <p align="center"><img src="./public/images/poster.png" height="300px" width="300px"></p>  
 
-배포 URL : [tra-block.com](tra-block.com)
+배포 URL : [tra-block.com](http://tra-block.com)
 
 ## 1. 👨‍💻프론트엔드 개발 멤버 
  - 김영서 - 여행 보관함, 캔버스(여행 설정)
