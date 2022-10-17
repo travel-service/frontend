@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { filterStore } from 'lib/filterStore';
+import { filterStore } from 'lib/zustand/filterStore';
 
 const TypeSelect = styled.div`
   padding-top: 0.5rem;

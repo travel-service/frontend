@@ -4,13 +4,6 @@ import axios from 'axios';
 export const getMyinfo = async () => {
   try {
     const nickbio = await axios.get('/members/my-page');
-    // const res = await axios.get('/members/my-page/img', {
-    //   responseType: 'blob',
-    // });
-    // console.log(nickbio, res);
-    // let file = new Blob([res.data], { type: 'image/png' });
-    // const img = window.URL.createObjectURL(file);
-    // console.log(file);
     return {
       nickname: nickbio.data.result.nickname,
       bio: nickbio.data.result.bio,
@@ -62,15 +55,17 @@ export const postMyImg = async (formdata) => {
 
 // 회원 프로필 사진 요청
 export const getMyImg = async () => {
+  const DEFAULT_IMAGE = process.env.PUBLIC_URL + '/images/face1.png';
   try {
-    const res = await axios.get('/members/my-page/img', {
-      responseType: 'blob',
-    });
-    let file = new Blob([res.data], { type: 'image/png' });
-    const img = window.URL.createObjectURL(file);
-    return { img };
+    const res = await axios.get('/members/my-page/img');
+    if (res.data.result.memberImg === null) {
+      return { img: DEFAULT_IMAGE };
+    } else {
+      return { img: res.data.result.memberImg };
+    }
   } catch (e) {
     console.log(e);
+    return { img: DEFAULT_IMAGE };
   }
 };
 
@@ -109,10 +104,8 @@ export const getEditPage = async () => {
       } else {
         yy = '19' + yy;
       }
-      // console.log(yy);
       infoBirthday =
         yy + '-' + birthdays.slice(2, 4) + '-' + birthdays.slice(4, 6);
-      // console.log(infoBirthday);
     } else {
       infoBirthday = response.data.result.info.birthday;
     }

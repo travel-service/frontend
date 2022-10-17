@@ -8,44 +8,44 @@ import palette from 'lib/styles/palette';
 const sampleLocation = {
   Attraction: [
     {
-      name: '천지연폭포 (제주도 국가지질공원)',
-      id: 3,
+      name: '휴애리자연생활공원',
+      id: 1,
       type: {
-        type: 'ATTRACTION',
+        type: 'Attraction',
       },
-      address1: '제주특별자치도 서귀포시 천지동',
-      address2: 'null',
-      image: 'https://i.ibb.co/MVvvPsX/image.jpg',
+      address1: '제주특별자치도 서귀포시 남원읍',
+      image:
+        'http://tong.visitkorea.or.kr/cms/resource/47/2615547_image2_1.bmp',
     },
     {
-      name: '천지연폭포 (제주도 국가지질공원)',
-      id: 3,
+      name: '제주민속촌',
+      id: 50,
       type: {
-        type: 'ATTRACTION',
+        type: 'Culture',
       },
-      address1: '제주특별자치도 서귀포시 천지동',
-      address2: 'null',
-      image: 'https://i.ibb.co/MVvvPsX/image.jpg',
+      address1: '제주특별자치도 서귀포시 표선면',
+      image:
+        'http://tong.visitkorea.or.kr/cms/resource/78/2659578_image2_1.bmp',
     },
     {
-      name: '천지연폭포 (제주도 국가지질공원)',
-      id: 3,
+      name: '한화리조트 제주',
+      id: 81,
       type: {
-        type: 'ATTRACTION',
+        type: 'Lodge',
       },
-      address1: '제주특별자치도 서귀포시 천지동',
-      address2: 'null',
-      image: 'https://i.ibb.co/MVvvPsX/image.jpg',
+      address1: '제주특별자치도 제주시 명림로',
+      image:
+        'http://tong.visitkorea.or.kr/cms/resource/99/1180899_image2_1.jpg',
     },
     {
-      name: '천지연폭포 (제주도 국가지질공원)',
-      id: 3,
+      name: '도라지식당',
+      id: 87,
       type: {
-        type: 'ATTRACTION',
+        type: 'Restaurant',
       },
-      address1: '제주특별자치도 서귀포시 천지동',
-      address2: 'null',
-      image: 'https://i.ibb.co/MVvvPsX/image.jpg',
+      address1: '제주특별자치도 제주시 연삼로',
+      image:
+        'http://tong.visitkorea.or.kr/cms/resource/01/1934501_image2_1.jpg',
     },
   ],
 };
@@ -60,7 +60,6 @@ const Container = styled.div`
 const InputContainer = styled.div`
   margin: 50px 0px;
   display: flex;
-  /* margin-top: 50px; */
   justify-content: space-between;
   align-items: center;
   width: 500px;
@@ -102,9 +101,6 @@ const Input = styled.input`
   }
   ::placeholder {
     font-size: 14px;
-  }
-  @media screen and (max-width: 767px) {
-    /* width: 200px; */
   }
 `;
 
@@ -167,7 +163,6 @@ const H2 = styled.h2``;
 
 const SearchPage = () => {
   return (
-    // 0703 작업 진행 예정
     <PageTemplate>
       <Container>
         <InputContainer>
@@ -175,7 +170,6 @@ const SearchPage = () => {
             <SearchIcon />
             <Input placeholder="현재는 제주도로만 서비스중!" />
           </Div>
-          {/* 여행지역 검색 api */}
           <SearchDes to={process.env.PUBLIC_URL + '/search'}>검색</SearchDes>
         </InputContainer>
         <GoDirBtn to={process.env.PUBLIC_URL + '/canvas/setting'}>
@@ -184,10 +178,9 @@ const SearchPage = () => {
         <Recommend>
           <H2>"제주도"의 추천 여행지</H2>
           <RecLoc>
-            {/* location get api*/}
             {sampleLocation.Attraction.map((location, i) => {
               return (
-                <Location key={i}>
+                <Location key={location.id}>
                   <div>{location.name}</div>
                   <Img alt="" src={location.image} />
                   <div>{location.address1}</div>

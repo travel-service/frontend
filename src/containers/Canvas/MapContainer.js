@@ -11,15 +11,10 @@ import '../../lib/styles/test.css';
 import styled from 'styled-components';
 import BlockInfo from 'components/Canvas/BlockInfo/BlockInfo';
 import { sysLocStore } from 'lib/zustand/planStore';
-// import attractionPicker from '../../lib/images/25x25 관광지마크 사본.png';
-// import lodgePicker from '../../lib/images/25x25 숙소마크 사본.png';
-// import culturePicker from '../../lib/images/25x25 문화시설 마크 사본.png';
-// import leportsPicker from '../../lib/images/25x25 레포츠 마크 사본.png';
-// import restaurantPicker from '../../lib/images/25x25 식당마크 사본.png';
-// import festivalPicker from '../../lib/images/25x25 축제마크 사본.png';
 
 const Div = styled.div`
   z-index: 0;
+  height: 100%;
 `;
 
 const { kakao } = window;
@@ -61,7 +56,6 @@ const MapContainer = ({ coords }) => {
     }
 
     var positions = [];
-    // selectedMarker = null;
 
     if (coords) {
       for (let key in coords) {
@@ -79,7 +73,6 @@ const MapContainer = ({ coords }) => {
       }
 
       var markerSize = new kakao.maps.Size(25, 25);
-      // pickerSize = new kakao.maps.Size(40, 40);
 
       for (let j = 0; j < positions.length; j++) {
         addMarker(positions[j]);
@@ -87,17 +80,11 @@ const MapContainer = ({ coords }) => {
 
       function addMarker(position) {
         var attMarker = createMarkerImg(attractionMarker, markerSize),
-          // attPicker = createMarkerImg(attractionPicker, pickerSize),
           lodMarker = createMarkerImg(lodgeMarker, markerSize),
-          // lodPicker = createMarkerImg(lodgePicker, pickerSize),
           culMarker = createMarkerImg(cultureMarker, markerSize),
-          // culPicker = createMarkerImg(culturePicker, pickerSize),
           lepMarker = createMarkerImg(leportsMarker, markerSize),
-          // lepPicker = createMarkerImg(leportsPicker, pickerSize),
           resMarker = createMarkerImg(restaurantMarker, markerSize),
-          // resPicker = createMarkerImg(restaurantPicker, pickerSize),
           fesMarker = createMarkerImg(festivalMarker, markerSize);
-        // fesPicker = createMarkerImg(festivalPicker, pickerSize);
 
         var marker = new kakao.maps.Marker({
           map: kakaoMap,
@@ -196,14 +183,7 @@ const MapContainer = ({ coords }) => {
 
         kakao.maps.event.addListener(marker, 'click', function () {
           // 피커 생성 함수에 사용
-          // if (!selectedMarker || selectedMarker !== marker) {
-          //   !!selectedMarker &&
-          //     selectedMarker.setImage(selectedMarker.normalImage);
-          //   setPicker();
-          // }
           customOverlay.setMap(kakaoMap);
-          // 피커 생성 함수에 사용
-          // selectedMarker = marker;
         });
       }
 
@@ -226,7 +206,6 @@ const MapContainer = ({ coords }) => {
         id="myMap"
         ref={container}
         style={{
-          height: '553px',
           borderRadius: '10px',
           border: '1px solid #E5E7E8',
         }}

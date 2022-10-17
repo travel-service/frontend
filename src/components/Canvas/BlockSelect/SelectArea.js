@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import LocationList from './LocationList';
 import TypeFilter from './TypeFilter';
-import { filterStore } from 'lib/filterStore';
+import { filterStore } from 'lib/zustand/filterStore';
 import Map from 'containers/Canvas/MapContainer';
 
 const ContentsArea = styled.div`
-  overflow: auto;
-  position: static;
+  /* overflow: auto; */
+  display: flex;
+  width: 100%;
 `;
 
 const FilterArea = styled.div``;
@@ -26,21 +27,28 @@ const WhiteBox = styled.div`
   border-radius: 10px;
   overflow-y: scroll;
   height: 450px;
-  ::-webkit-scrollbar {
+  /* ::-webkit-scrollbar {
     display: none;
-  }
+  } */
 `;
 
 const BlockListArea = styled.div`
   width: 57.5%;
   float: left;
   padding-right: 25px;
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    padding-right: 0px;
+  }
 `;
 
 const MapArea = styled.div`
   width: 42.5%;
   float: right;
   padding-left: 25px;
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
 `;
 
 const SelectArea = ({ location, selLocs, coords }) => {
