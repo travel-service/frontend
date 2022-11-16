@@ -224,8 +224,6 @@ const AuthForm = ({
     <>
       <AuthFormBlock>
         <H2>{text}</H2>
-        {/* submit 에러 */}
-
         {/* 데이터 입력 폼(로그인, 회원가입) */}
         <Form onSubmit={onSubmit}>
           {/* 회원가입 폼 */}

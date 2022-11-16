@@ -64,7 +64,6 @@ export const getMyImg = async () => {
       return { img: res.data.result.memberImg };
     }
   } catch (e) {
-    console.log(e);
     return { img: DEFAULT_IMAGE };
   }
 };
@@ -75,8 +74,6 @@ export const getCheckNick = async (nick, prenick) => {
     const response = await axios.get(`/api/nickname/${nick}`, {
       validateStatus: (status) => status < 500,
     });
-    // console.log(response.status);
-    // console.log(response.data);
     if (nick === prenick && response.status === 409) {
       const setmessage = '현재 사용자가 설정한 닉네임 입니다.';
       return setmessage;

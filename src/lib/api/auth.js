@@ -4,11 +4,14 @@ import axios from 'axios';
 export const login = async ({ userName, password }) => {
   try {
     const response = await axios.post('/api/login', { userName, password });
+    if (response.isAxiosError) {
+      return response.response;
+    }
     axios.defaults.headers.common['authorization'] =
       response.headers.authorization;
     return response;
   } catch (e) {
-    return e.response;
+    return e;
   }
 };
 

@@ -103,10 +103,12 @@ const auth = handleActions(
     [CHANGE_FIELD]: (
       state,
       { payload: { form, key, value } }, // action 대신 구조분해, action.payload.form, key.. 호출
-    ) =>
-      produce(state, (draft) => {
+    ) => {
+      return produce(state, (draft) => {
+        draft.authError = null;
         draft[form][key] = value; // ex. state.signup.userName
-      }),
+      });
+    },
     [INITIALIZE_FORM]: (state, { payload: form }) => ({
       ...state,
       [form]: initialState[form],
@@ -142,18 +144,30 @@ const auth = handleActions(
       };
     },
     // 로그인 성공
-    [LOGIN_SUCCESS]: (state, { payload: auth }) => {
-      return {
-        ...state,
-        auth: auth.data.result,
-        authError: null,
-      };
+    [LOGIN_SUCCESS]: (state, { payload: data }) => {
+      if (data.status === 200) {
+        return {
+          ...state,
+          auth: data.data.result,
+          authError: null,
+        };
+      } else if (data.status === 400) {
+        return {
+          ...state,
+          authError: data.data.message,
+        };
+      } else {
+        return {
+          ...state,
+          authError: '서버와 연결 되어있지 않습니다.',
+        };
+      }
     },
     // 로그인 실패
     [LOGIN_FAILURE]: (state) => {
       return {
         ...state,
-        authError: true,
+        authError: '서버와 연결 되어있지 않습니다.',
       };
     },
     // 회원가입후 auth 제거
